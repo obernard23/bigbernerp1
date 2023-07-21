@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%-include('./partials/head.ejs')%>
+    <style>
+      .box {
+  position: relative;
+}
+.ribbon {
+  position: absolute;
+  right: -5px; top: -20px;
+  z-index: 1;
+  overflow: hidden;
+  width: 95px; height: 95px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+    </style>
+    <body>
+    <%-include('./partials/Nav.ejs')%>
+    <div class="container p-3">
+      <!-- breadcrum -->
+        <div class="d-flex gap-2">
+            <a href="/Sales/Vendor">Vendors</a> /  <a href='/customer/<%=vendor._id%>/edit'><%=vendor.Name%></a> 
+        </div>
+        <div class="row g-3 shadow p-3 m-3 box">
+          <%if(!vendor.block_vendor){%>
+            <div class="ribbon"><span>Activated</span></div>
+          <%}%>
+          <div class="d-flex justify-content-between align-items-center">
+            <h3><%=vendor.Name%></h3>
+          <i><%=vendor.Categories%></i>
+          <div class="col-md-6">
+            <label for="Bank_name" class="form-label"></label>
+            <a href="#" class=" btn btn-outline-success  ">
+              generate payment<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-richtext-fill " viewBox="0 0 16 16">
+                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM7 6.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zm-.861 1.542 1.33.886 1.854-1.855a.25.25 0 0 1 .289-.047l1.888.974V9.5a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V9s1.54-1.274 1.639-1.208zM5 11h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+              </svg>
+            </a>
+          </div>
+          </div>
+            <div  style="width: 12rem;">
+                <img src="<%if(vendor.image){%>
+                  <%= vendor.image %>
+                  <%}else{%>
+                     https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_640.png
+                  <%}%>
+                  " alt="<%= vendor.Name %> Photo" class="card-img-top" alt="...">
+            </div>
+            <!-- FOR customer type -->
+            <div class="border-top">
+              <h5>Vendor Infomation</h5>
+              
+              <div class="col-md-4">
+                <label for="category" class="form-label">Vendor Relationship type</label>
+                <select id="category" class="form-select">
+                  <option class="bg-warning" value="<%=vendor.Categories%>"><%=vendor.Categories%> (Current)</option>
+                  <option value='Retail'>Retail</option>
+                  <option value="Wholesale">Wholesale</option>
+                  <option value="dropship">dropship</option>
+                </select>
+              </div>
+            </div>
+             
+            <div class="col-md-4">
+                <label for="validationCustomEmail" class="form-label"> Email</label>
+                <div class="input-group has-validation">
+                    <a  href="mailto:<%=vendor.email%>" class="input-group-text" id="inputGroupPrepend">@</a>
+                    <input type="text" class="form-control" id="validationCustomEmail"value="<%=vendor.email%>" required aria-describedby="inputGroupPrepend"> 
+                  </div>
+              </div>
+              <div class="col-md-4">
+                <label for="validationCustomertel" class="form-label">Telephone</label>
+                <div class="input-group has-validation">
+                  <a href="tel:+234<%=vendor.vendor_tel%>" class="input-group-text" id="inputGroupPrepend1">&phone;<a>
+                  <input type="text" class="form-control" id="validationCustomertel" aria-describedby="inputGroupPrepend1" required value="<%=vendor.vendor_tel%>">
+                </div>
+              </div>
+            <div class="col-md-6">
+              <label for="Name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="Name" value="<%=vendor.Name%>">
+            </div>
+            <div class="col-12">
+              <label for="street" class="form-label">Address </label>
+              <input type="text" class="form-control" id="street" placeholder="Apartment, studio, or floor" value="<%=vendor.Address%>">
+            </div>
+            <div class="col-md-6">
+              <label for="PurchaseLimit" class="form-label">Purchase Limit</label>
+              <input type="text" class="form-control" id="PurchaseLimit" value="<%=vendor.PurchaseLimit%>" placeholder="Purchase Limit">
+            </div>
+
+            <div class="col-md-4">
+              <label for="w_Location" class="form-label">W/H Location</label>
+              <input type="text" id="w_Location"  class="form-control" value="<%=vendor.w_Location%>">
+            </div>
+
+           <div class="row border-bottom border-top p-2">
+            <h5>Payment</h5>
+            <div class="col-md-6">
+              <label for="Bank_name" class="form-label">Bank</label>
+              <input type="text" class="form-control" id="Bank_name" value="<%=vendor.Bank_name%>" placeholder=" Bank  Name " disabled>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Account_name" class="form-label">Account Name</label>
+              <input type="text" class="form-control" id="Account_name" value="<%=vendor.Account_name%>" placeholder="  Account Name" disabled>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Account_num" class="form-label">Account Number</label>
+              <input type="number" class="form-control" id="Account_num" value="<%=vendor.Account_num%>" placeholder=" Bank Account Number "disabled>
+            </div>
+            
+           </div>
+
+            <div class="col-12 bor">
+              <h5>Settings</h5>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck" <%if(vendor.NewsFeedSubscription){%>
+                    checked="checked"
+                    <%}%>>
+                <label class="form-check-label" for="gridCheck">
+                   Subscribe to Email Markerting list 
+                </label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="block_vendor" <%if(vendor.block_vendor){%>
+                    checked="checked"
+                    <%}%>>
+                <label class="form-check-label" for="block_vendor" title="using this feature will RESTRICT users from raising PO for <%=vendor.Name%>">
+                   Block <%=vendor.Name%> ?
+                </label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button type="submit" data-id="<%=vendor._id%>"  id="update" class="btn btn-primary">Update</button>
+              <a href="/" class="btn btn-danger">Remove</a>
+            </div>
+        </div>
+    </div>
+    <%-include('./partials/footer.ejs')%>
+</body>
+<script>
+  // =================================================================
+  //send pactch request and delete 
+const update = document.getElementById('update');
+update.addEventListener('click',async ()=>{
+  const id = update.dataset.id;
+  const Name = document.querySelector('input#Name').value
+  const email = document.querySelector('input#validationCustomEmail').value
+  const vendor_tel = document.querySelector('input#validationCustomertel').value
+  const Address = document.querySelector('input#validationCustomEmail').value
+  const PurchaseLimit = document.querySelector('input#PurchaseLimit').value
+  const Bank_name = document.querySelector('#Bank_name').value
+  const w_Location = document.getElementById("w_Location")
+  const Account_num = document.querySelector('input#Account_num').value
+  const block_vendor = document.querySelector('input#block_vendor').checked
+  const Account_name = document.querySelector('input#Account_name').value;
+  const Category = document.getElementById("category")
+  const Categories = Category.options[Category.selectedIndex].value;
+
+  const url = `/vendor/update/${id}`;
+
+  const data = await fetch(url,{
+    method:'PATCH',
+    body: JSON.stringify({
+      Name,
+      vendor_tel,
+      email,
+      PurchaseLimit,
+      block_vendor,
+      Account_name,
+      Account_num,Categories,
+      Bank_name
+    }),
+    headers:{'Content-Type': 'application/json'}
+  })
+
+    const res = await data.json().then(json => {
+        if (json){
+        
+          Notification.requestPermission().then((perm) =>{
+                  if(perm ==='granted'){
+                    new Notification('Bigbern Notification',{
+                      body:json.result ? json.result : json.error,
+                      icon:'/495670-removebg-preview.png',
+                    })
+                  }else{
+                    alert(json.result ? json.result : json.error)
+                  }
+                })
+                location.reload()
+        }
+      }
+    )
+})
+
+
+</script>
+</html>
+

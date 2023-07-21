@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<%-include('./partials/head.ejs')%>
+<body>
+    <div class="flex justify-center items-center">
+        <div class="w-fit gap-2 items-center flex flex-col m-3 p-4  rounded shadow border" >
+            <a href="/" class="flex items-center gap-1">
+              <img src='495670-removebg-preview.png' alt="" width="50px">
+              <h1 class="company-name font-bold font-bold text-4xl"><%= name %></h1>
+              </a>
+                <h1 class="font-bold text-white text-xl">Password reset</h1>
+                <div id="emailerror"></div>
+                 <label class="flex flex-col  gap-2">
+                    Registered Email<input type="text" placeholder="Example@xyz.com" id="Email" name="Email" required>
+                    <h1 class="email found font-bold" style="color:rgb(117, 25, 140)"></h1>
+                </label>
+                <!-- for security reset -->
+                <div class=" flex flex-col font-bold items-center gap-2 hidden "id="options">
+                    <label for="resetOption"> Provide OTP sent to your email </label>
+                <input type="text" name="resetOption" id="resetOtp">
+                </div>
+
+                <!-- form for patch request for new password -->
+                <form action="patch" id="passwordForm">
+                    <label class="flex flex-col  gap-2">
+                        New Password: <input type="password" name="password" />
+                    </label>
+    
+                    <label class="flex flex-col  gap-2">
+                        Re-type password: <input type="password"
+                        name="re-password"  />
+                    </label>
+                    <button class="w-full ">Reset-password</button>
+                </form>
+            <h1>Try <a href="/SignIn" style="color:rgb(133, 151, 213)">Login</a></h1>
+          </div>
+        </div>
+     <!-- footer -->
+     <%- include('./partials/footer.ejs') %>
+</body>
+<script>
+    const passwordForm = document.getElementById('passwordForm')
+    passwordForm.style.display = 'none';
+    const resetOtp = document.getElementById('resetOtp')
+    let errorMessage = document.querySelector('#emailerror')
+    let ResetEmail = document.getElementById('Email')
+    ResetEmail.addEventListener('change',async function (e){
+        let otp 
+        let id 
+        const EmailTOreset = e.target.value
+        errorMessage.innerText =''
+            const res = await fetch('/Reset/account',{
+                method:'POST',
+                body:JSON.stringify({EmailTOreset}),
+                headers:{'Content-Type': 'application/json'}
+            })
+            const data = await res.json();
+            //check if error message 
+            data?.err? errorMessage.innerText = data.err : errorMessage.innerText = `${data.data.firstName.toUpperCase()} ?`
+            otp = data.otp
+            id = data.data._id
+
+        resetOtp.addEventListener('change',(e)=>{
+        e.target.value === otp ? passwordForm.style.display = 'block' : alert('fraud protection activated')
+         })
+
+         passwordForm.addEventListener('submit',async (e)=>{
+            e.preventDefault()
+
+            try{
+            // FORM INPUT FOR PASSWORD
+        const password = passwordForm.password.value;
+        const endPoint =`/Reset-password/${id}/Security`;
+        const res = await fetch(endPoint,{
+        method:'PATCH',
+        body:JSON.stringify({password}),//use bcrypt and salt from frontend before you save
+        headers:{'Content-Type': 'application/json'}
+        })
+        // check for stsus of pass word 
+        const data = await res.json()
+        if(data.Newcustomer){
+            alert(data.result)
+            passwordForm.reset()
+            passwordForm.style.display = 'none'
+            resetOtp.value = ''
+            this.value = ""
+            location.assign(`/Dashboard/${data.Newcustomer}`);
+        } else {alert(data.error)}
+        }catch(err){
+            alert(err)
+        }
+
+         });
+    })
+    // location.assign()
+
+    
+
+
+              
+</script>
+<!-- <script src="App.js"></script> -->
+</html>

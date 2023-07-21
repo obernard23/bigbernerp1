@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%-include('./partials/head.ejs')%>
+<head>
+    <style>
+      .itemQty:focus{
+        outline: none;
+      }
+
+      /* #item :nth-child(odd){
+        background-color: #999a9c86;
+        font-weight: bolder;
+        font-size: '15px';
+      } */
+
+      @font-face {
+        font-family: "Inter";
+        src: url("Inter-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Inter";
+        src: url("Inter-Medium.ttf") format("truetype");
+        font-weight: 500;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Inter";
+        src: url("Inter-Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Space Mono";
+        src: url("SpaceMono-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      #invoice {
+        font-size: 0.75rem;
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        color: #000000;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      #pspdfkit-header {
+        font-size: 0.625rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 400;
+        color: #717885;
+        margin-top: 2.5rem;
+        margin-bottom: 2.5rem;
+        width: 100%;
+      }
+
+      .header-columns {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
+
+      .logo {
+        height: 3rem;
+        width: auto;
+        margin-right: 1rem;
+      }
+
+      .logotype {
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+      }
+
+      h2{
+        font-family: "Space Mono", monospace;
+        font-size: 1.25rem;
+        font-weight: 400;
+      }
+
+      h4 {
+        font-family: "Space Mono", monospace;
+        font-size: 1rem;
+        font-weight: 400;
+      }
+
+      .page {
+        margin-left: 5rem;
+        margin-right: 5rem;
+      }
+
+      .intro-table {
+        display: flex;
+        justify-content: space-between;
+        margin: 3rem 0 3rem 0;
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .intro-form {
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #000000;
+        width: 50%;
+      }
+
+      .intro-form:last-child {
+        border-right: none;
+      }
+
+      .intro-table-title {
+        font-size:1rem;
+        margin: 0;
+      }
+
+      .intro-form-item {
+        padding: 1.25rem 1.5rem 1.25rem 1.5rem;
+      }
+
+      .intro-form-item:first-child {
+        padding-left: 0;
+      }
+
+      .intro-form-item:last-child {
+        padding-right: 0;
+      }
+
+      .intro-form-item-border {
+        padding: 1.25rem 0 0.75rem 1.5rem;
+        border-bottom: 1px solid #000000;
+      }
+
+      .intro-form-item-border:last-child {
+        border-bottom: none;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        margin-top: 6rem;
+      }
+
+      .no-border {
+        border: none;
+      }
+
+      .border {
+        border: 1px solid #000000;
+      }
+
+      .border-bottom {
+        border: 1px solid #000000;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      .signer {
+        display: flex;
+        justify-content: space-between;
+        gap: 2.5rem;
+        margin: 2rem 0 2rem 0;
+      }
+
+      input {
+        font-family: "Space Mono", monospace;
+        text-align: center;
+        margin-top: none;
+        box-sizing: border-box;
+        text-align: left;
+        border:none !important;
+      }
+
+      input#signature {
+        height: 8rem;
+      }
+
+      .intro-text {
+        width: 60%;
+      }
+
+      .table-box table,
+      .summary-box table {
+        width: 100%;
+        font-size: 0.625rem;
+      }
+
+      .table-box table {
+        padding-top: 2rem;
+      }
+
+      .table-box td:first-child,
+      .summary-box td:first-child {
+        width: 50%;
+      }
+
+      .table-box td:last-child,
+      .summary-box td:last-child {
+        text-align: right;
+      }
+
+      .table-box table tr.heading td {
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        height: 1.5rem;
+      }
+
+      .table-box table tr.item td,
+      .summary-box table tr.item td {
+        border-bottom: 1px solid #d7dce4;
+        height: 1.5rem;
+      }
+
+      .summary-box table tr.no-border-item td {
+        border-bottom: none;
+        height: 1.5rem;
+      }
+
+      .summary-box table tr.total td {
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        height: 1.5rem;
+      }
+
+      .summary-box table tr.item td:first-child,
+      .summary-box table tr.total td:first-child {
+        border: none;
+        height: 1.5rem;
+      }
+
+      #pspdfkit-footer {
+        font-size: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+        color: #717885;
+        margin-top: 2.5rem;
+        bottom: 2.5rem;
+        position: absolute;
+        width: 100%;
+      }
+
+      .footer-columns {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
+
+      .signer-item img {
+        margin:10px;
+      }
+          .box {
+      position: relative;
+    }
+    .ribbon {
+      position: absolute;
+      right: -5px; top: -5px;
+      z-index: 1;
+      overflow: hidden;
+      width: 75px; height: 75px;
+      text-align: right;
+    }
+    .ribbon span {
+      font-size: 10px;
+      font-weight: bold;
+      color: #FFF;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 20px;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      width: 100px;
+      display: block;
+      background: #79A70A;
+      background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+      position: absolute;
+      top: 19px; right: -21px;
+    }
+    .ribbon span::before {
+      content: "";
+      position: absolute; left: 0px; top: 100%;
+      z-index: -1;
+      border-left: 3px solid #79A70A;
+      border-right: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid #79A70A;
+    }
+    .ribbon span::after {
+      content: "";
+      position: absolute; right: 0px; top: 100%;
+      z-index: -1;
+      border-left: 3px solid transparent;
+      border-right: 3px solid #79A70A;
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid #79A70A;
+    }
+        </style>
+  </head>
+
+  <body>
+    <nav class="navbar bg-black">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/" title="Apps">
+          <img
+            src="data:image/png;base64,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"
+            width="30"
+            height="30"
+          />
+        </a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <h5>
+              <a
+                class="nav-link breadcrumb-item active"
+                aria-current="page"
+                href="/employee/Onboard"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="color: #fff !important"
+              >
+                Bill
+              </a>
+            </h5>
+          </li>
+        </ul>
+      </div>
+    </nav>
+   
+    <!-- approve and reject buttons -->
+   <div class="p-2">
+    <%if(Singlebill.status !="Approved" && user.role ==="Admin" || user.role === "Manager"){%>
+      <button type="button" class="btn btn-success" id="approved" data-id="<%=Singlebill._id%>" onclick="apporved()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+          <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
+          <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
+        </svg>
+        Approve
+      </button>
+      <%}%>
+      <%if(Singlebill.status !="Approved" && user.role ==="Admin" || user.role === "Manager"){%>
+    <button type="button" class="btn btn-danger">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-octagon" viewBox="0 0 16 16">
+        <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+      </svg>
+      Refuse
+    </button>
+    <%}%>
+   </div>
+     <!-- validation work flow -->
+     <div class="d-flex justify-content-end shadow-sm align-tems-center " style="background-color: rgb(73, 237, 158); color:#6d5c5c; padding-right:10px;">
+      <div class="p-2">Creating</div>
+      <div class="p-2 "  <%if(Singlebill.status ==="Locked"){%>
+        style="background-color:#fff;box-shadow: inset 1px 2px 4px 1px silver;"
+        <%}%>>Locked</div>
+      <div class="p-2 "  <%if(Singlebill.status==="Approved"){%>
+        style="background-color:#fff;box-shadow: inset 1px 2px 4px 1px silver;"
+        <%}%>>Approved</div>
+     </div>
+    <div id="invoice" class="shadow-lg m-4 p-3 box ">
+      <div class="ribbon"><span>LOCKED</span></div>
+      <div id="pspdfkit-header">
+
+          <!-- action buttons -->
+     <div class="p-2">
+      <span id="download-button" type="button" title="download as Pdf file" >
+        <img src="data:image/png;base64,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"
+        height="40"
+        width="40"
+        >
+      </span>
+      <%if(Singlebill.status ==="Approved" && Singlebill.registeredBalance !== Singlebill.grandTotal){%>
+      <button type="button" class="btn btn-info" id="Mail" data-id="<%=Singlebill._id%>" onclick="MailBtn()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+          <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2H2Zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671Z"/>
+          <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034v.21Zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z"/>
+        </svg>
+        Mail to <%=cust.Username%>
+      </button>
+      <%}%>
+      <!--  -->
+     </div>
+
+     <div class="logotype ms-5 border-top border-bottom p-2">
+          <img class="logo ms-5" src="https://www.historyhit.com/app/uploads/fly-images/5154061/BigBen-788x537.jpg?x63000" />
+        </div>
+     <div class="header-columns d-flex justify-content-between ">
+      <div class="ms-5">
+        <h5><%=warehouse.WHName%></h5>
+        <p>[<%=warehouse.state%>]</p>
+        <p><%=warehouse.Email%></p>
+        <p><%=warehouse.Tel%></p>
+        <p> wareHouse invoice no:<%=warehouse.InvoiceNo%></p>
+      </div>
+
+      <div class="me-5">
+        <h5><%=cust.Username%></h5>
+        <p ><%=cust.phone%></p>
+        <p ><%=cust.Email%></p>
+        <p> <%=Singlebill.startDate%></p>
+      </div>
+          
+        </div>
+      </div>
+
+      <div class="page" >
+        <div>
+          <h2>" <%=Singlebill.billStatus%> #S<%=Singlebill.billReferenceNo%>"</h2>
+        </div>
+
+        <div class="table-box">
+          <table cellpadding="0" cellspacing="0">
+            <tr class="heading font-bold">
+              <td  >Product</td>
+              <td  >Photo Desc</td>
+              <td  >QTY</td>
+              <td  >Scale</td>
+              <td  >VAT</td>
+              <td  >Unit Price (N)</td>
+              <td  >Total (N)</td>
+            </tr>
+            <tbody  class="item" id="item">
+             
+              <!-- define all ites in orders here -->
+              <%if(Singlebill.orders.length > 0){%>
+                <%if(Singlebill.orders.map(bill=>{%>
+                  <tr class="heading font-bold" title="<%=bill.item.Description%>">
+                    <td  ><%=bill.item.Name%></td>
+                    <td  ><img src="<%=bill.item.image%>" width="30" height="30"/></td>
+                    <td  ><%=bill.Qty%></td>
+                    <td  ><%=bill.item.UMO%></td>
+                    <td  ><%=bill.item.VAT%></td>
+                    <td  ><%=bill.item.selling_Price%></td>
+                    <td  ><%=bill.total%></td>
+                  </tr>
+                <%})){%>
+                <%}%>
+              <%}%>
+            </tbody>
+            <tbody class="item" id="promosection"></tbody>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summary-box">
+          <table cellpadding="10" cellspacing="0">
+            <tbody>
+              <tr class="item">
+                <td></td>
+                <td>Subtotal:</td>
+                <td id="Subtotal">N<%=Singlebill.subTotal%></td>
+              </tr>
+
+              <tr class="item">
+                <td></td>
+                <td>Discount:</td>
+                <td>5%</td>
+              </tr>
+
+              <tr class="item">
+                <td></td>
+                <td>Tax Rate:</td>
+                <td>N<%=Singlebill.taxRate%></td>
+              </tr>
+
+              <tr class="no-border-item">
+                <td></td>
+                <td>Shipping/Handling:</td>
+                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px"value="<%=Singlebill.shippingFee%>" disabled> </td>
+              </tr>
+
+              <tr class="total">
+                <td></td>
+                <td>Total Due:</td>
+                <td >N <%=Singlebill.grandTotal%></td>
+               
+              </tr>
+
+              <tr class="total">
+                <td></td>
+                
+              </tr>
+          </table>
+          <input type="hidden" id="Grandtotal" value="<%=Singlebill.grandTotal%>" hidden>
+          <p>Total in words:</p>
+          <p id="words"></p>
+        </div>
+      </div>
+
+      <div class="page" style="page-break-after: always">
+      
+        <div class="page" style="page-break-after: always">
+          <div class="signer">
+            <div class="form signer-item">
+              <label class="border-bottom" for="date" class="label">Terms & Conditions</label>
+                <p>Payment must be made before 15 days of issue date</p>
+            </div>
+
+            <div class="form signer-item">
+              <label for="signature" class="label">Issued by: <%=Singlebill.salesPerson%></label>
+              <img class="logo" src="<%=user.Signature%>"
+                id="signature"
+              />
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div id="pspdfkit-footer" >
+        <div class="footer-columns">
+          <span>"<%=Singlebill.billStatus%> #S<%=Singlebill.billReferenceNo%>"</span>
+        </div>
+      </div>
+    </div>
+    
+
+     <!-- The Modal -->
+     <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
+      <!-- Modal content -->
+      <div class="modal-body modal-content container">
+          <form  class="row g-3 needs-validation" id="form" data-id="<%=Singlebill._id%>" >
+              <div class=" d-flex justify-content-between">
+                  <h5>Register Payment</h5>
+                  <svg xmlns="http://www.w3.org/2000/svg" onclick="document.getElementById('myModal').style.display='none'" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                    </svg>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">WARE HOUSE</label>
+                    <input type="text" disabled name="WHName"  class="form-control" autocomplete="off" autocapitalize="on" required value="<%=warehouse.WHName%>"/>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="validationCustom01" class="form-label">Account Paid to</label>
+                  <input type="text" list="pickManager" name="bankAccount" required class="form-control" placeholder="Choose from Account list" required/>
+                  <datalist id="pickManager" >
+                   <!-- display options for department -->
+                 <option >Zenith bank</option>
+                 <option >Access Bank</option>
+                 <option >GT Bank</option>
+                   </datalist>
+              </div>
+
+              <div class="col-md-4">
+                  <label for="validationCustom01" class="form-label">Bill Total (N)</label>
+                  <input type="number" disabled name="Location" class="form-control" value="<%=Singlebill.subTotal%>"/>
+              </div>
+
+
+              <div class="col-md-4">
+                  <label for="validationCustom01" class="form-label"> BILLED FOR</label>
+                  <input type="text" placeholder="Telephone" class="form-control" name='Tel' value=" <%=cust.Username%>" disabled/>
+              </div>
+
+              <div class="col-md-4">
+                  <label for="validationCustom01" class="form-label">Amount collected</label>
+                  <input type="number" placeholder="Amount collected " required class="form-control" name="registeredBalance"/>
+              </div>
+
+              <div class="col-md-4">
+                  <label for="supportDoc" class="form-label"> Attachment</label>
+                  <input type="file"  class="form-control" required id="supportDoc" name="supportDoc"/>
+              </div>
+
+              <div class="col-md-4">
+                <label for="InvoiceNo" class="form-label">Payment Method</label>
+                <input type="text" list="paymentMethod" name="paymentMethod" required class="form-control" placeholder="Select payment method" required/>
+                <datalist id="paymentMethod" >
+                 <!-- display options for department -->
+                 <option >Others</option>
+                 <option >Bank Payment</option>
+                 <option >Cash payment</option>
+                 </datalist>
+            </div>
+
+              <div class="col-md-4">
+                  <label for="InvoiceNo" class="form-label"> Invoice ref No</label>
+                  <input type="text" disabled name="others" class="form-control" value="<%=Singlebill.billReferenceNo%>" />
+              </div>
+
+              <!-- <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: "></div>
+              </div> -->
+              <div class="progress col-md-4" style="height: 3px;" title="Attachement upload progress"> 
+                <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" id="progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+
+              <div class="col-md-4  ">
+                <label for="InvoiceNo" class="form-label"> All done!</label>
+                  <button class="btn btn-success form-control"  >Confirm Payment for <%=cust.Username%></button>
+              </div>
+
+            </form>
+      </div>
+  </div>
+
+
+
+    <%-include('./partials/footer')%>
+  </body>
+  
+  <script>
+
+    
+
+    const apporved = async () =>{
+      const approveBtn = document.getElementById('approved')
+      const id = approveBtn.dataset.id
+      const api = `/bill/${id}/approved`
+
+      const request = await fetch(api,{
+        method:'PATCH',
+        headers:{"content-type": "application/json"}
+      })
+      const response = await request.json()
+      response?.message ? location.reload() : alert('something went wrong')
+    }
+ 
+    ////////////////////////////////////////////////////////////////send mail functionality////////////////////////////////
+    const MailBtn = async ()=>{
+      const MailBtn = document.getElementById('Mail')
+      const id = MailBtn.dataset.id
+      const api = `/sendmail/${id}`
+
+      const request = await fetch(api,{
+        method:'GET',
+        headers:{"content-type": "application/json"}
+      })
+    }
+
+const Grandtotal = document.getElementById('Grandtotal').value
+
+    function test(n) {
+    if (n < 0)
+      return false;
+	 single_digit = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
+	 double_digit = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
+	 below_hundred = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
+	if (n === 0) return 'Zero'
+	function translate(n) {
+		word = ""
+		if (n < 10) {
+			word = single_digit[n] + ' '
+		}
+		else if (n < 20) {
+			word = double_digit[n - 10] + ' '
+		}
+		else if (n < 100) {
+			rem = translate(n % 10)
+			word = below_hundred[(n - n % 10) / 10 - 2] + ' ' + rem
+		}
+		else if (n < 1000) {
+			word = single_digit[Math.trunc(n / 100)] + ' Hundred ' + translate(n % 100)
+		}
+		else if (n < 1000000) {
+			word = translate(parseInt(n / 1000)).trim() + ' Thousand ' + translate(n % 1000)
+		}
+		else if (n < 1000000000) {
+			word = translate(parseInt(n / 1000000)).trim() + ' Million ' + translate(n % 1000000)
+		}
+		else {
+			word = translate(parseInt(n / 1000000000)).trim() + ' Billion ' + translate(n % 1000000000)
+		}
+		return word
+	}
+	 result = translate(n) 
+	return result.trim()+'.'
+}
+document.getElementById('words').innerHTML = `${test(parseInt(Grandtotal))} Naira only.`;
+
+  
+  </script>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<%-include('./partials/head.ejs')%>
+<body>
+    <%-include('./partials/Nav.ejs')%>
+    <div class=" flex m-5 ">
+        <form action="/Reset-password/:id/Security" class="p-3 m-5 flex flex-col font-bold gap-5 w-full shadow">
+            <a href="/" class="flex items-center gap-1">
+                <img src='495670-removebg-preview.png' alt="" width="50px">
+                <h1><%= name %></h1>
+                </a>
+                <h1 class="text-2xl">Help us serve you better</h1>
+            <!-- personal  -->
+            <div class="flex flex-col gap-7">
+                 <!-- image upload div -->
+            <div class="border p-3 subs">
+                <input type="file" id="files" name='image' multiple />
+            </div>
+            <div id="display-image" style="background-image: url(<%=user.Image%>);"></div>
+            <!-- display progress % for photo upload -->
+            <!-- <progress value="0" max="100" id="progress"></progress> -->
+            <input type="text" name="Image" disabled id="imageLoader" class='hidden'value="<%=user.Image%>">
+                <h1 class="text-xl">Personalia</h1>
+                <label class="flex gap-5">
+                    Name: <input type="text" placeholder="First and last Name" 
+                    name="Username" required value="<%=user.Username%>"/>
+                </label>
+                <label class="flex gap-5">
+                    Email: <input type="text" placeholder="Example@xyz.com" 
+                    value="<%=user.Email%>" id="personId" data-id="<%=user._id%>"  disabled>
+                </label>
+                
+                <label class="flex gap-5">
+                    Telephone: <input type="text" placeholder="+234..." 
+                    value="<%=user.phone%>" disabled>
+                </label>
+
+                <label class="flex gap-5">
+                    DOB: <input type="date" name="DOB"  value="<%=user.DOB%>">
+                </label>
+            </div>
+            <!-- location -->
+            <div class="flex flex-col gap-7">
+                <h1 class="text-xl">Location</h1>
+                <label class="flex gap-5">
+                    Street:<input type="text" placeholder="street Add.." name="street"  value="<%=user.street%>">
+                </label>
+                <label class="flex gap-5">
+                    Land mark:<input type="text" placeholder="Land mark" name="Land_mark"  value="<%=user.Land_mark%>">
+                </label>
+                <label class="flex gap-5">
+                    House Number:<input type="text" name="HouseNumber" placeholder="House Number"  value="<%=user.HouseNumber%>">
+                </label>
+                <label class="flex gap-5">
+                    State:<input type="text" placeholder="state" name="state"  value="<%=user.state%>">
+                </label>
+                <label class="flex gap-5">
+                    Country:<input type="text" placeholder="country" name="country"  value="<%=user.country%>">
+                </label>
+            </div>
+            <!-- security -->
+            <div class="flex flex-col gap-7">
+                <h1 class="text-xl">Security</h1>
+                <label class="flex gap-5">
+                    Security Question: <input type="text" name="Question1"  placeholder="Security Question" value="<%=user.Question1%>">
+                    Security answer: <input type="text" placeholder="Your answer" name="Question1Ans"  value="<%=user.Question1Ans%>"/>
+                </label>
+                <label>
+                    Security Question: <input type="text"   placeholder="Security Question"  name="Question2"  value="<%=user.Question2%>">
+                    Security answer: <input type="text" placeholder="Your answer" name="Question2Ans"  value="<%=user.Question2Ans%>"/>
+                </label>
+            </div>
+               
+            <button >Update account</button>
+            <button id="delete">Delete My account</button>
+        </form>
+        <!-- The Modal -->
+                    <div id="myModal" class="modal flex items-center flex-col justify-center gap-3">
+                        <div class="flex justify-center ">
+                            <img src='motOO8rn_400x400-removebg-preview.png' alt="" width="50px">
+                        </div>
+                        <!-- Modal content -->
+                        <div class="modal-content ">
+                            <div class="loader"></div>
+                            <p id="check">please Wait..</p>
+                            <div id="status"></div>
+                        </div>
+                    </div>
+    </div>
+    <!-- sign up or in -->
+    <%- include('./partials/Login.ejs') %>
+    <!-- footer -->
+    <%- include('./partials/footer.ejs') %>
+</body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-storage.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+<script type="module">
+    let form = document.querySelector('form');
+    const emailError = document.querySelector('.email.error');
+    const passwordError = document.querySelector('.password.error');
+        // Get the modal
+    var modal = document.getElementById("myModal");
+
+
+// Import the functions you need from the SDKs you need
+import { getDatabase, ref, child,onValue, get, }
+  from "https://www.gstatic.com/firebasejs/9.13.0/firebase-database.js";
+  import { initializeApp} from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
+//   import {addDoc, collection} from "../node_modules/@firebase/firestore"
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBED3d1-cLAwWrbQJsH0LJBU1A3iDQbBi0",
+    authDomain: "bigbern-erp.firebaseapp.com",
+    databaseURL: "https://bigbern-erp-default-rtdb.firebaseio.com",
+    projectId: "bigbern-erp",
+    storageBucket: "bigbern-erp.appspot.com",
+    messagingSenderId: "129741589367",
+    appId: "1:129741589367:web:2dfd5bf29e5936bdd1af72",
+    measurementId: "G-L3T956JGTM"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+
+  // form image 
+  var files = [];
+document.getElementById("files").addEventListener("change", function(e) {
+  files = e.target.files;
+  for (let i = 0; i < files.length; i++) {
+ 
+  }
+
+  //checks if files are selected
+  if (files.length != 0) {
+    //Loops through all the selected files
+    for (let i = 0; i < files.length; i++) {
+      //create a storage reference
+      var storage = firebase.storage().ref(`employee photo/${files[i].name}`);
+
+      //upload file
+      var upload = storage.put(files[i])
+
+      //update progress bar
+      upload.on(
+        "state_changed",
+        // function progress(snapshot) {
+        //   var percentage =
+        //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //   document.getElementById("progress").value = percentage;
+        // },
+      );
+    }
+  } else {
+    alert("No file chosen");
+  }
+
+  upload.then(snapshot => {
+       return snapshot.ref.getDownloadURL();   // Will return a promise with the download link
+   }).then(downloadURL => {
+    // set image url for form
+    document.getElementById('imageLoader').value = `${downloadURL}`;
+    
+    // display image on form
+    document.getElementById('display-image').style.backgroundImage = `url(${downloadURL})`;
+    
+   }).catch(error => {
+      // Use to signal error if something goes wrong.
+      alert(`Failed to upload file and get link - ${error}`);
+   });
+ 
+});
+
+
+
+    
+    form.addEventListener('submit',async (e)=>{
+        e.preventDefault()
+       
+        //get the values
+        const Username = form.Username.value;
+        // const Email = form.Email.value;
+        const Image = form.Image.value; 
+        const DOB = form.DOB.value;
+        const street = form.street.value;
+        const country = form.country.value;
+        const state = form.state.value;
+        const Land_mark = form.Land_mark.value;
+        const HouseNumber = form.HouseNumber.value;
+        const Question1 = form.Question1.value;
+        const Question1Ans = form.Question1Ans.value;
+        const Question2 = form.Question2.value;
+        const Question2Ans = form.Question2Ans.value;
+        let user = document.getElementById('personId')
+        const Password = user.dataset.Password
+    
+        // for current user id
+        let user_id = user.dataset.id
+        const endpoint = `/Reset-password/${user_id}/Security`
+    
+        const res = await fetch(endpoint,{
+        method:'PATCH',
+        body:JSON.stringify({Username,DOB,street,country,state,Land_mark,HouseNumber,Question1,Question1Ans,Question2,Question2Ans,Image,Password}),//use bcrypt and salt from frontend before you save
+        headers:{'Content-Type': 'application/json'}
+        })
+        const data = await res.json()
+        .then(data=>{alert(`${data.result}`)})
+        .catch(err=>alert(err))
+    //             const data = await res.json()
+    //             //check for registered customer
+    //         if(data.Newcustomer){
+    //                 let logMsg = document.createElement('p')
+    //                 logMsg.innerText = 'Profile has been created..'
+    //                 document.getElementById('status').appendChild(logMsg)
+    //                 setTimeout(async () => {
+    //                     await sendEmail( Email,Username )//notifier for email sent 
+    //                 }, 1000)
+    //                 setTimeout(() => {
+    //                     let count = 0
+    //                 const redirect = setInterval(() => {
+    //                     count++
+    //                     document.getElementById('check').innerText=`Redirecting in ${count} Seconds`
+    //                         if (count === 8){
+    //                             clearInterval(redirect)
+    //                             form.reset();//clear form 
+    //                             location.assign('/index') //recirect to product page
+    //                         }
+    //                     }, 1000);
+    //                 }, 9000);
+    //             }
+
+    //             if(data.errors){
+    //                 modal.style.display = "none"
+    //             emailError.textContent= data.errors.email
+    //             passwordError.textContent = data.errors.password
+    //         }
+    //     }
+    //     catch(e){
+    //         if(ReferenceError){
+    //             let logErrMsg = document.createElement('p')
+    //             logErrMsg.innerText = `Please check your internet Connection`
+    //                 document.getElementById('status').appendChild(logErrMsg)
+    //         }
+    //          // When the user clicks anywhere outside of the modal, close it
+    //         window.onclick = function(event) {
+    //         if (event.target == modal) {
+    //             modal.style.display = "none";
+    //             }
+    //                 }
+    //     }
+    // })
+
+    
+    //FOR PASSWORD RETYPE VERFICATION
+    // let word1
+    // let retype
+    // let password1 = document.getElementById('Password')
+    // password1.addEventListener('change',(e)=>{
+    //     word1 = e.target.value
+    // })
+    // // check password retype
+    // let password2 = document.getElementById('Password2')
+    // password2.addEventListener('change',(e)=>{
+    //     retype = e.target.value
+    //     let error = document.getElementById('error')
+    //     let checkInterval = setInterval(() => {
+    //      //check password with retyped password
+    //         if(retype !== word1){
+    //         error.innerText='Not a Match';
+    //         error.style.color='red'
+    //         setTimeout(()=>{
+    //         password2.value=''
+    //         clearInterval(checkInterval)
+    //         },1000)
+    //         }else if(word1 === retype){
+    //             error.innerText='Match';
+    //             error.style.color='green'
+    //         }else{
+    //             error.innerText='';
+    //         }
+    //     },1000);
+    })
+
+</script>
+<script src="App.js"></script>
+</html>
