@@ -821,5 +821,5 @@ module.exports.RegisterPayment_patch = async(req, res) => {
 
 
 module.exports.Report_get = async(req, res, next)=>{
-  res.render('dashboards',{});
+  res.render('reports',{});
 }
