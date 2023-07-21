@@ -762,17 +762,17 @@ module.exports.BillsWorkBook_get = async (req, res, next) => {
     workSheet.Sheet1.push({
       _id: `${data._id}`,
       customerId: data.customer.toString(),
-      "grandTotal (NGR)" : parseInt(data.grandTotal),
-      "shippingFee (NGR)": data.shippingFee,
-      "start Date": data.startDate,
-      "payment Method": data.paymentMethod,
-      orders: data.orders.length,
-      promotion: data.promotionItems.length,
-      status: data.status,
+      "Grand Total (NGR)" : parseInt(data.grandTotal),
+      "ShippingFee (NGR)": data.shippingFee,
+      "Start Date": data.startDate,
+      "Payment Method": data.paymentMethod,
+      Orders: data.orders.length,
+      Promotion: data.promotionItems.length,
+      Status: data.status,
       "Bank Account": data.bankAccount,
-      "discount %": data.discount,
-      "ware House":data.whId.toString(),
-      "sales Person": data.salesPerson,
+      "Discount %": data.discount,
+      "Ware House":data.whId.toString(),
+      "Sales Person": data.salesPerson,
       "Registered Balance":data.registeredBalance,
       "Reference No":data.billReferenceNo,
       "Status":data.billStatus
@@ -822,12 +822,19 @@ module.exports.WareHouseStoreage_patch = async(req,res,next) => {
 //register payment
 module.exports.RegisterPayment_patch = async(req, res) => {
   const {update} = req.body
+  console.log(update)
   if (ObjectId.isValid(new ObjectId(req.params.id))) {
    try {
     await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
     .then(async (bill) =>{
       if(bill.acknowledged) {
+        await bills.findById(new ObjectId(req.params.id))
+        .then(function(updatedBill) {
+          updatedBill.ActivityLog.push({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
+          updatedBill.save()
+        })
         res.status(200).json({ message:'Payment acknowledged'})
+
       }else{
         throw new Error('Something seems to be wrong')
       }
