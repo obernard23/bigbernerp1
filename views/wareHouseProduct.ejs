@@ -256,7 +256,7 @@
         <input type="number" value="<%=products.pendings%>" disabled/></div>
       <div class="divTableCell">&nbsp; 
           <label for="incoming">Confirm Done qty</label>
-           <input id="incoming" type="Number" placeholder="confirm qty to ware house" />
+           <input id="incoming" type="Number" data-id="<%=products._id%>" placeholder="confirm qty to ware house" />
           </div>
       <div class="divTableCell">&nbsp;Auto replenish
           <label class="switch" title="Turning on this Feature will help trigger Purchase Order and Notification according to your defined rule">
@@ -291,6 +291,12 @@
   </div>
 </body>
 <script>
+let incoming = document.querySelectorAll('#incoming')
+for (let i = 0 ; i < incoming.length ; i++) {
+  incoming[i].addEventListener('change', function(e) {
+    alert(e.target.value)
+  })
+}
 
 </script>
 </html>

@@ -65,6 +65,7 @@ router.get(`/warehouse/:id/Bills`,requireAuth,authController.WareHouseBill_get);
 router.get(`/:WHName/bill/:id`,requireAuth,authController.WareHouseSingleBill_get);
 router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);
 router.get('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_get)//get products for specific ware house
+router.patch('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_patch)
 
 // //generate pdf on the fly
 // router.get('/invoice/:billId', requireAuth,async (req, res, next) => {

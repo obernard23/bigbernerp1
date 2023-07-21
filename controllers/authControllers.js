@@ -596,6 +596,7 @@ module.exports.WareHouseBill_get = async (req, res) => {
     });
     bills
       .find({ whId: new ObjectId(req.params.id) })
+      .sort({startDate:-1})
       .then(async (Bills) => {
         const customers = await customer.find()
         const whBill = [];
@@ -717,8 +718,8 @@ module.exports.vendorEdit_patch = async (req, res) => {
 
 //payment routes
 module.exports.Payment_get = async (req, res) =>{
-  const Bill = await bills.find().sort({startDate:-1})
-  customers = await customer.find()
+  const Bill = await bills.find().sort({registeredBalance: 1})
+  const customers = await customer.find()
   res.status(200).render('payment',{Bill,customers})
 }
 
@@ -800,6 +801,24 @@ module.exports.WareHouseStoreage_get = async(req,res,next) =>{
   }
 }
 
+//update product in ware house product
+module.exports.WareHouseStoreage_patch = async(req,res,next) => {
+  const {update} = req.body
+  if (ObjectId.isValid(new ObjectId(req.params.id))) {
+   try {
+    await storeProduct.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
+    .then(async (bill) =>{
+      if(bill.acknowledged) {
+        res.status(200).json({ message:'Product Qty updated successfully'})
+      }else{
+        throw new Error('Something seems to be wrong')
+      }
+    })
+   } catch (error) {
+    res.status(500).json({ error:error.message })
+   }
+  }
+}
 //register payment
 module.exports.RegisterPayment_patch = async(req, res) => {
   const {update} = req.body
