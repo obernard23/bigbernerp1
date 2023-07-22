@@ -831,7 +831,7 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
       if(bill.acknowledged) {
         await bills.findById(new ObjectId(req.params.id))
         .then(function(updatedBill) {
-          updatedBill.ActivityLog.push({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
+          updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
           updatedBill.save()
         })
         next()
