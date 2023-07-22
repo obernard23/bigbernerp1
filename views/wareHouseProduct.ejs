@@ -211,7 +211,7 @@
     
 <div>
   <div class=" table-responsive " id="incoming" >
-      <div class=" table table-dark">
+      <div class=" table table-dark " >
       <div class=" " scope="col">
           <!-- Split dropstart button -->
 <div class="btn-group ">
@@ -226,7 +226,10 @@
   <span>History Logs</span>
 </ul>
 </div>
-      <div class=" " scope="row">&nbsp;
+      <div style="overflow:hidden;
+      white-space:nowrap;
+      text-overflow:ellipsis;
+      max-width:150px;" scope="row">&nbsp;
           <!-- product name -->
           <%pname = prud.filter(name=>{%>
            <% return name._id.toString() === products.productId.toString()%>
