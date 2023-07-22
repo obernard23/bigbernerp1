@@ -211,7 +211,7 @@
     
 <div>
   <div class=" table-responsive " id="incoming" >
-      <div class=" table table-dark " >
+      <div class=" table table-dark shadow-sm " >
       <div class=" " scope="col">
           <!-- Split dropstart button -->
 <div class="btn-group ">
@@ -247,7 +247,7 @@
           <%})%>
            <%pname.map(n=>{%>
              <%if(n.image){%>
-              <img src="<%=n.image%>" alt="Photo" srcset="" width="40" height="40">
+              <img src="<%=n.image%>" alt="Photo" srcset="" class="img-fluid img-thumbnail" width="40" height="40">
              <%}%>
            <%})%>
       </div>
