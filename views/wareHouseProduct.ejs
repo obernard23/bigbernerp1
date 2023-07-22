@@ -209,7 +209,7 @@
 
     <!-- display section -->
 <div>
-  <div class="divTable">
+  <div class="divTable" id="incoming" >
       <div class="divTableBody">
       <div class="divTableRow">
           <!-- Split dropstart button -->
@@ -249,14 +249,14 @@
       </div>
       <div class="divTableCell">&nbsp;
         <label>Qty in stock</label>
-        <input type="number" value="<%=products.currentQty%>" disabled/>
+        <input type="number" id="currentQty" value="<%=products.currentQty%>" disabled/>
       </div>
       <div class="divTableCell">&nbsp;
         <label>Incoming stock  qty </label>
-        <input type="number" value="<%=products.pendings%>" disabled/></div>
+        <input type="number" id="pendings" value="<%=products.pendings%>" disabled/></div>
       <div class="divTableCell">&nbsp; 
           <label for="incoming">Confirm Done qty</label>
-           <input id="incoming" type="Number" data-id="<%=products._id%>" placeholder="confirm qty to ware house" />
+           <input type="Number" id="qty"  placeholder="confirm qty to ware house" />
           </div>
       <div class="divTableCell">&nbsp;Auto replenish
           <label class="switch" title="Turning on this Feature will help trigger Purchase Order and Notification according to your defined rule">
@@ -267,7 +267,7 @@
               <div class="slider"></div>
           </label>
       </div>
-      <div class="divTableCell">&nbsp;<button class="btn btn-success"
+      <div class="divTableCell">&nbsp;<button class="btn btn-success" id="confirm" data-id="<%=products._id%>"
         <%if(products.pendings <= 0){%>
           disabled="disabled"
           <%}%>
@@ -293,10 +293,52 @@
 <script>
 let incoming = document.querySelectorAll('#incoming')
 for (let i = 0 ; i < incoming.length ; i++) {
-  incoming[i].addEventListener('change', function(e) {
-    alert(e.target.value)
-  })
-}
+  let confirm = incoming[i].querySelector('#confirm')
+  confirm.addEventListener('click', async function(e){
+    //for batch identifier
+    let productBatchId = confirm.dataset.id
+    // for qtyApproved
+    let qtyApproved =  document.querySelector('#qty').value;
+    //for pending / sent
+    let pending = document.querySelector('#pendings').value;
+
+    //get current Stock value 
+    let CurrentstockValue = document.querySelector('#currentQty').value;
+
+    if(parseInt(qtyApproved) > parseInt(pending)){
+      alert(`${qtyApproved} can not be grater than Incoming Stock Batch`);
+    }else if(parseInt(qtyApproved) < 0 ) {
+      alert(`Quantity to Approved can not be lesser than 0 `);
+    }else if(parseInt(qtyApproved) === 0){
+      alert('Do you want to Revoke this batch?') 
+    }else if(qtyApproved === '' ){
+      alert('Nothing to action')
+    }
+    else{
+      const url = `/warehouse/Product/${productBatchId}`
+    const currentQty = parseInt(qtyApproved) + parseInt( CurrentstockValue)
+    const pendings = parseInt(pending) - parseInt(qtyApproved)
+
+
+    const update = {currentQty,pendings }
+    const request = await fetch(url,{
+      method:'PATCH',
+      body: JSON.stringify({update}),
+      headers: {'Content-Type': 'application/json'}
+    })
+    const respose = await request.json().then((response) => {
+      if(response.message){
+        alert(response.message)
+        qtyApproved = ''
+        location.reload()
+      }
+    })
+    }
+    
+    })
+
+  }
+
 
 </script>
 </html>

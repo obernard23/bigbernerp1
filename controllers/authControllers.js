@@ -804,9 +804,9 @@ module.exports.WareHouseStoreage_get = async(req,res,next) =>{
 //update product in ware house product
 module.exports.WareHouseStoreage_patch = async(req,res,next) => {
   const {update} = req.body
-  if (ObjectId.isValid(new ObjectId(req.params.id))) {
+  if (ObjectId.isValid(new ObjectId(req.params.whId))) {
    try {
-    await storeProduct.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
+    await storeProduct.updateOne({ _id: ObjectId(req.params.whId) }, { $set: update})
     .then(async (bill) =>{
       if(bill.acknowledged) {
         res.status(200).json({ message:'Product Qty updated successfully'})
