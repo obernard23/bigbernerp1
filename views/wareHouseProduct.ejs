@@ -208,10 +208,11 @@
   <%if(products.length > 0){%> <%products.forEach((products)=>{%>
 
     <!-- display section -->
+    
 <div>
-  <div class="divTable" id="incoming" >
-      <div class="divTableBody">
-      <div class="divTableRow">
+  <div class="divTable table-responsive " id="incoming" >
+      <div class="divTableBody table table-dark">
+      <div class="divTableRow " scope="col">
           <!-- Split dropstart button -->
 <div class="btn-group ">
 <div class="btn-group dropstart" role="group">
@@ -225,7 +226,7 @@
   <span>History Logs</span>
 </ul>
 </div>
-      <div class="divTableCell">&nbsp;
+      <div class="divTableCell " scope="row">&nbsp;
           <!-- product name -->
           <%pname = prud.filter(name=>{%>
            <% return name._id.toString() === products.productId.toString()%>
