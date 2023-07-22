@@ -674,14 +674,14 @@
 
   <!-- activities on bills modal -->
   <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="document.getElementById('mySidenav').style.width = '0';
+    <p href="javascript:void(0)" class="closebtn" onclick="document.getElementById('mySidenav').style.width = '0';
     document.getElementById('main').style.marginLeft= '0';
     document.body.style.backgroundColor = 'white';
-  ">&times;</a>
+  ">&times;</p>
     <h5>Logged Activities</h5>
     <div class="">
      <%Singlebill.ActivityLog.sort().map(log=>{%>
-       <div class=" p-1 m-1 border-bottom">
+       <div class=" border-bottom">
          <p><b>Log: </b> <%=log.logMsg%></p>
          <p><b>Status: </b> <%=log.status%></p>
        </div>
