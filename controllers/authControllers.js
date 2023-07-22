@@ -768,14 +768,14 @@ module.exports.BillsWorkBook_get = async (req, res, next) => {
       "Payment Method": data.paymentMethod,
       Orders: data.orders.length,
       Promotion: data.promotionItems.length,
-      Status: data.status,
+      Status: data.billStatus,
       "Bank Account": data.bankAccount,
       "Discount %": data.discount,
       "Ware House":data.whId.toString(),
       "Sales Person": data.salesPerson,
       "Registered Balance":data.registeredBalance,
       "Reference No":data.billReferenceNo,
-      "Status":data.billStatus
+      "Bill Status":data.status
     });
   });
 
