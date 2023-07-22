@@ -640,7 +640,7 @@ module.exports.approveBill_patch = async (req, res) => {
     await bills.findOne({ _id: new ObjectId(req.params.id) }).then((bill) => {
       const d = new Date();
       bill.status = "Approved";
-      bill.ActivityLog.push({
+      bill.ActivityLog.unshift({
         logMsg: `Mary ann fidelis Approved  Quoataion on ${d.getFullYear()}-${
           d.getMonth() + 1
         }-${d.getDate()}`,

@@ -302,6 +302,9 @@ for (let i = 0 ; i < incoming.length ; i++) {
     //for pending / sent
     let pending = incoming[i].querySelector('#pendings').value;
 
+    //for auto reprnish
+    let autoReplenishment = incoming[i].querySelector('#toggleReplenish').checked
+
     //get current Stock value 
     let CurrentstockValue = incoming[i].querySelector('#currentQty').value;
 
@@ -315,12 +318,12 @@ for (let i = 0 ; i < incoming.length ; i++) {
       alert('Nothing to action')
     }
     else{
-      const url = `/warehouse/Product/${productBatchId}`
+
+    const url = `/warehouse/Product/${productBatchId}`
     const currentQty = parseInt(qtyApproved) + parseInt( CurrentstockValue)
     const pendings = parseInt(pending) - parseInt(qtyApproved)
 
-
-    const update = {currentQty,pendings }
+    const update = {currentQty,pendings ,autoReplenishment}
     const request = await fetch(url,{
       method:'PATCH',
       body: JSON.stringify({update}),

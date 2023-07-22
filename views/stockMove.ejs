@@ -82,6 +82,18 @@
                   Register New product for <%=wareHouse.WHName%>
                 </button>
                 <!-- show all product assigned to each ware house here -->
+
+                <%if(storeProducts){%>
+                 <%storeProducts.map(async(inventoryItem)=>{%>
+                   <%var inventory = await storeProducts.filter(prod=>{%>
+                    <%return prod.WHIDS === wareHouse._id%>
+                    <%})%>
+                    <%=console.log(inventory)%>
+                 
+                 <%})%>
+                 <%}else{%> 
+                  <p>No product to display</p>
+                <%}%>  
               </div>
             </div>
           </div>
