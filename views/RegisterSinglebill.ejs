@@ -3,6 +3,57 @@
     <%-include('./partials/head.ejs')%>
 <head>
     <style>
+
+      /* activitiy modal */
+
+      .sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav p {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 15px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav p:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#pspdfkit-header {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav p {font-size: 18px;}
+}
+
+
+      /* ends here  */
+
+
       .itemQty:focus{
         outline: none;
       }
@@ -307,7 +358,7 @@
         </style>
   </head>
 
-  <body>
+  <body id="main">
     <nav class="navbar bg-black">
       <div class="container-fluid">
         <a class="navbar-brand" href="/" title="Apps">
@@ -364,6 +415,11 @@
             <%}%>
       </span></div>
       <div id="pspdfkit-header">
+        <span style="font-size:20px;cursor:pointer" onclick="
+        document.getElementById('mySidenav').style.width = '250px';
+        document.getElementById('main').style.marginLeft = '250px';
+        document.body.style.backgroundColor = 'rgba(0,0,0,0.4)';">&#9776; See ActivityLog</span>
+    
 
           <!-- action buttons -->
      <div class="p-2">
@@ -615,19 +671,25 @@
       </div>
   </div>
 
-  <div class=" border  p-3">
+
+  <!-- activities on bills modal -->
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="document.getElementById('mySidenav').style.width = '0';
+    document.getElementById('main').style.marginLeft= '0';
+    document.body.style.backgroundColor = 'white';
+  ">&times;</a>
     <h5>Logged Activities</h5>
-   <div class="container">
-    <%Singlebill.ActivityLog.sort().map(log=>{%>
-      <div class="card p-1 m-1">
-        <small>Action</small>
-        <p><b>Log: </b> <%=log.logMsg%></p>
-        <i><b>Status: </b> <%=log.status%></i>
-      </div>
-    <%})%>
-   </div>
-   <%-include('./partials/footer')%>
+    <div class="">
+     <%Singlebill.ActivityLog.sort().map(log=>{%>
+       <div class=" p-1 m-1 border-bottom">
+         <p><b>Log: </b> <%=log.logMsg%></p>
+         <p><b>Status: </b> <%=log.status%></p>
+       </div>
+     <%})%>
+    </div>
+    <%-include('./partials/footer')%>
   </div>
+  <!-- ends here  -->
 
   </body>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -637,6 +699,19 @@
   <!-- next line will throw console warning -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script> -->
   <script type="module" defer>
+
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+  document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+  document.body.style.backgroundColor = "white";
+}
+
 
   import { getDatabase, ref, child,onValue, get,}
   from "https://www.gstatic.com/firebasejs/9.13.0/firebase-database.js";
