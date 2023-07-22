@@ -331,6 +331,8 @@ for (let i = 0 ; i < incoming.length ; i++) {
         alert(response.message)
         qtyApproved = ''
         location.reload()
+      }else if (response.error){
+        alert(response.error)
       }
     })
     }
