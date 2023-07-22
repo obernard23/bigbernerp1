@@ -210,9 +210,9 @@
     <!-- display section -->
     
 <div>
-  <div class="divTable table-responsive " id="incoming" >
-      <div class="divTableBody table table-dark">
-      <div class="divTableRow " scope="col">
+  <div class=" table-responsive " id="incoming" >
+      <div class=" table table-dark">
+      <div class=" " scope="col">
           <!-- Split dropstart button -->
 <div class="btn-group ">
 <div class="btn-group dropstart" role="group">
@@ -226,7 +226,7 @@
   <span>History Logs</span>
 </ul>
 </div>
-      <div class="divTableCell " scope="row">&nbsp;
+      <div class=" " scope="row">&nbsp;
           <!-- product name -->
           <%pname = prud.filter(name=>{%>
            <% return name._id.toString() === products.productId.toString()%>
@@ -238,7 +238,7 @@
               <%}%>
             <%})%>
       </div>
-      <div class="divTableCell">&nbsp;
+      <div class="">&nbsp;
         <%pname = prud.filter(name=>{%>
           <% return name._id.toString() === products.productId.toString()%>
           <%})%>
@@ -250,11 +250,13 @@
       </div>
       <div class="divTableCell">&nbsp;
         <label>Qty in stock</label>
-        <input type="number" id="currentQty" value="<%=products.currentQty%>" disabled/>
+        <h5><%=products.currentQty%></h5>
+        <input type="number" id="currentQty" value="<%=products.currentQty%>" disabled hidden/>
       </div>
       <div class="divTableCell">&nbsp;
         <label>Incoming stock  qty </label>
-        <input type="number" id="pendings" value="<%=products.pendings%>" disabled/></div>
+        <!-- <h5><%=products.pendings%></h5> -->
+        <input type="number" id="pendings" value="<%=products.pendings%>" disabled /></div>
       <div class="divTableCell">&nbsp; 
           <label for="incoming">Confirm Done qty</label>
            <input type="Number" id="qty"  placeholder="confirm qty to ware house" />
