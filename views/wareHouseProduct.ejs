@@ -298,12 +298,12 @@ for (let i = 0 ; i < incoming.length ; i++) {
     //for batch identifier
     let productBatchId = confirm.dataset.id
     // for qtyApproved
-    let qtyApproved =  document.querySelector('#qty').value;
+    let qtyApproved =  incoming[i].querySelector('#qty').value;
     //for pending / sent
-    let pending = document.querySelector('#pendings').value;
+    let pending = incoming[i].querySelector('#pendings').value;
 
     //get current Stock value 
-    let CurrentstockValue = document.querySelector('#currentQty').value;
+    let CurrentstockValue = incoming[i].querySelector('#currentQty').value;
 
     if(parseInt(qtyApproved) > parseInt(pending)){
       alert(`${qtyApproved} can not be grater than Incoming Stock Batch`);
@@ -326,15 +326,15 @@ for (let i = 0 ; i < incoming.length ; i++) {
       body: JSON.stringify({update}),
       headers: {'Content-Type': 'application/json'}
     })
-    const respose = await request.json().then((response) => {
-      if(response.message){
-        alert(response.message)
-        qtyApproved = ''
-        location.reload()
-      }else if (response.error){
-        alert(response.error)
-      }
-    })
+      const respose = await request.json().then((response) => {
+              if(response.message){
+                alert(response.message)
+                qtyApproved = ''
+                location.reload()
+              }else if (response.error){
+                alert(response.error)
+              }
+        })
     }
     
     })
