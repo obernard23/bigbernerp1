@@ -229,13 +229,13 @@
       <div style="overflow:hidden;
       white-space:nowrap;
       text-overflow:ellipsis;
-      max-width:150px;" scope="row">&nbsp;
+      max-width:150px;" class="col-md-4" scope="row">&nbsp;
           <!-- product name -->
           <%pname = prud.filter(name=>{%>
            <% return name._id.toString() === products.productId.toString()%>
            <%})%>
             <%pname.map(n=>{%>
-              <h5><%=n.Name.toUpperCase()%></h5>
+              <h6 class="form-label"><%=n.Name.toUpperCase()%></h6>
               <%if(n.UMO){%>
                 <P><%=n.UMO.toUpperCase()%></P>
               <%}%>
@@ -251,20 +251,20 @@
              <%}%>
            <%})%>
       </div>
-      <div class="divTableCell">&nbsp;
+      <div class="divTableCell ">&nbsp;
         <label>Qty in stock</label>
         <h5><%=products.currentQty%></h5>
         <input type="number" id="currentQty" value="<%=products.currentQty%>" disabled hidden/>
       </div>
-      <div class="divTableCell">&nbsp;
+      <div class="divTableCell" >&nbsp;
         <label>Incoming stock  qty </label>
         <!-- <h5><%=products.pendings%></h5> -->
         <input type="number" id="pendings" value="<%=products.pendings%>" disabled /></div>
       <div class="divTableCell">&nbsp; 
-          <label for="incoming">Confirm Done qty</label>
+          <label for="incoming">Confirm Done Qty</label>
            <input type="Number" id="qty"  placeholder="confirm qty to ware house" />
           </div>
-      <div class="divTableCell">&nbsp;Auto replenish
+      <div class="divTableCell">&nbsp;Auto Replenish
           <label class="switch" title="Turning on this Feature will help trigger Purchase Order and Notification according to your defined rule">
               <input type="checkbox" id="toggleReplenish"Name="AutoReplenish" <%if(products.autoReplenishment){%>
                 checked="checked"
