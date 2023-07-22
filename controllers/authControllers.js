@@ -819,10 +819,11 @@ module.exports.WareHouseStoreage_patch = async(req,res,next) => {
    }
   }
 }
+
+
 //register payment
-module.exports.RegisterPayment_patch = async(req, res) => {
+module.exports.RegisterPayment_patch = async(req, res,next) => {
   const {update} = req.body
-  console.log(update)
   if (ObjectId.isValid(new ObjectId(req.params.id))) {
    try {
     await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
@@ -833,8 +834,7 @@ module.exports.RegisterPayment_patch = async(req, res) => {
           updatedBill.ActivityLog.push({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
           updatedBill.save()
         })
-        res.status(200).json({ message:'Payment acknowledged'})
-
+        next()
       }else{
         throw new Error('Something seems to be wrong')
       }
