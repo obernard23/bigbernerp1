@@ -51,6 +51,7 @@ const BillsSchema = new mongoose.Schema({
     PaymentReference:{type:String},//type of payment reference from bank alert description
     billReferenceNo:{type:String},//reference to eacch bill
     supportDoc:{type:String},//uploaded bank payment reference
+    supportDoc2:{type:String},//uploaded bank payment reference
 })
 
 const bills = mongoose.model('bill',BillsSchema)

@@ -5,6 +5,7 @@ const {checkResetUser,checkLoginUser} = require('../middleware/checkUser')
 const {checkUserRole,ManagerAccess} = require("../middleware/userRole");
 const ValidStockTransfer = require('../warehouseValidation/warehouseValidate')
 const bills = require('../modules/Bills');
+const NotifyManagerPayment = require('../Functions/NotifyManager');
 // form here to generate pdf invoice
 // const easyinvoice = require('easyinvoice');
 // const fs = require('fs');
@@ -46,7 +47,7 @@ router.get('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_get)
 //for payment
 router.get('/Sales/Payment/:id',requireAuth,authController.Payment_get);
 router.get('/Register/bill/:id/:billId',requireAuth,authController.RegisterPayment_get)
-router.patch('/bill/register/:id',authController.RegisterPayment_patch)//register bill 
+router.patch('/bill/register/:id',requireAuth,authController.RegisterPayment_patch,NotifyManagerPayment)//register bill 
 
 router.get(`/product/:id/bill`,requireAuth,authController.productFind_get);
 router.get('/customer/:id/search',requireAuth,authController.CustomerFind_get);

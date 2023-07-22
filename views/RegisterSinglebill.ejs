@@ -536,43 +536,45 @@
                 </div>
                 <p id="words" style="color:#ecb265" ></p>
                 <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">WARE HOUSE</label>
-                    <input type="text" disabled name="WHName"  class="form-control" autocomplete="off" autocapitalize="on" required value="<%=warehouse.WHName%>"/>
+                    <label for="validationCustom01" class="form-label">BILL FROM</label>
+                    <h5><%=warehouse.WHName%></h5>
                 </div>
 
                 <div class="col-md-4">
-                  <label for="validationCustom01" class="form-label">Account Paid to</label>
+                  <label for="validationCustom01" class="form-label">RECEIVING JOURNAL </label>
                   <input type="text" list="pickManager" name="bankAccount" required class="form-control" placeholder="Choose from Account list" required/>
                   <datalist id="pickManager" >
                    <!-- display options for department -->
                  <option >Zenith bank</option>
                  <option >Access Bank</option>
                  <option >GT Bank</option>
+                 <option >CASH</option>
                    </datalist>
               </div>
 
               <div class="col-md-4">
-                  <label for="validationCustom01" class="form-label">Bill Total (N)</label>
-                  <input type="number" disabled id="Grandtotals" class="form-control" value="<%=Singlebill.grandTotal%>"/>
+                  <label for="validationCustom01" class="form-label">BILL TOTAL (N)</label>
+                  <input type="number" disabled id="Grandtotals" class="form-control" value="<%=Singlebill.grandTotal%>" hidden/>
+                  <h5 id="Grandtotals" data-grandTotal="<%=Singlebill.grandTotal%>">N <%=Singlebill.grandTotal%></h5>
               </div>
 
               <div class="col-md-4">
                   <label for="validationCustom01" class="form-label"> BILLED FOR</label>
-                  <input type="text" placeholder="Telephone" class="form-control" name='Tel' value=" <%=cust.Username%>" disabled/>
+                  <h5><%=cust.Username.toUpperCase()%></h5>
               </div>
 
               <div class="col-md-4">
-                  <label for="validationCustom01" class="form-label">Amount collected</label>
+                  <label for="validationCustom01" class="form-label">AMOUNT RECEIVED</label>
                   <input type="number" placeholder="Amount collected " required class="form-control" name="registeredBalance"/>
               </div>
 
               <div class="col-md-4">
-                  <label for="supportDoc" class="form-label"> Attachment</label>
+                  <label for="supportDoc" class="form-label"> ATTACHMENT 1</label>
                   <input type="file"  class="form-control" required id="supportDoc" name="supportDoc"/>
               </div>
 
               <div class="col-md-4">
-                <label for="InvoiceNo" class="form-label">Payment Method</label>
+                <label for="InvoiceNo" class="form-label">PAYMENT METHOD</label>
                 <input type="text" list="paymentMethod" name="paymentMethod" required class="form-control" placeholder="Select payment method" required/>
                 <datalist id="paymentMethod" >
                  <!-- display options for department -->
@@ -583,8 +585,8 @@
             </div>
 
               <div class="col-md-4">
-                  <label for="InvoiceNo" class="form-label"> Invoice ref No</label>
-                  <input type="text" disabled name="others" class="form-control" value="<%=Singlebill.billReferenceNo%>" />
+                  <label for="InvoiceNo" class="form-label"> INVOICE REF NO</label>
+                  <p><%=Singlebill.billReferenceNo%></p>
               </div>
 
               <!-- <div class="progress">
@@ -594,14 +596,19 @@
                 <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" id="progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <div class="col-md-6">
-                <label for="validationCustom01" class="form-label">Remarks</label>
+              <div class="col-md-4">
+              <label class="form-label" style="height: 3px;" title="Attachement upload progress"><%=cust.Username.toUpperCase()%>'s  credit Limit</label>
+              <h5>N <%=cust.creditLimit%></h5>
+            </div>
+
+              <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">REMARKS</label>
                 <textarea type="text"  name="remark"  class="form-control" autocomplete="off" autocapitalize="on"  ></textarea>
             </div>
 
               <div class="col-md-4  ">
                 <label for="InvoiceNo" class="form-label"> All done!</label>
-                  <button class="btn btn-success form-control"  >Confirm Payment for <%=cust.Username%></button>
+                  <button class="btn btn-success form-control"  >Confirm Payment for <%=cust.Username.toUpperCase()%></button>
               </div>
 
             </form>
@@ -613,9 +620,9 @@
    <div class="container">
     <%Singlebill.ActivityLog.sort().map(log=>{%>
       <div class="card p-1 m-1">
-        <b><small>Action</small></b>
-        <p><%=log.logMsg%></p>
-        <i><%=log.status%></i>
+        <small>Action</small>
+        <p><b>Log: </b> <%=log.logMsg%></p>
+        <i><b>Status: </b> <%=log.status%></i>
       </div>
     <%})%>
    </div>
