@@ -67,8 +67,8 @@ router.post('/wareHouse/Bill',requireAuth,authController.WareHouseBill_post);
 router.get(`/warehouse/:id/Bills`,requireAuth,authController.WareHouseBill_get);
 router.get(`/:WHName/bill/:id`,requireAuth,authController.WareHouseSingleBill_get);
 router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);
-router.get('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_get)//get products for specific ware house
-router.patch('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_patch)
+router.get('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_get);//get products for specific ware house
+router.patch('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_patch);
 
 // //generate pdf on the fly
 // router.get('/invoice/:billId', requireAuth,async (req, res, next) => {
@@ -150,7 +150,7 @@ router.get(`/users/:userId/:opInput`,requireAuth,authController.Signature_get);
 
 
 // send mail to  customer   account
-router.get(`/sendmail/:id`,requireAuth,authController.sendMail,sendQuot)
+router.get(`/sendmail/:id`,requireAuth,authController.sendMail,sendQuot);
 
 
 //customer routesfor get, patch and delete

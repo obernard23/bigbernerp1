@@ -534,80 +534,14 @@
      <!-- The Modal -->
      <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
       <!-- Modal content -->
-      <div class="modal-body modal-content container">
-          <form  class="row g-3 needs-validation" id="form" data-id="<%=Singlebill._id%>" >
-              <div class=" d-flex justify-content-between">
-                  <h5>Register Payment</h5>
-                  <svg xmlns="http://www.w3.org/2000/svg" onclick="document.getElementById('myModal').style.display='none'" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-                    </svg>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">WARE HOUSE</label>
-                    <input type="text" disabled name="WHName"  class="form-control" autocomplete="off" autocapitalize="on" required value="<%=warehouse.WHName%>"/>
-                </div>
-
-                <div class="col-md-4">
-                  <label for="validationCustom01" class="form-label">Account Paid to</label>
-                  <input type="text" list="pickManager" name="bankAccount" required class="form-control" placeholder="Choose from Account list" required/>
-                  <datalist id="pickManager" >
-                   <!-- display options for department -->
-                 <option >Zenith bank</option>
-                 <option >Access Bank</option>
-                 <option >GT Bank</option>
-                   </datalist>
-              </div>
-
-              <div class="col-md-4">
-                  <label for="validationCustom01" class="form-label">Bill Total (N)</label>
-                  <input type="number" disabled name="Location" class="form-control" value="<%=Singlebill.subTotal%>"/>
-              </div>
-
-
-              <div class="col-md-4">
-                  <label for="validationCustom01" class="form-label"> BILLED FOR</label>
-                  <input type="text" placeholder="Telephone" class="form-control" name='Tel' value=" <%=cust.Username%>" disabled/>
-              </div>
-
-              <div class="col-md-4">
-                  <label for="validationCustom01" class="form-label">Amount collected</label>
-                  <input type="number" placeholder="Amount collected " required class="form-control" name="registeredBalance"/>
-              </div>
-
-              <div class="col-md-4">
-                  <label for="supportDoc" class="form-label"> Attachment</label>
-                  <input type="file"  class="form-control" required id="supportDoc" name="supportDoc"/>
-              </div>
-
-              <div class="col-md-4">
-                <label for="InvoiceNo" class="form-label">Payment Method</label>
-                <input type="text" list="paymentMethod" name="paymentMethod" required class="form-control" placeholder="Select payment method" required/>
-                <datalist id="paymentMethod" >
-                 <!-- display options for department -->
-                 <option >Others</option>
-                 <option >Bank Payment</option>
-                 <option >Cash payment</option>
-                 </datalist>
-            </div>
-
-              <div class="col-md-4">
-                  <label for="InvoiceNo" class="form-label"> Invoice ref No</label>
-                  <input type="text" disabled name="others" class="form-control" value="<%=Singlebill.billReferenceNo%>" />
-              </div>
-
-              <!-- <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: "></div>
-              </div> -->
-              <div class="progress col-md-4" style="height: 3px;" title="Attachement upload progress"> 
-                <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" id="progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <div class="col-md-4  ">
-                <label for="InvoiceNo" class="form-label"> All done!</label>
-                  <button class="btn btn-success form-control"  >Confirm Payment for <%=cust.Username%></button>
-              </div>
-
-            </form>
+      <div class="modal-body modal-content w-50 justify-content-center align-tems-center d-flex flex-column">
+         <div class="card-image">
+          <img src="data:image/png;base64,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"alt="" srcset="">
+          <h6 id="myModalText"></h6>
+         </div>
       </div>
   </div>
 
@@ -638,13 +572,20 @@
       const MailBtn = document.getElementById('Mail')
       const id = MailBtn.dataset.id
       const api = `/sendmail/${id}`
-
+      
       const request = await fetch(api,{
         method:'GET',
         headers:{"content-type": "application/json"}
       })
       const response = await request.json()
-      if (response.message) alert(response.message)
+      
+      if (response.message) {
+        document.getElementById('myModal').style.display = 'block'
+        document.getElementById('myModalText').innerText = response.message;
+        setTimeout(() =>{
+          document.getElementById('myModal').style.display = 'none';
+        },5000)
+      }
       if (response.error) alert(response.error)
     }
 
