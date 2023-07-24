@@ -17,7 +17,10 @@ const sendQuot = async (req,res,next) => {
             .findOne({ _id: new ObjectId(req.params.id) })
             .then(async(result) => {
             //get customer email address
+            const date = new Date()
             const CustomerEmail = await customer.findOne({_id: result.customer})
+            result.ActivityLog.unshift({logMsg:`Quotation sent to ${CustomerEmail.Username} on ${date.getDay()}/${date.getMonth()}/${date.getYear()}`,status:`Quotation sent`})
+            result.save()
             let config = {
                 service : 'gmail',
                 auth : {
@@ -42,7 +45,7 @@ const sendQuot = async (req,res,next) => {
             let response = {
                 body: {
                     name : CustomerEmail.Username,
-                    intro: `Your Quotation is here. Please make payment before ${result.dueDate}`,
+                    intro: `Your Quotation is here. Please make payment so we can continue with your order processing.`,
                     greeting: 'Dear',
                     signature: 'Sincerely',
                     
@@ -97,7 +100,7 @@ const sendQuot = async (req,res,next) => {
                     
                     action: [
                         {
-                            instructions: `Please make payment to ${result.bankAccount}, using bill reference 1234567 as payment description`,
+                            instructions: `Please make payment using bill reference ${result.billReferenceNo} as payment description`,
                             button: {
                                 color: '#22BC66',
                                 text: 'Proceed to Payment',
