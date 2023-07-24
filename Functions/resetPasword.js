@@ -1,10 +1,22 @@
 const nodemailer = require("nodemailer");
 const PasswordReset = require('../EmailTemplates/PasswordResetTemplate');
 const {PASSWORD,EMAIL,ERPSmtpName} = require('../.env');
+const Employe = require('../modules/Employees')
 
 
-const restPassword = async (data,otp) => {
-    
+const restPassword = async (req,res,next) => {
+    const data = await Employe
+      .findOne({ Email: req.params.EmailTOreset })
+      .limit(1)
+
+    let otp =""
+    const generateOtp = ()=>{
+    var digits = "1234567890"
+    for (let i = 0; i < 4; i++){
+    otp +=digits[Math.floor(Math.random()*10)]
+    }
+    }
+    generateOtp()
     
     let config = {
         service : 'gmail',
@@ -25,9 +37,9 @@ const restPassword = async (data,otp) => {
     }
     
     transporter.sendMail(message).then(() => {
-        console.log("you should receive an email")
+        res.status(200).json( {data ,otp});
     }).catch(error => {
-        console.log( error )
+        res.status(404).json( {message: error.message});
     })
     
     

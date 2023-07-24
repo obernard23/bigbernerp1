@@ -6,6 +6,7 @@ const {checkUserRole,ManagerAccess} = require("../middleware/userRole");
 const ValidStockTransfer = require('../warehouseValidation/warehouseValidate')
 const bills = require('../modules/Bills');
 const NotifyManagerPayment = require('../Functions/NotifyManager');
+const restPassword = require("../Functions/resetPasword");
 // form here to generate pdf invoice
 // const easyinvoice = require('easyinvoice');
 // const fs = require('fs');
@@ -30,7 +31,7 @@ router.get('/employee',requireAuth,authController.OnboardEmployee_get)
 
 router.post('/register',requireAuth,authController.Register_post);
 router.post('/SignIn',checkLoginUser,authController.signin_post);
-router.post('/Reset/account',checkResetUser,authController.Reset_post);
+router.get('/Reset/account/:EmailTOreset',authController.ResetEmail_get,restPassword);
 router.post('/Register-lead',requireAuth,authController.Lead_post);
 router.patch('/Reset-password/:id/Security',authController.ResetId_patch);
 router.post('/employee/Onboard/:id',requireAuth,checkUserRole,authController.OnboardEmployee_get)///check this

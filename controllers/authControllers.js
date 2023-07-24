@@ -187,30 +187,19 @@ module.exports.signin_post = async (req, res) => {
 };
 
 //for password reset
-module.exports.Reset_post = async (req, res) => {
-  const { EmailTOreset } = req.body;
+module.exports.ResetEmail_get = async (req, res,next) => {
+  
   try {
     await Employe
-      .findOne({ Email: EmailTOreset })
+      .findOne({ Email: req.params.EmailTOreset })
       .limit(1)
       .then(async (data) => {
         if (!data) {
           const errorMessage = "No user account Found";
-          res.status(400)
+          res.status(404)
           throw new Error(errorMessage)
         } else {
-
-          let otp =""
-           const generateOtp = ()=>{
-        var digits = "1234567890"
-        for (let i = 0; i < 4; i++){
-            otp +=digits[Math.floor(Math.random()*10)]
-          }
-        }
-         generateOtp()
-
-          restPassword(data,otp)//send reset link to found account
-          res.status(201).json( {data ,otp});
+          next()
         }
       });
   } catch (err) {

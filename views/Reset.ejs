@@ -49,9 +49,8 @@
         let id 
         const EmailTOreset = e.target.value
         errorMessage.innerText =''
-            const res = await fetch('/Reset/account',{
-                method:'POST',
-                body:JSON.stringify({EmailTOreset}),
+            const res = await fetch(`/Reset/account/${EmailTOreset}`,{
+                method:'GET',
                 headers:{'Content-Type': 'application/json'}
             })
             const data = await res.json();

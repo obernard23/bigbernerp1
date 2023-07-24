@@ -576,6 +576,29 @@
           <span>"<%=Singlebill.billStatus%> #S<%=Singlebill.billReferenceNo%>"</span>
         </div>
       </div>
+      <!-- div for attachment -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseTwo"
+            aria-expanded="false"
+            aria-controls="collapseTwo"
+          >
+            Work Information
+          </button>
+        </h2>
+        <div
+          id="collapseTwo"
+          class="accordion-collapse collapse "
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body row g-3"></div>
+        </div>
+      </div>
+    
     </div>
     
 
@@ -664,7 +687,7 @@
 
               <div class="col-md-4  ">
                 <label for="InvoiceNo" class="form-label"> All done!</label>
-                  <button class="btn btn-success form-control"  >Confirm Payment for <%=cust.Username.toUpperCase()%></button>
+                  <button class="btn btn-success form-control" disabled  id="submit" >Confirm Payment for <%=cust.Username.toUpperCase()%></button>
               </div>
 
             </form>
@@ -760,7 +783,10 @@ let app = firebase.initializeApp(firebaseConfig);
           var percentage =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             document.getElementById("progress").style.width = `${percentage}%`;
-        });
+            percentage === 100 ? document.getElementById("submit").removeAttribute('disabled'): "" //enable the submit button when the user uploads attachements 
+            percentage === 100 ? alert('Attachements were successfully uploaded') : ''
+          })
+          
       }
     } else {
       alert("No file chosen");
