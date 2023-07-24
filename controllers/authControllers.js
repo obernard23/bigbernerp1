@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const sendMail = require("../Functions/SendBill");
-const sendQuot = require("../Functions/sendQuot");
+
 const restPassword = require("../Functions/resetPasword");
 var id = new mongoose.Types.ObjectId();
 const bills = require("../modules/Bills");
@@ -645,16 +645,7 @@ module.exports.approveBill_patch = async (req, res) => {
 
 //send mail route to customer
 module.exports.sendMail = async (req, res, next) => {
-  if (ObjectId.isValid(req.params.id)) {
-    try {
-      await bills
-        .findOne({ _id: new ObjectId(req.params.id) })
-        .then((result) => {
-          sendQuot(result);
-        });
-    } catch (error) {}
-  }
-  // next()
+  next()
 };
 
 //get single customer information
