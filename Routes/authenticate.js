@@ -7,6 +7,7 @@ const ValidStockTransfer = require('../warehouseValidation/warehouseValidate')
 const bills = require('../modules/Bills');
 const NotifyManagerPayment = require('../Functions/NotifyManager');
 const restPassword = require("../Functions/resetPasword");
+const sendQuot = require("../Functions/sendQuot");
 // form here to generate pdf invoice
 // const easyinvoice = require('easyinvoice');
 // const fs = require('fs');
@@ -149,7 +150,7 @@ router.get(`/users/:userId/:opInput`,requireAuth,authController.Signature_get);
 
 
 // send mail to  customer   account
-router.get(`/sendmail/:id`,requireAuth,authController.sendMail)
+router.get(`/sendmail/:id`,requireAuth,authController.sendMail,sendQuot)
 
 
 //customer routesfor get, patch and delete

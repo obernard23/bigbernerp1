@@ -643,6 +643,9 @@
         method:'GET',
         headers:{"content-type": "application/json"}
       })
+      const response = await request.json()
+      if (response.message) alert(response.message)
+      if (response.error) alert(response.error)
     }
 
 const Grandtotal = document.getElementById('Grandtotal').value

@@ -3,9 +3,11 @@ const Mailgen = require('mailgen');
 const {PASSWORD,EMAIL,ERPSmtpName} = require('../.env');
 
 
+// this function sends mail to ware house manager 
 const sendMail = async (result,Email) => {
-    const wareHouseEmail = Email
     
+    const wareHouseEmail = Email
+    console.log(wareHouseEmail)
     let config = {
         service : 'gmail',
         auth : {
