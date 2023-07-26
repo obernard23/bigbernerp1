@@ -87,7 +87,7 @@ router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
     res.status(200).download(`./invoice/new_invoice${bill.billReferenceNo}.pdf`)
    })
    .catch((err) => {
-    res.status(500).send(err.message)
+    res.status(500).download(`./invoice/new_invoice${bill.billReferenceNo}.pdf`)
    })
 } )
 
