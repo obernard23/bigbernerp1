@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .itemQty:focus{
+        outline: none;
+      }
+
+      /* #item :nth-child(odd){
+        background-color: #999a9c86;
+        font-weight: bolder;
+        font-size: '15px';
+      } */
+
+      @font-face {
+        font-family: "Inter";
+        src: url("Inter-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Inter";
+        src: url("Inter-Medium.ttf") format("truetype");
+        font-weight: 500;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Inter";
+        src: url("Inter-Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Space Mono";
+        src: url("SpaceMono-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      #invoice {
+        font-size: 0.75rem;
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        color: #000000;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      #pspdfkit-header {
+        font-size: 0.625rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 400;
+        color: #717885;
+        margin-top: 2.5rem;
+        margin-bottom: 2.5rem;
+        width: 100%;
+      }
+
+      .header-columns {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
+
+      .logo {
+        height: 3rem;
+        width: auto;
+        margin-right: 1rem;
+      }
+
+      .logotype {
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+      }
+
+      h2{
+        font-family: "Space Mono", monospace;
+        font-size: 1.25rem;
+        font-weight: 400;
+      }
+
+      h4 {
+        font-family: "Space Mono", monospace;
+        font-size: 1rem;
+        font-weight: 400;
+      }
+
+      .page {
+        margin-left: 5rem;
+        margin-right: 5rem;
+      }
+
+      .intro-table {
+        display: flex;
+        justify-content: space-between;
+        margin: 3rem 0 3rem 0;
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .intro-form {
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #000000;
+        width: 50%;
+      }
+
+      .intro-form:last-child {
+        border-right: none;
+      }
+
+      .intro-table-title {
+        font-size:1rem;
+        margin: 0;
+      }
+
+      .intro-form-item {
+        padding: 1.25rem 1.5rem 1.25rem 1.5rem;
+      }
+
+      .intro-form-item:first-child {
+        padding-left: 0;
+      }
+
+      .intro-form-item:last-child {
+        padding-right: 0;
+      }
+
+      .intro-form-item-border {
+        padding: 1.25rem 0 0.75rem 1.5rem;
+        border-bottom: 1px solid #000000;
+      }
+
+      .intro-form-item-border:last-child {
+        border-bottom: none;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        margin-top: 6rem;
+      }
+
+      .no-border {
+        border: none;
+      }
+
+      .border {
+        border: 1px solid #000000;
+      }
+
+      .border-bottom {
+        border: 1px solid #000000;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      .signer {
+        display: flex;
+        justify-content: space-between;
+        gap: 2.5rem;
+        margin: 2rem 0 2rem 0;
+      }
+
+      input {
+        font-family: "Space Mono", monospace;
+        text-align: center;
+        margin-top: none;
+        box-sizing: border-box;
+        text-align: left;
+        border:none !important;
+      }
+
+      input#signature {
+        height: 8rem;
+      }
+
+      .intro-text {
+        width: 60%;
+      }
+
+      .table-box table,
+      .summary-box table {
+        width: 100%;
+        font-size: 0.625rem;
+      }
+
+      .table-box table {
+        padding-top: 2rem;
+      }
+
+      .table-box td:first-child,
+      .summary-box td:first-child {
+        width: 50%;
+      }
+
+      .table-box td:last-child,
+      .summary-box td:last-child {
+        text-align: right;
+      }
+
+      .table-box table tr.heading td {
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        height: 1.5rem;
+      }
+
+      .table-box table tr.item td,
+      .summary-box table tr.item td {
+        border-bottom: 1px solid #d7dce4;
+        height: 1.5rem;
+      }
+
+      .summary-box table tr.no-border-item td {
+        border-bottom: none;
+        height: 1.5rem;
+      }
+
+      .summary-box table tr.total td {
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        height: 1.5rem;
+      }
+
+      .summary-box table tr.item td:first-child,
+      .summary-box table tr.total td:first-child {
+        border: none;
+        height: 1.5rem;
+      }
+
+      #pspdfkit-footer {
+        font-size: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+        color: #717885;
+        margin-top: 2.5rem;
+        bottom: 2.5rem;
+        position: absolute;
+        width: 100%;
+      }
+
+      .footer-columns {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
+
+      .signer-item img {
+        margin:10px;
+      }
+          .box {
+      position: relative;
+    }
+    .ribbon {
+      position: absolute;
+      right: -5px; top: -5px;
+      z-index: 1;
+      overflow: hidden;
+      width: 75px; height: 75px;
+      text-align: right;
+    }
+    .ribbon span {
+      font-size: 10px;
+      font-weight: bold;
+      color: #FFF;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 20px;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      width: 100px;
+      display: block;
+      background: #79A70A;
+      background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+      position: absolute;
+      top: 19px; right: -21px;
+    }
+    .ribbon span::before {
+      content: "";
+      position: absolute; left: 0px; top: 100%;
+      z-index: -1;
+      border-left: 3px solid #79A70A;
+      border-right: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid #79A70A;
+    }
+    .ribbon span::after {
+      content: "";
+      position: absolute; right: 0px; top: 100%;
+      z-index: -1;
+      border-left: 3px solid transparent;
+      border-right: 3px solid #79A70A;
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid #79A70A;
+    }
+        </style>
+  </head>
+
+  <body>
+    <!-- approve and reject buttons -->
+
+   
+    <div id="invoice" class="shadow-lg m-4 p-3 box ">
+      <div class="ribbon"><span>VERIFIED</span></div>
+      <div id="pspdfkit-header">
+     <div class="logotype ms-5 border-top border-bottom p-2">
+          <img class="logo ms-5" src="https://www.historyhit.com/app/uploads/fly-images/5154061/BigBen-788x537.jpg?x63000" />
+        </div>
+     <div class="header-columns d-flex justify-content-between ">
+      <div class="ms-5">
+        <h5>WH-LAGOS</h5>
+        <p>[Lagos]</p>
+        <p>lagos@interiorwood.com</p>
+        <p>090746474673</p>
+        <p> wareHouse invoice no:735837</p>
+      </div>
+
+      <div class="me-5">
+        <h5>Bernard fidelis</h5>
+        <p >09047542925</p>
+        <p >Bennygroove8@gmail.com</p>
+        <p> 23/05/1993</p>
+      </div>
+          
+        </div>
+      </div>
+
+      <div class="page" >
+        <div>
+          <h2>" {{billStatus }} S{{billReferenceNo}}"</h2>
+        </div>
+
+        <div class="table-box">
+          <table cellpadding="0" cellspacing="0">
+            <tr class="heading font-bold">
+              <td  >Product</td>
+              <td  >Photo Desc</td>
+              <td  >QTY</td>
+              <td  >Scale</td>
+              <td  >VAT</td>
+              <td  >Unit Price (N)</td>
+              <td  >Total (N)</td>
+            </tr>
+            <tbody  class="item" id="item">
+             
+              <!-- define all ites in orders here -->
+              {{#each orders}}
+              <tr class="heading font-bold" title="<%=bill.item.Description%>">
+                <td  >{{this.item.Name}}</td>
+                <td  ><img src="{{this.item.image}}"  width="30" height="30"/></td>
+                <td  >{{this.Qty}}</td>
+                <td  >{{this.item.UMO}}</td>
+                <td  >{{this.item.VAT}}</td>
+                <td  >{{this.item.selling_Price}}</td>
+                <td  >{{this.total}}</td>
+              </tr>
+              {{/each }}
+                 
+               
+            </tbody>
+            <tbody class="item" id="promosection"></tbody>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summary-box">
+          <table cellpadding="10" cellspacing="0">
+            <tbody>
+              <tr class="item">
+                <td></td>
+                <td>Subtotal:</td>
+                <td id="Subtotal">N{{subTotal}}</td>
+              </tr>
+
+              <tr class="item">
+                <td></td>
+                <td>Discount:</td>
+                <td>5%</td>
+              </tr>
+
+              <!-- <tr class="item">
+                <td></td>
+                <td>Tax Rate:</td>
+                <td>N 0</td>
+              </tr> -->
+
+              <tr class="no-border-item">
+                <td></td>
+                <td>Shipping/Handling:</td>
+                <td>N{{shippingFee}}</td>
+              </tr>
+
+              <tr class="total">
+                <td></td>
+                <td>Total Due:</td>
+                <td >N{{grandTotal}}</td>
+               
+              </tr>
+          </table>
+          <input type="hidden" id="Grandtotal" value="<%=Singlebill.grandTotal%>" hidden>
+          <p>Total in words: one thousand</p>
+          <p id="words"></p>
+        </div>
+      </div>
+
+    
+
+      <div class="page" style="page-break-after: always">
+      
+        <div class="page" style="page-break-after: always">
+          <div class="signer">
+            <div class="form signer-item">
+              <label class="border-bottom" for="date" class="label">Terms & Conditions</label>
+                <p>Payment must be made before 15 days of issue date</p>
+            </div>
+
+            <div class="form signer-item">
+              <label for="signature" class="label">Issued by: {{salesPerson}}</label>
+              <img class="logo" img class="logo" src="{{signatureUrl}}" id="signature">
+               
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div id="pspdfkit-footer" >
+        <div class="footer-columns">
+          <span>"{{billStatus }} S{{billReferenceNo}}'</span>
+        </div>
+      </div>
+    </div>
+ 
+  </body>
+</html>

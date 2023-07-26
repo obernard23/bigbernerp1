@@ -7,12 +7,10 @@ const ValidStockTransfer = require('../warehouseValidation/warehouseValidate')
 const bills = require('../modules/Bills');
 const NotifyManagerPayment = require('../Functions/NotifyManager');
 const restPassword = require("../Functions/resetPasword");
+const fs = require('fs');
 const sendQuot = require("../Functions/sendQuot");
-// form here to generate pdf invoice
-// const easyinvoice = require('easyinvoice');
-// const fs = require('fs');
-// const path =  require('path');
-// ends here to generate pdf invoice
+const pdf = require("pdf-creator-node");
+const { ObjectId } = require('mongodb');
 
 const router = Router()
 
@@ -69,79 +67,30 @@ router.get(`/:WHName/bill/:id`,requireAuth,authController.WareHouseSingleBill_ge
 router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);
 router.get('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_get);//get products for specific ware house
 router.patch('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_patch);
+// GENERATE PDF FOR BILL
+router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
+    const bill = await bills.findById(new ObjectId(req.params.billId)).limit(1).lean()
+    const template = fs.readFileSync("./quotationTemplate.html", "utf-8");
+   const option ={
+    format:'a4',
+    orientation:'portrait',
+    border:'10mm'
+   }
 
-// //generate pdf on the fly
-// router.get('/invoice/:billId', requireAuth,async (req, res, next) => {
-  
-//     // IMAGE PATH
-//     let imgPath = path.resolve('public', 'icon.png');
-//     // Function to encode file data to base64 encoded string
-//     function base64_encode(img) {
-//         // read binary data
-//         let png = fs.readFileSync(img);
-//         // convert binary data to base64 encoded string
-//         return new Buffer.from(png).toString('base64');
-//     };
-//     // DATA OBJECT
-//     let data = {
-//         "documentTitle": "RECEIPT", //Defaults to INVOICE
-//         "currency": "NGR",
-//         "taxNotation": "vat", //or gst
-//         "marginTop": 25,
-//         "marginRight": 25,
-//         "marginLeft": 25,
-//         "marginBottom": 25,
-//         // "logo": `${base64_encode(imgPath)}`, //or base64
-//         // "logoExtension": "png", //only when logo is base64
-//         "sender": {
-//             "company": "BigBern Developers",
-//             "address": "Somewhere in Canada",
-//             "zip": " ABuja streets",
-//             "city": "FCT",
-//             "country": "IT"
-//             //"custom1": "custom value 1",
-//             //"custom2": "custom value 2",
-//             //"custom3": "custom value 3"
-//         },
-//         "client": {
-//                "company": "Client Corp",
-//                "address": "Clientstreet 456",
-//                "zip": "4567 CD",
-//                "city": "Clientcity",
-//                "country": "Clientcountry"
-//             //"custom1": "custom value 1",
-//             //"custom2": "custom value 2",
-//             //"custom3": "custom value 3"
-//         },
-//         "invoiceNumber": "2020.0001",
-//         "invoiceDate": "05-01-2020",
-//         "products": [
-//             {
-//                 "quantity": "2",
-//                 "description": "odoo",
-//                 "tax": 6,
-//                 "price": 7000
-//             },
-//             {
-//                 "quantity": "4",
-//                 "description": "tesla",
-//                 "tax": 21,
-//                 "price": 3000
-//             }
-//         ],
-//         "bottomNotice": "Thanks for doing business with us."
-//     };
-//     // INVOICE PDF FUNCTION
-//     const invoicePdf = async ()=>{
-//     //Create your invoice! Easy!
-//     let result = await easyinvoice.createInvoice(data);
-//     new fs.writeFile(`./invoice/invoice.pdf`, result.pdf, 'base64');
-// }
-// invoicePdf();
-// res.status(200).download("./invoice/invoice.pdf");
+   const document = {
+    html:template,
+    data: bill//uses template for handle bars
+    ,
+    path:`./invoice/new_invoice${bill.billReferenceNo}.pdf`,
+   }
+   await new pdf.create(document,option).then((pdf) => {
+   return res.status(200).download(`./invoice/new_invoice${bill.billReferenceNo}.pdf`)
+   })
+   .catch((err) => {
+    res.status(500).send(err.message)
+   })
+} )
 
-// })
- 
  
 
 
