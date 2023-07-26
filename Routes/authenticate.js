@@ -84,7 +84,7 @@ router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
     path:`./invoice/new_invoice${bill.billReferenceNo}.pdf`,
    }
    await new pdf.create(document,option).then((pdf) => {
-   return res.status(200).download(`./invoice/new_invoice${bill.billReferenceNo}.pdf`)
+    res.status(200).download(`./invoice/new_invoice${bill.billReferenceNo}.pdf`)
    })
    .catch((err) => {
     res.status(500).send(err.message)
