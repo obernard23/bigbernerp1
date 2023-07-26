@@ -81,13 +81,13 @@ router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
     html:template,
     data: bill//uses template for handle bars
     ,
-    path:`./invoice/new_invoice${bill.billReferenceNo}.pdf`,
+    path:`./invoice/new_invoice.pdf`,
    }
    await new pdf.create(document,option).then((pdf) => {
-    res.status(200).download(`./invoice/new_invoice${bill.billReferenceNo}.pdf`)
+    res.status(200).download(`./invoice/new_invoice.pdf`)
    })
    .catch((err) => {
-    res.status(500).download(`./invoice/new_invoice${bill.billReferenceNo}.pdf`)
+    res.status(500).download(`./invoice/new_invoice.pdf`)
    })
 } )
 
