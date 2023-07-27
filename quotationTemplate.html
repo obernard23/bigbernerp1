@@ -95,10 +95,7 @@
         font-weight: 400;
       }
 
-      .page {
-        margin-left: 5rem;
-        margin-right: 5rem;
-      }
+     
 
       .intro-table {
         display: flex;
@@ -108,12 +105,7 @@
         border-bottom: 1px solid #000000;
       }
 
-      .intro-form {
-        display: flex;
-        flex-direction: column;
-        border-right: 1px solid #000000;
-        width: 50%;
-      }
+      
 
       .intro-form:last-child {
         border-right: none;
@@ -145,11 +137,6 @@
         border-bottom: none;
       }
 
-      .form {
-        display: flex;
-        flex-direction: column;
-        margin-top: 6rem;
-      }
 
       .no-border {
         border: none;
@@ -171,15 +158,6 @@
         justify-content: space-between;
         gap: 2.5rem;
         margin: 2rem 0 2rem 0;
-      }
-
-      input {
-        font-family: "Space Mono", monospace;
-        text-align: center;
-        margin-top: none;
-        box-sizing: border-box;
-        text-align: left;
-        border:none !important;
       }
 
       input#signature {
@@ -315,7 +293,7 @@
 
    
     <div id="invoice" class="shadow-lg m-4 p-3 box ">
-      <div class="ribbon"><span>VERIFIED</span></div>
+      <!-- <div class="ribbon"><span>VERIFIED</span></div> -->
       <div id="pspdfkit-header">
      <div class="logotype ms-5 border-top border-bottom p-2">
           <img class="logo ms-5" src="https://www.historyhit.com/app/uploads/fly-images/5154061/BigBen-788x537.jpg?x63000" />
@@ -412,24 +390,19 @@
                
               </tr>
           </table>
-          <input type="hidden" id="Grandtotal" value="<%=Singlebill.grandTotal%>" hidden>
-          <p>Total in words: one thousand</p>
-          <p id="words"></p>
         </div>
       </div>
 
     
-
-      <div class="page" style="page-break-after: always">
       
-        <div class="page" style="page-break-after: always">
+        <div class="page d-flex justify-content-end" >
           <div class="signer">
             <div class="form signer-item">
               <label class="border-bottom" for="date" class="label">Terms & Conditions</label>
-                <p>Payment must be made before 15 days of issue date</p>
+                <p>Thanks For your patronage</p>
             </div>
 
-            <div class="form signer-item">
+            <div class=" signer-item ">
               <label for="signature" class="label">Issued by: {{salesPerson}}</label>
               <img class="logo" img class="logo" src="{{signatureUrl}}" id="signature">
                

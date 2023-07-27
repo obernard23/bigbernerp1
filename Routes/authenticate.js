@@ -87,7 +87,7 @@ router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
     res.status(200).download(`./invoice/new_invoice${bill.billReferenceNo}.pdf`)
    })
    .catch((err) => {
-    res.status(500).download(`./invoice/new_invoice${bill.billReferenceNo}.pdf`)
+    res.status(500).send("OOPS SOMETHIG IS WRONG ")
    })
 } )
 
@@ -116,18 +116,3 @@ router.get('/Report', authController.Report_get)
 //getting work book to exce; for All bills
 router.get('/bills/excel',requireAuth,authController.BillsWorkBook_get)
 module.exports = router;
-
-// [
-//     {
-//         "quantity": "2",
-//         "description": "Test1",
-//         "tax": 6,
-//         "price": 33.87
-//     },
-//     {
-//         "quantity": "4",
-//         "description": "Test2",
-//         "tax": 21,
-//         "price": 10.45
-//     }
-// ]

@@ -7,9 +7,9 @@ const CustomerSchema = new  mongoose.Schema({
         required:[true,'This field cannot be empty'],
         lowercase:true
     },
-    cart:{
-        type:Array,
-        required:false
+    Debt:{
+        type:Number,
+        defaultValue:0
     },
     Notification:{
         type:Array,

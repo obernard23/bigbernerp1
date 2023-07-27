@@ -17,6 +17,7 @@ const bills = require("../modules/Bills");
 const fs = require("fs");
 const XLSX = require("xlsx");
 var moment = require('moment'); 
+const { response } = require("express");
 
 // handle errors
 const handleErrors = (err) => {
@@ -806,17 +807,55 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
   const {update} = req.body
   if (ObjectId.isValid(new ObjectId(req.params.id))) {
    try {
-    await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
-    .then(async (bill) =>{
-      if(bill.acknowledged) {
-        await bills.findById(new ObjectId(req.params.id))
-        .then(function(updatedBill) {
-          updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
-          updatedBill.save()
+    //first find the bill 
+    await bills.findById(new ObjectId(req.params.id))
+    .then(async function(updatedBill) {
+      // find customer and scheck for debit and credit lines
+      const customers = await customer.findById(new ObjectId(updatedBill.customer))
+      if(customers.Debt ===  0 && update.registeredBalance === updatedBill.grandTotal ){
+        await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
+        .then(async (bill) =>{
+          if(bill.acknowledged){
+            await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
+            updatedBill.save()
+            next()
+          }else{
+            throw new Error('Something seems to be wrong')
+          }
         })
-        next()
+      }else if(customers.Debt > 0 && update.registeredBalance  < updatedBill.grandTotal + customers.Debt){
+        res.status(301).json({message:`This customer is owing the business N${customers.Debt}`})
+      }else if(customers.Debt > 0 && update.registeredBalance >= updatedBill.grandTotal + customers.Debt){
+        await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
+        .then(async (bill) =>{
+          if(bill.acknowledged){
+            await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:`Previous Debit cleared: N${customers.Debt }`})
+            updatedBill.save()
+            customers.Debt = 0
+            customers.save()
+            next()
+          }else{
+            throw new Error('Something seems to be wrong')
+          }
+        })
       }else{
-        throw new Error('Something seems to be wrong')
+        if(updatedBill.grandTotal - update.registeredBalance > customers.creditLimit){
+          throw new Error('Credit limit exceeded')
+        }else{
+          await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
+        .then(async (bill) =>{
+          if(bill.acknowledged){
+            await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:`Debit recorded: N${ updatedBill.grandTotal - update.registeredBalance }`})
+            updatedBill.save()
+            customers.Debt = updatedBill.grandTotal - update.registeredBalance 
+            customers.save()
+            next()
+          }else{
+            throw new Error('Something seems to be wrong')
+          }
+        })
+        }
+        
       }
     })
    } catch (error) {
