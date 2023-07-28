@@ -52,7 +52,7 @@
       <!-- container for all ware housese Accordion -->
       <%if(wareHouse){%>
       <!-- the accordion  -->
-      <div class="accordion" id="accordionExample ">
+      <div class="accordion" id="<%=wareHouse.WHName%> ">
         <%wareHouse.forEach((wareHouse)=>{%>
         <div class="accordion-item">
           <h2 class="accordion-header">
@@ -70,7 +70,7 @@
           <div
             id="collapseOne"
             class="accordion-collapse collapse show"
-            data-bs-parent="#accordionExample"
+            data-bs-parent="#<%=wareHouse.WHName%>"
           >
             <div class="accordion-body row g-3 needs-validation">
               <div class="container p-2">
