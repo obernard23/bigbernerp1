@@ -465,7 +465,7 @@ module.exports.customerEdit_patch = async (req, res) => {
         if (result.acknowledged === true) {
           res.status(200).json({ result: " Record Updated" });
         } else {
-          throw new Error();
+          throw new Error('something went wrong');
         }
       })
       .catch((err) => {

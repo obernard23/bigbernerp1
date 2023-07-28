@@ -50,7 +50,7 @@ app.get("/", async (req, res, next) => {
         state: "Cloud Location",
         InvoiceNo: "####",
         others: "",
-        Status: "Activated",
+        Status: true,
       }).then((result) => {
         res.status(200).render("warehouse", {
           success: " Virtual ware house was created automatically",
