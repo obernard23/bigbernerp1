@@ -367,16 +367,15 @@
         </div>
 
         <div class="intro-table">
-          <div class="intro-form  intro-form-item">
+          <div class="intro-form  intro-form-item d-flex intro-table-title align-items-start  justify-content-evenly">
             <h4 class="intro-table-title" id="Username"></h4>
             <h4 class="intro-table-title" id="Email"></h4>
             <h4 class="intro-table-title" id="Address"></h4>
             <h4 class="intro-table-title"id="phone"></h4>
             <h4 class="intro-table-title"id="discount"></h4>
-            <h4 class="intro-table-title" id="creditLimit"></h4>
-            <label class="d-flex intro-table-title align-items-center  justify-content-between">
-              start Date: <input type="date"id='startdate' name="required">
-            </label>
+            <h4 class="intro-table-title" id="creditLimit" style="color: #1db669;"> </h4>
+            <h4 class="intro-table-title" id="Debt" style="color: #c45b5b;"></h4>
+            <h4 id='startdate' class="intro-table-title"></h4>
           </div>
 
           <div class="intro-form">
@@ -578,12 +577,15 @@
             const Address = document.getElementById('Address').innerText = `Address: ${data.item.street}`;
             const discount = document.getElementById('discount').innerText = `Discount: ${data.item.discount}%`;
             const discountinCalc = document.getElementById('discountinCalc').innerText = `${data.item.discount}%`
-            const creditLimit = document.getElementById('creditLimit').innerText = `Credit Limit: N${data.item.creditLimit}`
+            const creditLimit = document.getElementById('creditLimit').innerText = `Credit Limit: N${data.item.creditLimit}.00k`
+            const customerDebt = document.getElementById('Debt').innerText = `Customer-Debt: N${data.item.Debt}.00k`
             const employee = document.getElementById('employee').value
+            const d = new Date();
+            BillProducts.startDate = `${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`
+            const startDate = document.getElementById('startdate').innerText = `start Date: ${BillProducts.startDate}` ;
             BillProducts.ActivityLog = []
             BillProducts.customer = data.item._id //assign custom properties
             BillProducts.salesPerson = employee
-            const d = new Date();
             BillProducts.discount = data.item.discount //assign custom discount
             BillProducts.ActivityLog.push({
               logMsg:`${BillProducts.salesPerson } created  a new ${BillProducts.billStatus} for ${data.item.Username} on ${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
@@ -603,11 +605,12 @@
       const getSaveBill = () =>{
         const quoteData = localStorage.getItem('bill_products')
         if(quoteData === null){
+          const d = new Date();
           return {
           grandTotal:'',
           shippingFee:'',
           subTotal:'',
-          startDate:'',
+          startDate:`${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
           customer:'',
           orders:[],
           promotionItems:[],
@@ -638,11 +641,9 @@
 
       //get subtotal and assign various feilds to quotation
       const calculateTotals = async (BillProducts,)=>{
-          const startDate = document.getElementById('startdate').value;
           const whId = document.getElementById('whId').value;
 
-          //assign start date for payment 
-          BillProducts.startDate = startDate;
+          
           BillProducts.whId = whId;
           saveToLocalStorage(BillProducts)
 
@@ -749,7 +750,7 @@
               found.Qty = val
 
               // const total = element.item.selling_Price * val
-              const singleVat = Math.round(parseInt(element.item.selling_Price *  7)/100)//find single vat for each product qty to perform
+              const singleVat = Math.round(parseInt(element.item.selling_Price *  element.item.VAT)/100)//find single vat for each product qty to perform
               const total = parseInt(Math.floor(element.item.selling_Price * found.Qty ) + singleVat *  found.Qty )
               found.total = total
               
@@ -774,7 +775,7 @@
 
           td4.innerText = element.item.UMO
           
-          td5.textContent = 7
+          td5.textContent = `${element.item.VAT}%`
 
           td6.textContent= `N${element.item.selling_Price}`
 
@@ -836,9 +837,8 @@
         const required  = document.getElementsByName('required')
         for (let index = 0; index < required.length; index++){
           const customer = required[0].value
-          const startDate = required[1].value
-         if (!customer || !startDate ){
-               alert('This qoutation cannot be verified unti a Customer, quotation start date or signature is provided.')
+         if (!customer ){
+               alert('This qoutation cannot be verified unti a Customer, quotation or signature is provided.')
                required[index].style.backgroundColor = 'red';
             }else{
               const modal = document.getElementById('myModal')
@@ -877,7 +877,7 @@
                 location.assign(location.href);
               }
             }
-          return customer && startDate 
+          return customer  
         }
 
       })
