@@ -292,26 +292,9 @@
       </div>
     </nav>
 
-    <label class="d-flex flex-row gap-9 justify-content-between">
-        <input type="text" list="customers" id="customer" name="required" placeholder="Select a customer" autocomplete="on" />
-         <datalist id="customers" >
-             <!-- display options for department -->
-             <%if(Cusomers){%>
-                <%Cusomers.forEach((customer)=>{%>
-                    <option value="<%=customer._id%>"><%=customer.Username%></option>
-                <%})%>
-                <%}%>
-         </datalist>
-     </label>
+    
      <!-- action buttons -->
      <div class="p-2">
-      <button id="download-button" type="button" class="btn btn-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf-fill" viewBox="0 0 16 16">
-          <path d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.035 21.035 0 0 0 .5-1.05 11.96 11.96 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.888 3.888 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"/>
-          <path fill-rule="evenodd" d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm.165 11.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.64 11.64 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.707 19.707 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"/>
-        </svg>
-        Download as PDF
-      </button>
       <button type="button" id="submit" class="btn btn-secondary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
@@ -368,7 +351,7 @@
 
         <div class="intro-table">
           <div class="intro-form  intro-form-item d-flex intro-table-title align-items-start  justify-content-evenly">
-            <h4 class="intro-table-title" id="Username"></h4>
+            <h1 class="intro-table-title" id="Username"></h>
             <h4 class="intro-table-title" id="Email"></h4>
             <h4 class="intro-table-title" id="Address"></h4>
             <h4 class="intro-table-title"id="phone"></h4>
@@ -380,6 +363,38 @@
 
           <div class="intro-form">
             <div class="intro-form-item-border d-flex flex-column gap-3">
+
+              <!-- dropdown for customer list -->
+              <div class="col-md-7">
+                <label for="validationCustom01" class="form-label">Customer </label>
+                <input type="text"  list="customers" id="customer" name="required" required class="form-control border" placeholder="Type to Search a customer" autocomplete="off"  required/>
+                <datalist id="customers" >
+                 <!-- display options for Customer -->
+               <%if(Cusomers){%>
+                <%Cusomers.forEach((customer)=>{%>
+                    <option value="<%=customer._id%>"><%=customer.Username%></option>
+                <%})%>
+                <%}%>
+                 </datalist>
+            </div>
+
+             <!-- drop down for pricelist -->
+
+             <div class="col-md-7">
+              <label for="pricelist" class="form-label">Price List</label>
+              <select
+                class="form-select "
+                id="pricelist"
+                aria-describedby="validationServer04Feedback"
+                required
+              >
+                <option selected disabled value="">Choose...</option>
+                <option value="Bank_payment" selected>Van Price </option>
+                <option value="Cash_payment">Super Market price</option>
+                <option value="Credit_Note">Whole sale price</option>
+              </select>
+              </div>
+
               <!-- <label class="d-flex align-items-center  justify-content-between">
                 Due date: <input type="date" id="dueDate" >
               </label> -->
@@ -543,16 +558,6 @@
       <input type="text" hidden id="employee" value="<%=user.firstName%>">
   </body>
     <script>
-      //generate pdf file functionality
-      const button = document.getElementById("download-button");
-      button.addEventListener("click", generatePDF);
-      async function generatePDF () {
-        // Choose the element that your content will be rendered to.
-        const element = document.getElementById("invoice");
-        // Choose the element and save the PDF for your user.
-        
-        html2pdf().from(element).save()
-      }
      const submitBtn = document.getElementById('submit')
       //clear billproduct on page reload
       window.onload = () => {
