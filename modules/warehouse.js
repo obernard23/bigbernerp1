@@ -105,7 +105,8 @@ const WHSchema = new  mongoose.Schema({
         validate:[isEmail,'please eneter a valid Email']
     },
     Status:{
-        type:String,
+        type:Boolean,
+        default:false,
     },
     state:{
         type:String,

@@ -120,7 +120,11 @@
                         </div>
                             <div  class="card-body">
                                 <h5  class="card-title"><%= WH.WHName.toUpperCase() %></h5>
-                                <p>Status: <%=WH.Status%></p>
+                                <p>Status: <%if(WH.Status ){%>
+                                    Activated
+                                <%}else{%>
+                                    Deactivated
+                                <%}%></p>
                                 <a href="/Location/<%=WH._id%>" data-doc="<%=WH._id%>"  class="btn btn-primary">Details..</a>
                             </div>
                     </div> 

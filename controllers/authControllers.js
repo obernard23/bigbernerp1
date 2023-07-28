@@ -13,7 +13,7 @@ const sendMail = require("../Functions/SendBill");
 const restPassword = require("../Functions/resetPasword");
 var id = new mongoose.Types.ObjectId();
 const bills = require("../modules/Bills");
-// const NaijaStates = require('naija-state-local-government');
+const NaijaStates = require('naija-state-local-government');
 const fs = require("fs");
 const XLSX = require("xlsx");
 var moment = require('moment'); 
@@ -156,10 +156,11 @@ module.exports.Register_post = async (req, res) => {
 
 //OnboardEmployee_get
 module.exports.OnboardEmployee_get = async (req, res) => {
-//  const states = await NaijaStates.all();
+ const states = await NaijaStates.all();
+ const Warehouse = await WHouse.find()
 //  console.log(NaijaStates.lgas("Oyo"))
   const Employee = await Employe.find();
-  res.status(200).render("employeeRegister", { name: "bigBern" ,Employee});
+  res.status(200).render("employeeRegister", { name: "bigBern",states ,Employee,Warehouse});
 };
 
 //login
@@ -441,16 +442,13 @@ module.exports.Invoice_get = async (req, res) => {
 //Edit_patch request to update  a WHouse
 module.exports.Edit_patch = async (req, res) => {
   const update = req.body;
-  console.log(update);
-  // const salt = await bcrypt.genSalt();
-  // const handelPassword  = await bcrypt.hash(update,salt).toString()
   if (ObjectId.isValid(req.params.id)) {
     WHouse.updateOne({ _id: ObjectId(req.params.id) }, { $set: update })
       .then((result) => {
-        res.status(200).json({ result: "Updated" });
+        res.status(200).json({ result: "Ware House Updated" });
       })
       .catch((err) => {
-        res.status(500).json({ error: "could not update document" });
+        res.status(500).json({ error: "could not update Ware House" });
       });
   } else {
     res.status(500).json({ error: "Not a valid doc ID" });
@@ -838,7 +836,7 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
             throw new Error('Something seems to be wrong')
           }
         })
-      }else{
+      }else{//check debt adding to total instead of debt adding to registered balance
         if(updatedBill.grandTotal - update.registeredBalance > customers.creditLimit){
           throw new Error('Credit limit exceeded')
         }else{

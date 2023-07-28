@@ -46,27 +46,27 @@
  <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
   <!-- Modal content -->
  
-  <div class="modal-body modal-content container">
+  <div class="modal-body modal-content container  bg-secondary.bg-gradient">
 
 
-  <div class=" d-flex justify-content-between">
-    <button type="button" class="btn btn-outline-danger" onclick="document.getElementById('myModal').style.display='none'">
-      <svg xmlns="http://www.w3.org/2000/svg"  width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <div class=" d-flex justify-content-between w-50">
+    <h5>Onboard New Employee</h5>
+      <svg  onclick="document.getElementById('myModal').style.display='none'" xmlns="http://www.w3.org/2000/svg"  width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
       </svg>
-    </button>
   </div>
   <!-- for employee photo -->
-  <h5>Onboard New Employee</h5>
-  <div class="input-group mb-3">
-    <label class="input-group-text" for="files"
-    >Upload official photo</label
-    >
-    <input type="file" class="form-control" id="files" />
+  <div class="d-flex justify-content-between flex-column">
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="files"
+      >Upload official photo</label
+      >
+      <input type="file" class="form-control" id="files" />
+    </div>
+    <!-- ends here -->
+    <div class="input-group mb-3 border shadow" name="" id="productImage"></div>
+    
   </div>
-  <!-- ends here -->
-  
-  <div class="input-group mb-3 border shadow" name="" id="productImage"></div>
 
   <!-- for employee signature -->
   <!-- <div class="input-group mb-3">
@@ -78,7 +78,7 @@
   
   <!-- ends here -->
   <form action="" method="post" class="container" >
-    <input type="text" name="" id="employeeImage" >
+    <input type="text" name="" id="employeeImage" hidden>
   <div class="accordion" id="accordionExample">
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -135,34 +135,37 @@
               name="HomeAddress"
             />
           </div>
-          <div class="col-12">
-            <label for="EmaergencyContact" class="form-label">Emergency Contact</label>
+          <div class="col-4">
+            <label for="NOK" class="form-label">Next of Kin</label>
             <input
               type="text"
               class="form-control"
-              id="EmaergencyContact"
-              placeholder="Emergency Contact"
-              name="EmaergencyContact"
+              id="NOK"
+              placeholder="Next of Kin"
+              name="NOK"
             />
           </div>
           <div class="col-md-4">
             <label for="inputState" class="form-label">State of Origin</label>
             <select id="inputState" class="form-select">
-              <option selected>Choose...</option>
-              <option>...</option>
+              <option >Choose...</option>
+              
+              <%states.forEach(state=>{%>
+                <option value="<%=state.state%>" ><%=state.state%></option>
+              <%})%>
             </select>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <label for="LGA" class="form-label">LGA</label>
             <input type="text" class="form-control" id="LGA" />
           </div>
           <div class="col-md-6">
-            <label for="NOK" class="form-label">Next of Kin</label>
-            <input type="text" class="form-control" id="NOK" />
+            <label for="EmaergencyContact" class="form-label">Emergency Contact</label>
+            <input type="text" class="form-control" id="EmaergencyContact" />
           </div>
           <div class="col-md-6">
-            <label for="NOKN" class="form-label">Next of Kin Number</label>
-            <input type="text" class="form-control" id="NOKN" />
+            <label for="EmaergencyContactNumber" class="form-label">Emergency contact Number</label>
+            <input type="text" class="form-control" id="EmaergencyContactNumber" />
           </div>
           <div class="col-md-6">
             <label for="Mobile" class="form-label">Mobile</label>
@@ -233,17 +236,14 @@
         <div class="accordion-body row g-3">
           <!-- work information starts here -->
           <div class="col-md-4">
-            <label for="validationServer01" class="form-label"
-              >work Location</label
-            >
-            <input
-              type="text"
-              class="form-control is-valid"
-              id="validationServer01"
-              name="workLocation"
-              required
-            />
-            <div class="valid-feedback">Looks good!</div>
+            <label for="workLocation" class="form-label">Assign Work Location</label>
+            <select  id="workLocation" class="form-select"  name="workLocation">
+              <option >Choose...</option>
+              
+              <%Warehouse.forEach(Warehouse=>{%>
+                <option value="<%=Warehouse._id%>" ><%=Warehouse.WHName%></option>
+              <%})%>
+            </select>
           </div>
           <div class="col-md-4">
             <label for="validationServer02" class="form-label"
@@ -251,11 +251,10 @@
             >
             <input
               type="text"
-              class="form-control is-valid"
+              class="form-control "
               id="validationServer02"
               name="Equiptment"
             />
-            <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="col-md-4">
             <label for="validationServerUsername" class="form-label"
@@ -293,33 +292,38 @@
             </select>
           </div>
           <div class="col-md-3">
-            <label for="validationServer04" class="form-label"
+            <label for="Manager" class="form-label"
               >Manager to report to</label
             >
             <select
-              class="form-select is-invalid"
-              id="validationServer04"
+              class="form-select "
+              id="Manager"
+              name="Manager"
               aria-describedby="validationServer04Feedback"
               required
             >
               <option selected disabled value="">Choose...</option>
-              <option>...</option>
+              <%Employee.forEach(Employee=>{%>
+                <option value="<%=Employee._id%>" ><%=Employee.firstName%> <%=Employee.lastName%></option>
+              <%})%>
             </select>
-            <div id="validationServer04Feedback" class="invalid-feedback">
-              Please select a valid state.
-            </div>
           </div>
           <div class="col-md-3">
-            <label for="validationServer05" class="form-label"
-              >Role / position</label
+            <label for="Role" class="form-label"
+              > Assign system Role </label
             >
-            <input
-              type="text"
-              class="form-control"
-              id="validationServer05"
-              aria-describedby="validationServer05Feedback"
+            <select
+              class="form-select"
+              id="Role"
+              name="Role"
+              aria-describedby="validationServer04Feedback"
               required
-            />
+            >
+              <option selected disabled value="">Choose...</option>
+                <option value="Admin" >Admin Access</option>
+                <option value="Manager" >Manager Access</option>
+                <option value="Staff" >Staff Access</option>
+            </select>
           </div>
           <div class="col-md-3">
             <label for="validationServer05" class="form-label"
@@ -334,15 +338,21 @@
             />
           </div>
           <div class="col-md-3">
-            <label for="Department" class="form-label">Department</label>
+            <label for="Department" class="form-label">Job Tittle</label>
             <select
-              class="form-select is-invalid"
+              class="form-select "
               id="Department"
               aria-describedby="validationServer04Feedback"
               required
             >
               <option selected disabled value="">Choose...</option>
-              <option>...</option>
+              <option>Accountant</option>
+              <option>Sales Rep</option>
+              <option>Human Resource</option>
+              <option>Md</option>
+              <option>CFO</option>
+              <option>COO</option>
+              <option> Sales Manager</option>
             </select>
             <div id="validationServer04Feedback" class="invalid-feedback">
               Please select a Department.

@@ -27,7 +27,7 @@
                 aria-expanded="false"
                 style="color: #fff !important"
               >
-                Ware House
+                Virtual Ware House Operation
               </a>
             </h5>
           </li>
@@ -64,7 +64,7 @@
               aria-expanded="true"
               aria-controls="collapseOne"
             >
-              <strong><%=wareHouse.WHName%></strong>
+              <h5><%=wareHouse.WHName%></h5>
             </button>
           </h2>
           <div
@@ -74,13 +74,26 @@
           >
             <div class="accordion-body row g-3 needs-validation">
               <div class="container p-2">
+
+               <div class="d-flex justify-content-between align-tems-center">
                 <button
-                  type="button"
-                  class="btn btn-warning"
-                  onclick="document.getElementById('myModal').style.display='block'"
-                >
-                  Register New product for <%=wareHouse.WHName%>
-                </button>
+                type="button"
+                class="btn btn-warning"
+                onclick="document.getElementById('myModal').style.display='block'"
+              >
+                Register New product for <%=wareHouse.WHName%>
+              </button>
+
+              <div class="flex gap-7">
+                
+                <label class="switch" title="Activate / Deactivate Ware House">
+                    <input type="checkbox" id="toggleReplenish"Name="AutoReplenish" data-toggle="<%=wareHouse._id%>" <%if(wareHouse.Status ){%>
+                      checked = true;
+                    <%}%>>
+                    <div class="slider"></div>
+                </label>
+            </div>
+               </div>
                 <!-- show all product assigned to each ware house here -->
 
                 <%if(storeProducts){%>
@@ -198,5 +211,23 @@
       location.reload();
     })
     
+    // deactivate ware house
+      const wareHouseId = document.querySelectorAll('#toggleReplenish');
+      for(let i=0;i < wareHouseId.length; i++) {
+        wareHouseId[i].addEventListener('change', async function(e){
+          wareHouse =  wareHouseId[i].dataset.toggle;
+          const update = {Status:wareHouseId[i].checked};
+          const request = await fetch(`/warehouse/${wareHouse}/edit`,{
+            body:JSON.stringify(update),
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+          })
+          const response = await request.json().then((res)=>{
+            alert(res.result || res.error)
+          });
+        })
+          
+          
+        }
   </script>
 </html>

@@ -103,8 +103,8 @@ const sendQuot = async (req,res,next) => {
                             instructions: `Please make payment using bill reference ${result.billReferenceNo} as payment description`,
                             button: {
                                 color: '#22BC66',
-                                text: 'Proceed to Payment',
-                                link: `https://bigbern.onrender.com/wh-lagos/bill/${result._id}`
+                                text: 'Download pdf copy',
+                                link: `https://bigbern.onrender.com/invoice/${result._id}`
                             }
                         }
                     ],
