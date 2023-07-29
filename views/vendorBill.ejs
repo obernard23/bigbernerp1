@@ -368,6 +368,7 @@
                 aria-describedby="validationServer04Feedback"
                 required
               >
+              <option>Choose...</option>
               <%if(vendor){%>
                 <%vendor.forEach((vendor)=>{%>
                     <option value="<%=vendor._id%>"><%=vendor.Name%></option>
@@ -480,7 +481,7 @@
 
       <div id="pspdfkit-footer">
         <div class="footer-columns">
-          <span>Quotation</span>
+          <span>Purchase Request Builder</span>
         </div>
       </div>
     </div>

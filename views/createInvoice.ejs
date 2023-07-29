@@ -681,10 +681,17 @@
           headers:{'Content-Type': 'application/json'}
         })
         const data = await res.json()
+
+         //add price list to the list of prices 
+          const priceList =  5 //should return price list as assigned to the cunstomer 
+          const realPrice = priceList / 100
+          const actualPrice =  data.item.selling_Price * realPrice 
+          const finalPrice  =  Math.floor(data.item.selling_Price  + actualPrice)
+
         //generate id for each item
         const id = Math.floor(Math.random() * 10500600000787);
         // const Pname = document.getEle
-        BillProducts.orders.push({...data,Qty:'',total:'',_id:id})//returns product, qty to perform and vat
+        BillProducts.orders.push({...data,Qty:'',total:'',_id:id,priceListPrice:finalPrice})//returns product, qty to perform and vat
         saveToLocalStorage(BillProducts)
         RenderDom(BillProducts)
         e.target.value=''
@@ -727,7 +734,7 @@
                 //calculate  sum of available prices in orders
                 BillProducts.subTotal = parseInt(BillProducts.orders.map(item => {return item.total})
                 .reduce((total , currentValue) => {return total + currentValue},0))
-                // alert("products removed successfully")
+                alert("products removed successfully")
                 saveToLocalStorage(BillProducts)
               } catch (error) {
                 alert(error)
@@ -753,10 +760,10 @@
               })
               const val = parseInt(e.target.value < 1 ? td3Input.value = 1 : e.target.value )//tenary operator  to avoid overflow or underflow of 0 qty values
               found.Qty = val
-
+              
               // const total = element.item.selling_Price * val
-              const singleVat = Math.round(parseInt(element.item.selling_Price *  element.item.VAT)/100)//find single vat for each product qty to perform
-              const total = parseInt(Math.floor(element.item.selling_Price * found.Qty ) + singleVat *  found.Qty )
+              const singleVat = Math.round(parseInt(element.priceListPrice *  element.item.VAT)/100)//find single vat for each product qty to perform
+              const total = parseInt(Math.floor(element.priceListPrice * found.Qty ) + singleVat *  found.Qty )
               found.total = total
               
               //calculate  total sum of available prices in orders
@@ -782,7 +789,7 @@
           
           td5.textContent = `${element.item.VAT}%`
 
-          td6.textContent= `N${element.item.selling_Price}`
+          td6.textContent= `N${element.priceListPrice}`
 
           td8Image.src = imagesrc
           td8Image.width = 20
