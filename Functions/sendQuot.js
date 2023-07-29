@@ -45,7 +45,7 @@ const sendQuot = async (req,res,next) => {
             let response = {
                 body: {
                     name : CustomerEmail.Username,
-                    intro: `Your Quotation is here. Please make payment so we can continue with your order processing.`,
+                    intro: `Your Quotation is here. Please make payment so we can processing your order .`,
                     greeting: 'Dear',
                     signature: 'Sincerely',
                     

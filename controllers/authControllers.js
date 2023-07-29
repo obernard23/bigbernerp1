@@ -422,7 +422,6 @@ module.exports.Invoice_get = async (req, res) => {
   const prud = await Product.find()
   const Cusomers = await customer.find();
   const products = await storeProduct.find({ WHIDS: new ObjectId(req.params.id)})
-  console.log(products)
   if (ObjectId.isValid(req.params.id)) {
     await WHouse.findOne({ _id: ObjectId(req.params.id) })
     .limit(1)
@@ -866,3 +865,22 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
 module.exports.Report_get = async(req, res, next)=>{
   res.render('reports',{});
 }
+
+
+// purchase controllers
+module.exports.purchase_get = async(req, res, next)=>{
+  const vendor = await Vendor.find();
+  const products = await Product.find()
+  res.render('vendorBill',{vendor,products,name:'Bigbern'});
+}
+
+// get product from invoice
+module.exports.vendorFind_get = async (req, res) => {
+  if (ObjectId.isValid(req.params.id)) {
+    await Vendor.findOne({ _id: ObjectId(req.params.id) })
+      .limit(1)
+      .then((item) => {
+        res.status(200).json({ item });
+      });
+  }
+};

@@ -115,4 +115,8 @@ router.get('/Report', authController.Report_get)
 
 //getting work book to exce; for All bills
 router.get('/bills/excel',requireAuth,authController.BillsWorkBook_get)
+
+//purchse routers
+router.get('/purchase',requireAuth,authController.purchase_get)
+router.get('/vendor/:id',requireAuth,authController.vendorFind_get)
 module.exports = router;

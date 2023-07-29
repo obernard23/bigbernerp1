@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%-include('./partials/head.ejs')%>
+<head>
+    <style>
+      .itemQty:focus{
+        outline: none;
+      }
+
+      /* #item :nth-child(odd){
+        background-color: #999a9c86;
+        font-weight: bolder;
+        font-size: '15px';
+      } */
+
+      @font-face {
+        font-family: "Inter";
+        src: url("Inter-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Inter";
+        src: url("Inter-Medium.ttf") format("truetype");
+        font-weight: 500;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Inter";
+        src: url("Inter-Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Space Mono";
+        src: url("SpaceMono-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      #invoice {
+        font-size: 0.75rem;
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        color: #000000;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      #pspdfkit-header {
+        font-size: 0.625rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 400;
+        color: #717885;
+        margin-top: 2.5rem;
+        margin-bottom: 2.5rem;
+        width: 100%;
+      }
+
+      .header-columns {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
+
+      .logo {
+        height: 3rem;
+        width: auto;
+        margin-right: 1rem;
+      }
+
+      .logotype {
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+      }
+
+      h2{
+        font-family: "Space Mono", monospace;
+        font-size: 1.25rem;
+        font-weight: 400;
+      }
+
+      h4 {
+        font-family: "Space Mono", monospace;
+        font-size: 1rem;
+        font-weight: 400;
+      }
+
+      .page {
+        margin-left: 5rem;
+        margin-right: 5rem;
+      }
+
+      .intro-table {
+        display: flex;
+        justify-content: space-between;
+        margin: 3rem 0 3rem 0;
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .intro-form {
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #000000;
+        width: 50%;
+      }
+
+      .intro-form:last-child {
+        border-right: none;
+      }
+
+      .intro-table-title {
+        font-size:1rem;
+        margin: 0;
+      }
+
+      .intro-form-item {
+        padding: 1.25rem 1.5rem 1.25rem 1.5rem;
+      }
+
+      .intro-form-item:first-child {
+        padding-left: 0;
+      }
+
+      .intro-form-item:last-child {
+        padding-right: 0;
+      }
+
+      .intro-form-item-border {
+        padding: 1.25rem 0 0.75rem 1.5rem;
+        border-bottom: 1px solid #000000;
+      }
+
+      .intro-form-item-border:last-child {
+        border-bottom: none;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        margin-top: 6rem;
+      }
+
+      .no-border {
+        border: none;
+      }
+
+      .border {
+        border: 1px solid #000000;
+      }
+
+      .border-bottom {
+        border: 1px solid #000000;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      .signer {
+        display: flex;
+        justify-content: space-between;
+        gap: 2.5rem;
+        margin: 2rem 0 2rem 0;
+      }
+
+      input {
+        font-family: "Space Mono", monospace;
+        text-align: center;
+        margin-top: none;
+        box-sizing: border-box;
+        text-align: left;
+        border:none !important;
+      }
+
+      input#signature {
+        height: 8rem;
+      }
+
+      .intro-text {
+        width: 60%;
+      }
+
+      .table-box table,
+      .summary-box table {
+        width: 100%;
+        font-size: 0.625rem;
+      }
+
+      .table-box table {
+        padding-top: 2rem;
+      }
+
+      .table-box td:first-child,
+      .summary-box td:first-child {
+        width: 50%;
+      }
+
+      .table-box td:last-child,
+      .summary-box td:last-child {
+        text-align: right;
+      }
+
+      .table-box table tr.heading td {
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        height: 1.5rem;
+      }
+
+      .table-box table tr.item td,
+      .summary-box table tr.item td {
+        border-bottom: 1px solid #d7dce4;
+        height: 1.5rem;
+      }
+
+      .summary-box table tr.no-border-item td {
+        border-bottom: none;
+        height: 1.5rem;
+      }
+
+      .summary-box table tr.total td {
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        height: 1.5rem;
+      }
+
+      .summary-box table tr.item td:first-child,
+      .summary-box table tr.total td:first-child {
+        border: none;
+        height: 1.5rem;
+      }
+
+      #pspdfkit-footer {
+        font-size: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+        color: #717885;
+        margin-top: 2.5rem;
+        bottom: 2.5rem;
+        position: absolute;
+        width: 100%;
+      }
+
+      .footer-columns {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
+
+      .signer-item img {
+        margin:10px;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar bg-black">
+      <div class="container-fluid">
+          <a class="navbar-brand" href="/" title="Apps">
+              <img src="data:image/png;base64,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" width="30" height="30">
+            </a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item dropdown">
+
+                  <h5>
+                      <a class="nav-link breadcrumb-item active" aria-current="page" href="/warehouse" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #fff !important;">
+                          Vendor Bill
+                      </a>
+                  </h5>
+                  
+                </li>
+          </ul>
+          <%if(user.role ==="Admin" ){%>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-success" type="submit">Search</button>
+        </form>
+        <%}%>
+      </div>
+    </nav>
+
+    
+     <!-- action buttons -->
+     <div class="p-2">
+      <button type="button" id="submit" class="btn btn-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
+        </svg>  
+        Submit 
+      </button>
+      <button type="button" class="btn btn-warning" id="Signature" data-id="<%=user._id%>" onclick="Signature()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fingerprint" viewBox="0 0 16 16">
+          <path d="M8.06 6.5a.5.5 0 0 1 .5.5v.776a11.5 11.5 0 0 1-.552 3.519l-1.331 4.14a.5.5 0 0 1-.952-.305l1.33-4.141a10.5 10.5 0 0 0 .504-3.213V7a.5.5 0 0 1 .5-.5Z"/>
+          <path d="M6.06 7a2 2 0 1 1 4 0 .5.5 0 1 1-1 0 1 1 0 1 0-2 0v.332c0 .409-.022.816-.066 1.221A.5.5 0 0 1 6 8.447c.04-.37.06-.742.06-1.115V7Zm3.509 1a.5.5 0 0 1 .487.513 11.5 11.5 0 0 1-.587 3.339l-1.266 3.8a.5.5 0 0 1-.949-.317l1.267-3.8a10.5 10.5 0 0 0 .535-3.048A.5.5 0 0 1 9.569 8Zm-3.356 2.115a.5.5 0 0 1 .33.626L5.24 14.939a.5.5 0 1 1-.955-.296l1.303-4.199a.5.5 0 0 1 .625-.329Z"/>
+          <path d="M4.759 5.833A3.501 3.501 0 0 1 11.559 7a.5.5 0 0 1-1 0 2.5 2.5 0 0 0-4.857-.833.5.5 0 1 1-.943-.334Zm.3 1.67a.5.5 0 0 1 .449.546 10.72 10.72 0 0 1-.4 2.031l-1.222 4.072a.5.5 0 1 1-.958-.287L4.15 9.793a9.72 9.72 0 0 0 .363-1.842.5.5 0 0 1 .546-.449Zm6 .647a.5.5 0 0 1 .5.5c0 1.28-.213 2.552-.632 3.762l-1.09 3.145a.5.5 0 0 1-.944-.327l1.089-3.145c.382-1.105.578-2.266.578-3.435a.5.5 0 0 1 .5-.5Z"/>
+          <path d="M3.902 4.222a4.996 4.996 0 0 1 5.202-2.113.5.5 0 0 1-.208.979 3.996 3.996 0 0 0-4.163 1.69.5.5 0 0 1-.831-.556Zm6.72-.955a.5.5 0 0 1 .705-.052A4.99 4.99 0 0 1 13.059 7v1.5a.5.5 0 1 1-1 0V7a3.99 3.99 0 0 0-1.386-3.028.5.5 0 0 1-.051-.705ZM3.68 5.842a.5.5 0 0 1 .422.568c-.029.192-.044.39-.044.59 0 .71-.1 1.417-.298 2.1l-1.14 3.923a.5.5 0 1 1-.96-.279L2.8 8.821A6.531 6.531 0 0 0 3.058 7c0-.25.019-.496.054-.736a.5.5 0 0 1 .568-.422Zm8.882 3.66a.5.5 0 0 1 .456.54c-.084 1-.298 1.986-.64 2.934l-.744 2.068a.5.5 0 0 1-.941-.338l.745-2.07a10.51 10.51 0 0 0 .584-2.678.5.5 0 0 1 .54-.456Z"/>
+          <path d="M4.81 1.37A6.5 6.5 0 0 1 14.56 7a.5.5 0 1 1-1 0 5.5 5.5 0 0 0-8.25-4.765.5.5 0 0 1-.5-.865Zm-.89 1.257a.5.5 0 0 1 .04.706A5.478 5.478 0 0 0 2.56 7a.5.5 0 0 1-1 0c0-1.664.626-3.184 1.655-4.333a.5.5 0 0 1 .706-.04ZM1.915 8.02a.5.5 0 0 1 .346.616l-.779 2.767a.5.5 0 1 1-.962-.27l.778-2.767a.5.5 0 0 1 .617-.346Zm12.15.481a.5.5 0 0 1 .49.51c-.03 1.499-.161 3.025-.727 4.533l-.07.187a.5.5 0 0 1-.936-.351l.07-.187c.506-1.35.634-2.74.663-4.202a.5.5 0 0 1 .51-.49Z"/>
+        </svg>
+        Signature
+      </button>
+      <button type="button" class="btn btn-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-device-ssd-fill" viewBox="0 0 16 16">
+          <path d="M5 8V4h6v4H5Z"/>
+          <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4Zm0 1.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm9 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM3.5 11a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Zm9.5-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM4.75 3h6.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-6.5A.75.75 0 0 1 4 8.25v-4.5A.75.75 0 0 1 4.75 3ZM5 12h6a1 1 0 0 1 1 1v2h-1v-2h-.75v2h-1v-2H8.5v2h-1v-2h-.75v2h-1v-2H5v2H4v-2a1 1 0 0 1 1-1Z"/>
+        </svg>
+        Save to Draft
+      </button>
+     </div>
+    
+    <div id="invoice" class="shadow-lg m-4 p-3">
+      <div id="pspdfkit-header">
+        <div class="header-columns">
+          <div class="logotype">
+            <img class="logo" src="https://www.historyhit.com/app/uploads/fly-images/5154061/BigBen-788x537.jpg?x63000" />
+            <p><%=name%></p>
+          </div>
+
+          <div>
+            <h5>DUMMY COMPANY</h5>
+            <p>[Dummy Address here]</p>
+            <p>dummycompany@email.com</p>
+            <p>09000000000</p>
+            <p></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="page" style="page-break-after: always">
+        <div>
+          <h2>" Purchase Request "</h2>
+        </div>
+
+        <div class="intro-table">
+          <div class="intro-form  intro-form-item d-flex intro-table-title align-items-start  justify-content-evenly">
+            <h1 class="intro-table-title" id="Username"></h>
+            <h4 class="intro-table-title" id="Email"></h4>
+            <h4 class="intro-table-title" id="Address"></h4>
+            <h4 class="intro-table-title"id="phone"></h4>
+            <h4 class="intro-table-title"id="discount"></h4>
+            <h4 class="intro-table-title" id="creditLimit" style="color: #1db669;"> </h4>
+            <h4 class="intro-table-title" id="Debt" style="color: #c45b5b;"></h4>
+            <h4 id='startdate' class="intro-table-title"></h4>
+          </div>
+
+          <div class="intro-form">
+            <div class="intro-form-item-border d-flex flex-column gap-3">
+
+              <!-- dropdown for customer list -->
+
+             <div class="col-md-7">
+              <label for="pricelist" class="form-label">vendor</label>
+              <select
+                class="form-select "
+                id="customer"
+                aria-describedby="validationServer04Feedback"
+                required
+              >
+              <%if(vendor){%>
+                <%vendor.forEach((vendor)=>{%>
+                    <option value="<%=vendor._id%>"><%=vendor.Name%></option>
+                <%})%>
+                <%}%>
+              </select>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="table-box">
+          <table cellpadding="0" cellspacing="0">
+            <tr class="heading font-bold">
+              <td  >Product</td>
+              <td  >QTY</td>
+              <td  >Scale</td>
+              <td  >Unit Price</td>
+              <td  >Total</td>
+            </tr>
+            <tbody  class="item" id="item"></tbody>
+              
+              <tr class="item">
+                <form action="">
+                <td>
+                 
+                 
+                  <div class="col-md-7">
+                    <label for="pricelist" class="form-label">Product</label>
+                    <select
+                      class="form-select "
+                      id="products"
+                      aria-describedby="validationServer04Feedback"
+                      required
+                    >
+                    <option value="">Choose...</option>
+                    <%if(products){%>
+                        <%products.forEach((products)=>{%>
+                            <option value="<%=products._id%>"><%=products.Name%></option>
+                        <%})%>
+                        <%}%>
+                    </select>
+                    </div>
+                </td>
+             </form>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summary-box">
+          <table cellpadding="10" cellspacing="0">
+            <tbody>
+              <tr class="item">
+                <td></td>
+                <td>Subtotal:</td>
+                <td id="Subtotal">N0.00</td>
+              </tr>
+
+              <tr class="item">
+                <td></td>
+                <td>Discount:</td>
+                <td id="discountinCalc">0%</td>
+              </tr>
+
+              <tr class="item">
+                <td></td>
+                <td>Tax Rate:</td>
+                <td></td>
+              </tr>
+
+              <tr class="no-border-item">
+                <td></td>
+                <td>Shipping/Handling:</td>
+                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px"> </td>
+              </tr>
+
+              <tr class="total">
+                <td></td>
+                <td>Total Due:</td>
+                <td id="Grandtotal">N0.00</td>
+              </tr>
+          </table>
+          <p id="words"></p>
+        </div>
+      </div>
+
+      <div class="page" style="page-break-after: always">
+      
+        <div class="page" style="page-break-after: always">
+          <div class="signer">
+            <div class="form signer-item">
+              <label class="border-bottom" for="date" class="label">Terms & Conditions</label>
+                <p>Payment must be made before 15 days of issue date</p>
+            </div>
+
+            <div class="form signer-item">
+              <label for="signature" class="label">Issued by: <%=user.firstName%></label>
+              <img class="logo" src=""
+                id="signature"
+              />
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div id="pspdfkit-footer">
+        <div class="footer-columns">
+          <span>Quotation</span>
+        </div>
+      </div>
+    </div>
+    <%-include('./partials/footer')%>
+
+
+     <!-- The Modal -->
+     <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
+      <!-- Modal content -->
+        <div class="modal-body d-flex justify-content-center container">
+          <form class="bg-light gap-3 p-3 rounded shadow  flex-column d-flex" id="opsCode" >
+            <label for="opsCodes" class="form-label">Operational Code</label>
+            <input type="password" name="opsCode" id="opsCodes" class="form-control input-group has-validation" placeholder="Enter operational code" autocomplete="off">
+            <button type="submit" class="btn btn-danger">Action</button>
+          </form>
+        </div>
+      </div>
+      <input type="text" hidden id="employee" value="<%=user.firstName%>">
+  </body>
+    <script>
+     const submitBtn = document.getElementById('submit')
+      //clear billproduct on page reload
+      window.onload = () => {
+        localStorage.removeItem('bill_products');
+            if(!BillProducts ){
+            submitBtn.style.display = 'none'
+          }
+      }
+
+      //get request for customer
+      const customerInput = document.getElementById('customer')
+      customerInput.addEventListener('change',async(e)=>{
+            const endPoint = `/vendor/${e.target.value}`
+            const res = await fetch(endPoint,{
+                method:'GET',
+                headers:{'Content-Type': 'application/json'}
+            })
+            const data = await res.json()
+            const Username = document.getElementById('Username').innerText = `Billed To: ${data.item.Name}`;
+            const Email =  document.getElementById('Email').innerText = `Email: ${data.item.email}`;
+            const phone = document.getElementById('phone').innerText = `phone: ${data.item.vendor_tel}`;
+            const Address = document.getElementById('Address').innerText = `Address: ${data.item.Address}`;
+            const discount = document.getElementById('discount').innerText = `Sales person: ${data.item.contact}%`;
+            const employee = document.getElementById('employee').value
+            const d = new Date();
+            BillProducts.startDate = `${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`
+            const startDate = document.getElementById('startdate').innerText = `start Date: ${BillProducts.startDate}` ;
+            BillProducts.ActivityLog = []
+            BillProducts.customer = data.item._id //assign custom properties
+            BillProducts.salesPerson = employee
+            BillProducts.discount = data.item.discount //assign custom discount
+            BillProducts.ActivityLog.push({
+              logMsg:`${BillProducts.salesPerson } created  a new ${BillProducts.billStatus} for ${data.item.Username} on ${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
+              status:`${BillProducts.status} and awaiting Action`
+            }) //for activity log
+            saveToLocalStorage(BillProducts);
+      })
+     
+      //save the data to local storage
+      const saveToLocalStorage = (BillProducts) => {
+        const quoteData = JSON.stringify(BillProducts)
+        localStorage.setItem('bill_products',quoteData)
+        return quoteData;
+      }
+      
+      //get quoat data from local storage
+      const getSaveBill = () =>{
+        const quoteData = localStorage.getItem('bill_products')
+        if(quoteData === null){
+          const d = new Date();
+          return {
+          grandTotal:'',
+          shippingFee:'',
+          subTotal:'',
+          startDate:`${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
+          customer:'',
+          orders:[],
+          billStatus:'Quoataion',
+          status:'Locked',
+          discount:'',
+          taxRate:'',
+          salesPerson:'Bernard Fidelis',
+          signatureUrl:'',
+          ActivityLog:[],
+          rejectionReasons:[],
+          billReferenceNo : Math.floor(Math.random() *1000001),
+          registeredBilling:0,
+          registeredBalance:0,
+          PaymentStatus:'',
+          PaymentReference:'',
+          supportDoc:'',
+          };
+        }else{
+          return JSON.parse(quoteData)
+        }
+      }
+
+      // for qoutation generation
+      const BillProducts = getSaveBill()
+
+      //get subtotal and assign various feilds to quotation
+      const calculateTotals = async (BillProducts,)=>{
+
+          BillProducts.subTotal =  await parseInt(BillProducts.orders.map(item => {return item.total})
+        .reduce((total , currentValue) => {return total + currentValue},0))
+
+        // let shippingFee = Shipping.value
+        const Shipping = document.getElementById('Shipping')
+        
+        Shipping.addEventListener('input',(e) =>{
+          value =  parseInt(e.target.value < 0 ? Shipping.value = 0 : e.target.value )//tenary operator  to avoid overflow or underflow of 0 qty values;
+          BillProducts.grandTotal = parseInt(BillProducts.subTotal) + parseInt(value)
+          Grandtotal.textContent = `N${BillProducts.grandTotal}`;
+          BillProducts.shippingFee =  value;
+          saveToLocalStorage(BillProducts);
+        });
+        
+        document.getElementById('Subtotal').innerHTML = `N${BillProducts.subTotal}`;
+       
+         
+      }
+      // calculateTotals(BillProducts)
+
+      // get product for quoatation
+      const products = document.getElementById('products')
+      products.addEventListener('change',async(e)=>{
+        const endPoint = `/product/${e.target.value}/bill`
+        const res =await fetch(endPoint,{
+          method:'GET',
+          headers:{'Content-Type': 'application/json'}
+        })
+        const data = await res.json()
+        //generate id for each item
+        const id = Math.floor(Math.random() * 10500600000787);
+        // const Pname = document.getEle
+        BillProducts.orders.push({...data,Qty:'',total:'',_id:id})//returns product, qty to perform and vat
+        saveToLocalStorage(BillProducts)
+        RenderDom(BillProducts)
+        e.target.value=''
+      })
+
+
+      
+      
+      //Dom manupulation for 
+      RenderDom = (BillProducts)=>{
+        const  body = document.getElementById('item')
+        body.innerHTML = ''
+        BillProducts.orders.forEach(element => {
+          let tr = document.createElement('tr')
+          
+          let td2 = document.createElement('td')//product name
+        //   let td8 = document.createElement('td')//product availability
+          let td8Image = document.createElement('img')//product availability
+          let td3 = document.createElement('td')// qty
+          let td4 = document.createElement('td')//umo
+          let td5 = document.createElement('td')//vat
+          let td6 = document.createElement('td')//price
+          let td7 = document.createElement('td')//total
+
+        //   imagesrc="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAI80lEQVR4nO1Za3BV1RVed+999tlnn3MfScj7dUlIIIE8IE9MSngz5SE0irwRjBAKCI0gFKhKp+Ojo6NYBTpaa7HQClpE8Aft+KMznZapOk7r9Ic6jljsVBnGEu4jEEju6axDzvXmmtwHuTj84JvZf+49e+219lmPb60DcBu3cUugEADWMkM7zFzyIybV80yqF5ih/VtxyTNU8gMAsAEA2gDACbcIGAAsU5zyfarxy+ktFQHvhjnm+KfXmLUvbbTWhGfWmuP2LjW9nbPNrJk1QVmSfZFw1ssM7RwaCwDzAUD9rhV3AIFVVOMXjHH5vvI9d5uNb/7YbH57T0Kr6a1dZtUv7je962aFjPK8S1RVgkwXrwNAzXehfCHV1fdkcZYfbzpRpWOtuiNdZtGa6f2KU0NDjgNA9s1Svo0Kfqlw9dRrzad2D6/Q4R+Z43661CzZPNcsWjvdRLcq7VpgVj6x0pz4q01m04ldQ+5rfGOHmdfe3EsF/xoAmlKrOoUFTFODlY+vHPJwVCz/nparPM0IUK70cLf+LnNqhxUpXmAaf0VxyZPco7+HwU0YvcbTDJ+7tqS78N5p/VX77hska+wj95hUcD8ATEqV+lOZVANVzw4+CBcGalpjmZ+qip9Kvh8AqhIM/nIAaKeSH2S6+l9ZlOUbt3dJWG75rrtCVPAvAUCOVPlaqnF/5ZOrBr/u4zvN3IVNvVQoAcLYHgAQIziDAMCdVCjn85e2XrbPyJhS2UOlum8kymtM8nNlO34QilS++oV1psjx+JlUMeCyIHXIZpJ/WrJlnnVe3atb0ZV6ACD3hqQpUhzIaK0IRio/etP3+6jgASCwGm4OJjBN7an//YPWeTkLGnqpVJ+9EUHVzNCC9a9tCyuft6Sll0r+BQCMgZsIJtXf5i9pvWonB4wv9IakhCiGdrr4/pn9tvIlW+f3U8n/AwCjUqksIWQDYfSzqJ9HM433NBzbbp3trh3tBwIdycidgEUFAxUFTPrNAybVeBAAKlKou5vp4pSDEJMZ4u3oP5khTxbdN8O6QKwpTBefJCxZkWJ/wbLWPvv2M6dXBammPpFC5Qup5J9nzaq9wj16zwDBi0ad4tYDSDuaT+0x1VEu/zDPfQsOqvGva365wVK+/ndd6IN4SHqKlE+nkp8rXNXWN2bbwhAzxIfDPcic2gfIsywX3jw3pDi1PydyQJPITfOFff+BeSZW0RQpT6lU/5a7sLEXyZ86yukDgNZhnyawcVTbeCsLojtTwS8DQE7sIwh05cyt77UNSGsux1e3IiXaC/U5V2VhoOnkbrNgRdtVZoi34mwpYlLtQReyCltrRQAAOmPuUNzyJBIv2wA104W3VDli7QlZxtOdAczvSD+osJJCUbxtSB4nvbrF0sW7fhYG84sxNzCn9jlyddsAJF7RDQdh9F8Ohe5NohGpphoPYAVHFmuMyUX60ZXIRu6SH9o0ZuxPFpuKW8aOAyp4t21x4x92mEShvdHPEEa2ORwOTK1fAoE1+OJiiEyngn9l0xFv5+x+xRDvD/CfuFA88k/lu9otfSp+tszkbv3vMTegwsjLvzGAXRnqMSrVM2l1pX3OigIf1fh5IAR9k0ffB9XVv+YuarJiquHodpPpak+CjNWC4jEiDFiOb+BdiAGHgzhC4Wbl1G7TQUj/MLdVSIXiq3quw+qBXdXFfmxECCHrrJbzetDuc40vsoLWoiKL78Be+AgkAe7W/zL24cWmXdAUtzwTcwP2pzaRwqW4JEZ+8ZAPE1iOrNSu2NjA66OzAlRXPwBCdvJ0IyzLqubXAzc/GQOYU3xRvX99uNFRXHFigEn1q9oXfxg2wFlR0A0As4d9XhdvZs+rC3N4vO3ijhl9ilu/Uv38N8kgY0plkGrKk8koDwAKUVgvujLKKNvZbipu/XRsA1z6PyoeWxE+OH/xHdeoqvw8xhaPFaQ7B/cMkQs7OSr4/wDASNKAadKbdcmWU/rgnfgGsAcZHui3BSvbwix0wtNrTGZoZ+McVI09bHRvay+jLM8PhCTFJu1+pGD5lLAuxR0z8SKehzhod9d4w1ZjICOpQnIVZ98ijJdJh66n4HBvu+duk0r+aaJpMwI6FYp/4subwrKy5kzEGNoCcZBJVeVyw+sPhTcWd8zsH4ryRoNw9rBWmOG30zCOT9QMi0XOibc3GoSRrWmNZYO6QS0/A+OxBeJBcWrvlGyZF97Y8MZDyNmDicxqmFSPZky5TsCwaFFdjZ32hkYWFdxnVW57bPPrzciKfXGKZhjz9dE5YUY6kAFCVIrPhihW0RBMirMYcEjEEnC9bwEbnbz2yWFCaSWTpS3XmMZfggTBqOAXaw52DvLn9Mljg0yqx+xCFQMtSDUwxUKSIJw9Kr2ZAbu2WB5wbLuJjf7ALCkxOBT6WObM6p7oWZDEQqUpTyWw//FE2GYkCCMbuUcP4jgl8tzcRc296JqQJDKwKkdmAWtWc6TLlMWZASbVI4n6YwJgOMBSM5xBpNqR52EaR4KJySVpqZhVPPWlgei8jlnGUz8mwKT4CCd3I1S+jkrxiavGG8DLiTwHWbHi1jF5LLxR4SqV/Kw9HYhepV0LQkwXQWZor+EkI0nZ31MM8UecPZVunR+yuy57IYfClIyXCCPEWExf2IAPZQQOvgpXT7umGBoa8jFVLb4zd6CLSxtYOEuqx9aUafxlKvgFNcvt866fHbJrxqCbP7QFR5cBKtVnIEWowuYlZ3795aYTQ3+JwfHH+KfuNQuWT7nqrCi4qGa5uplUg0RhV/Hzk8hN6/Y0lF0q7pjRH5nfm6MW8jB8K4SxHZBieJjOT4tsjx9p7XAK3OhqOLrdzJ5Xf4UKBUnfNLiJmIuFyhiT6x/36BJr6DQSxRuP78QvOCG8daarh1I4f4oJCgBLmS4+Ftluv7dzdihyCJzIqjnQaeYvabFj551Ufo1JFlOZU5xAAuiaUNSNXx6x+cZ8joQQDcN0iM0NjmtyFjRcEXlpPkwMVPCDyfTHNxsuALiL6eIV5tT+SVWlGwcEDkr6KFcC+F0YJ95A4BEAmDzwmek2bgNuAfwfCwYjMF2Pi1UAAAAASUVORK5CYII="
+          //assign values to each element and input that can stillbe edited
+          td2.innerText = element.item.Name.toUpperCase()
+          //remove item from quotation table
+          
+          const deleteItem =()=>{
+            
+            let index =BillProducts.orders.findIndex(item =>{
+              return item === element
+            })
+            if(index > -1){
+            
+              try {
+                BillProducts.orders.splice(index,1)
+                RenderDom(BillProducts)
+                //calculate  sum of available prices in orders
+                BillProducts.subTotal = parseInt(BillProducts.orders.map(item => {return item.total})
+                .reduce((total , currentValue) => {return total + currentValue},0))
+                // alert("products removed successfully")
+                saveToLocalStorage(BillProducts)
+              } catch (error) {
+                alert(error)
+              }
+             
+            }
+          }
+          td2.ondblclick = deleteItem
+
+          let td3Input = document.createElement('input')
+          td3Input.value = element.Qty
+          td7.innerText= `N${element.total}`//for rerendering purposes
+          td3Input.setAttribute('type', 'number')
+          td3Input.addEventListener('input', async (e)=>{
+            //find index of element to set qty
+            let indexs = BillProducts.orders.findIndex((index)=>{
+              return index === element
+            })
+            //return actual object index
+            if(indexs > -1){
+             let found = BillProducts.orders.find((currentValue, obj, arr)=>{
+                return obj === indexs
+              })
+              const val = parseInt(e.target.value < 1 ? td3Input.value = 1 : e.target.value )//tenary operator  to avoid overflow or underflow of 0 qty values
+              found.Qty = val
+
+              // const total = element.item.selling_Price * val
+            //   const singleVat = Math.round(parseInt(element.item.selling_Price *  element.item.VAT)/100)//find single vat for each product qty to perform
+              const total = parseInt(Math.floor(element.item.selling_Price * found.Qty ) )
+              found.total = total
+              
+              //calculate  total sum of available prices in orders
+              BillProducts.subTotal =  await parseInt(BillProducts.orders.map(item => {return item.total})
+              .reduce((total , currentValue) => {return total + currentValue},0))
+
+              //save to local storage function 
+              calculateTotals(BillProducts)
+              saveToLocalStorage(BillProducts)
+              td7.innerText= `N${found.total}`
+              
+            }
+            calculateTotals(BillProducts)
+          })
+          calculateTotals(BillProducts)
+
+          td3Input.setAttribute('placeholder','Qty')
+          td3Input.style.width='60px'
+          td3Input.style.fontSize='10 px'
+          td3.appendChild(td3Input)
+
+          td4.innerText = element.item.UMO
+          
+        //   td5.textContent = `${element.item.VAT}%`
+
+          td6.textContent= `N${element.item.selling_Price}`
+
+        //   td8Image.src = imagesrc
+        //   td8Image.width = 20
+
+          //assign class
+          tr.classList.add('item')
+          td3Input.classList.add('itemQty')
+
+          //append to quotation 
+          tr.appendChild(td2)
+        //   td8.appendChild(td8Image)
+          tr.appendChild(td3)
+        //   tr.appendChild(td8)
+          tr.appendChild(td4)
+        //   tr.appendChild(td5)
+          tr.appendChild(td6)
+          tr.appendChild(td7)
+          body.appendChild(tr)
+        });
+      }
+
+
+      
+      
+      //hide submit button pending  signature validation
+      setInterval(() => {
+            if(!BillProducts.signatureUrl ){
+            submitBtn.style.display = 'none'
+          }else{
+                submitBtn.style.display = 'block'
+          }
+      }, 100);
+
+      //submit to the server and get the results
+      // const submitBtn = document.getElementById('submit')
+      submitBtn.addEventListener('click',async (e)=>{
+        const required  = document.getElementsByName('required')
+        for (let index = 0; index < required.length; index++){
+          const customer = required[0].value
+         if (!customer ){
+               alert('This qoutation cannot be verified unti a Customer, quotation or signature is provided.')
+               required[index].style.backgroundColor = 'red';
+            }else{
+              const modal = document.getElementById('myModal')
+              modal.style.display='block'
+
+              spinner = ()=>{
+                return`
+                <div class="modal-body d-flex justify-content-center container">
+                  <div class="spinner-border" text-info" role="status" style="width: 3rem; height: 3rem;">
+                         <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                      `}
+
+              modal.innerHTML = spinner();
+              const endpoint = '/wareHouse/Bill'
+              const res = await fetch(endpoint,{
+                method:"POST",
+                body: JSON.stringify(BillProducts),
+                headers:{'Content-Type': 'application/json'}
+              })
+
+              const data = await res.json()
+              if (data){
+                Notification.requestPermission().then((perm) =>{
+                  if(perm ==='granted'){
+                    new Notification('Bigbern Notification',{
+                      body:data.message ? data.message : data.error,
+                      icon:'495670-removebg-preview.png',
+                    })
+                  }else{
+                    alert(data.message ? data.message : data.error)
+                  }
+                })
+                localStorage.removeItem('bill_products');
+                location.assign(location.href);
+              }
+            }
+          return customer  
+        }
+
+      })
+
+      //appending signature to the quotation
+      const Signature = ()=>{
+        const modal = document.getElementById('myModal')
+        modal.style.display='block'
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+               let opInput = document.querySelector('#opsCode')
+                modal.style.display = "none";
+                opInput.value = ''
+            }
+        }
+
+      }
+
+
+      //ops code form 
+      const opsCodesForm = document.getElementById('opsCode')
+      opsCodesForm.addEventListener('submit', async (e)=>{
+        e.preventDefault()
+        let opInput = opsCodesForm.opsCode.value
+        let user = document.getElementById('Signature')
+        let userId =user.dataset.id
+
+        const request = await fetch(`/users/${userId}/${opInput}`,{
+          method:'GET',
+          headers:{'Content-Type': 'application/json'}
+        })
+
+        const response = await request.json()
+        if(response.signature){
+          const appendSignature = document.getElementById('signature')
+            appendSignature.src = response.signature;
+            BillProducts.signatureUrl = response.signature;
+            saveToLocalStorage(BillProducts)
+            submitBtn.style.display = 'block';
+            document.getElementById('myModal').style.display='none';
+
+            // convert integer for grad total to word count
+            let Grandtotal = document.getElementById('Grandtotal').value
+    function test(n) {
+      if (n < 0)
+      return false;
+	 let single_digit = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
+	 let double_digit = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
+	 let below_hundred = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
+	if (n === 0) return 'Zero'
+	function translate(n) {
+		let word = ""
+		if (n < 10) {
+			word = single_digit[n] + ' '
+		}
+		else if (n < 20) {
+			word = double_digit[n - 10] + ' '
+		}
+		else if (n < 100) {
+			let rem = translate(n % 10)
+			word = below_hundred[(n - n % 10) / 10 - 2] + ' ' + rem
+		}
+		else if (n < 1000) {
+			word = single_digit[Math.trunc(n / 100)] + ' Hundred ' + translate(n % 100)
+		}
+		else if (n < 1000000) {
+      word = translate(parseInt(n / 1000)).trim() + ' Thousand ' + translate(n % 1000)
+		}
+		else if (n < 1000000000) {
+			word = translate(parseInt(n / 1000000)).trim() + ' Million ' + translate(n % 1000000)
+		}
+		// else {
+		// 	word = translate(parseInt(n / 1000000000)).trim() + ' Billion ' + translate(n % 1000000000)
+		// }
+		return word
+	}
+	let result = translate(n) 
+	return result.trim()+'.'
+}
+document.getElementById('words').innerHTML = `${test(parseInt(BillProducts.grandTotal))} Naira only.`;
+        }else{
+            alert(response.error);
+            opInput.focus();
+            opInput.value = ''
+          }
+        
+      } )
+
+
+    </script>
+</html>
