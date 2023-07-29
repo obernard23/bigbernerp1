@@ -365,33 +365,45 @@
             <div class="intro-form-item-border d-flex flex-column gap-3">
 
               <!-- dropdown for customer list -->
-              <div class="col-md-7">
-                <label for="validationCustom01" class="form-label">Customer </label>
-                <input type="text"  list="customers" id="customer" name="required" required class="form-control border" placeholder="Type to Search a customer" autocomplete="off"  required/>
-                <datalist id="customers" >
-                 <!-- display options for Customer -->
+
+              <!-- drop down for pricelist -->
+
+              <div class="col-md-5">
+                <label for="customers" class="form-label">Customer</label>
+                <select
+                  class="form-select "
+                  id="customer"
+                  aria-describedby="validationServer04Feedback"
+                  required
+                >
+                <option value="">Choose...</option>
+                  <!-- display options for Customer -->
                <%if(Cusomers){%>
                 <%Cusomers.forEach((customer)=>{%>
                     <option value="<%=customer._id%>"><%=customer.Username%></option>
                 <%})%>
                 <%}%>
-                 </datalist>
-            </div>
+                </select>
+                </div>
+
+
+
+              
 
              <!-- drop down for pricelist -->
 
              <div class="col-md-7">
-              <label for="pricelist" class="form-label">Price List</label>
+              <label for="pricelist" class="form-label">Costing Method</label>
               <select
                 class="form-select "
                 id="pricelist"
                 aria-describedby="validationServer04Feedback"
                 required
               >
-                <option selected disabled value="">Choose...</option>
-                <option value="Bank_payment" selected>Van Price </option>
-                <option value="Cash_payment">Super Market price</option>
-                <option value="Credit_Note">Whole sale price</option>
+                <option value="">Choose...</option>
+                <option disabled value="percentage" >By percentage </option>
+                <option selected value="priceList">By Defined price List</option>
+                <option disabled value="Price">Regular Price</option>
               </select>
               </div>
 
@@ -436,40 +448,56 @@
               <tr class="item">
                 <form action="">
                 <td>
-                  Product List:<input type="text" list="product" id="products" name="product" placeholder="Select product" style="padding: 10px;" autocomplete="on" />
-                  <datalist id="product" >
-                      <!-- display options for product -->
-                      <%products.forEach((products)=>{%>
-                        <%pname = prud.filter(name=>{%>
-                          <% return name._id.toString() === products.productId.toString()%>
-                          <%})%>
-                          <%pname.map(n=>{%>
-                            <option <%if(products.currentQty < 1){%>
-                              disabled="true"
-                              <%}%> 
-                              value="<%=n._id%>">
-                              <%=n.Name%>
-                               [<%=n.UMO%>]
-                              (Available Qty: <%=products.currentQty%>)
-                            </option>
-                          <%})%>
-                           <%})%>
-
-                  </datalist>
+                  
                  
+                  <!-- drop down for pricelist -->
 
+              <div class="col-md-6">
+                <label for="products" class="form-label">Products</label>
+                <select
+                  class="form-select "
+                  id="products"
+                  aria-describedby="validationServer04Feedback"
+                  required
+                >
+                <option >choose...</option>
+                <%products.forEach((products)=>{%>
+                  <%pname = prud.filter(name=>{%>
+                    <% return name._id.toString() === products.productId.toString()%>
+                    <%})%>
+                    <%pname.map(n=>{%>
+                      <option <%if(products.currentQty < 1){%>
+                        disabled="true"
+                        <%}%> 
+                        value="<%=n._id%>">
+                        <%=n.Name%>
+                         [<%=n.UMO%>]
+                        (Available Qty: <%=products.currentQty%>)
+                      </option>
+                    <%})%>
+                     <%})%>
+                </select>
+                </div>
                   
                 
                 <!-- for promotions item selection -->
-                
-                  Promo items: <input type="text" list="promolist" id="promos" name="promo" placeholder="Select promo items" autocomplete="on" />
-                  <datalist id="promolist" >
-                      <!-- display options for product -->
-                      <option>face cap </option>
-                      <option>base ball</option>
-                  </datalist>
-                  <td style="color: rgb(255, 255, 255); background-color: #c45b5b;padding:2px;margin:3px!important" class="shadow-sm " id="reset"> &times;Reset</td>
-                  <td style="color: rgb(125, 160, 225); background-color: #000000;padding:2px;margin:3px;" class="shadow-sm " id="promo"> &plus; Promo </td>
+
+              <div class="col-md-6">
+                <label for="Promotion" class="form-label">Promotion Item</label>
+                <select
+                  class="form-select "
+                  id="Promotion"
+                  aria-describedby="validationServer04Feedback"
+                  required
+                >
+                  <option value="">Choose...</option>
+                  <option value="" >Face Cap</option>
+                  <option value="">Water Bottle</option>
+                  <option value="">Excercise Book</option>
+                </select>
+                </div>
+                  <button class="btn btn-danger shadow" id="reset"> &times;Reset</button>
+                  <button  class="btn btn-warning shadow " id="promo"> &plus; Promo </button>
                 </td>
              </form>
               </tr>

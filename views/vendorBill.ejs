@@ -689,7 +689,7 @@
 
               // const total = element.item.selling_Price * val
             //   const singleVat = Math.round(parseInt(element.item.selling_Price *  element.item.VAT)/100)//find single vat for each product qty to perform
-              const total = parseInt(Math.floor(element.item.selling_Price * found.Qty ) )
+              const total = parseInt(Math.floor(element.item.vendor_Price * found.Qty ) )
               found.total = total
               
               //calculate  total sum of available prices in orders
@@ -715,7 +715,7 @@
           
         //   td5.textContent = `${element.item.VAT}%`
 
-          td6.textContent= `N${element.item.selling_Price}`
+          td6.textContent= `N${element.item.vendor_Price}`
 
         //   td8Image.src = imagesrc
         //   td8Image.width = 20
