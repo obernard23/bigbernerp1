@@ -103,7 +103,10 @@ const CustomerSchema = new  mongoose.Schema({
         {
             type:mongoose.Types.ObjectId,ref:'bills'
         }
-    ]
+    ],
+    priceList:{
+        type:String,
+    }
 
 },{timestamps:true});
 

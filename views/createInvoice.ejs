@@ -368,7 +368,7 @@
 
               <!-- drop down for pricelist -->
 
-              <div class="col-md-5">
+              <div class="col-md-7">
                 <label for="customers" class="form-label">Customer</label>
                 <select
                   class="form-select "
@@ -401,9 +401,9 @@
                 required
               >
                 <option value="">Choose...</option>
-                <option disabled value="percentage" >By percentage </option>
-                <option selected value="priceList">By Defined price List</option>
-                <option disabled value="Price">Regular Price</option>
+                <option  value="percentage" >By percentage </option>
+                <option  value="priceList">By Defined price List</option>
+                <option  value="Price">Regular Price</option>
               </select>
               </div>
 
@@ -595,6 +595,7 @@
           }
       }
 
+      
       //get request for customer
       const customerInput = document.getElementById('customer')
       customerInput.addEventListener('change',async(e)=>{
@@ -620,6 +621,7 @@
             BillProducts.customer = data.item._id //assign custom properties
             BillProducts.salesPerson = employee
             BillProducts.discount = data.item.discount //assign custom discount
+            BillProducts.priceList = data.item.priceList //assign customizes price list for product for diffrent customer pricelist
             BillProducts.ActivityLog.push({
               logMsg:`${BillProducts.salesPerson } created  a new ${BillProducts.billStatus} for ${data.item.Username} on ${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
               status:`${BillProducts.status} and awaiting Action`
@@ -642,7 +644,7 @@
           return {
           grandTotal:'',
           shippingFee:'',
-          subTotal:'',
+          subTotal:'',  
           startDate:`${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
           customer:'',
           orders:[],
@@ -663,6 +665,7 @@
           PaymentStatus:'',
           PaymentReference:'',
           supportDoc:'',
+          priceList:''
           };
         }else{
           return JSON.parse(quoteData)
@@ -710,6 +713,35 @@
         })
         const data = await res.json()
 
+                //get value from billing method 
+        const price = document.getElementById('pricelist').value
+        function priceLists(price){
+          if(price === 'percentage'){
+
+             //add price list to the list of prices 
+            const percentage =  5 //should return price list as assigned to the cunstomer 
+            const realPrice = percentage / 100
+            const actualPrice =  data.item.WareHouse_Price * realPrice 
+            const finalPrice  =  Math.floor(data.item.WareHouse_Price + actualPrice) //set a base selling  price
+            return finalPrice
+
+          }else if(price ==='priceList'){
+            console.log(BillProducts.priceList)
+              if (BillProducts.priceList === "Van_Price") {
+                return data.item.Van_Price
+              } else if(BillProducts.priceList ==="Market_Price") {
+                return data.item.Market_Price
+              }else if(BillProducts.priceList ==="WareHouse_Price"){
+                return data.item.WareHouse_Price
+              }
+
+          }else if (price === 'Price'){
+            return data.item.WareHouse_Price
+          }
+        }
+
+        console.log(priceLists(price))
+
          //add price list to the list of prices 
           const priceList =  5 //should return price list as assigned to the cunstomer 
           const realPrice = priceList / 100
@@ -719,7 +751,7 @@
         //generate id for each item
         const id = Math.floor(Math.random() * 10500600000787);
         // const Pname = document.getEle
-        BillProducts.orders.push({...data,Qty:'',total:'',_id:id,priceListPrice:finalPrice})//returns product, qty to perform and vat
+        BillProducts.orders.push({...data,Qty:'',total:'',_id:id,priceListPrice:priceLists(price)})//returns product, qty to perform and vat and price from custing
         saveToLocalStorage(BillProducts)
         RenderDom(BillProducts)
         e.target.value=''
@@ -747,6 +779,7 @@
           imagesrc="data:image/png;base64,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"
           //assign values to each element and input that can stillbe edited
           td2.innerText = element.item.Name.toUpperCase()
+          td2.setAttribute("title", `Double click here to delete ${element.item.Name.toUpperCase()}`)
           //remove item from quotation table
           
           const deleteItem =()=>{
