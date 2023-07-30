@@ -27,6 +27,7 @@ router.get('/Reset',authController.Reset_get);
 router.get('/logout',requireAuth,authController.logout_get);
 router.get('/Edit/Account',requireAuth,authController.edith_get);
 router.get('/employee',requireAuth,authController.OnboardEmployee_get)
+router.get('/Appraisal/:id',requireAuth,authController.Appraisal_get)
 
 router.post('/register',requireAuth,authController.Register_post);
 router.post('/SignIn',checkLoginUser,authController.signin_post);

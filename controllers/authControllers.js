@@ -884,3 +884,7 @@ module.exports.vendorFind_get = async (req, res) => {
       });
   }
 };
+
+module.exports.Appraisal_get = async (req, res) => {
+  res.status(200).render('Appraisal')
+};
