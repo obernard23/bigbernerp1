@@ -713,20 +713,21 @@
         })
         const data = await res.json()
 
-                //get value from billing method 
+        //get value from billing method 
         const price = document.getElementById('pricelist').value
         function priceLists(price){
+          // checks default base wholesale price with defined % on price
           if(price === 'percentage'){
 
              //add price list to the list of prices 
-            const percentage =  5 //should return price list as assigned to the cunstomer 
+            const percentage =  5 //should return % as assigned to the costing method
             const realPrice = percentage / 100
             const actualPrice =  data.item.WareHouse_Price * realPrice 
             const finalPrice  =  Math.floor(data.item.WareHouse_Price + actualPrice) //set a base selling  price
             return finalPrice
 
           }else if(price ==='priceList'){
-            console.log(BillProducts.priceList)
+
               if (BillProducts.priceList === "Van_Price") {
                 return data.item.Van_Price
               } else if(BillProducts.priceList ==="Market_Price") {
@@ -739,8 +740,6 @@
             return data.item.WareHouse_Price
           }
         }
-
-        console.log(priceLists(price))
 
          //add price list to the list of prices 
           const priceList =  5 //should return price list as assigned to the cunstomer 
