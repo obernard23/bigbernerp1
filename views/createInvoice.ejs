@@ -736,8 +736,14 @@
                 return data.item.WareHouse_Price
               }
 
+              // returns base price list (warehouse_price)
           }else if (price === 'Price'){
             return data.item.WareHouse_Price
+          }else if(price === '' || price === undefined || price === null ){
+            alert('Ops select a Customer to sell to and a costing Method');
+            return 0
+          }else{
+            return 0
           }
         }
 
