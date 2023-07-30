@@ -910,15 +910,14 @@
       }, 100);
 
       //submit to the server and get the results
-      // const submitBtn = document.getElementById('submit')
+
       submitBtn.addEventListener('click',async (e)=>{
-        const required  = document.getElementsByName('required')
-        for (let index = 0; index < required.length; index++){
-          const customer = required[0].value
-         if (!customer ){
+        
+         if (customerInput.value ==='' ){
                alert('This qoutation cannot be verified unti a Customer, quotation or signature is provided.')
-               required[index].style.backgroundColor = 'red';
+               customerInput.style.backgroundColor = 'red';
             }else{
+              e.preventDefault();
               const modal = document.getElementById('myModal')
               modal.style.display='block'
 
@@ -954,7 +953,7 @@
                 localStorage.removeItem('bill_products');
                 location.assign(location.href);
               }
-            }
+            
           return customer  
         }
 
