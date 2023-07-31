@@ -711,7 +711,7 @@
       const products = document.getElementById('products')
       products.addEventListener('change',async(e)=>{
         const endPoint = `/product/${e.target.value}/bill`
-        const res =await fetch(endPoint,{
+        const res = await fetch(endPoint,{
           method:'GET',
           headers:{'Content-Type': 'application/json'}
         })

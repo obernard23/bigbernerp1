@@ -40,6 +40,7 @@ router.post('/employee/Onboard/:id',requireAuth,checkUserRole,authController.Onb
 router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);
 router.post('/Product/Create-new',requireAuth,authController.ProductCreate_post);
 router.post('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_post);
+router.get(`/product/:id/bill`,requireAuth,authController.productFind_get);//get product with json
 router.get('/Products',requireAuth,authController.Product_get);
 router.get('/Product/:id/:name',requireAuth,authController.SingleProduct_get)
 router.get('/Ecommerce/Customers',requireAuth,authController.Customer_get);
@@ -51,7 +52,7 @@ router.get('/Sales/Payment/:id',requireAuth,authController.Payment_get);
 router.get('/Register/bill/:id/:billId',requireAuth,authController.RegisterPayment_get)
 router.patch('/bill/register/:id',requireAuth,authController.RegisterPayment_patch,NotifyManagerPayment)//register bill 
 
-router.get(`/product/:id/bill`,requireAuth,authController.productFind_get);
+
 router.get('/customer/:id/search',requireAuth,authController.CustomerFind_get);
 
 //warehouseops
