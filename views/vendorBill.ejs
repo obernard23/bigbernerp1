@@ -371,7 +371,11 @@
               <option>Choose...</option>
               <%if(vendor){%>
                 <%vendor.forEach((vendor)=>{%>
-                    <option value="<%=vendor._id%>"><%=vendor.Name%></option>
+                    <option value="<%=vendor._id%>"
+                    <%if(vendor.block_vendor){%>
+                      disabled="true"
+                    <%}%>
+                    ><%=vendor.Name%></option>
                 <%})%>
                 <%}%>
               </select>

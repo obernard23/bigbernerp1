@@ -380,7 +380,11 @@
                   <!-- display options for Customer -->
                <%if(Cusomers){%>
                 <%Cusomers.forEach((customer)=>{%>
-                    <option value="<%=customer._id%>"><%=customer.Username%></option>
+                    <option value="<%=customer._id%>"   
+                      <%if(customer.blocked){%>
+                        disabled = true
+                      <%}%>
+                      ><%=customer.Username%></option>
                 <%})%>
                 <%}%>
                 </select>
@@ -466,7 +470,7 @@
                     <% return name._id.toString() === products.productId.toString()%>
                     <%})%>
                     <%pname.map(n=>{%>
-                      <option <%if(products.currentQty < 1){%>
+                      <option <%if(products.currentQty < 1 || n.Sellable === false ){%>
                         disabled="true"
                         <%}%> 
                         value="<%=n._id%>">

@@ -41,6 +41,7 @@ router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);
 router.post('/Product/Create-new',requireAuth,authController.ProductCreate_post);
 router.post('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_post);
 router.get('/Products',requireAuth,authController.Product_get);
+router.get('/Product/:id/:name',requireAuth,authController.SingleProduct_get)
 router.get('/Ecommerce/Customers',requireAuth,authController.Customer_get);
 router.get('/Sales/Vendor',requireAuth,authController.Vendors_get);
 router.get('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_get);

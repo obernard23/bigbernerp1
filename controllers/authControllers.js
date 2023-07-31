@@ -315,6 +315,18 @@ module.exports.Product_get = async (req, res) => {
   res.render("Products", { Products, title: "Sales", name: "BigBern" });
 };
 
+//get single product
+module.exports.SingleProduct_get = async (req,res) => {
+  if (ObjectId.isValid(req.params.id)) {
+    await Product.findOne({ _id: ObjectId(req.params.id) })
+      .limit(1)
+      .then(async (product) => {
+        const vendor = await Vendor.find()
+        res.status(200).render('ProductEdit',{ product ,vendor});
+      });
+  }
+};
+
 //get all ecomerce customers
 module.exports.Customer_get = async (req, res) => {
   const Cusomers = await customer.find();
@@ -885,6 +897,16 @@ module.exports.vendorFind_get = async (req, res) => {
   }
 };
 
+
+// aprraisal get
 module.exports.Appraisal_get = async (req, res) => {
-  res.status(200).render('Appraisal')
+  if (ObjectId.isValid(req.params.id)) {
+    await Employe.findOne({ _id: ObjectId(req.params.id) })
+      .limit(1)
+      .then((item) => {
+        // console.log(item)
+        res.status(200).render('Appraisal',{item})
+      });
+  }
+  
 };
