@@ -11,6 +11,7 @@ const fs = require('fs');
 const sendQuot = require("../Functions/sendQuot");
 const pdf = require("pdf-creator-node");
 const { ObjectId } = require('mongodb');
+const sendBirtdaysEmail = require('../Functions/sendBirthdayMail');
 
 const router = Router()
 
@@ -94,8 +95,16 @@ router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
    })
 } )
 
- 
 
+ // send  birthday mail automatically
+setInterval( () => {
+ 
+    console.log(
+        "Happy birthday to you!")
+        sendBirtdaysEmail()
+        console.log("How old are you now?")
+  },86400000)//this should log 24hrs  
+ 
 
 //get user signature
 router.get(`/users/:userId/:opInput`,requireAuth,authController.Signature_get);
