@@ -1,8 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
   <%-include('./partials/head.ejs')%>
+  <style>
+    * {
+  box-sizing: border-box;
+}
+
+.card {
+  background: hsl(0 0% 10%);
+  width: 100px ;
+  aspect-ratio: 4 / 3;
+  position: relative;
+  transition: background 0.1s;
+}
+
+.card:hover {
+  --active: 1;
+}
+
+.card:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+  radial-gradient(circle at calc(var(--x) * 1px) calc(var(--y) * 1px), hsl(0 0% 100% / 0.15), transparent 15vmin);
+  background-attachment: fixed;
+  opacity: var(--active, 0);
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.card:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at calc(var(--x) * 1px) calc(var(--y) * 1px), hsl(0 0% 100% / 0.5), transparent 15vmin),
+    transparent;
+  background-attachment: fixed;
+  pointer-events: none;
+  mask:
+    linear-gradient(white, white) 50% 0 / 100% 4px no-repeat,
+    linear-gradient(white, white) 50% 100% / 100% 4px no-repeat,
+    linear-gradient(white, white) 0 50% / 4px 100% no-repeat,
+    linear-gradient(white, white) 100% 50% / 4px 100% no-repeat;
+}
+
+span {
+  font-family: sans-serif, system-ui;
+  position: absolute;
+  bottom: 0.65rem;
+  right: 0.65rem;
+  font-weight: bold;
+  font-size: 2rem;
+  color: hsl(0 0% 100%);
+}
+  </style>
   
-  <body class="bg-success-subtle dash">
+  <body class=" bg-success-subtle dash">
     <div class="d-flex justify-content-between p-2">
       <h5>How'dy <%=user.firstName.toUpperCase()%>!</h5>
 
@@ -10,6 +65,7 @@
         <p><%=responseDate%></p>
 
       <span
+      title="Logout"
         class="btn btn-warning d-flex align-items-end justify-content-end w-contain"
         onclick="location.assign('/logout')"
         style="cursor: pointer;"
@@ -32,17 +88,17 @@
         </svg>
       </span>
     </div>
-    <div class="container">
+    <div class="container main">
       <h5 class="card-title m-3">Business at a glance</h5>
       <p class="card-title m-3">
         Navigate to any module and Carry out necessary Operation
       </p>
-      <div class=" overflow-hidden flex-wrap justify-content-center gap-5  d-flex align-items-center">
+      <ul class=" overflow-hidden flex-wrap justify-content-center gap-5  d-flex align-items-center">
         <!-- employees -->
        
         <span
           onclick="location.assign('/employee')"
-          class="card p-1 mb-3 shadow-sm"
+          class="card m-1 mb-3 shadow-sm"
           title="Employee"
           style="cursor: pointer;"
         >
@@ -266,4 +322,12 @@
       </div>
     </div>
   </body>
+  <script>
+    const updateCursor = ({ x, y }) => {
+  document.documentElement.style.setProperty('--x', x)
+  document.documentElement.style.setProperty('--y', y)
+}
+
+document.body.addEventListener('pointermove', updateCursor)
+  </script>
 </html>

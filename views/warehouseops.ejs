@@ -58,8 +58,8 @@
         </div>
          <%}%>
          <div class="d-flex border justify-content-between align-items-center px-2">
-             <h5 class="font-bold"></h5>
-             <i style="color:<%if(result.Status == 'Activated'){%>
+             
+             <i style="color:<%if(result.Status){%>
                  green
                  <%}else{%>
                      red
@@ -69,7 +69,14 @@
                  width="40"
                  height="40"
                  >
-                </i>
+                </i> 
+                <i style="color:<%if(result.Status){%>
+                    green
+                    <%}else{%>
+                        red
+                        <%}%>
+                    "><b><%=result.WHName.toUpperCase()%></b></i>
+
              <div class="d-flex align-items-start">
                 <span  onclick="location.assign('/warehouse/Product/<%=result._id%>')"   class=" p-2 font-bold position-relative" title="Product in Storage">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD9UlEQVR4nO2dT08TQRiHl8QvoNGEbbbtxXD2b2IFCREUbxrxAMabeG27RDi0BvkAJEakKibtzcgFL8aDiRdSh6MpR++WwIHYmXBS4TVTaWxaSmfLru8Cv1/yXtvkefad2c40M5aFIAiCIAiCIAiCIPtFKXVNSrkopSxLKX8rpQiljBloZlLK71LKd0qpvo6fNiI6IaV8BfjK1wdQSpnTbD0LgQwV2EhQLpcLnocpdIYKdGguFArjlmV1mXbHIoSoQIWsrpa+RKPRS6ZCyo0fkHu+REP9Lg0kkqiEOQPNLDe31CRkY2Nj03Hsse7u7jMmQprepiAj2fGDeKN/oklIpVLZ1kJischVkzmk6QPQGckDMdiLqRbiOPadAwsh4aJEewZmQiKjECL+zwNl2CFjECIg5FgOcQPoEJddAoQIfvAQIvhhQ4jgBwwhgh8qhAh+kBASAngEIfzA6KgIqdVgX5Kyj1L0eT6Nmk9TdjxVZeJxcbG9ECnlT9Pl98HeJGTM/30gr/d6Wn7f8dIh35o2qOZab1ChQ9JVBq02qF6+eL/XBtUPL0LettuCxHK863nOaNzCNV5+39raOiel3IEQ19dJvL4mJycyxhtUu10yCyFuIEKKxeUPteHKaAtXh4i6lFLPpJTbGLJcX4ToibxYLH6Mx537/4TETlpeUqlULkOI64uQqanH2ZoIXfF45LwnGXXDFyZ14d8PQT2Rx2L2hY5kQIjr+y9zx3FOdSyDQ8ivZZdeZ1I0ctP/P+WNDKdoIZOufkdol0rCJmQhs/ePLD9LfweEGAoZCaAzGuvucApCjIUMpwIXcu+W/52NISvRuZA3WXSIp0l9IZMOpFMwqR+jGjiqb1l0SAtCBL8ECBH84CFE8MOGEMEPGEIEP1QICQFIghB+eAQh/MAIQvghEYTwgyEI4YdBISgsnQh+CRAi+MFDiOCHDSGCHzCECH6oEBICkAQh/PAIQviBEYTwQyII4QdDEMIPg0JQWDoR/BIgRPCDhxDBDxtCBD9gCBH8UCEkBCAJQvjhEYTwAyMI4YdEEMIPhiCEHwaFoLB0IvglQIjgBw8hgh/2oRKCSjYxCFQILglL+nYJmF9Cyl5OKT3ONdTiFNL19fVNP4Xoi3XbHuyIUi0ZlEpfzU8hNRBypd0ppSi1L4OZmemnWkg0at8+sJBdKTlAVx09eCsrK5/qzllM+CJEXzm9traWhxTlWUZPz9kHNSFGV616ST6ff1gqlYSepPSbAwSpprcpzUafXD09/aQ6TNUdCXvRCiBd+pbj+i9C2W0Z7Mowu667k+jW06cy60lKvzlAit0gITKq2WhGtm2fDkwEgiAIgiAIgliHLn8AKSCcApR8l94AAAAASUVORK5CYII="
