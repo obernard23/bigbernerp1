@@ -390,10 +390,6 @@
                 </select>
                 </div>
 
-
-
-              
-
              <!-- drop down for pricelist -->
 
              <div class="col-md-7">
@@ -405,31 +401,11 @@
                 required
               >
                 <option value="">Choose...</option>
-                <option  value="percentage" >By percentage </option>
-                <option  value="priceList">By Defined price List</option>
-                <option  value="Price">Regular Price</option>
+                <option  value="percentage" disabled >By percentage </option>
+                <option  value="priceList"selected>By Defined price List</option>
+                <option  value="Price" disabled>Regular Price</option>
               </select>
               </div>
-
-              <!-- <label class="d-flex align-items-center  justify-content-between">
-                Due date: <input type="date" id="dueDate" >
-              </label> -->
-              <!-- <label class="d-flex align-items-center  justify-content-between">
-                Payment Method:<select id="paymentMethod">
-                  <option value=""> Choose one</option>
-                    <option value="Bank_payment">Bank payment</option>
-                    <option value="Cash_payment">Cash payment</option>
-                    <option value="Credit_Note">Credit Note</option>
-                </select>
-              </label> -->
-              <!-- <label class="d-flex justify-content-between align-items-center">
-                Bank Accout: <select id="bankAccount" >
-                  <option value=""> Choose one</option>
-                    <option value="[GTB 0012433533]">[GTB 0012433533]</option>
-                    <option value="[ACCESS 001243633]">[ACCESS 001243633]</option>
-                    <option value="[FIRST 0012437833]">[FIRST 0012437833]</option>
-              </select>
-              </label> -->
             </div>
 
           </div>
@@ -534,7 +510,7 @@
               <tr class="no-border-item">
                 <td></td>
                 <td>Shipping/Handling:</td>
-                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px"> </td>
+                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px" value="0"> </td>
               </tr>
 
               <tr class="total">
@@ -557,7 +533,7 @@
             </div>
 
             <div class="form signer-item">
-              <label for="signature" class="label">Issued by: <%=user.firstName%></label>
+              <label for="signature" class="label" >Issued by: <%=user.firstName%></label>
               <img class="logo" src=""
                 id="signature"
               />
@@ -622,6 +598,13 @@
             BillProducts.startDate = `${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`
             const startDate = document.getElementById('startdate').innerText = `start Date: ${BillProducts.startDate}` ;
             BillProducts.ActivityLog = []
+            BillProducts.orders = []
+            BillProducts.grandTotal = 0
+            BillProducts.subTotal = 0 
+            BillProducts.shippingFee = 0
+            Grandtotal.textContent  = "N0.00"
+            document.getElementById('Subtotal').innerHTML = "N0.00"
+            document.getElementById('Shipping').value = 0
             BillProducts.customer = data.item._id //assign custom properties
             BillProducts.salesPerson = employee
             BillProducts.discount = data.item.discount //assign custom discount
@@ -631,6 +614,7 @@
               status:`${BillProducts.status} and awaiting Action`
             }) //for activity log
             saveToLocalStorage(BillProducts);
+            RenderDom(BillProducts)
       })
      
       //save the data to local storage
@@ -646,9 +630,9 @@
         if(quoteData === null){
           const d = new Date();
           return {
-          grandTotal:'',
-          shippingFee:'',
-          subTotal:'',  
+          grandTotal:0,
+          shippingFee:0,
+          subTotal:0,  
           startDate:`${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
           customer:'',
           orders:[],
@@ -658,7 +642,7 @@
           discount:'',
           taxRate:'',
           whId:'',
-          salesPerson:'Bernard Fidelis',
+          salesPerson:'',
           signatureUrl:'',
           ActivityLog:[],
           rejectionReasons:[],
@@ -693,7 +677,8 @@
         // let shippingFee = Shipping.value
         const Shipping = document.getElementById('Shipping')
         
-        Shipping.addEventListener('input',(e) =>{
+        Shipping.addEventListener('input',(e) =>{//still error with this
+          if(e.target.value === null) return BillProducts.shippingFee = 0
           value =  parseInt(e.target.value < 0 ? Shipping.value = 0 : e.target.value )//tenary operator  to avoid overflow or underflow of 0 qty values;
           BillProducts.grandTotal = parseInt(BillProducts.subTotal) + parseInt(value)
           Grandtotal.textContent = `N${BillProducts.grandTotal}`;
@@ -701,9 +686,7 @@
           saveToLocalStorage(BillProducts);
         });
         
-        document.getElementById('Subtotal').innerHTML = `N${BillProducts.subTotal}`;
-       
-         
+        document.getElementById('Subtotal').innerHTML = `N${BillProducts.subTotal}`; 
       }
       // calculateTotals(BillProducts)
 
@@ -804,6 +787,8 @@
                 //calculate  sum of available prices in orders
                 BillProducts.subTotal = parseInt(BillProducts.orders.map(item => {return item.total})
                 .reduce((total , currentValue) => {return total + currentValue},0))
+                BillProducts.grandTotal = BillProducts.subTotal + parseInt(BillProducts.shippingFee) 
+                Grandtotal.textContent = `N${BillProducts.grandTotal}`;
                 alert("products removed successfully")
                 saveToLocalStorage(BillProducts)
               } catch (error) {
@@ -814,8 +799,11 @@
           }
           td2.ondblclick = deleteItem
 
+          //declear qty of products
           let td3Input = document.createElement('input')
           td3Input.value = element.Qty
+          
+
           td7.innerText= `N${element.total}`//for rerendering purposes
           td3Input.setAttribute('type', 'number')
           td3Input.addEventListener('input', async (e)=>{
@@ -839,6 +827,8 @@
               //calculate  total sum of available prices in orders
               BillProducts.subTotal =  await parseInt(BillProducts.orders.map(item => {return item.total})
               .reduce((total , currentValue) => {return total + currentValue},0))
+              BillProducts.grandTotal = BillProducts.subTotal + parseInt(BillProducts.shippingFee)
+              Grandtotal.textContent = `N${BillProducts.grandTotal}`;
 
               //save to local storage function 
               calculateTotals(BillProducts)
@@ -1002,51 +992,50 @@
             document.getElementById('myModal').style.display='none';
 
             // convert integer for grad total to word count
-            let Grandtotal = document.getElementById('Grandtotal').value
-    function test(n) {
-      if (n < 0)
-      return false;
-	 let single_digit = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
-	 let double_digit = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
-	 let below_hundred = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
-	if (n === 0) return 'Zero'
-	function translate(n) {
-		let word = ""
-		if (n < 10) {
-			word = single_digit[n] + ' '
-		}
-		else if (n < 20) {
-			word = double_digit[n - 10] + ' '
-		}
-		else if (n < 100) {
-			let rem = translate(n % 10)
-			word = below_hundred[(n - n % 10) / 10 - 2] + ' ' + rem
-		}
-		else if (n < 1000) {
-			word = single_digit[Math.trunc(n / 100)] + ' Hundred ' + translate(n % 100)
-		}
-		else if (n < 1000000) {
-      word = translate(parseInt(n / 1000)).trim() + ' Thousand ' + translate(n % 1000)
-		}
-		else if (n < 1000000000) {
-			word = translate(parseInt(n / 1000000)).trim() + ' Million ' + translate(n % 1000000)
-		}
-		// else {
-		// 	word = translate(parseInt(n / 1000000000)).trim() + ' Billion ' + translate(n % 1000000000)
-		// }
-		return word
-	}
-	let result = translate(n) 
-	return result.trim()+'.'
-}
-document.getElementById('words').innerHTML = `${test(parseInt(BillProducts.grandTotal))} Naira only.`;
-        }else{
-            alert(response.error);
-            opInput.focus();
-            opInput.value = ''
+            function test(n) {
+              if (n < 0)
+              return false;
+          let single_digit = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
+          let double_digit = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
+          let below_hundred = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
+          if (n === 0) return 'Zero'
+          function translate(n) {
+            let word = ""
+            if (n < 10) {
+              word = single_digit[n] + ' '
+            }
+            else if (n < 20) {
+              word = double_digit[n - 10] + ' '
+            }
+            else if (n < 100) {
+              let rem = translate(n % 10)
+              word = below_hundred[(n - n % 10) / 10 - 2] + ' ' + rem
+            }
+            else if (n < 1000) {
+              word = single_digit[Math.trunc(n / 100)] + ' Hundred ' + translate(n % 100)
+            }
+            else if (n < 1000000) {
+              word = translate(parseInt(n / 1000)).trim() + ' Thousand ' + translate(n % 1000)
+            }
+            else if (n < 1000000000) {
+              word = translate(parseInt(n / 1000000)).trim() + ' Million ' + translate(n % 1000000)
+            }
+            // else {
+            // 	word = translate(parseInt(n / 1000000000)).trim() + ' Billion ' + translate(n % 1000000000)
+            // }
+            return word
           }
-        
-      } )
+          let result = translate(n) 
+          return result.trim()+'.'
+        }
+        document.getElementById('words').innerHTML = `${test(parseInt(BillProducts.grandTotal))} Naira only.`;
+                }else{
+                    alert(response.error);
+                    opInput.focus();
+                    opInput.value = ''
+                  }
+                
+              } )
 
 
     </script>
