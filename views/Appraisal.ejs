@@ -42,15 +42,6 @@
               </h5>
             </li>
           </ul>
-          <form class="d-flex " role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-success" type="submit">Search</button>
-          </form>
         </div>
       </nav>
    <section style="height: 95vh;">
@@ -61,29 +52,23 @@
         <!-- the main form div -->
         <div class="flex justify-between p-5">
             <div class="flex flex-col gap-3 ">
-                <label class="flex flex-row gap-9 justify-between">
-                   <input type="text" list="department" id="sdepartment" name="sdepartment" placeholder="Select a department" autocomplete="on" required/>
-                    <datalist id="department" >
-                        <!-- display options for department -->
-                    </datalist>
-                </label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Appraisee</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" disabled value='<%=item.firstName%> <%=item.lastName%>'/>
+                  </div>
                 <!-- <input type="text" placeholder="Employee's name"  id="EmployeeName" style="width:570px;padding:10px;font-size: x-large;" required/> -->
-                <label for=""class="flex justify-between text-sm font-bold">
-                    Manager: <input type="text" id="manager" disabled>
-                </label>
-                <!-- for unit members -->
-                <label class="flex flex-row gap-9 justify-between">
-                    Appraisee: <input type="text" value="<%=item.firstName%> <%=item.lastName%>" id="Appraised" name="Appraised" placeholder="Choose Appraisee" autocomplete="on" required/>
-                 </label>
-                 <label class="flex justify-between text-sm font-bold">
-                    Lead:<input type="text" id="Unit" disabled>
-                </label>
-                <label for="" class="flex justify-between text-sm font-bold">
-                    job role: <input type="text" id="role" disabled>
-                </label>
-                <label class="flex justify-between text-sm font-bold">
-                    Email:<input type="text" id="email" value="<%=item.Email%>" disabled>
-                </label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Manager</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" disabled aria-describedby="basic-addon1">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Job Role</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" disabled aria-describedby="basic-addon1">
+                  </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" disabled aria-describedby="basic-addon1" value="<%=item.Email%>">
+                  </div>
                 <label for="" class="flex justify-between text-sm font-bold">
                     Last Appraisal:<input type="text" id="lastAppraisal" disabled>
                 </label>
@@ -115,35 +100,60 @@
                     </td>
                     <!-- Perspective -->
                     <td >
-                        <select name="Perspective">
+                        <div class="col-md-7">
+                            <label for="customers" class="form-label"></label>
+                            <select
+                              class="form-select "
+                              id="customer"
+                              aria-describedby="validationServer04Feedback"
+                              required
+                              name="Perspective"
+                            >
+                            <option value="">Choose...</option>
                             <option value="">select one</option>
                             <option value="Customer">Customer</option>
                             <option value="Finance">Finance</option>
                             <option value="Innovation">Innovation</option>
                             <option value="L&G">Learning and Growth</option>
-                        </select>
+                            </select>
+                            </div>
                     </td>
                     <!-- Objectives -->
-                    <td class="flex justify-center">
-                        <textarea name="Objectives" cols="30" rows="2" placeholder='Write a text' required autocapitalize="on"></textarea>
+                    <td class="col-md-4">
+                       
+                            <label for="validationCustom01" class="form-label"></label>
+                            <textarea type="text"  name="Objectives" cols="30" rows="2"  class="form-control" autocomplete="off" autocapitalize="on"  ></textarea>
+                        
                     </td>
                     <!-- Measures -->
                     <td >
-                        <select name="Measures" id="">
+                        <div class="col-md-7">
+                            <label for="customers" class="form-label"></label>
+                            <select
+                              class="form-select "
+                              id="customer"
+                              aria-describedby="validationServer04Feedback"
+                              required
+                              name="Measures"
+                            >
+                            <option value="">Choose...</option>
                             <option value="Q-1">[Q-1]</option>
                             <option value="Q-2">[Q-2]</option>
                             <option value="Q-3">[Q-3]</option>
-                        </select>
+                            </select>
+                            </div>
                     </td>
                     <!-- Target scoring -->
                     <td>
                         <label for="" class="flex justify-center">
                             <input type="number" name="score" placeholder="0" style="width: 50px;border:none" required/>%
                         </label>
+                        
                     </td>
                     <!-- innovation -->
-                    <td class="flex justify-center">
-                        <textarea name="innovation" id="" cols="30" rows="2" placeholder='Write a text' required></textarea>
+                    <td >
+                        <label for="validationCustom01" class="form-label"></label>
+                            <textarea type="text"  name="innovation" cols="30" rows="2"  class="form-control" autocomplete="off" autocapitalize="on"  ></textarea>
                     </td>
                 </tr>
             </tbody>

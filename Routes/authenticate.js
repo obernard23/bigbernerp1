@@ -96,6 +96,7 @@ router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
 } )
 
 
+
 // send  birthday mail automatically
 setInterval( () => {
     sendBirtdaysEmail()

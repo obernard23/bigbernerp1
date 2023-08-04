@@ -510,7 +510,7 @@
               <tr class="no-border-item">
                 <td></td>
                 <td>Shipping/Handling:</td>
-                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px" value="0"> </td>
+                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px" > </td>
               </tr>
 
               <tr class="total">
@@ -678,7 +678,6 @@
         const Shipping = document.getElementById('Shipping')
         
         Shipping.addEventListener('input',(e) =>{//still error with this
-          if(e.target.value === null) return BillProducts.shippingFee = 0
           value =  parseInt(e.target.value < 0 ? Shipping.value = 0 : e.target.value )//tenary operator  to avoid overflow or underflow of 0 qty values;
           BillProducts.grandTotal = parseInt(BillProducts.subTotal) + parseInt(value)
           Grandtotal.textContent = `N${BillProducts.grandTotal}`;
