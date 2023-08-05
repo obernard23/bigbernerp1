@@ -57,26 +57,7 @@ const StorageSchema =  new mongoose.Schema({
     ActivitiyLog:[],
 })
 
-const toReciveSchema = new mongoose.Schema({
-    products:[itemsSchema],
-    driver:{
-        type:String, 
-        required:true
-    },
-    DVN:{
-        type:String, 
-        required:true
-    },
-    driverTel:{
-        type:String, 
-        required:true
-    },
-    Date:{
-        type:Date, 
-        required:true
-    },
-    AccumulatedAmount:{type:Number}
-})
+
 
 const WHSchema = new  mongoose.Schema({
     WHName:{
@@ -84,7 +65,7 @@ const WHSchema = new  mongoose.Schema({
         required:true,
         lowercase:true
     },
-    toRecive:[toReciveSchema],
+    toRecive:[],
     Bills:[],
     Storage:[ StorageSchema ],
     Notification:{
@@ -137,7 +118,6 @@ const WHSchema = new  mongoose.Schema({
 
 const  WHouse = mongoose.model(' WHouse',WHSchema);
 const items = mongoose.model('item',itemsSchema)
-const storage = mongoose.model('recieved',toReciveSchema);
 const storeProduct = mongoose.model('storeProduct',StorageSchema)
 
 module.exports = {WHouse,items,storeProduct};

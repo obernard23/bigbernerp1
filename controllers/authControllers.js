@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const sendMail = require("../Functions/SendBill");
+const VirtualstorageProduct = require('../modules/purchase')
 
 const restPassword = require("../Functions/resetPasword");
 var id = new mongoose.Types.ObjectId();
@@ -75,7 +76,7 @@ module.exports.Signature_get = async(req,res,next) =>{
   next()
 }
 
-module.exports.Dashboard_get = (req, res) => {
+module.exports.Dashboard_get = async (req, res) => {
     let date = new Date()
     var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
   res.render("dashboard", { title: "Dashboard", name: "Bigbern" ,responseDate});
@@ -356,12 +357,31 @@ module.exports.ProductCreate_post = async (req, res) => {
   } = req.body;
 
   try {
-    await Product.create(req.body);
+    await Product.create(req.body).then(async function (product) {
+      await VirtualstorageProduct.create({productsId: product._id})// register product with purchase request
+    })
     res.status(200).json({ Message: "New Product Created" });
   } catch (err) {
     res.status(500).json({ Message: err.message });
   }
 };
+
+//product edit 
+module.exports.Product_patch = async(req,res)=>{
+  const update = req.body;
+  if (ObjectId.isValid(req.params.id)) {
+    Product.updateOne({ _id: ObjectId(req.params.id) }, { $set: update })
+      .then((Product) => {
+        console.log(Product)
+        res.status(200).json({ result: "Product Updated" });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: "could not update Product" });
+      });
+  } else {
+    res.status(500).json({ error: "Not a valid doc ID" });
+  }
+}
 
 // get product from invoice
 module.exports.productFind_get = async (req, res) => {
@@ -542,6 +562,13 @@ module.exports.WareHouseStock_post = async (req, res) => {
     res.status(400).json({ error: e.message });
   }
 };
+
+//VirtualstorageProduct get
+module.exports.VirtualstorageProduct_get = async (req,res) => {
+  const PurchasedProduct = await VirtualstorageProduct.find()
+  const prud = await Product.find()
+  res.status(200).render('purchaseReplenish',{PurchasedProduct,prud})
+}
 
 // ..create bills
 module.exports.WareHouseBill_post = async (req, res) => {
@@ -821,7 +848,7 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
     .then(async function(updatedBill) {
       // find customer and scheck for debit and credit lines
       const customers = await customer.findById(new ObjectId(updatedBill.customer))
-      if(customers.Debt ===  0 && update.registeredBalance === updatedBill.grandTotal ){
+      if(customers.Debt ===  0 && update.registeredBalance === updatedBill.grandTotal ){//customer debt is 0 and they are paying for bill in full
         await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
         .then(async (bill) =>{
           if(bill.acknowledged){
@@ -832,9 +859,7 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
             throw new Error('Something seems to be wrong')
           }
         })
-      }else if(customers.Debt > 0 && update.registeredBalance  < updatedBill.grandTotal + customers.Debt){
-        res.status(301).json({message:`This customer is owing the business N${customers.Debt}`})
-      }else if(customers.Debt > 0 && update.registeredBalance >= updatedBill.grandTotal + customers.Debt){
+      }else if( update.registeredBalance > customers.creditLimit - customers.Debt){
         await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
         .then(async (bill) =>{
           if(bill.acknowledged){
@@ -848,8 +873,8 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
           }
         })
       }else{//check debt adding to total instead of debt adding to registered balance
-        if(updatedBill.grandTotal - update.registeredBalance > customers.creditLimit){
-          throw new Error('Credit limit exceeded')
+        if(customers.Debt ===  customers.creditLimit){
+          throw new Error (`This customer's Credit limit has been Exhausted. Credit balance Remaining N${customers.creditLimit - customers.Debt}`)
         }else{
           await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
         .then(async (bill) =>{

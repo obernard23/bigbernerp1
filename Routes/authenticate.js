@@ -43,6 +43,7 @@ router.post('/Product/Create-new',requireAuth,authController.ProductCreate_post)
 router.post('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_post);
 router.get(`/product/:id/bill`,requireAuth,authController.productFind_get);//get product with json
 router.get('/Products',requireAuth,authController.Product_get);
+router.patch('/Products/:id/edit',requireAuth,authController.Product_patch);
 router.get('/Product/:id/:name',requireAuth,authController.SingleProduct_get)
 router.get('/Ecommerce/Customers',requireAuth,authController.Customer_get);
 router.get('/Sales/Vendor',requireAuth,authController.Vendors_get);
@@ -62,6 +63,7 @@ router.post('/warehouse/create-new',requireAuth,authController.wareHouse_post);
 router.get('/Location/:id',requireAuth,authController.warehouseById_get);
 router.get('/warehouse/:id/Invoices/new',requireAuth,authController.Invoice_get);
 router.get('/stock-move',requireAuth,authController.stock_get);//for inventory move
+router.get('/VirtualstorageProduct',requireAuth,authController.VirtualstorageProduct_get)//add url to frontend today
 router.patch('/warehouse/:id/edit',requireAuth,authController.Edit_patch);
 router.post(`/wareHouseToTransfer`,requireAuth,authController.WareHouseStoreage_post);//here to post toWareHouse
 router.post(`/wareHouseToTransfer/toRecive`,requireAuth,authController.WareHouseStock_post);//use this for deliveries

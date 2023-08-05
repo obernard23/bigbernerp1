@@ -20,14 +20,10 @@
                 </ol>
              
               </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <div class="btn btn-success" >Search</div>
-          </form>
         </div>
       </nav>
       <div class="container p-3 ">
-        <form action=""  method="post" id='productForm' class="p-2 border shadow bg-light" >
+        <form action=""  method="patch" id='form' class="p-2 border shadow bg-light" >
             <input type="text" placeholder="Product Name" name="Name" value="<%=product.Name%>" style="width:570px;padding:10px;font-size: x-large;" required/>
             <div class="d-flex  gap-3 p-5 justify-content-around">
                 <!-- cateory -->
@@ -118,7 +114,7 @@
                     </label>
     
                     <label class="flex gap-9 ">
-                        ADC Code: <input type="text"  value="<%=product.product_code%>"  name="AdcCode"placeholder='Name of Manufacturer'id="AdcCode">
+                        ADC Code: <input type="text"  value="<%=product.product_code%>"  name="AdcCode"placeholder='Name of Manufacturer'id="AdcCode" data-id='<%=product._id%>'>
                     </label>
     
                 </div>
@@ -193,6 +189,59 @@
         </form>
       </div>
 </body>
-<script  src="/Erp.js"></script>
-<script src="/Sale.js" type="module"></script>
+<!-- <script  src="/Erp.js"></script>
+<script src="/Sale.js" type="module"></script> -->
+<script>
+
+    const ProductForm = document.getElementById('form');
+    ProductForm.addEventListener('submit',async (e)=>{
+        e.preventDefault();
+   
+   const Name = ProductForm.Name.value;
+   const category = ProductForm.category.value;
+   const WareHouse_Price = ProductForm.WareHouse_Price.value;
+   const Market_Price = ProductForm.Market_Price.value;
+   const Van_Price = ProductForm.Van_Price.value;
+   const Vendor = ProductForm.vendor.value;
+   const vendor_Price = ProductForm.vendor_Price.value;
+   const UMO = ProductForm.UMO.value;
+   const color = ProductForm.elements.color.value;
+   const Description = ProductForm.Description.value;
+   const ACDcode = ProductForm.AdcCode.value;
+   const Sellable =  ProductForm.Sellable.checked;
+   const Ecom_sale = ProductForm.Ecom_sale.checked;
+   const Manufacturer = ProductForm.Manufacturer.value;
+   const Manufacture_code = ProductForm.ManufacturerCode.value;
+   const VAT = ProductForm.VAT.value;
+
+   const productId = document.getElementById('AdcCode')
+   id = productId.dataset.id
+   const endPoint= `/Products/${id}/edit`;
+   const update = {Name,
+           category,
+           WareHouse_Price,
+           Market_Price,
+           Van_Price,
+           vendor_Price,
+           Vendor,
+           UMO,
+           color,
+           Description,
+           Sellable,
+           Ecom_sale,
+           Manufacturer,
+           Manufacture_code,
+           ACDcode,
+           VAT}
+
+   const res = await fetch(endPoint,{
+       method:'PATCH',
+       body:JSON.stringify(update),
+       headers:{'Content-Type': 'application/json'}
+   })
+
+   const data = await res.json()
+   console.log(data)
+    })
+</script>
 </html>
