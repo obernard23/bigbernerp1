@@ -362,7 +362,7 @@ module.exports.ProductCreate_post = async (req, res) => {
     })
     res.status(200).json({ Message: "New Product Created" });
   } catch (err) {
-    res.status(500).json({ Message: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -372,7 +372,6 @@ module.exports.Product_patch = async(req,res)=>{
   if (ObjectId.isValid(req.params.id)) {
     Product.updateOne({ _id: ObjectId(req.params.id) }, { $set: update })
       .then((Product) => {
-        console.log(Product)
         res.status(200).json({ result: "Product Updated" });
       })
       .catch((err) => {

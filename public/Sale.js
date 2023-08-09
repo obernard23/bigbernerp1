@@ -160,6 +160,7 @@ ProductForm.addEventListener('submit',async (e)=>{
         })
 
         const data = await res.json()
-        console.log(data)
+        data?.Message? prompt(data.Message) : prompt(data.error)
+        data.Message? ProductForm.reset() : ''
 });
 

@@ -189,8 +189,7 @@
         </form>
       </div>
 </body>
-<!-- <script  src="/Erp.js"></script>
-<script src="/Sale.js" type="module"></script> -->
+ <script  src="/Erp.js"></script>
 <script>
 
     const ProductForm = document.getElementById('form');
@@ -241,7 +240,7 @@
    })
 
    const data = await res.json()
-   console.log(data)
+   data?.result ? alert(data.result) : alert(data.error)
     })
 </script>
 </html>
