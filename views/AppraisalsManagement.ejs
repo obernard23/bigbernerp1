@@ -25,7 +25,7 @@
               </a>
               <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
               
-                  <p class="breadcrumb-item " aria-current="page" style="color: #fff !important;">Virtual Store</p>
+                  <p class="breadcrumb-item " aria-current="page" style="color: #fff !important;">Appraisal</p>
                
              
               </ul>
@@ -33,7 +33,7 @@
       </nav>
       
       <div class="p-3">
-          <h2 >Virtual Product list</h2>
+          <h2 >Apraisal List</h2>
           <div class="table-responsive custom-table-responsive" >
     
             <table class="table custom-table" style="font-size: 15px !important;">
@@ -48,14 +48,14 @@
                   </th>
                   
                   <th scope="col">ACTIVITY LOG</th>
-                  <th scope="col">Virtual QTY</th>
-                  <th scope="col">PRODUCT</th>
-                  <th scope="col">SCALE</th>
-                  <th scope="col">PHOTO DESC</th>
+                  <th scope="col">PERIOD</th>
+                  <th scope="col">EMPLOYEE</th>
+                  <th scope="col">DATE</th>
+                  <th scope="col">EMPL...PHOTO</th>
                 </tr>
               </thead>
               <tbody>
-                <%if(PurchasedProduct.length > 0){%> <%PurchasedProduct.forEach((purchaseproducts)=>{%>
+                <%if(Appraisal.length > 0){%> <%Appraisal.forEach((Appraisal)=>{%>
                   <tr scope="row">
                     <th scope="row">
                       <label class="control control--checkbox">
@@ -80,36 +80,28 @@
                   <!--ends here  -->
                     </td>
                     <td>
-                   <h6><%=purchaseproducts.PurchasedQty%></h6>
+                   <h6><%=Appraisal.title%></h6>
                     </td>
                     <td>
                          <!-- product name -->
-                  <%pname = prud.filter(name=>{%>
-                    <% return name._id.toString() === purchaseproducts.productsId.toString()%>
+                  <%pname = Employee.filter(name=>{%>
+                    <% return name._id.toString() === Appraisal.Employe.toString()%>
                     <%})%>
                      <%pname.map(n=>{%>
-                       <a href="/Product/<%=n._id%>/<%=n.Name%>" class="form-label"><%=n.Name.toUpperCase()%></a>
+                       <a href="/Product/<%=n._id%>/<%=n.Name%>" class="form-label"><%=n.firstName.toUpperCase()%> <%=n.lastName.toUpperCase()%></a>
                      <%})%>
                     <!-- ends here -->
                     </td>
                     <td>
-                            <!-- product scale -->
-                  <%pname = prud.filter(name=>{%>
-                    <% return name._id.toString() === purchaseproducts.productsId.toString()%>
-                    <%})%>
-                     <%pname.map(n=>{%>
-                       <%if(n.UMO){%>
-                         <P><%=n.UMO.toUpperCase()%></P>
-                       <%}%>
-                     <%})%>
+                         <P><%=Appraisal.date%></P>
                     </td>
                     <td>
                                <!-- product scale -->
-                  <%pname = prud.filter(name=>{%>
-                    <% return name._id.toString() === purchaseproducts.productsId.toString()%>
-                    <%})%>
-                     <%pname.map(n=>{%>
-                         <img width="50" height="50" src='<%=n.image%>' alt="photo here" >
+                      <%pname = Employee.filter(name=>{%>
+                      <% return name._id.toString() === Appraisal.Employe.toString()%>
+                      <%})%>
+                      <%pname.map(n=>{%>
+                         <img width="50" height="50" src='' alt="photo here" >
                      <%})%>
                     </td>
                   </tr>

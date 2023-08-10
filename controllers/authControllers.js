@@ -10,6 +10,7 @@ const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const sendMail = require("../Functions/SendBill");
 const VirtualstorageProduct = require('../modules/purchase')
+const Appraisals = require('../modules/Appraisal')
 
 const restPassword = require("../Functions/resetPasword");
 var id = new mongoose.Types.ObjectId();
@@ -934,3 +935,18 @@ module.exports.Appraisal_get = async (req, res) => {
   }
   
 };
+
+module.exports.Appraisal_post = async (req,res) => {
+await Appraisals.create(req.body).then(() => {
+  res.status(200).json({message:'Appraisal Submited Successfully'})
+});
+res.end()
+};
+
+module.exports.AppraisalsManagement_get = async (req,res)=>{//from dashboard
+ const Appraisal = await Appraisals.find()
+ const Employee = await  Employe.find();
+ console.log(Appraisal)
+  res.status(200).render('AppraisalsManagement',{Appraisal,Employee})
+}
+
