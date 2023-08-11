@@ -7,7 +7,7 @@ const bills = require("../modules/Bills");
 
 
 
-//this function sends quotation tocustomer  on singleill page
+//this function sends quotation to customer  on singleill page
 
 const sendQuot = async (req,res,next) => {
 
@@ -58,7 +58,7 @@ const sendQuot = async (req,res,next) => {
                                     Product :order.item.Name,
                                     Qty:order.Qty,
                                     Vat:order.item.VAT,
-                                   "Price(N)" : `${order.item.selling_Price}`,
+                                   "Price(N)" : `${order.priceListPrice}`,
                                     Scale:order.item.UMO,
                                     "Total(N)": `${order.total}`,
                                 }

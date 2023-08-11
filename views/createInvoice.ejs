@@ -994,7 +994,30 @@
               } catch (error) {
                 alert(error.message)
               }
-            } 
+            } else{
+              const endpoint = '/wareHouse/Bill'
+              const res = await fetch(endpoint,{
+                method:"POST",
+                body: JSON.stringify(BillProducts),
+                headers:{'Content-Type': 'application/json'}
+              })
+
+              const data = await res.json()
+              if (data){
+                Notification.requestPermission().then((perm) =>{
+                  if(perm ==='granted'){
+                    new Notification('Bigbern Notification',{
+                      body:data.message ? data.message : data.error,
+                      icon:'495670-removebg-preview.png',
+                    })
+                  }else{
+                    alert(data.message ? data.message : data.error)
+                  }
+                })
+                localStorage.removeItem('bill_products');
+                location.assign(location.href);
+              }
+            }
      
           return customer  
         }
