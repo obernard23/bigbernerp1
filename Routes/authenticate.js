@@ -23,7 +23,7 @@ router.get('/FAQ',authController.FAQ_get);
 router.get('/index',authController.index_get);//check this out
 router.get('/About',authController.About_get);
 router.get('/Notification',requireAuth,authController.Notification_get);
-// router.get('/register',requireAuth,authController.Register_get);
+router.get('/register-NEW',requireAuth,authController.Register_get);
 router.get('/Reset',authController.Reset_get);
 router.get('/logout',requireAuth,authController.logout_get);
 router.get('/Edit/Account',requireAuth,authController.edith_get);
@@ -43,7 +43,7 @@ router.post('/employee/Onboard/:id',requireAuth,checkUserRole,authController.Onb
 router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);
 router.post('/Product/Create-new',requireAuth,authController.ProductCreate_post);
 router.post('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_post);
-router.get(`/product/:id/bill`,requireAuth,authController.productFind_get);//get product with json
+router.get(`/product/:id/bill`,requireAuth,authController.productFind_get);//get product with json format for quotation purposes
 router.get('/Products',requireAuth,authController.Product_get);
 router.patch('/Products/:id/edit',requireAuth,authController.Product_patch);
 router.get('/Product/:id/:name',requireAuth,authController.SingleProduct_get)
@@ -69,12 +69,13 @@ router.get('/VirtualstorageProduct',requireAuth,authController.VirtualstoragePro
 router.patch('/warehouse/:id/edit',requireAuth,authController.Edit_patch);
 router.post(`/wareHouseToTransfer`,requireAuth,authController.WareHouseStoreage_post);//here to post toWareHouse
 router.post(`/wareHouseToTransfer/toRecive`,requireAuth,authController.WareHouseStock_post);//use this for deliveries
-router.post('/wareHouse/Bill',requireAuth,authController.WareHouseBill_post);
+router.post('/wareHouse/Bill',requireAuth,authController.WareHouseBill_post);//to post bill
 router.get(`/warehouse/:id/Bills`,requireAuth,authController.WareHouseBill_get);
-router.get(`/:WHName/bill/:id`,requireAuth,authController.WareHouseSingleBill_get);
-router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);
+router.get(`/:WHName/bill/:id`,requireAuth,authController.WareHouseSingleBill_get);//approve page for manager for new bill
+router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);//to approve bills for manager
 router.get('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_get);//get products for specific ware house
 router.patch('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_patch);
+router.get('/Employee/:employeeId',requireAuth,authController.WareHouseManager_get)
 // GENERATE PDF FOR BILL
 router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
     const bill = await bills.findById(new ObjectId(req.params.billId)).limit(1).lean()

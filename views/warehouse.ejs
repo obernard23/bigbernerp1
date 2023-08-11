@@ -47,52 +47,50 @@
                           </svg>
                       </div>
                       <div class="col-md-4">
-                          <label for="validationCustom01" class="form-label">Ware House Name</label>
-                          <input type="text" placeholder="Ware-house Name" name="WHName"  class="form-control" autocomplete="off" autocapitalize="on" required value="WH-"/>
+                          <label for="WHName" class="form-label">Ware House Name</label>
+                          <input type="text" id="WHName" placeholder="Ware-house Name" name="WHName"  class="form-control" autocomplete="off" autocapitalize="on" required value="WH-"/>
                       </div>
 
-                      <div class="col-md-4">
-                        <label for="validationCustom01" class="form-label">Manager</label>
-                        <input type="text" list="pickManager" name="Manager"  class="form-control" placeholder="Choose from Employee list" required/>
-                        <datalist id="pickManager" >
-                         <!-- display options for department -->
-                         <option value="Bernard fidelis">Bernard fidelis</option>
-                         <option value="jenifer ogoh">jenifer ogoh</option>
-                         <option value="Mary ann fidelis">Mary ann fidelis</option>
-                         <option value="Austine oche">Austine oche</option>
-                         </datalist>
-                    </div>
+                    <div class="col-md-4">
+                        <label for="Manager" class="form-label">Manager</label>
+                        <select name="Manager" id="Manager" class="form-select">
+                            <option >Choose ....</option>
+                            <%employees.forEach(employe=>{%>
+                           <option value="<%=employe._id%>"><%=employe.firstName%> <%=employe.lastName%></option>
+                           <% })%>
+                        </select>
+                      </div>
 
                     <div class="col-md-4">
-                        <label for="validationCustom01" class="form-label"> WH-Location</label>
-                        <input type="text" placeholder="Location" name="Location" class="form-control"/>
+                        <label for="Location" class="form-label"> WH-Location</label>
+                        <input type="text" id="Location" placeholder="Location" name="Location" class="form-control"/>
                     </div>
 
 
                     <div class="col-md-4">
-                        <label for="validationCustom01" class="form-label"> Telephone</label>
-                        <input type="text" placeholder="Telephone" class="form-control" name='Tel'/>
+                        <label for="Telephone" class="form-label"> Telephone</label>
+                        <input type="text" id="Telephone" placeholder="Telephone" class="form-control" name='Tel'/>
                     </div>
 
                     <div class="col-md-4">
-                        <label for="validationCustom01" class="form-label">Email</label>
-                        <input type="text" placeholder="Email" class="form-control" name="Email"/>
+                        <label for="Email" class="form-label">Email</label>
+                        <input type="text" id="Email" placeholder="Email" class="form-control" name="Email"/>
                     </div>
 
                     <div class="col-md-4">
-                        <label for="validationCustom01" class="form-label"> State</label>
-                        <input type="text" placeholder="State" class="form-control"  name="state"/>
+                        <label for="State" class="form-label"> State</label>
+                        <input type="text" id="State" placeholder="State" class="form-control"  name="state"/>
                     </div>
 
                     <div class="col-md-4">
                         <label for="InvoiceNo" class="form-label"> Invoice ref No</label>
-                        <input type="number" placeholder="Location" class="form-control"  name="InvoiceNo" id="InvoiceNo"disabled/>
+                        <input type="number"  class="form-control"  name="InvoiceNo" id="InvoiceNo"disabled/>
                     </div>
 
 
                     <div class="col-md-4">
-                        <label for="InvoiceNo" class="form-label"> Others</label>
-                        <input type="text" placeholder="Others" name="others" class="form-control"  />
+                        <label for="Others" class="form-label"> Others</label>
+                        <input type="text" id="Others" placeholder="Others" name="others" class="form-control"  />
                     </div>
 
                     <div class="col-md-4 ">
@@ -135,14 +133,28 @@
 </body>
 <script>
     
+    let manager 
+
     let WHID = Math.floor(Math.random()*Math.random()*222637)
         document.getElementById('InvoiceNo').value = WHID
+
+        //for managerial role in warehouse
+        const managerId = document.getElementById('Manager')
+        .addEventListener('change',async function(e){
+            const request  = await fetch(`/Employee/${e.target.value}`,{
+                method:'GET',
+                headers:{'Content-Type': 'application/json'}
+            })
+            const response = await request.json()
+            manager = response
+
+        })
 
         const form = document.getElementById('form')
         form.addEventListener('submit',async(e)=>{
             e.preventDefault()
             const WHName = form.WHName.value;
-            const Manager = form.Manager.value;
+            const Manager = manager;
             const Location = form.Location.value;
             const Tel = form.Tel.value;
             const Email = form.Email.value;

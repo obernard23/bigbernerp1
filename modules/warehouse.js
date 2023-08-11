@@ -108,9 +108,7 @@ const WHSchema = new  mongoose.Schema({
     Note:{
         type:Array,
     },
-    Manager:{
-        type:String
-    },
+    Manager:Object,
     Scrap:{
         type:Array,
     }

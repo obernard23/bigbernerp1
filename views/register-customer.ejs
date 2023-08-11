@@ -1,19 +1,11 @@
-<!-- '/VirtualstorageProduct' -->
 <!DOCTYPE html>
 <html lang="en">
     <%-include('./partials/head.ejs')%>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/icomoon/style.css">
-
-    <link rel="stylesheet" href="/owl.carousel.min.css">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/bootstrap.min.css">
     
-    <!-- Style -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/feature.css">
+    <link rel="stylesheet" href="/main.css"/>
 <body>
+
     <nav  class="navbar bg-black">
         <div class="container-fluid">
             <a class="navbar-brand" href="/" title="Apps">
@@ -25,100 +17,189 @@
               </a>
               <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
               
-                  <p class="breadcrumb-item " aria-current="page" style="color: #fff !important;">Appraisal</p>
-               
+                <ol class="breadcrumb">
+                  <a href="/Ecommerce/Customers" class="breadcrumb-item text-primary" >customers</a>
+                  <a class="breadcrumb-item active" aria-current="page" style="color: #fff !important;">Create-new customer</a>
+                </ol>
              
               </ul>
         </div>
       </nav>
-      
-      <div class="p-3">
-          <h2 >Apraisal List</h2>
-          <div class="table-responsive custom-table-responsive" >
-    
-            <table class="table custom-table" style="font-size: 15px !important;">
-              <thead>
-                <tr>  
-    
-                  <th scope="col">
-                    <label class="control control--checkbox">
-                      <input type="checkbox"  class="js-check-all"/>
-                      <div class="control__indicator"></div>
-                    </label>
-                  </th>
-                  
-                  <th scope="col">ACTIVITY LOG</th>
-                  <th scope="col">PERIOD</th>
-                  <th scope="col">EMPLOYEE</th>
-                  <th scope="col">DATE</th>
-                  <th scope="col">EMPL...PHOTO</th>
-                </tr>
-              </thead>
-              <tbody>
-                <%if(Appraisal.length > 0){%> <%Appraisal.forEach((Appraisal)=>{%>
-                  <tr scope="row">
-                    <th scope="row">
-                      <label class="control control--checkbox">
-                        <input type="checkbox"/>
-                        <div class="control__indicator"></div>
-                      </label>
-                    </th>
-                    <td>
-                      <!-- activity log -->
-                        <div class=" " scope="col">
-                    <!-- Split dropstart button -->
-                  <div class="btn-group dropstart" style="border-right: 1px dotted rgb(190, 190, 190) !important;" role="group">
-                  <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="visually-hidden">Toggle Dropstart</span>
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAADR0lEQVR4nJ2Vy08TURjF51/Qlf+CS/CFUp6FtrSdvqctbYc+gBYfVJDHQlQkIeIbwfCIC0KCMYrR6MZEKSpEHoIkujAECxsgUCQpAlNYuDjmXqBhBAbKJN9mJvf73Xu+c88wFr6Qs3n8EZvXD85dBK6gEGbeB5PLC4PTA4PDDZ2dB2vjlzUOxxEm0cfmDUQmwmGsr6/vWmtra7RuNzZDwzn8CQPyfYF4o1gstmf1fPwMNefoTRhg9/opQKp5LBZDNLpE5Pqr5rhjCQFsewCqrteh+kad6F39vYdQme1QmWxQGK3I0XOQ6yzIZk3I0pqQoTEgQ61HmkoHmYKdlSlYLWP1FIsAvxcX0dT6BPr8AjrcxpZ2+o586+3rp2BBECQrEongQ+8npCo0MyLAysoKKq/VovBmO4rbhsDd7YW+9A6C1TX029LSEswuL6ZnZiUB8/PzmJqawrlcDRhizS3Al8FhOMvrUNM9Dr5tDLamEZgaeqD1VaJ/YIguvvWgCd2v3x4IcDZHDYb4fgtwvryK+p7Iw9p5aG0uYk2oLQ54LwTp4r6BQQSrrx4OsFcJ2xYvLy/D6PJArjPT4WZqjHS46Xkbw7W6i+KAlJw8MJYEAYIg0Ev39MXLfU9wRp4HhsSCFEDYpcHA8AgCZZWSgMnJSZzOVokBgcsVO7RXbfreXXIp3oA4yuTybMij1lN5ZEoWqUotiCIiAAm1vU4gNcj7j1vQ0fVM+gRZSjBGp+dQgK+jY3CXlEoCTmUpwBi2AYqDV6C1Oqk8eZZ8Ko/SuBELBYGLoiarq6tUDhoLRB6Fll4sM+/dCdgtSfeLA0EQ8Ki1He0dnTvAW4CTmQTgcO8AHKS5IAgY+/4Ddl9A1Hw74ERGLhidnZ//OT5xKMAqkYn3UXnIrSUXy+T0iAEazmlkra653axJtM81SETypvbPX72J7377CZLTc5DQvyNdbTiut/MIhXoQCoVQW9+AQFkFotGoCDA3N7cJkCcGYAhEpR/t7OpCc2sbddGvcBgLCwvxIv8CEhPhcBhJaYcAyFRsqd3np7d95NsYbUZ2+3+9e9+DJFn2dMKAFIXiqEzJ/iGxQHxPhktCjcQC8T2xJtE+OV0+nSSTq/4BNITUZwFW2l8AAAAASUVORK5CYII="
-                    width="20"height="20" >
-                  </button>
-                  <ul class="dropdown-menu ">
-                    <!-- Dropdown menu links -->
-                    <span>History Logs</span>
-                  </ul>
-                  <!--ends here  -->
-                    </td>
-                    <td>
-                   <h6><%=Appraisal.title%></h6>
-                    </td>
-                    <td>
-                         <!-- product name -->
-                  <%pname = Employee.filter(name=>{%>
-                    <% return name._id.toString() === Appraisal.Employe.toString()%>
-                    <%})%>
-                     <%pname.map(n=>{%>
-                       <a href="/Product/<%=n._id%>/<%=n.Name%>" class="form-label"><%=n.firstName.toUpperCase()%> <%=n.lastName.toUpperCase()%></a>
-                     <%})%>
-                    <!-- ends here -->
-                    </td>
-                    <td>
-                         <P><%=Appraisal.date%></P>
-                    </td>
-                    <td>
-                               <!-- product scale -->
-                      <%pname = Employee.filter(name=>{%>
-                      <% return name._id.toString() === Appraisal.Employe.toString()%>
-                      <%})%>
-                      <%pname.map(n=>{%>
-                         <img width="50" height="50" src='https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_640.png' alt="photo here" >
-                     <%})%>
-                    </td>
-                  </tr>
-                  <tr class="spacer"><td colspan="100"></td></tr>
-                  <%})%> 
-                  <%}else{%>
-                    <p>Nothin to display</p>
-                <%}%>
 
-              </tbody>
-            </table>
-          </div>
-    
-      </div>
-      <script src="/jquery-3.3.1.min.js"></script>
-    <script src="/popper.min.js"></script>
-    <script src="/bootstrap.min.js"></script>
-    <script src="/main.js"></script>
+    <section style="height:95vh;">
+        <!-- main display -->
+        <article>
+             <!-- create product form -->
+    <div  class=" border mx-10 shadow-lg p-5" style="width:100vw;" >
+        <div class="flex justify-end  border-b ">
+            <!-- image upload div -->
+                <input type="file" id="files" name='image' multiple />
+        </div>
+    <form action=""  method="post" id='customerForm' class="p-2" >
+        <input type="text" placeholder="customer Name" name="Name" style="width:570px;padding:10px;font-size: x-large;" required/>
+        <div class="flex  gap-3 p-5 justify-around">
+            <!-- cateory -->
+            <div>
+                <label  class="flex justify-between gap-7">
+                 customer category
+                 <select id="category" name="Categories">
+                 <optgroup label="category">
+                    <option value="">Choose one</option>
+                    <option value='Credit-Customer'>Credit Customer(CC)</option>
+                    <option value="Pay as Go">Pay as Go (B2B)</option>
+                 </optgroup>
+                </select>
+             </label>
+            </div>
+            <!-- image -->
+            <div>
+                <div class="flex flex-col">
+                    <div id="productImage" style="background-image: url( https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_640.png);"></div>
+                    <!-- display progress % for photo upload -->
+                    <!-- <progress value="0" max="100" id="progress"></progress> -->
+                    <input type="url" name="image" disabled id="imageLoader" class='hidden'>
+                  </div>
+            </div>
+        </div>
+        <div class="border-b flex font-bold">
+            <div class="border p-3 subs" name="category" title="Double click to show section">customer information</div>
+            <div class="border p-3 subs" name="category" title="Double click to show section">customer Settings</div>
+            <div class="border p-3 subs" name="category" title="Double click to show section">Payment Infomation</div> 
+        </div>
+        <!-- customer information -->
+            <div class="flex flex-col gap-9 hidden border-b p-5" id="workInfo">
+                <label class="flex gap-7">
+                   Contact Person: <input type="tel" name="contact" placeholder="Contact person Name">
+                </label>
+                <label class="flex gap-7">
+                    customer Tel: <input type="tel" name="customer_tel" placeholder="Tel">
+                </label>
+                <label class="flex gap-7">
+                    Mobile Tel: <input type="tel" name="mobile_tel" placeholder="Tel">
+                </label>
+                <label class="flex gap-7">
+                   Email: <input type="email" name="email" placeholder="Example@xyz.com">
+                </label>
+
+                <label class="flex gap-9 ">
+                    Branch Address: <input type="text" name="Address"placeholder='Branch Address'>
+                </label>
+
+                <label class="flex gap-9 ">
+                    Manufacturer: <input type="text" name="Manufacturer"placeholder='Name of Manufacturer'>
+                </label>
+
+                <label class="flex flex-row gap-9 font-bold" >
+                    Ware-House Location
+                    <input type="text" list="tag" name="w_Location"placeholder="Select a location"/>
+                </label>
+            </div>
+            <!-- customer settings -->
+            <div id="privateinfo" class="flex flex-col hidden gap-5 p-5 border-b ">
+                
+                <!-- customer status -->
+                <h1 class="font-bold text-xl">customer settings</h1>
+                <div class="flex gap-7">
+                    Verify customer:
+                    <label class="switch" title="Turning on this Feature will confirm customer status">
+                        <input type="checkbox" id="toggleReplenish"Name="status">
+                        <div class="slider"></div>
+                    </label>
+                </div>
+
+                <!-- block customer -->
+                <div class="flex gap-7">
+                    Block customer (`Pending Activation status`)
+                    <label class="switch">
+                        <input type="checkbox"  name="block_customer">
+                        <div class="slider"></div>
+                    </label>
+                </div>
+               
+            </div>
+            <!-- PAYMENT -->
+            <div id="thirdinfo" class="flex justify-between p-5 hidden border-b">
+                <label class="flex flex-col gap-7">
+                    Account Number
+                    <input type="text" placeholder="Account Number" name="Account_num">
+                </label>
+                <label class="flex flex-col gap-7">
+                    Account Name
+                    <input type="text" placeholder="Beneficiary name" name="Account_name">
+                </label>
+                <label class="flex flex-col gap-7">
+                    Bank Name: 
+                    <input type="text" placeholder="Bank Name"name="Bank_name">
+                </label>
+            </div>
+        <button>Rgister</button>
+    </form>
+    </div>
+        </article>
+    </section>
 </body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-storage.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+<script  >
+    let customerForm = document.getElementById('customerForm')
+customerForm.addEventListener('submit',async (e)=>{
+    e.preventDefault()
+    const Name = customerForm.Name.value;
+    const Categories = customerForm.Categories.value;
+    const image = customerForm.image.value;
+    const contact = customerForm.contact.value;
+    const customer_tel = customerForm.customer_tel.value;
+    const mobile_tel = customerForm.mobile_tel.value;
+    const email = customerForm.email.value;
+    const Address = customerForm.Address.value;
+    const Manufacturer = customerForm.Manufacturer.value;
+    const w_Location = customerForm.w_Location.value;
+    const status = customerForm.status.value;
+    const block_customer = customerForm.block_customer.value;
+    const Account_name = customerForm.Account_name.value;
+    const Account_num = customerForm.Account_num.value;
+    const Bank_name = customerForm.Bank_name.value;
+
+    const endPoint ='/Sales/Register-customer'
+    const res = await fetch(endPoint,{
+        method:'POST',
+        body:JSON.stringify({Name,
+        Categories,
+        image,
+        contact,
+        customer_tel,
+        mobile_tel,
+        email,
+        Address,
+        Manufacturer,
+        w_Location,
+        status,
+        block_customer,
+        Account_num,
+        Account_name,
+        Bank_name
+        }),
+        headers:{'Content-Type': 'application/json'}
+    })
+
+    const data = await res.json()
+    if(data.Message){
+        alert(data.Message)
+        customerForm.reset()
+        location.assign('/Sales/customer')
+    }
+
+    if(data.error){
+        alert(data.error)
+    }
+})
+</script>
+<script  src="/Erp.js"></script>
+<script src="/Sale.js" type="module"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </html>
+

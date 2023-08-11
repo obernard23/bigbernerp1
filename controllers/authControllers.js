@@ -111,7 +111,7 @@ module.exports.Notification_get = (req, res) => {
   res.render("Notification", { title: "Ecommerce", name: "BigBern" });
 };
 module.exports.Register_get = (req, res) => {
-  res.render("register", { title: "Ecommerce", name: "BigBern" });
+  res.render("register-customer", { title: "Ecommerce", name: "BigBern" });
 };
 
 module.exports.Reset_get = (req, res) => {
@@ -409,7 +409,8 @@ module.exports.CustomerFind_get = async (req, res) => {
 //for warehouse ops
 module.exports.warehouse_get = async (req, res, next) => {
   const WHouses = await WHouse.find();
-  res.render("warehouse", { title: "Warehouse", WHouses });
+  const employees = await Employe.find();
+  res.render("warehouse", { title: "Warehouse", WHouses,employees });
 };
 
 //post request for warehouse
@@ -572,35 +573,14 @@ module.exports.VirtualstorageProduct_get = async (req,res) => {
 
 // ..create bills
 module.exports.WareHouseBill_post = async (req, res) => {
-  const {
-    grandTotal,
-    shippingFee,
-    subTotal,
-    startDate,
-    dueDate,
-    customer,
-    paymentMethod,
-    orders,
-    promotionItems,
-    billStatus,
-    status,
-    bankAccount,
-    discount,
-    taxRate,
-    whId,
-    salesPerson,
-    signatureUrl,
-    ActivityLog,
-    rejectionReasons,
-  } = req.body;
-
+ 
   try {
     await bills.create(req.body).then(async (data) => {
-      await WHouse.findOne({ _id: whId })
+      await WHouse.findOne({ _id: req.body.whId })
         .limit(1)
         .then((wh) => {
           if (wh) {
-            sendMail(data, wh.Email); //send notification to managre here
+            sendMail(data, wh); //send notification to managre here
             res.status(200).json({
               message: `New Bill successfully Registered and ${wh.Manager} has been notified for review.`,
             });
@@ -663,7 +643,15 @@ module.exports.WareHouseSingleBill_get = async (req, res, next) => {
 //approve bills
 module.exports.approveBill_patch = async (req, res) => {
   if (ObjectId.isValid(req.params.id)) {
-    await bills.findOne({ _id: new ObjectId(req.params.id) }).then((bill) => {
+    await bills.findOne({ _id: new ObjectId(req.params.id) }).then(async(bill) => {
+     await customer.findById({ _id: new ObjectId(bill.customer)})
+     .then((customer) => {
+      if(customer.category === "Credit-Customer"){
+        previousDebt =  customer.Debt  
+        newDebt = previousDebt  + bill.subTotal
+        customer.Debt = newDebt
+        customer.save()
+      }
       const d = new Date();
       bill.status = "Approved";
       bill.ActivityLog.unshift({
@@ -676,6 +664,7 @@ module.exports.approveBill_patch = async (req, res) => {
       res
         .status(200)
         .json({ message: "Approved and Pending payments conirmation" });
+          })
     });
   }
 };
@@ -846,10 +835,9 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
     //first find the bill 
     await bills.findById(new ObjectId(req.params.id))
     .then(async function(updatedBill) {
-      // find customer and scheck for debit and credit lines
+      // find customer and check for debit and credit lines
       const customers = await customer.findById(new ObjectId(updatedBill.customer))
-      if(customers.Debt ===  0 && update.registeredBalance === updatedBill.grandTotal ){//customer debt is 0 and they are paying for bill in full
-        await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
+      await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
         .then(async (bill) =>{
           if(bill.acknowledged){
             await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
@@ -859,38 +847,6 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
             throw new Error('Something seems to be wrong')
           }
         })
-      }else if( update.registeredBalance > customers.creditLimit - customers.Debt){
-        await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
-        .then(async (bill) =>{
-          if(bill.acknowledged){
-            await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:`Previous Debit cleared: N${customers.Debt }`})
-            updatedBill.save()
-            customers.Debt = 0
-            customers.save()
-            next()
-          }else{
-            throw new Error('Something seems to be wrong')
-          }
-        })
-      }else{//check debt adding to total instead of debt adding to registered balance
-        if(customers.Debt ===  customers.creditLimit){
-          throw new Error (`This customer's Credit limit has been Exhausted. Credit balance Remaining N${customers.creditLimit - customers.Debt}`)
-        }else{
-          await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
-        .then(async (bill) =>{
-          if(bill.acknowledged){
-            await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:`Debit recorded: N${ updatedBill.grandTotal - update.registeredBalance }`})
-            updatedBill.save()
-            customers.Debt = updatedBill.grandTotal - update.registeredBalance 
-            customers.save()
-            next()
-          }else{
-            throw new Error('Something seems to be wrong')
-          }
-        })
-        }
-        
-      }
     })
    } catch (error) {
     res.status(500).json({ error:error.message })
@@ -934,6 +890,13 @@ module.exports.Appraisal_get = async (req, res) => {
       });
   }
   
+};
+
+
+// sends json response for single employee 
+module.exports.WareHouseManager_get = async (req, res) => {
+  const employee = await Employe.findById(new ObjectId(req.params.employeeId))
+  res.status(200).json(employee)
 };
 
 module.exports.Appraisal_post = async (req,res) => {

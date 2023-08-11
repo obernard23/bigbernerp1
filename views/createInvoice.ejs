@@ -615,6 +615,9 @@
             }) //for activity log
             saveToLocalStorage(BillProducts);
             RenderDom(BillProducts)
+            BillProducts.customerCategory =  data.item.category
+            BillProducts.creditLimit =  data.item.creditLimit
+            BillProducts.customerDebt = data.item.Debt
       })
      
       //save the data to local storage
@@ -653,7 +656,10 @@
           PaymentStatus:'',
           PaymentReference:'',
           supportDoc:'',
-          priceList:''
+          priceList:'',
+          customerCategory:'',
+          creditLimit:0,
+          customerDebt:0
           };
         }else{
           return JSON.parse(quoteData)
@@ -666,18 +672,17 @@
       //get subtotal and assign various feilds to quotation
       const calculateTotals = async (BillProducts,)=>{
           const whId = document.getElementById('whId').value;
-
           
           BillProducts.whId = whId;
           saveToLocalStorage(BillProducts)
 
           BillProducts.subTotal =  await parseInt(BillProducts.orders.map(item => {return item.total})
-        .reduce((total , currentValue) => {return total + currentValue},0))
+          .reduce((total , currentValue) => {return total + currentValue},0))
 
-        // let shippingFee = Shipping.value
-        const Shipping = document.getElementById('Shipping')
+          // let shippingFee = Shipping.value
+          const Shipping = document.getElementById('Shipping')
         
-        Shipping.addEventListener('input',(e) =>{//still error with this
+          Shipping.addEventListener('input',(e) =>{//still error with this
           value =  parseInt(e.target.value < 0 ? Shipping.value = 0 : e.target.value )//tenary operator  to avoid overflow or underflow of 0 qty values;
           BillProducts.grandTotal = parseInt(BillProducts.subTotal) + parseInt(value)
           Grandtotal.textContent = `N${BillProducts.grandTotal}`;
@@ -687,7 +692,6 @@
         
         document.getElementById('Subtotal').innerHTML = `N${BillProducts.subTotal}`; 
       }
-      // calculateTotals(BillProducts)
 
       // get product for quoatation
       const products = document.getElementById('products')
@@ -741,7 +745,6 @@
 
         //generate id for each item
         const id = Math.floor(Math.random() * 10500600000787);
-        // const Pname = document.getEle
         BillProducts.orders.push({...data,Qty:'',total:'',_id:id,priceListPrice:priceLists(price)})//returns product, qty to perform and vat and price from custing
         saveToLocalStorage(BillProducts)
         RenderDom(BillProducts)
@@ -783,6 +786,7 @@
               try {
                 BillProducts.orders.splice(index,1)
                 RenderDom(BillProducts)
+
                 //calculate  sum of available prices in orders
                 BillProducts.subTotal = parseInt(BillProducts.orders.map(item => {return item.total})
                 .reduce((total , currentValue) => {return total + currentValue},0))
@@ -870,7 +874,6 @@
         });
       }
 
-
       //reset billorder button 
       const reset = document.getElementById('reset');
       reset.addEventListener('click',()=>{
@@ -924,7 +927,17 @@
                       `}
 
               modal.innerHTML = spinner();
-              const endpoint = '/wareHouse/Bill'
+
+             
+                   // check if customer is a crdit customer  and compare credit limit to bill total to regulate total from customer debt
+           if(BillProducts.customerCategory ==='Credit-Customer' ){
+              try {
+                const customerDebt =  BillProducts.customerDebt
+              const creditLimit = BillProducts.creditLimit
+              const subTotal = BillProducts.subTotal
+              const creditProduct = creditLimit - customerDebt
+              if (customerDebt <= 0){
+                const endpoint = '/wareHouse/Bill'
               const res = await fetch(endpoint,{
                 method:"POST",
                 body: JSON.stringify(BillProducts),
@@ -946,7 +959,43 @@
                 localStorage.removeItem('bill_products');
                 location.assign(location.href);
               }
-            
+              
+                }
+                
+                if(customerDebt > 0){
+                  if(subTotal <=  creditProduct ){
+                    const endpoint = '/wareHouse/Bill'
+              const res = await fetch(endpoint,{
+                method:"POST",
+                body: JSON.stringify(BillProducts),
+                headers:{'Content-Type': 'application/json'}
+              })
+
+              const data = await res.json()
+              if (data){
+                Notification.requestPermission().then((perm) =>{
+                  if(perm ==='granted'){
+                    new Notification('Bigbern Notification',{
+                      body:data.message ? data.message : data.error,
+                      icon:'495670-removebg-preview.png',
+                    })
+                  }else{
+                    alert(data.message ? data.message : data.error)
+                  }
+                })
+                localStorage.removeItem('bill_products');
+                location.assign(location.href);
+              }
+                  }else{
+                    throw new Error(`This bill total has exceeded the maximum credit limit assigned to the customer. Ask the customer to clear debt on thier account or reduce the quatity of products added to this bill total`)
+                  }
+                  
+                }
+              } catch (error) {
+                alert(error.message)
+              }
+            } 
+     
           return customer  
         }
 

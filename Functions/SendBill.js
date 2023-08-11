@@ -4,10 +4,9 @@ const {PASSWORD,EMAIL,ERPSmtpName} = require('../.env');
 
 
 // this function sends mail to ware house manager 
-const sendMail = async (result,Email) => {
+const sendMail = async (result,wh) => {
     
-    const wareHouseEmail = Email
-    console.log(wareHouseEmail)
+    const wareHouseEmail = wh.Email
     let config = {
         service : 'gmail',
         auth : {
@@ -39,7 +38,7 @@ const sendMail = async (result,Email) => {
                 button: {
                     color: '#22BC66',
                     text: 'Goto this  request',
-                    link: `https://bigbern.onrender.com/wh-lagos/bill/${result._id}`
+                    link: `https://bigbern.onrender.com/${wh.WHName}/bill/${result._id}`
                 }
             }
         ]
