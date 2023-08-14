@@ -72,7 +72,7 @@ router.post(`/wareHouseToTransfer/toRecive`,requireAuth,authController.WareHouse
 router.post('/wareHouse/Bill',requireAuth,authController.WareHouseBill_post,NotifyAccountant);//to post bill
 router.get(`/warehouse/:id/Bills`,requireAuth,authController.WareHouseBill_get);//GET BILL BY WAREHOUSE ID
 router.get(`/:WHName/bill/:id`,requireAuth,authController.WareHouseSingleBill_get);//approve page for manager for new bill
-router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);//to approve bills for manager
+router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);//to approve bills for manager to store keeper
 router.get('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_get);//get products for specific ware house
 router.patch('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_patch);
 router.get('/Employee/:employeeId',requireAuth,authController.WareHouseManager_get)

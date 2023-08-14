@@ -36,7 +36,7 @@ const NotifyManagerPayment = async (req,res,next) => {
     let response = {
         body: {
         name : wareHouseEmail.Manager.firstName,
-        intro: "New Paid as go Bill to Approve",
+        intro: "New Prepaid Bill to Approve",
         action: [
             {
                 instructions: 'To view with this request, please click here:',

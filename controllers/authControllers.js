@@ -12,6 +12,7 @@ const sendMail = require("../Functions/SendBill");//for managers
 const NotifyAccountant = require("../Functions/NotifyAccountant");//for Accountant
 const VirtualstorageProduct = require('../modules/purchase')
 const Appraisals = require('../modules/Appraisal')
+const NotifyStoreKeeper = require('../Functions/NotifyStoreKeeper');
 
 const restPassword = require("../Functions/resetPasword");
 var id = new mongoose.Types.ObjectId();
@@ -337,27 +338,6 @@ module.exports.Customer_get = async (req, res) => {
 };
 
 module.exports.ProductCreate_post = async (req, res) => {
-  const {
-    Name,
-    category,
-    image,
-    WareHouse_Price,
-    Market_Price,
-    Van_Price,
-    vendor_Price,
-    Vendor,
-    UMO,
-    color,
-    Description,
-    Sellable,
-    Ecom_sale,
-    Manufacturer,
-    Manufacture_code,
-    product_code,
-    ACDcode,
-    VAT,
-  } = req.body;
-
   try {
     await Product.create(req.body).then(async function (product) {
       await VirtualstorageProduct.create({productsId: product._id})// register product with purchase request
@@ -416,18 +396,6 @@ module.exports.warehouse_get = async (req, res, next) => {
 
 //post request for warehouse
 module.exports.wareHouse_post = async (req, res) => {
-  const {
-    WHName,
-    Manager,
-    WHIDS,
-    Location,
-    Tel,
-    Email,
-    state,
-    InvoiceNo,
-    others,
-    Status,
-  } = req.body;
   try {
     WHouse.create(req.body).then((result) => {
       res.status(200).json({
@@ -651,7 +619,7 @@ module.exports.WareHouseSingleBill_get = async (req, res, next) => {
 };
 
 //approve bills for managers
-module.exports.approveBill_patch = async (req, res) => {
+module.exports.approveBill_patch = async (req, res,next) => {
   if (ObjectId.isValid(req.params.id)) {
     await bills.findOne({ _id: new ObjectId(req.params.id) }).then(async(bill) => {
       const warehouse = await WHouse.findById(new ObjectId(bill.whId))
@@ -670,8 +638,6 @@ module.exports.approveBill_patch = async (req, res) => {
         customer.Debt = newDebt
         customer.save()
 
-          //create delivery here
-          
         const d = new Date();
       bill.status = "Approved";
       bill.ActivityLog.unshift({
@@ -684,10 +650,12 @@ module.exports.approveBill_patch = async (req, res) => {
       res
         .status(200)
         .json({ message: "Store keeper will be Notified to Release Goods to Customer" });
+        //create delivery here
+        NotifyStoreKeeper(bill)//send emai to storekeeper
         }
       }else if(customer.category === "Pay as Go"  && bill.registeredBalance === bill.grandTotal){
      
-        // send order to delivery / store keeper to release goods
+        
         //create delivery here
         const d = new Date();
         bill.status = "Approved";
@@ -698,6 +666,8 @@ module.exports.approveBill_patch = async (req, res) => {
           status: "Approved, Store keeper to Release Products",
         });
         bill.save();
+        // send order to delivery / store keeper to release goods
+        NotifyStoreKeeper(bill)
         res
           .status(200)
           .json({ message: "Store keeper will be Notified to Release Goods to Customer" });

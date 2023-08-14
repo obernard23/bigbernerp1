@@ -7,11 +7,10 @@ const {WHouse} = require('../modules/warehouse')
 
 
 // sends notification to raise delivery note / waybill to WH manager
-const NotifyManagerPayment = async (req,res,next) => {
-    const bill = await bills.findById( new ObjectId(req.params.id))
+const NotifyStoreKeeper = async (bill) => {
     
     const wareHouseEmail = await WHouse.findById(new ObjectId(bill.whId)).then((warehouse) =>{
-        return warehouse.Manager.Email;
+        return warehouse.StoreKeeper.Email;
     })
     
     let config = {
@@ -63,13 +62,12 @@ const NotifyManagerPayment = async (req,res,next) => {
     }
     
     transporter.sendMail(message).then(() => {
-    res.status(200).json({ message:'Payment acknowledged. Ware House Stock keeper will receive notification'})
-    next()
+   console.log("Payment acknowledged. Ware House Stock keeper will receive notification")
     }).catch(error => {
-        res.status(500).json({ message: error.message })
+        console.log(error.message)
     })
     
     
 };
 
-module.exports = NotifyManagerPayment
+module.exports = NotifyStoreKeeper

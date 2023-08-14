@@ -111,7 +111,8 @@ const WHSchema = new  mongoose.Schema({
     Manager:Object,
     Scrap:{
         type:Array,
-    }
+    },
+    Address:String
 },{timestamps:true});
 
 const  WHouse = mongoose.model(' WHouse',WHSchema);
