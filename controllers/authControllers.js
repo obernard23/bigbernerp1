@@ -670,6 +670,8 @@ module.exports.approveBill_patch = async (req, res) => {
         customer.Debt = newDebt
         customer.save()
 
+          //create delivery here
+          
         const d = new Date();
       bill.status = "Approved";
       bill.ActivityLog.unshift({
@@ -686,6 +688,7 @@ module.exports.approveBill_patch = async (req, res) => {
       }else if(customer.category === "Pay as Go"  && bill.registeredBalance === bill.grandTotal){
      
         // send order to delivery / store keeper to release goods
+        //create delivery here
         const d = new Date();
         bill.status = "Approved";
         bill.ActivityLog.unshift({
@@ -881,7 +884,7 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
           if(bill.acknowledged){
             await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
             updatedBill.save()
-            next()
+            next()//send mail to storekeeper
           }else{
             throw new Error('Something seems to be wrong')
           }

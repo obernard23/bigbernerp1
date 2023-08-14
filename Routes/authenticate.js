@@ -52,7 +52,7 @@ router.get('/Ecommerce/Customers',requireAuth,authController.Customer_get);
 router.get('/Sales/Vendor',requireAuth,authController.Vendors_get);
 router.get('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_get);
 
-//for payment
+//for payment 
 router.get('/Sales/Payment/:id',requireAuth,authController.Payment_get);
 router.get('/Register/bill/:id/:billId',requireAuth,authController.RegisterPayment_get)//acountatnt is and bill id
 router.patch('/bill/register/:id',requireAuth,authController.RegisterPayment_patch,NotifyManagerPayment)//register bill 

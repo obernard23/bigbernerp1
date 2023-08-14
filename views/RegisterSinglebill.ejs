@@ -562,7 +562,7 @@
 
             <div class="form signer-item">
               <label for="signature" class="label">Issued by: <%=Singlebill.salesPerson%></label>
-              <img class="logo" src="<%=user.Signature%>"
+              <img class="logo" src="<%=Singlebill.signatureUrl%>"
                 id="signature"
               />
             </div>
@@ -614,7 +614,7 @@
      <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
       <!-- Modal content -->
       <div class="modal-body modal-content container">
-          <form  class="row g-3 needs-validation" id="form" data-id="<%=Singlebill._id%>" >
+          <form  class="row g-3 needs-validation" id="form" data-id="<%=Singlebill._id%>">
               <div class=" d-flex justify-content-between">
                 
                     <!-- <h5>Register Payment</h5> -->

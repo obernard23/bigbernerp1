@@ -6,11 +6,13 @@ const bills = require('../modules/Bills')
 const {WHouse} = require('../modules/warehouse')
 
 
-// sends notification to WH manager to approve bill to storekeeper
+// sends notification to raise delivery note / waybill to WH manager
 const NotifyManagerPayment = async (req,res,next) => {
     const bill = await bills.findById( new ObjectId(req.params.id))
     
-    const wareHouseEmail = await WHouse.findById(new ObjectId(bill.whId))
+    const wareHouseEmail = await WHouse.findById(new ObjectId(bill.whId)).then((warehouse) =>{
+        return warehouse.Manager.Email;
+    })
     
     let config = {
         service : 'gmail',
@@ -35,15 +37,15 @@ const NotifyManagerPayment = async (req,res,next) => {
 
     let response = {
         body: {
-        name : wareHouseEmail.Manager.firstName,
-        intro: "New Paid as go Bill to Approve",
+        name : 'Store keeper',
+        intro: "New Delivery to sort",
         action: [
             {
-                instructions: 'To view with this request, please click here:',
+                instructions: 'To get view with this request, please click here:',
                 button: {
                     color: '#22BC66',
-                    text: `See Bill Ref: ${bill.billReferenceNo}`,
-                    link: `https://bigbern.onrender.com/${wareHouseEmail.WHName}/bill/${bill._id}`
+                    text: `Raise WayBill ${bill.billReferenceNo}`,
+                    link: `https://bigbern.onrender.com/wh-lagos/bill/${bill._id}`
                 }
             }
         ]
@@ -55,13 +57,13 @@ const NotifyManagerPayment = async (req,res,next) => {
     
     let message = {
         from : EMAIL,
-        to : wareHouseEmail.Manager.Email,
+        to : wareHouseEmail,
         subject: `${ERPSmtpName} Operations`,
         html: mail
     }
     
     transporter.sendMail(message).then(() => {
-    res.status(200).json({ message:'Payment acknowledged. ware House Manager will receive notification for approval'})
+    res.status(200).json({ message:'Payment acknowledged. Ware House Stock keeper will receive notification'})
     next()
     }).catch(error => {
         res.status(500).json({ message: error.message })

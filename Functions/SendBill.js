@@ -33,7 +33,7 @@ const sendMail = async (result,wh) => {
         intro: "New Quotation  for review",
         action: [
             {
-                instructions: 'To get view with this request, please click here:',
+                instructions: 'To view with this request, please click here:',
                 button: {
                     color: '#22BC66',
                     text: 'Goto this  request',

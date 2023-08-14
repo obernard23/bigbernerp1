@@ -96,8 +96,8 @@ const WHSchema = new  mongoose.Schema({
         type:String,
         required:true
     },
-    others:{
-        type:String,
+    StoreKeeper:{
+        type:Object,
     },
     Documents:{
         type:Array,

@@ -89,9 +89,15 @@
 
 
                     <div class="col-md-4">
-                        <label for="Others" class="form-label"> Others</label>
-                        <input type="text" id="Others" placeholder="Others" name="others" class="form-control"  />
-                    </div>
+                        <label for="StoreKeeper" class="form-label">Store Keeper</label>
+                        <select name="StoreKeeper" id="StoreKeeper" class="form-select">
+                            <option >Choose ....</option>
+                            <%employees.forEach(employe=>{%>
+                           <option value="<%=employe._id%>"><%=employe.firstName%> <%=employe.lastName%></option>
+                           <% })%>
+                        </select>
+                      </div>
+                   
 
                     <div class="col-md-4 ">
                         <label for="InvoiceNo" class="form-label"> All done</label>
@@ -134,6 +140,7 @@
 <script>
     
     let manager 
+    let storeKeeper
 
     let WHID = Math.floor(Math.random()*Math.random()*222637)
         document.getElementById('InvoiceNo').value = WHID
@@ -150,6 +157,17 @@
 
         })
 
+        const Store_Keeper = document.getElementById('StoreKeeper')
+        .addEventListener('change',async function(e){
+            const request  = await fetch(`/Employee/${e.target.value}`,{
+                method:'GET',
+                headers:{'Content-Type': 'application/json'}
+            })
+            const response = await request.json()
+            storeKeeper = response
+
+        })
+
         const form = document.getElementById('form')
         form.addEventListener('submit',async(e)=>{
             e.preventDefault()
@@ -160,7 +178,7 @@
             const Email = form.Email.value;
             const state = form.state.value;
             const InvoiceNo = form.InvoiceNo.value
-            const others = form.others.value
+            const StoreKeeper = storeKeeper
             const Status = false
 
             const endpoint = "/warehouse/create-new" 
@@ -174,7 +192,7 @@
                         Email,
                         state,
                         InvoiceNo,
-                        others,
+                        StoreKeeper,
                         Status
                 }),
                 headers:{'Content-Type': 'application/json'}
