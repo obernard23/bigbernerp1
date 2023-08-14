@@ -564,7 +564,11 @@
         headers:{"content-type": "application/json"}
       })
       const response = await request.json()
-      response?.message ? location.reload() : alert('something went wrong')
+
+      if(response.message){
+        alert(response.message)
+        location.reload()
+      }
     }
  
     ////////////////////////////////////////////////////////////////send mail functionality////////////////////////////////

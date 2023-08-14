@@ -28,7 +28,6 @@ unique:true,
 workLocation:{
 type:mongoose.Types.ObjectId,
 ref:'WHouse',
-required:true,
 },
 Equiptment:{
 type:Array
@@ -99,6 +98,9 @@ document:{type:Array},
 status:{
   type:String,
   default:'suspended',
+},
+jobTittle:{
+  type:String,
 }
 
 })

@@ -430,7 +430,7 @@
         >
       </span>
      
-      <%if(Singlebill.grandTotal  !== Singlebill.registeredBalance && Singlebill.status ==="Approved" && user.role ==="Admin" || user.role ==="Accountant" ){%>
+      <%if(Singlebill.grandTotal  !== Singlebill.registeredBalance ){%>
       <button type="button" class="btn btn-success" onclick="document.getElementById('myModal').style.display='block'">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"/>

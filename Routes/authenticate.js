@@ -12,6 +12,7 @@ const sendQuot = require("../Functions/sendQuot");
 const pdf = require("pdf-creator-node");
 const { ObjectId } = require('mongodb');
 const sendBirtdaysEmail = require('../Functions/sendBirthdayMail');
+const NotifyAccountant = require('../Functions/NotifyAccountant');
 
 const router = Router()
 
@@ -32,12 +33,12 @@ router.get('/Appraisal/:id',requireAuth,authController.Appraisal_get)//for emplo
 router.post('/Appraiasl/Employee/Apraisal',authController.Appraisal_post)
 router.get('/Appraisals/:id',authController.AppraisalsManagement_get)//for top management view    
 
-router.post('/register',requireAuth,authController.Register_post);
+router.post('/register',authController.Register_post);
 router.post('/SignIn',checkLoginUser,authController.signin_post);
 router.get('/Reset/account/:EmailTOreset',authController.ResetEmail_get,restPassword);
 router.post('/Register-lead',requireAuth,authController.Lead_post);
 router.patch('/Reset-password/:id/Security',authController.ResetId_patch);
-router.post('/employee/Onboard/:id',requireAuth,checkUserRole,authController.OnboardEmployee_get)///check this
+// router.post('/employee/Onboard/:id',requireAuth,checkUserRole,authController.OnboardEmployee_get)///check this
 
 //for erp pls cut out when done 
 router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);
@@ -53,9 +54,8 @@ router.get('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_get)
 
 //for payment
 router.get('/Sales/Payment/:id',requireAuth,authController.Payment_get);
-router.get('/Register/bill/:id/:billId',requireAuth,authController.RegisterPayment_get)
+router.get('/Register/bill/:id/:billId',requireAuth,authController.RegisterPayment_get)//acountatnt is and bill id
 router.patch('/bill/register/:id',requireAuth,authController.RegisterPayment_patch,NotifyManagerPayment)//register bill 
-
 
 router.get('/customer/:id/search',requireAuth,authController.CustomerFind_get);
 
@@ -69,8 +69,8 @@ router.get('/VirtualstorageProduct',requireAuth,authController.VirtualstoragePro
 router.patch('/warehouse/:id/edit',requireAuth,authController.Edit_patch);
 router.post(`/wareHouseToTransfer`,requireAuth,authController.WareHouseStoreage_post);//here to post toWareHouse
 router.post(`/wareHouseToTransfer/toRecive`,requireAuth,authController.WareHouseStock_post);//use this for deliveries
-router.post('/wareHouse/Bill',requireAuth,authController.WareHouseBill_post);//to post bill
-router.get(`/warehouse/:id/Bills`,requireAuth,authController.WareHouseBill_get);
+router.post('/wareHouse/Bill',requireAuth,authController.WareHouseBill_post,NotifyAccountant);//to post bill
+router.get(`/warehouse/:id/Bills`,requireAuth,authController.WareHouseBill_get);//GET BILL BY WAREHOUSE ID
 router.get(`/:WHName/bill/:id`,requireAuth,authController.WareHouseSingleBill_get);//approve page for manager for new bill
 router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);//to approve bills for manager
 router.get('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_get);//get products for specific ware house
@@ -133,4 +133,7 @@ router.get('/bills/excel',requireAuth,authController.BillsWorkBook_get)
 //purchse routers
 router.get('/purchase',requireAuth,authController.purchase_get)
 router.get('/vendor/:id',requireAuth,authController.vendorFind_get)
+
+//query global search parameters
+router.get('/search/:query',requireAuth,authController.query_get)
 module.exports = router;

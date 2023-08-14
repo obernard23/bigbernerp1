@@ -6,7 +6,6 @@ const {PASSWORD,EMAIL,ERPSmtpName} = require('../.env');
 // this function sends mail to ware house manager 
 const sendMail = async (result,wh) => {
     
-    const wareHouseEmail = wh.Email
     let config = {
         service : 'gmail',
         auth : {
@@ -50,7 +49,7 @@ const sendMail = async (result,wh) => {
     
     let message = {
         from : EMAIL,
-        to : wareHouseEmail,
+        to : wh.Manager.Email,
         subject: `${ERPSmtpName} Operations`,
         html: mail
     }

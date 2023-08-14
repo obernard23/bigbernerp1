@@ -8,7 +8,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
-const sendMail = require("../Functions/SendBill");
+const sendMail = require("../Functions/SendBill");//for managers
+const NotifyAccountant = require("../Functions/NotifyAccountant");//for Accountant
 const VirtualstorageProduct = require('../modules/purchase')
 const Appraisals = require('../modules/Appraisal')
 
@@ -559,7 +560,6 @@ module.exports.WareHouseStock_post = async (req, res) => {
         });
       });
   } catch (e) {
-    console.log(e);
     res.status(400).json({ error: e.message });
   }
 };
@@ -572,23 +572,33 @@ module.exports.VirtualstorageProduct_get = async (req,res) => {
 }
 
 // ..create bills
-module.exports.WareHouseBill_post = async (req, res) => {
- 
+module.exports.WareHouseBill_post = async (req, res,next) => {
+
   try {
-    await bills.create(req.body).then(async (data) => {
-      await WHouse.findOne({ _id: req.body.whId })
-        .limit(1)
-        .then((wh) => {
-          if (wh) {
-            sendMail(data, wh); //send notification to managre here
-            res.status(200).json({
-              message: `New Bill successfully Registered and ${wh.Manager} has been notified for review.`,
-            });
-          } else {
-            throw new Error("Not Authorized");
-          }
+    await customer.findById(new ObjectId(req.body.customer))
+    .then(async(customer) => {
+     if(customer.category === 'Pay as Go'){
+      //workflow for  pay as go customer  
+      await bills.create(req.body).then(async (data) => {
+        NotifyAccountant(data); //send notification to Accountant here
+        res.status(200).json({
+          message: `New Bill successfully Registered and Accountant has been notified for Payment confirmation.`,
         });
-    });
+          });
+     }else if(customer.category === 'Credit-Customer'){
+      //send notification to manager if customer is a credit customer
+      await bills.create(req.body).then(async (data) => {
+         const wh = await WHouse.findById(new ObjectId(data.whId))
+        sendMail(data,wh); //send notification to manager here
+        res.status(200).json({
+          message: `New Bill successfully Registered and Manager has been notified for confirmation.`,
+        });
+          });
+     }else{
+      throw new Error(`Could not register New Bill. Customer Category is not defined `)
+     }
+    })
+  
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -640,30 +650,60 @@ module.exports.WareHouseSingleBill_get = async (req, res, next) => {
   next();
 };
 
-//approve bills
+//approve bills for managers
 module.exports.approveBill_patch = async (req, res) => {
   if (ObjectId.isValid(req.params.id)) {
     await bills.findOne({ _id: new ObjectId(req.params.id) }).then(async(bill) => {
+      const warehouse = await WHouse.findById(new ObjectId(bill.whId))
+      
      await customer.findById({ _id: new ObjectId(bill.customer)})
      .then((customer) => {
       if(customer.category === "Credit-Customer"){
         previousDebt =  customer.Debt  
         newDebt = previousDebt  + bill.subTotal
+        if(newDebt > customer.creditLimit){
+          res.status(404).json({message:"Customer Bill has exceeded credit Status "})
+          
+        }else{
+        previousDebt =  customer.Debt  
+        newDebt = previousDebt  + bill.subTotal
         customer.Debt = newDebt
         customer.save()
-      }
-      const d = new Date();
+
+        const d = new Date();
       bill.status = "Approved";
       bill.ActivityLog.unshift({
-        logMsg: `Mary ann fidelis Approved  Quoataion on ${d.getFullYear()}-${
+        logMsg: `${warehouse.Manager.firstName} Approved  Bill on ${d.getFullYear()}-${
           d.getMonth() + 1
         }-${d.getDate()}`,
-        status: "Approved and Pending payments conirmation",
+        status: "Approved, Store keeper to Release Products",
       });
       bill.save();
       res
         .status(200)
-        .json({ message: "Approved and Pending payments conirmation" });
+        .json({ message: "Store keeper will be Notified to Release Goods to Customer" });
+        }
+      }else if(customer.category === "Pay as Go"  && bill.registeredBalance === bill.grandTotal){
+     
+        // send order to delivery / store keeper to release goods
+        const d = new Date();
+        bill.status = "Approved";
+        bill.ActivityLog.unshift({
+          logMsg: `${warehouse.Manager.firstName} Approved  Bill on ${d.getFullYear()}-${
+            d.getMonth() + 1
+          }-${d.getDate()}`,
+          status: "Approved, Store keeper to Release Products",
+        });
+        bill.save();
+        res
+          .status(200)
+          .json({ message: "Store keeper will be Notified to Release Goods to Customer" });
+       
+      }else if(customer.category === "Pay as Go"  && bill.registeredBalance !== bill.grandTotal){
+        res
+        .status(500)
+        .json({ message: "Please await Accountant to Register payment on this bill" });
+      }
           })
     });
   }
@@ -699,7 +739,6 @@ module.exports.vendor_get = async (req, res) => {
 //patch request handler for vendors
 module.exports.vendorEdit_patch = async (req, res) => {
   const update = req.body;
-  console.log(update);
   if (ObjectId.isValid(req.params.id)) {
     await Vendor.updateOne({ _id: ObjectId(req.params.id) }, { $set: update })
       .then(async (result) => {
@@ -885,7 +924,6 @@ module.exports.Appraisal_get = async (req, res) => {
     await Employe.findOne({ _id: ObjectId(req.params.id) })
       .limit(1)
       .then((item) => {
-        // console.log(item)
         res.status(200).render('Appraisal',{item})
       });
   }
@@ -913,3 +951,8 @@ module.exports.AppraisalsManagement_get = async (req,res)=>{//from dashboard
   res.status(200).render('AppraisalsManagement',{Appraisal,Employee})
 }
 
+module.exports.query_get = async (req, res, next) => {
+  const query = req.params.query
+const Appraisal = await Appraisals.findOne({ $or: [{ title: query}]})
+res.json(Appraisal)
+}
