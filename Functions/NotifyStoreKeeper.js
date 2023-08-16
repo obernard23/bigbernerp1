@@ -57,7 +57,7 @@ const NotifyStoreKeeper = async (bill) => {
     let message = {
         from : EMAIL,
         to : wareHouseEmail,
-        subject: `${ERPSmtpName} Operations`,
+        subject: `${ERPSmtpName} Operations`, 
         html: mail
     }
     

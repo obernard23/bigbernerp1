@@ -843,22 +843,26 @@ module.exports.WareHouseStoreage_patch = async(req,res,next) => {
 module.exports.RegisterPayment_patch = async(req, res,next) => {
   const {update} = req.body
   if (ObjectId.isValid(new ObjectId(req.params.id))) {
-   try {
-    //first find the bill 
-    await bills.findById(new ObjectId(req.params.id))
-    .then(async function(updatedBill) {
-      // find customer and check for debit and credit lines
-      const customers = await customer.findById(new ObjectId(updatedBill.customer))
-      await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
-        .then(async (bill) =>{
-          if(bill.acknowledged){
-            await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
-            updatedBill.save()
-            next()//send mail to storekeeper
-          }else{
-            throw new Error('Something seems to be wrong')
-          }
-        })
+    try {
+      //first find the bill 
+      await bills.findById(new ObjectId(req.params.id))
+      .then(async function(updatedBill) {
+        console.log(updatedBill)
+       if(updatedBill.grandTotal === parseInt(update.registeredBalance)){
+        await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
+         .then(async (bill) =>{
+           if(bill.acknowledged){
+             await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
+             updatedBill.save()
+             next()//send mail to storekeeper
+           }else{
+             throw new Error('Something seems to be wrong')
+           }
+         })
+       }else{
+        throw new Error('Payment must be in full')
+       }
+    
     })
    } catch (error) {
     res.status(500).json({ error:error.message })

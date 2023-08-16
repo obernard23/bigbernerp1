@@ -407,6 +407,7 @@
         <%}%>>Approved</div>
      </div>
     <div id="invoice " class="shadow-lg m-4 p-3 box ">
+      <%if( cust.category !== 'Credit-Customer'){%>
       <div class="ribbon "><span>
         <%if(Singlebill.registeredBalance === Singlebill.grandTotal){%>
           Fully Paid
@@ -414,6 +415,9 @@
             Paid: N<%=Singlebill.registeredBalance%>
             <%}%>
       </span></div>
+      <%}else{%>
+        <div class="ribbon"><span>CREDIT BILL</span></div>
+      <%}%>  
       <div id="pspdfkit-header">
         <span style="font-size:20px;cursor:pointer" onclick="
         document.getElementById('mySidenav').style.width = '250px';
@@ -430,6 +434,7 @@
         >
       </span>
      
+      <%if( cust.category !== 'Credit-Customer'){%>
       <%if(Singlebill.grandTotal  !== Singlebill.registeredBalance ){%>
       <button type="button" class="btn btn-success" onclick="document.getElementById('myModal').style.display='block'">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
@@ -440,6 +445,7 @@
         </svg>
         Register Payment
       </button>
+      <%}%>
       <%}%>
       <%if(Singlebill.registeredBalance === Singlebill.grandTotal){%>
         <span title="Generate Reciept" >

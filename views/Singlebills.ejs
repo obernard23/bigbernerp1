@@ -373,7 +373,12 @@
         <%}%>>Approved</div>
      </div>
     <div id="invoice" class="shadow-lg m-4 p-3 box ">
-      <div class="ribbon"><span>LOCKED</span></div>
+      <div class="ribbon"><span><%if(Singlebill.registeredBalance === Singlebill.grandTotal ){%>
+        PAID
+        <%}else{%>
+          PENDING
+          <%}%>
+      </span></div>
       <div id="pspdfkit-header">
 
           <!-- action buttons -->
@@ -514,7 +519,7 @@
 
             <div class="form signer-item">
               <label for="signature" class="label">Issued by: <%=Singlebill.salesPerson%></label>
-              <img class="logo" src="<%=user.Signature%>"
+              <img class="logo" src="<%=Singlebill.signatureUrl%>"
                 id="signature"
               />
             </div>
