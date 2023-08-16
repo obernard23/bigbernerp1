@@ -373,12 +373,16 @@
         <%}%>>Approved</div>
      </div>
     <div id="invoice" class="shadow-lg m-4 p-3 box ">
+      <%if( cust.category !== 'Credit-Customer'){%>
       <div class="ribbon"><span><%if(Singlebill.registeredBalance === Singlebill.grandTotal ){%>
         PAID
         <%}else{%>
           PENDING
           <%}%>
       </span></div>
+      <%}else{%>
+        <div class="ribbon"><span>CREDIT BILL</span></div>
+      <%}%> 
       <div id="pspdfkit-header">
 
           <!-- action buttons -->
