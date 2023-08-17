@@ -416,7 +416,12 @@ module.exports.warehouseDelivery_get = async (req, res, next) => {
       .then(async (item) => {
         await bills.find({ whId: new ObjectId(item._id)})
         .then(async (bill)=>{
-          DeliveredBill = await bills.find({ isDelivered: true});
+          const AllBills = await bills.find({ whId: new ObjectId(item._id)})
+         
+            DeliveredBill = AllBills.filter((billed)=>{
+              return billed.isDelivered === true
+            })
+          
           Bills = bill.filter(bill => {return bill.isDelivered === false  && bill.status === "Approved" && bill.rejectionReasons.length === 0})
           res.status(200).render("warehouseops", { result:item ,Bills,DeliveredBill});
         })
