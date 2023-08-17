@@ -62,7 +62,7 @@ router.get('/customer/:id/search',requireAuth,authController.CustomerFind_get);
 //warehouseops
 router.get('/warehouse/:id/employeeLocation',requireAuth,ValidStockTransfer,authController.warehouse_get);
 router.post('/warehouse/create-new',requireAuth,authController.wareHouse_post);
-router.get('/Location/:id',requireAuth,authController.warehouseById_get);
+router.get('/Location/:id',requireAuth,authController.warehouseDelivery_get);//id refrences user id
 router.get('/warehouse/:id/Invoices/new',requireAuth,authController.Invoice_get);
 router.get('/stock-move',requireAuth,authController.stock_get);//for inventory move
 router.get('/VirtualstorageProduct',requireAuth,authController.VirtualstorageProduct_get)//add url to frontend today

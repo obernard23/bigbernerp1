@@ -408,13 +408,18 @@ module.exports.wareHouse_post = async (req, res) => {
   }
 };
 
-//to recieve for each ware house
-module.exports.warehouseById_get = async (req, res, next) => {
+//to warehouse Delivery for each ware house
+module.exports.warehouseDelivery_get = async (req, res, next) => {
   if (ObjectId.isValid(req.params.id)) {
     await WHouse.findOne({ _id: ObjectId(req.params.id) })
       .limit(1)
-      .then((item) => {
-        res.status(200).render("warehouseops", { result: item });
+      .then(async (item) => {
+        await bills.find({ whId: new ObjectId(item._id)})
+        .then(async (bill)=>{
+          DeliveredBill = await bills.find({ isDelivered: true});
+          Bills = bill.filter(bill => {return bill.isDelivered === false  && bill.status === "Approved" && bill.rejectionReasons.length === 0})
+          res.status(200).render("warehouseops", { result:item ,Bills,DeliveredBill});
+        })
       });
   }
 };

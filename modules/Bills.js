@@ -43,10 +43,7 @@ const BillsSchema = new mongoose.Schema({
     ActivityLog:[],
     rejectionReasons:[],
     registeredBilling:{type:Number},//amount collected from account alerts or cash payment
-    registeredBalance:{
-        type:Number,
-        default: 0
-    },//amount collected from account alerts or cash payment minus to bill amount
+    isDelivered:{type:Boolean,default:false},//for delivery
     PaymentStatus:{type:String},//type of payment status either fully paid or half paid
     PaymentReference:{type:String},//type of payment reference from bank alert description
     billReferenceNo:{type:String},//reference to eacch bill

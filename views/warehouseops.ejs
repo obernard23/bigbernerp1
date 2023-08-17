@@ -9,6 +9,30 @@
         .position-relative{
             color:black
         }
+
+.containers {
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+  text-align: center;
+}
+.folder_tab, .folder {
+  margin: 0 auto;
+  background-color: #708090;
+}
+.folder_tab {
+  width: 25px;
+  height: 5px;
+  margin-right: 50%;
+  border-radius: 5px 15px 0 0;
+}
+.folder {
+  width: 50px;
+  height: 35px;
+  border-radius: 0 5px 5px 5px;
+  box-shadow: 1px 1px 0 1px #CCCCCC;
+}
+
     </style>
 <body>
    <!-- add breadcrum here -->
@@ -184,108 +208,116 @@
                <img height="40" width="40" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB90lEQVR4nGNgGAWjYBSMgiEJxCYEZ4hNCP4oNjHkP6lY81A96fhg3Uetg3Xp1PQAWY4n2wOHwPgD9TxApuMp9MD/UQ/AwGgMHBpNQsM0CXEXWhRwF1p84Smy+E8RLrH8L9TsMSAe+EKx42G42OI/T4MrBpZck0o2ZiAEqOZ4GB71QOpoDPwXLrP9f+f1o/8gULVpEjx5aLUE/v/x+9f/b79+/NdpDR7cSShiXhnYA2++vP8vUekEFlt5didYrGHr9KGRB3ZdPw52cOO2Gf8te2L///339//tVw/BMTQkPGDSGfn/15/f/99/+/T/2L0L///9+/ffa1r20CqFphxc8R8Glp/ZPvSK0YUnNsE9sOLsDoIeEHfXwsBC04LIxgyUeMBzahY42Zx6cPn/kbvnwZ7wn5k/NDwgXGb7/8aL+2BHg9K9/YQksGcevn32X6zCcfB7oHvPArDjd1w7ChfbdOkAWKx378LB7QGzrihw6QMqNq174+Dihh1h/3///QPGVr2xg9cDPBTgUQ9MG2kxwF1k/plqHigwHwAPFJrnUcUTBeb/hKL0v4m7a75Hx6oZDmRjBmoBCQ+t/+Ri9TR7sjHDqAegYDQG0kaT0EhPQu5aH+nvATvqTXBIemilSXhofaCfB+w+qKbYp1LNA6NgFIyCUcBADQAA6UC2Ipn+q/gAAAAASUVORK5CYII=">
                </span>
            </div>
-            <div class="h-59 p-3"  id="display">
-                
+            <div class="h-59 p-1">
+                <button class="btn btn-success" onclick="document.getElementById('myModal').style.display='block'">Generate Way-Bill</button>
                  <!-- show everything here -->
-                 <%if(result.toRecive.length > 0 ){%>
-                    <input hidden value="<%=result._id%>" id="WhId"/>
-                    
-                    <%result.toRecive.forEach((batch)=>{%>
-                      
-                <table cellpadding="5s" cellspacing="0"class=" shadow w-full rounded" style="margin-bottom: 15px;background:rgba(228, 225, 225, 0.285);">
-                    <tr class="font-bold shadow">
-                      <th >Driver</th>
-                      <th >plate number</th>
-                      <th>Driver Tel.</th>
-                      <th>Date.</th>
-                    </tr>
-                    <tbody  id="item"  >
-                    <tr>
-                        <td><%=batch.driver%></td>
-                        <td><%=batch.DVN%></td>
-                        <td><%=batch.driverTel%></td>
-                        <td><%=batch.Date%></td>
-                        <input hidden value="" type="text" >
-                    </tr>
-                    <td>
-                        <!-- <button style="color: brown !important;">Open Batch <ion-icon name="sync-outline"></ion-icon></button> -->
-                        <details  >
-                            <summary style="color: brown !important;">See products in this Batch</summary>
-                            <div class="d-flex w-full">
-                                <%batch.products.forEach((product)=>{%>
-                                    <!-- product card starts here -->
-                                    <div class="flex flex-col p-1 m-3 w-fit shadow rounded" id="toStore" title="<%=product.productName%>"style="background-color: rgba(255, 255, 255, .15);  
-                                        backdrop-filter: blur(5px);
-                                        -webkit-backdrop-filter: blur(5px);">
-                                        <div style="background:#8e88888c" class="flex justify-center p-1">
-                                            <input type="hidden" name="" value="<%=product.product%>" id="itemId">
-                                        <img
-                                            src="<%=product.productImg%>"
-                                            alt="No image to show"
-                                            width="100px"
-                                            height="100px"
-                                        />
-                                        </div>
-                                        <div class="flex flex-col font-bold">
-                                        <h3><%=product.productName.toUpperCase()%></h3>
-                                        <label class="flex">
-                                            QTY SENT:<h4><%=product.qtySent%></h4>
-                                        </label>
-                                        <ul>
-                                        <li>SCALE: <%=product.productUOM%></li>
-                                        </ul>
-                                        <label class="flex">
-                                            SCRAPED QTY:<h2><%=product.qtyScraped%></h2>
-                                        </label>
-                                        <label class="flex">
-                                            CONFIIRMED QTY:<h2><%=product.qtyPerformed%></h2>
-                                        </label>
-                                        <label for="">
-                                            <input type="number" placeholder="Enter quantity to perform"
-                                            id="toPerform" required 
-                                            autocomplete="off">
-                                        </label>
-                                        <div class="flex gap-3">
-                                            <button class="batch_id btn btn-success"  data-doc="<%=batch._id%>">Confirm</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <%})%>
-                               
-                            </div>
-                        </details>
-                    </td>
-                    <%})%>
-                </tbody>
-                <%}else{%>
-                    <p>OOP's...No Batch sent yet</p>
-                    <%}%>
-                </table>
+                <%if(DeliveredBill.length > 0){%>
+                <%DeliveredBill.forEach((Delivery)=>{%>
+                    <div class="containers">
+                        <div class="folder_tab"></div>
+                        <div class="folder"></div>
+                       <p>Delivery for <%=Delivery.billReferenceNo%></p>
+                      </div>
+                <%})%>        
+               <%}else{%>
+                <p>Snap, No Delivery Done yet</p>
+                <%}%>
             </div>
-            <!-- <div>
-                <textarea placeholder="drop a note"></textarea>
-            </div> -->
+           
         </div>
    </div>
    
-    <!-- The Modal -->
-    <div id="myModal" class="modal flex items-center flex-col justify-center gap-3">
+     <!-- The Modal -->
+     <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
         <!-- Modal content -->
-        <div class="modal-content ">
-            <div  class="p-3 flex gap-4 flex-col shadow-bg rounded" style="background-color: rgba(255, 255, 255, .15);  
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px); color:black">
-                <span onclick="document.getElementById('myModal').style.display='none'" class="w3-button w3-display-topright border w-fit p-2 shadow">&times;</span>
-                <h1>Please Ensure to confirm the actual number of product before posting to Storage</h1>
-                <label for="toPerform">Mark All Done
-                    <input type="checkbox" name="toPerform" >
-                </label>
-                <input type="number" placeholder="Enter quantity to perform"
-                 id="toPerform" required 
-                 autocomplete="off">
-                 <i>**Note that Qty to perform can not be greater than Qty sent</i>
-                <button>Done</button>
-            </div>
+        <div class="modal-body modal-content container">
+            <form  class="row g-3 needs-validation" id="form" data-id="">
+                <div class=" d-flex justify-content-between">
+                  
+                      <!-- <h5>Register Payment</h5> -->
+                     <img src="data:image/png;base64,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"
+                     width="40"
+                     height="40"
+                     >
+
+                   <h5> GENERATE WAY BILL</h5>
+                    <svg xmlns="http://www.w3.org/2000/svg" onclick="document.getElementById('myModal').style.display='none'" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                      </svg>
+                  </div>
+  
+                  <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">ENTER INVOICE  REF NUMBER FOR PICK UP </label>
+                    <input type="text" list="pickManager" name="bankAccount" required class="form-control border" placeholder="Search Invoice refence number" required/>
+                    <datalist id="pickManager" >
+                     <!-- display options for Bills -->
+                        <%Bills.forEach(bill =>{%>
+                            <option value="<%=bill.billReferenceNo%>"></option>
+                        <%})%>
+                           
+                    </datalist>
+                </div>
+  
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">BILL TOTAL (N)</label>
+                    <input type="number" disabled id="Grandtotals" class="form-control" value="" hidden/>
+                    <h5 id="Grandtotals" data-grandTotal="">N </h5>
+                </div>
+  
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label"> BILLED FOR</label>
+                    <h5></h5>
+                </div>
+  
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">AMOUNT RECEIVED</label>
+                    <input type="number" placeholder="Amount collected " required class="form-control border" name="registeredBalance"/>
+                </div>
+  
+                <div class="col-md-4">
+                    <label for="supportDoc" class="form-label"> ATTACHMENT 1</label>
+                    <input type="file"  class="form-control" required id="supportDoc" name="supportDoc"/>
+                </div>
+  
+                <div class="col-md-4">
+                  <label for="InvoiceNo" class="form-label">PAYMENT METHOD</label>
+                  <input type="text" list="paymentMethod" name="paymentMethod" required class="form-control border" placeholder="Select payment method" required/>
+                  <datalist id="paymentMethod" >
+                   <!-- display options for department -->
+                   <option >Others</option>
+                   <option >Bank Payment</option>
+                   <option >Cash payment</option>
+                   </datalist>
+              </div>
+  
+                <div class="col-md-4">
+                    <label for="InvoiceNo" class="form-label">Customer Current Debt</label>
+                   <h5 style="color: rgb(50, 68, 40);">Debit:N</h5>
+                </div>
+  
+                <!-- <div class="progress">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: "></div>
+                </div> -->
+                <div class="progress col-md-4" style="height: 3px;" title="Attachement upload progress"> 
+                  <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" id="progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+  
+                <div class="col-md-4">
+                <label class="form-label" style="height: 3px;" title="Attachement upload progress">credit limit here</label>
+                <h5>N </h5>
+              </div>
+  
+                <div class="col-md-4">
+                  <label for="validationCustom01" class="form-label">REMARKS</label>
+                  <textarea type="text"  name="remark"  class="form-control" autocomplete="off" autocapitalize="on"  ></textarea>
+              </div>
+  
+                <div class="col-md-4  ">
+                  <label for="InvoiceNo" class="form-label"> All done!</label>
+                    <button class="btn btn-success form-control" disabled  id="submit" >Confirm Payment for customer name here</button>
+                </div>
+  
+              </form>
         </div>
     </div>
 </body>
