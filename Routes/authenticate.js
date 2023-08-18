@@ -76,6 +76,9 @@ router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);
 router.get('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_get);//get products for specific ware house
 router.patch('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_patch);
 router.get('/Employee/:employeeId',requireAuth,authController.WareHouseManager_get)
+
+// delivery routes
+router.get('/delivery/:deliveryId',requireAuth,authController.delivery_get);//sends json response for single bills
 // GENERATE PDF FOR BILL
 router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
     const bill = await bills.findById(new ObjectId(req.params.billId)).limit(1).lean()

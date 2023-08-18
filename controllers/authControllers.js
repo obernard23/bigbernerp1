@@ -429,6 +429,12 @@ module.exports.warehouseDelivery_get = async (req, res, next) => {
   }
 };
 
+module.exports.delivery_get = async (req,res)=>{
+  const deliveryBill = await bills.findOne({billReferenceNo:req.params.deliveryId})
+  const Customers = await customer.findById(new ObjectId(deliveryBill.customer));
+  res.status(200).json({deliveryBill, Customers})
+}
+
 // create invoice page
 module.exports.Invoice_get = async (req, res) => {
   const prud = await Product.find()
