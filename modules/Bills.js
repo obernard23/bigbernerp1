@@ -17,11 +17,7 @@ const BillsSchema = new mongoose.Schema({
         type:Date,
     },
     paymentMethod:{type:String},
-    orders:[
-        // {
-        //     type: new mongoose.Types.ObjectId,
-        // }
-    ],
+    orders:[],
     promotionItems:[],
     billStatus:{
         type:String,
@@ -41,14 +37,18 @@ const BillsSchema = new mongoose.Schema({
     salesPerson:{type:String},
     signatureUrl:{type:String},
     ActivityLog:[],
-    rejectionReasons:[],
+    rejectionReasons:String,
     registeredBalance:{type:Number},//amount collected from account alerts or cash payment
     isDelivered:{type:Boolean,default:false},//for delivery
     PaymentStatus:{type:String},//type of payment status either fully paid or half paid
-    DELIVERYDATE:{type:Date},//type of payment reference from bank alert description
+    DELIVERYDATE:{type:Date},//delivery date of delivery order
     billReferenceNo:{type:String},//reference to eacch bill
     supportDoc:{type:String},//uploaded bank payment reference
-    supportDoc2:{type:String},//uploaded bank payment reference
+    DriverNumber:String,
+    DriverName:String,
+    vehicleNumber:String,
+    DeliveryComment:String,
+    customerName:String,
 })
 
 const bills = mongoose.model('bill',BillsSchema)

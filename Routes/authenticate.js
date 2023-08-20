@@ -79,6 +79,7 @@ router.get('/Employee/:employeeId',requireAuth,authController.WareHouseManager_g
 
 // delivery routes
 router.get('/delivery/:deliveryId',requireAuth,authController.delivery_get);//sends json response for single bills
+router.patch('/delivery/:deliveryId',requireAuth,authController.delivery_patch);//update delivery status of bill
 // GENERATE PDF FOR BILL
 router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
     const bill = await bills.findById(new ObjectId(req.params.billId)).limit(1).lean()

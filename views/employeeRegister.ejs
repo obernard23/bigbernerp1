@@ -200,16 +200,6 @@
               />
               <label class="form-check-label" for="inlineRadio2">Female</label>
             </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="inlineRadio3"
-                value="Binary"
-              />
-              <label class="form-check-label" for="inlineRadio3">Binary</label>
-            </div>
           </div>
           <!-- endes here  -->
         </div>
@@ -463,7 +453,7 @@
   <%}%>
   <div class="container overflow-hidden flex-wrap d-flex">
     
-    <%if(Employee){%>
+    <%if(Employee.length > 0){%>
         <% Employee.forEach((Employee)=> { %>
         <div class="card m-1 mb-3 shadow-sm" style="width:13rem;" title="<%=Employee.Username%>" >
             <div class="card-img-top justify-content-center d-flex p-2">

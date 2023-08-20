@@ -261,7 +261,7 @@
            </div>
            <div class="h-59 p-1 d-flex" >
                  <!-- show everything here -->
-                <%if(DeliveredBill.length > 0){%>
+                <!-- <%if(DeliveredBill.length > 0){%>
                 <%DeliveredBill.forEach((Delivery)=>{%>
                    <div style="position: relative;"title="Delivery for <%=Delivery.billReferenceNo%>">
                     <div class="container">
@@ -271,6 +271,38 @@
                   </div>
                    </div>
                 <%})%>        
+               <%}else{%>
+                <p>Snap, No Delivery Done yet</p>
+                <%}%> -->
+                <%if(DeliveredBill.length > 0){%>
+                  <table class="border w-100">
+                    <thead class="border">
+                      <td class="border"><b>INVOICE REF NO</b></td>
+                      <td class="border"><b>CUSTOMER</b></td>
+                      <td class="border"><b>DELIVERY FEE (NGN)</b></td>
+                      <td class="border"><b>SALES PERSON</b></td>
+                      <td class="border"><b>DELIVERY DATE</b></td>
+                      <td class="border"><b>DISPATCHER</b></td>
+                      <td class="border"><b>DISPATCHER Tel..</b></td>
+                      <td class="border"><b>DISPATCHER PLATE Num...</b></td>
+                      <td class="'border"><b>COMMENT</b></td>
+                    </thead>
+                    <tbody id="">
+                    <%DeliveredBill.forEach((Delivery)=>{%>
+                    <tr>
+                      <td class="border"><%=Delivery.billReferenceNo%></td>
+                      <td  class="border"><%=Delivery.customerName.toUpperCase()%></td>
+                      <td  class="border">NGN <%=Delivery.shippingFee%></td>
+                      <td  class="border"><%=Delivery.salesPerson.toUpperCase()%></td>
+                      <td  class="border"><%=Delivery.DELIVERYDATE%></td>
+                      <td  class="border"><%=Delivery.DriverName.toUpperCase()%></td>
+                      <td  class="border"><%=Delivery.DriverNumber%></td>
+                      <td  class="border"><%=Delivery.vehicleNumber%></td>
+                      <td class="border"><%=Delivery.DeliveryComment%></td>
+                    </tr>
+                  </tbody>
+                  <%})%>        
+                 </table>
                <%}else{%>
                 <p>Snap, No Delivery Done yet</p>
                 <%}%>
@@ -283,7 +315,7 @@
      <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
         <!-- Modal content -->
         <div class="modal-body modal-content container">
-            <form  class="row g-3 needs-validation" id="form" data-id="">
+            <form  class="row g-3 needs-validation" id="form">
                 <div class=" d-flex justify-content-between">
                   
                       <!-- <h5>Register Payment</h5> -->
@@ -300,7 +332,7 @@
   
                   <div class="col-md-4">
                     <label for="billreferenceNo" class="form-label">ENTER INVOICE  REF NUMBER FOR PICK UP </label>
-                    <input type="text" id="billreferenceNo" list="referenceNo" name="bankAccount" required class="form-control border" placeholder="Search Invoice refence number" required/>
+                    <input type="text" id="billreferenceNo" list="referenceNo" name="referenceNo" required class="form-control border" placeholder="Search Invoice refence number" required/>
                     <datalist id="referenceNo" >
                      <!-- display options for Bills -->
                         <%Bills.forEach(bill =>{%>
@@ -321,10 +353,26 @@
                 </div>
   
                 <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">DELIVERY DATE</label>
-                    <input type="date" placeholder="Amount collected " required class="form-control border" name="registeredBalance"/>
+                    <label for="date" class="form-label">DELIVERY DATE</label>
+                    <input type="date" placeholder="" required class="form-control border" id="date" name="date"/>
                 </div>
-                <h5>Orders to Action</h5>
+                <div class="col-md-4">
+                  <label for="DriverName" class="form-label">DRIVER NAME</label>
+                  <input type="text" placeholder="" required class="form-control border" id="DriverName" name="DriverName"/>
+              </div>
+              <div class="col-md-4">
+                <label for="DriverNumber" class="form-label">DRIVER NUMBER</label>
+                <input type="text" placeholder="" required class="form-control border" id="DriverNumber" name="DriverNumber"/>
+            </div>
+            <div class="col-md-4">
+              <label for="fee" class="form-label">DELIVERY FEE (NGN)</label>
+              <input type="number" placeholder="" required class="form-control border" id="fee" name="fee"/>
+            </div>
+            <div class="col-md-4">
+              <label for="plateNumber" class="form-label">DISPATCHER PLATE NUMBER</label>
+              <input type="text" placeholder="" required class="form-control border" id="plateNumber" name="plateNumber"/>
+          </div>
+                <h5>Dispatcher Order</h5>
                <!-- table sowing products here -->
                <table class="border">
                 <thead class="border">
@@ -336,9 +384,14 @@
                 <tbody id="orders"></tbody>
                </table>
   
+               <div class="col-md-4">
+                <label for="remark" class="form-label">DELIVERY REMARKS</label>
+                <textarea type="text" id="remark"  name="remark"  class="form-control" autocomplete="off" autocapitalize="on"  ></textarea>
+              </div>
+
                 <div class="col-md-4  ">
                   <label for="InvoiceNo" class="form-label"> All done!</label>
-                    <button class="btn btn-success form-control" disabled  id="submit" >Generate Delivery Note</button>
+                    <button class="btn btn-success form-control" id="submit" >Generate Delivery Note</button>
                 </div>
   
               </form>
@@ -346,7 +399,7 @@
     </div>
 </body>
 <script>
-   let billreferenceNo = document.getElementById('billreferenceNo')
+   const billreferenceNo = document.getElementById('billreferenceNo')
    billreferenceNo.addEventListener('change',async(event) => {
     // clear previous bill reference
     document.getElementById('customer').innerText = ""
@@ -360,7 +413,7 @@
     const response = await request.json()
     if(response){
       document.getElementById('customer').innerText = response.Customers.Username.toUpperCase()
-      document.getElementById('Grandtotals').innerText = `N ${response.deliveryBill.grandTotal}`
+      document.getElementById('Grandtotals').innerText = `NGN ${response.deliveryBill.grandTotal}`
       // FOR ORDERS
       let count = 1
       response.deliveryBill.orders.forEach(element => {
@@ -387,5 +440,24 @@
       });
     }
    })
+
+  const form = document.getElementById("form")
+  form.addEventListener("submit",async(e) => {
+    e.preventDefault()
+    // get date atributes field
+    let billrefNo = form.referenceNo.value
+    const date = form.date.value 
+    const remark = form.remark.value
+    const plateNumber = form.plateNumber.value
+    const DriverNumber = form.DriverNumber.value
+    const fee = form.fee.value
+    const DriverName = form.DriverName.value
+    const request = fetch(`/delivery/${billrefNo}`,{
+      method:'PATCH',
+      body:JSON.stringify({DELIVERYDATE:date,isDelivered:true,DeliveryComment:remark,vehicleNumber:plateNumber,DriverNumber:DriverNumber,shippingFee:fee,DriverName:DriverName}),
+      headers:{"content-type": "application/json"}
+    })
+  });
+
 </script>
 </html>

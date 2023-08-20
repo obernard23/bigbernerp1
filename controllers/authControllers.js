@@ -129,9 +129,39 @@ module.exports.edith_get = async (req, res) => {
   res.render("Edit", { title: "Ecommerce", name: "BigBern" });
 };
 
-// register
+// register new employee
 module.exports.Register_post = async (req, res) => {
-  const { firstName, lastName, Email, telephone,workLocation,opsCode,password } = req.body;
+  const { firstName, lastName, Email, telephone,workLocation,opsCode,password,Equiptment,
+    HomeAddress,
+    workTelephone,
+    contract,
+    skills,
+    DOB,
+    Appraisal,
+    StateOfOringin,
+    EmaergencyContact,
+    NIN,
+    BVN,
+    AccountNumber,
+    EmploymentStaus,
+    StartDate,
+    EndDate,
+    EducationalQulification,
+    staffId,
+    role,
+    manager,
+    nextOfKin,
+    Signature,
+    image,
+    Leave,
+    workEmail,
+    Department,
+    coach,
+    unit,
+    Salary,
+    document,
+    status,
+    jobTittle } = req.body;
 
   const salt = await bcrypt.genSalt();
   const handelPassword = await bcrypt.hash(password, salt);
@@ -140,23 +170,54 @@ module.exports.Register_post = async (req, res) => {
   const handelOps = await bcrypt.hash(opsCode, saltOps);
 
   try {
-    const Newcustomer = await Employe.create({
+    const NewEmploye = await Employe.create({
       firstName,
       lastName,
       Email,
       telephone,
       workLocation,
       opsCode:handelOps,
-      password:handelPassword
-    }).then(result => res.status(200).json({result:'success'}));
-    // const token = createToken(Newcustomer._id);
-    // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    // res.status(201).json({ Newcustomer: Newcustomer._id });
-  } catch (err) {
+      password:handelPassword,
+      workLocation,
+      Equiptment,
+      HomeAddress,
+      workTelephone,
+      contract,
+      skills,
+      DOB,
+      Appraisal,
+      StateOfOringin,
+      EmaergencyContact,
+      NIN,
+      BVN,
+      AccountNumber,
+      EmploymentStaus,
+      StartDate,
+      EndDate,
+      EducationalQulification,
+      staffId,
+      role,
+      manager,
+      nextOfKin,
+      Signature,
+      image,
+      Leave,
+      workEmail,
+      Department,
+      coach,
+      unit,
+      Salary,
+      document,
+      status,
+      jobTittle
+    })
+    .then(result => res.status(200).json({result:'success'}));
+  }catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
-};
+}
+;
 
 //OnboardEmployee_get
 module.exports.OnboardEmployee_get = async (req, res) => {
@@ -272,41 +333,8 @@ module.exports.VendorCreate_get = async (req, res) => {
 };
 
 module.exports.VendorCreate_post = async (req, res) => {
-  const {
-    Name,
-    Categories,
-    image,
-    contact,
-    vendor_tel,
-    mobile_tel,
-    email,
-    Address,
-    Manufacturer,
-    w_Location,
-    status,
-    block_vendor,
-    Account_num,
-    Account_name,
-    Bank_name,
-  } = req.body;
   try {
-    await Vendor.create({
-      Name,
-      Categories,
-      image,
-      contact,
-      vendor_tel,
-      mobile_tel,
-      email,
-      Address,
-      Manufacturer,
-      w_Location,
-      status,
-      block_vendor,
-      Account_num,
-      Account_name,
-      Bank_name,
-    });
+    await Vendor.create(req.body);
     res.status(200).json({ Message: "New Vendor Registered" });
   } catch (e) {
     res.status(500).json({ error: "Something went Wrong" });
@@ -408,7 +436,7 @@ module.exports.wareHouse_post = async (req, res) => {
   }
 };
 
-//to warehouse Delivery for each ware house
+//to get warehouse Delivery for each ware house
 module.exports.warehouseDelivery_get = async (req, res, next) => {
   if (ObjectId.isValid(req.params.id)) {
     await WHouse.findOne({ _id: ObjectId(req.params.id) })
@@ -422,17 +450,26 @@ module.exports.warehouseDelivery_get = async (req, res, next) => {
               return billed.isDelivered === true
             })
           
-          Bills = bill.filter(bill => {return bill.isDelivered === false  && bill.status === "Approved" && bill.rejectionReasons.length === 0})
+          let Bills = await bill.filter(bill => {return bill.isDelivered === false  && bill.status === "Approved"})
           res.status(200).render("warehouseops", { result:item ,Bills,DeliveredBill});
         })
       });
   }
 };
 
-module.exports.delivery_get = async (req,res)=>{
+module.exports.delivery_get = async (req,res)=>{//sends json for delivery form
   const deliveryBill = await bills.findOne({billReferenceNo:req.params.deliveryId})
   const Customers = await customer.findById(new ObjectId(deliveryBill.customer));
   res.status(200).json({deliveryBill, Customers})
+}
+
+// update delivery action form ware house store keeper
+module.exports.delivery_patch = async(req,res)=>{
+  const update = req.body
+  await bills.updateOne({billReferenceNo:req.params.deliveryId},{ $set: update })
+  .then((response)=>{
+    console.log(response)
+  })
 }
 
 // create invoice page

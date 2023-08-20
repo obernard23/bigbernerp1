@@ -594,6 +594,8 @@
             const creditLimit = document.getElementById('creditLimit').innerText = `Credit Limit: N${data.item.creditLimit}.00k`
             const customerDebt = document.getElementById('Debt').innerText = `Customer-Debt: N${data.item.Debt}.00k`
             const employee = document.getElementById('employee').value
+            BillProducts.customerName = data.item.Username
+            console.log(data)
             const d = new Date();
             BillProducts.startDate = `${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`
             const startDate = document.getElementById('startdate').innerText = `start Date: ${BillProducts.startDate}` ;
@@ -648,7 +650,7 @@
           salesPerson:'',
           signatureUrl:'',
           ActivityLog:[],
-          rejectionReasons:[],
+          rejectionReasons:'',
           id:'',
           billReferenceNo : Math.floor(Math.random() *1000001),
           registeredBilling:0,
@@ -659,7 +661,14 @@
           priceList:'',
           customerCategory:'',
           creditLimit:0,
-          customerDebt:0
+          customerDebt:0,
+          DriverNumber:"",
+          DriverName:"",
+          vehicleNumber:"",
+          DeliveryComment:"",
+          DELIVERYDATE:"",
+          isDelivered:false,
+          customerName:"",
           };
         }else{
           return JSON.parse(quoteData)
