@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <%-include('./partials/head.ejs')%>
-    
     <link rel="stylesheet" href="/feature.css">
     <link rel="stylesheet" href="/main.css"/>
 <body>
@@ -89,10 +88,16 @@
                     Manufacturer: <input type="text" name="Manufacturer"placeholder='Name of Manufacturer'>
                 </label>
 
-                <label class="flex flex-row gap-9 font-bold" >
-                    Ware-House Location
-                    <input type="text" list="tag" name="w_Location"placeholder="Select a location"/>
-                </label>
+                <div class="col-md-4">
+                    <label for="salesPerson" class="form-label">Sales person</label>
+                    <select name="salesPerson" id="salesPerson" class="form-select">
+                        <option >Choose...</option>
+                        <%employees.forEach(employe=>{%>
+                       <option value="<%=employe._id%>"><%=employe.firstName%> <%=employe.lastName%></option>
+                       <% })%>
+                    </select>
+                  </div>
+                
             </div>
             <!-- customer settings -->
             <div id="privateinfo" class="flex flex-col hidden gap-5 p-5 border-b ">
@@ -145,6 +150,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
 <script  >
     let customerForm = document.getElementById('customerForm')
+    let salesPerson 
+  document.querySelector('#salesPerson').addEventListener('change',async (e)=>{
+    let request = await fetch(`/employee/${e.target.value}`,{
+      method: 'GET', 
+      headers:{'content-type': 'application/json'}
+    })
+    salesPerson = await request.json()
+
+  })
 customerForm.addEventListener('submit',async (e)=>{
     e.preventDefault()
     const Name = customerForm.Name.value;
@@ -166,21 +180,8 @@ customerForm.addEventListener('submit',async (e)=>{
     const endPoint ='/Sales/Register-customer'
     const res = await fetch(endPoint,{
         method:'POST',
-        body:JSON.stringify({Name,
-        Categories,
-        image,
-        contact,
-        customer_tel,
-        mobile_tel,
-        email,
-        Address,
-        Manufacturer,
-        w_Location,
-        status,
-        block_customer,
-        Account_num,
-        Account_name,
-        Bank_name
+        body:JSON.stringify({
+        salesPerson
         }),
         headers:{'Content-Type': 'application/json'}
     })

@@ -112,8 +112,9 @@ module.exports.About_get = (req, res) => {
 module.exports.Notification_get = (req, res) => {
   res.render("Notification", { title: "Ecommerce", name: "BigBern" });
 };
-module.exports.Register_get = (req, res) => {
-  res.render("register-customer", { title: "Ecommerce", name: "BigBern" });
+module.exports.Register_get = async(req, res) => {
+  const employees = await Employe.find()
+  res.render("register-customer", { title: "Ecommerce", name: "BigBern" ,employees});
 };
 
 module.exports.Reset_get = (req, res) => {
@@ -394,13 +395,13 @@ module.exports.Product_patch = async(req,res)=>{
 
 // get product from invoice
 module.exports.productFind_get = async (req, res) => {
-  if (ObjectId.isValid(req.params.id)) {
-    await Product.findOne({ _id: ObjectId(req.params.id) })
+  
+    await Product.findOne({ ACDcode: req.params.ACDcode})
       .limit(1)
       .then((item) => {
         res.status(200).json({ item });
       });
-  }
+  
 };
 
 //get customer
@@ -466,10 +467,22 @@ module.exports.delivery_get = async (req,res)=>{//sends json for delivery form
 // update delivery action form ware house store keeper
 module.exports.delivery_patch = async(req,res)=>{
   const update = req.body
-  await bills.updateOne({billReferenceNo:req.params.deliveryId},{ $set: update })
-  .then((response)=>{
-    console.log(response)
+  await bills.findOne({billReferenceNo:req.params.deliveryId})
+  .then(async(done)=>{
+      if(done.isDelivered) {
+        res.status(500).json({error:'Fraud alert'})
+      }else{
+        await bills.updateOne({billReferenceNo:req.params.deliveryId},{ $set: update })
+    .then((response)=>{
+      if(response.acknowledged){
+        res.status(200).json({message:"Delivery acknowledged"})
+      }else{
+        res.status(500).json({error:'Something went wrong'})
+      }
+    })
+      }
   })
+  
 }
 
 // create invoice page
@@ -746,8 +759,9 @@ module.exports.customer_get = async (req, res) => {
     try {
       await customer
         .findOne({ _id: new ObjectId(req.params.id) })
-        .then((result) => {
-          res.status(200).render("SingleCustomer", { result, name: "BigBern" });
+        .then(async(result) => {
+          const employees = await Employe.find()
+          res.status(200).render("SingleCustomer", { result, name: "BigBern" ,employees});
         });
     } catch (error) {
       res.status(404).render("", { error: error });
@@ -900,13 +914,25 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
       //first find the bill 
       await bills.findById(new ObjectId(req.params.id))
       .then(async function(updatedBill) {
-        console.log(updatedBill)
        if(updatedBill.grandTotal === parseInt(update.registeredBalance)){
         await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
          .then(async (bill) =>{
            if(bill.acknowledged){
              await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
              updatedBill.save()
+            //  remove product from ware house productt list
+            // find warehouse product by bill ware house id
+           updatedBill.orders.forEach(async (order) =>{
+            await storeProduct.find({WHIDS: new ObjectId(updatedBill.whId)})
+            .then(async(products)=>{
+              // filterproducts that are in warehouse to get product to deduct from
+              todeduct = products.filter(prud =>{
+                return prud.productId.toString() === order.item._id.toString()
+              }).map(currentQty=>{return currentQty.currentQty})
+            await storeProduct.updateOne({productId:order.item._id},{$set:{currentQty:todeduct - order.Qty}}) 
+            })
+           }); 
+
              next()//send mail to storekeeper
            }else{
              throw new Error('Something seems to be wrong')

@@ -22,9 +22,9 @@ const StorageSchema =  new mongoose.Schema({
         ref:'Products',
         required:true,
     },
-    productQty:{
-        type:Number,
-        default:0
+    isActivated:{
+        type:Boolean,
+        default:false
     },
     autoReplenishment:{
         type:Boolean,

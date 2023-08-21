@@ -258,7 +258,8 @@
                <%if(user.jobTittle === "Storekeeper" || user.role === "Admin"){%>
                 <button class="btn btn-success" onclick="document.getElementById('myModal').style.display='block'">Generate Way-Bill</button>
                <%}%> 
-           </div>
+              </div>
+              <h5>Overview</h5>
            <div class="h-59 p-1 d-flex" >
                  <!-- show everything here -->
                 <!-- <%if(DeliveredBill.length > 0){%>
@@ -452,11 +453,19 @@
     const DriverNumber = form.DriverNumber.value
     const fee = form.fee.value
     const DriverName = form.DriverName.value
-    const request = fetch(`/delivery/${billrefNo}`,{
+    const request = await fetch(`/delivery/${billrefNo}`,{
       method:'PATCH',
       body:JSON.stringify({DELIVERYDATE:date,isDelivered:true,DeliveryComment:remark,vehicleNumber:plateNumber,DriverNumber:DriverNumber,shippingFee:fee,DriverName:DriverName}),
       headers:{"content-type": "application/json"}
     })
+    const response =  await request.json()
+    if(response.message){
+      alert(response.message)
+      location.reload()
+    }else if(response.error){
+      alert(response.error)
+      location.assign('/logout')
+    }
   });
 
 </script>

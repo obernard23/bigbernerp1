@@ -106,7 +106,8 @@ const CustomerSchema = new  mongoose.Schema({
     ],
     priceList:{
         type:String,
-    }
+    },
+    salesPerson:Object
 
 },{timestamps:true});
 

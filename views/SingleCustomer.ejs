@@ -81,6 +81,16 @@
               </div>
             </div>
 
+            <div class="col-md-4">
+              <label for="salesPerson" class="form-label">Change Sale person</label>
+              <select name="salesPerson" id="salesPerson" class="form-select">
+                  <option ><%=result.salesPerson.firstName.toUpperCase()%> <%=result.salesPerson.lastName.toUpperCase()%> [Current]</option>
+                  <%employees.forEach(employe=>{%>
+                 <option value="<%=employe._id%>"><%=employe.firstName%> <%=employe.lastName%></option>
+                 <% })%>
+              </select>
+            </div>
+
               <!-- drop down for pricelist -->
 
               <div class="col-md-5">
@@ -174,6 +184,16 @@
   // =================================================================
   //send pactch request and delete 
 const update = document.getElementById('update');
+//get all employee list '/employee/all'
+let salesPerson 
+  document.querySelector('#salesPerson').addEventListener('change',async (e)=>{
+    let request = await fetch(`/employee/${e.target.value}`,{
+      method: 'GET', 
+      headers:{'content-type': 'application/json'}
+    })
+    salesPerson = await request.json()
+
+  })
 update.addEventListener('click',async ()=>{
   const id = update.dataset.id;
   const Username = document.querySelector('input#Name').value
@@ -190,6 +210,7 @@ update.addEventListener('click',async ()=>{
   const categorys = document.getElementById("category")
   let category = categorys.options[categorys.selectedIndex].value;
 
+
   const url = `/customer/update/${id}`;
 
   const data = await fetch(url,{
@@ -204,7 +225,8 @@ update.addEventListener('click',async ()=>{
       discount,
       DOB,
       category,
-      street
+      street,
+      salesPerson
     }),
     headers:{'Content-Type': 'application/json'}
   })

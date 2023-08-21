@@ -13,6 +13,7 @@ const pdf = require("pdf-creator-node");
 const { ObjectId } = require('mongodb');
 const sendBirtdaysEmail = require('../Functions/sendBirthdayMail');
 const NotifyAccountant = require('../Functions/NotifyAccountant');
+const employe = require('../modules/Employees')
 
 const router = Router()
 
@@ -40,11 +41,15 @@ router.post('/Register-lead',requireAuth,authController.Lead_post);
 router.patch('/Reset-password/:id/Security',authController.ResetId_patch);
 // router.post('/employee/Onboard/:id',requireAuth,checkUserRole,authController.OnboardEmployee_get)///check this
 
+router.get('/employee/:employeeId',requireAuth,async(req,res)=>{//get json for all employees
+    const employee = await employe.findById(new ObjectId(req.params.employeeId))
+    res.status(200).json(employee)
+})
 //for erp pls cut out when done 
 router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);
 router.post('/Product/Create-new',requireAuth,authController.ProductCreate_post);
 router.post('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_post);
-router.get(`/product/:id/bill`,requireAuth,authController.productFind_get);//get product with json format for quotation purposes
+router.get(`/product/:ACDcode/bill`,requireAuth,authController.productFind_get);//get product with json format for quotation purposes
 router.get('/Products',requireAuth,authController.Product_get);
 router.patch('/Products/:id/edit',requireAuth,authController.Product_patch);
 router.get('/Product/:id/:name',requireAuth,authController.SingleProduct_get)

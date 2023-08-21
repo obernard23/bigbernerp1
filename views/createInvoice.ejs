@@ -356,7 +356,6 @@
             <h4 class="intro-table-title" id="Address"></h4>
             <h4 class="intro-table-title"id="phone"></h4>
             <h4 class="intro-table-title"id="discount"></h4>
-            <h4 class="intro-table-title" id="creditLimit" style="color: #1db669;"> </h4>
             <h4 class="intro-table-title" id="Debt" style="color: #c45b5b;"></h4>
             <h4 id='startdate' class="intro-table-title"></h4>
           </div>
@@ -429,36 +428,32 @@
                 <form action="">
                 <td>
                   
-                 
-                  <!-- drop down for pricelist -->
-
-              <div class="col-md-6">
-                <label for="products" class="form-label">Products</label>
-                <select
-                  class="form-select "
-                  id="products"
-                  aria-describedby="validationServer04Feedback"
-                  required
-                >
-                <option >choose...</option>
-                <%products.forEach((products)=>{%>
-                  <%pname = prud.filter(name=>{%>
-                    <% return name._id.toString() === products.productId.toString()%>
-                    <%})%>
-                    <%pname.map(n=>{%>
-                      <option <%if(products.currentQty < 1 || n.Sellable === false ){%>
-                        disabled="true"
-                        <%}%> 
-                        value="<%=n._id%>">
-                        <%=n.Name%>
-                         [<%=n.UMO%>]
-                        (Available Qty: <%=products.currentQty%>)
-                      </option>
-                    <%})%>
-                     <%})%>
-                </select>
+                    <!-- drop down for pricelist -->
+                  <div class="col-md-6">
+                    <label for="products" class="form-label">Products List </label>
+                    <input type="text" id="products" list="productsACD" name="referenceNo" required class="form-control border" placeholder="Search Invoice refence number" required/>
+                    <datalist id="productsACD" >
+                     <!-- display options for Bills -->
+                     <option >choose...</option>
+                     <%products.forEach((products)=>{%>
+                       <%pname = prud.filter(name=>{%>
+                         <% return name._id.toString() === products.productId.toString()%>
+                         <%})%>
+                         <%pname.map(n=>{%>
+                           <option <%if(products.currentQty < 1 || n.Sellable === false || products.isActivated === false ){%>
+                             disabled="true"
+                             <%}%> 
+                             value="<%=n.ACDcode%>">
+                             <%=n.Name%>
+                              [<%=n.UMO%>]
+                             (Available Qty: <%=products.currentQty%>)
+                           </option>
+                         <%})%>
+                          <%})%>
+                    </datalist>
                 </div>
-                  
+                 
+                  <!-- ENDS HERE--> 
                 
                 <!-- for promotions item selection -->
 
@@ -533,7 +528,7 @@
             </div>
 
             <div class="form signer-item">
-              <label for="signature" class="label" >Issued by: <%=user.firstName%></label>
+              <label for="signature" class="label" >Raised by: <%=user.firstName.toUpperCase()%> on Behalf of Sales person</label>
               <img class="logo" src=""
                 id="signature"
               />
@@ -563,7 +558,6 @@
           </form>
         </div>
       </div>
-      <input type="text" hidden id="employee" value="<%=user.firstName%>">
   </body>
     <script>
      const submitBtn = document.getElementById('submit')
@@ -591,11 +585,8 @@
             const Address = document.getElementById('Address').innerText = `Address: ${data.item.street}`;
             const discount = document.getElementById('discount').innerText = `Discount: ${data.item.discount}%`;
             const discountinCalc = document.getElementById('discountinCalc').innerText = `${data.item.discount}%`
-            const creditLimit = document.getElementById('creditLimit').innerText = `Credit Limit: N${data.item.creditLimit}.00k`
             const customerDebt = document.getElementById('Debt').innerText = `Customer-Debt: N${data.item.Debt}.00k`
-            const employee = document.getElementById('employee').value
             BillProducts.customerName = data.item.Username
-            console.log(data)
             const d = new Date();
             BillProducts.startDate = `${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`
             const startDate = document.getElementById('startdate').innerText = `start Date: ${BillProducts.startDate}` ;
@@ -608,7 +599,7 @@
             document.getElementById('Subtotal').innerHTML = "N0.00"
             document.getElementById('Shipping').value = 0
             BillProducts.customer = data.item._id //assign custom properties
-            BillProducts.salesPerson = employee
+            BillProducts.salesPerson = data.item.salesPerson.firstName 
             BillProducts.discount = data.item.discount //assign custom discount
             BillProducts.priceList = data.item.priceList //assign customizes price list for product for diffrent customer pricelist
             BillProducts.ActivityLog.push({
@@ -669,6 +660,7 @@
           DELIVERYDATE:"",
           isDelivered:false,
           customerName:"",
+          
           };
         }else{
           return JSON.parse(quoteData)

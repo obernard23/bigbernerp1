@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose')
 var id = new mongoose.Types.ObjectId;
 
@@ -49,6 +50,7 @@ const BillsSchema = new mongoose.Schema({
     vehicleNumber:String,
     DeliveryComment:String,
     customerName:String,
+    whProductId:mongoose.Types.ObjectId,//to map back to store object of product  so we can reduce quantity
 })
 
 const bills = mongoose.model('bill',BillsSchema)
