@@ -110,13 +110,6 @@ router.get('/invoice/:billId', requireAuth,async (req, res, next)=>{
 } )
 
 
-
-// send  birthday mail automatically
-setInterval( () => {
-    sendBirtdaysEmail()
-},86400000)//this should log 24hrs
- 
-
 //get user signature
 router.get(`/users/:userId/:opInput`,requireAuth,authController.Signature_get);
 

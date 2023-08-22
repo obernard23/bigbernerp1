@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const { requireAuth, checkUser } = require("./middleware/authmidddleware");
 const Dotenv = require("./.env");
 const { WHouse } = require("./modules/warehouse");
+const sendBirtdaysEmail = require('./Functions/sendBirthdayMail');
 
 //initialize app
 const app = express();
@@ -16,7 +17,11 @@ mongoose
   .then((result) => {
     app.listen(Dotenv.PORT, () => {
       console.log(`connected to ${Dotenv.PORT}`);
-      setInterval(()=>{console.log('server running')},1000)
+      setInterval(()=>{
+        // send  birthday mail automatically
+        sendBirtdaysEmail()
+        //this should log 24hrs
+      },86400000)
     }),
       console.log("connected to db");
   })

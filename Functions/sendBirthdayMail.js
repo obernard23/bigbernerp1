@@ -42,7 +42,7 @@ async function sendBirtdaysEmail( ){
         transporter.sendMail(message).then(() => {
           console.log('birthday message sent')
         }).catch(error => {
-          console.log(error)
+          console.log(error.message)
         })
            }
   })
