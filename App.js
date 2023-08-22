@@ -16,6 +16,7 @@ mongoose
   .then((result) => {
     app.listen(Dotenv.PORT, () => {
       console.log(`connected to ${Dotenv.PORT}`);
+      setInterval(()=>{console.log('server running')},1000)
     }),
       console.log("connected to db");
   })
