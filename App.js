@@ -23,7 +23,7 @@ mongoose
         //this should log 24hrs
       },86400000)
     }),
-      console.log("connected to db");
+    console.log("connected to db");
   })
   .catch((err) => console.log(err));
 

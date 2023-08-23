@@ -687,7 +687,7 @@ module.exports.WareHouseSingleBill_get = async (req, res, next) => {
 //approve bills for managers
 module.exports.approveBill_patch = async (req, res,next) => {
   if (ObjectId.isValid(req.params.id)) {
-    await bills.findOne({ _id: new ObjectId(req.params.id) }).then(async(bill) => {
+     await bills.findOne({ _id: new ObjectId(req.params.id) }).then(async(bill) => {
       const warehouse = await WHouse.findById(new ObjectId(bill.whId))
       
      await customer.findById({ _id: new ObjectId(bill.customer)})
@@ -703,7 +703,7 @@ module.exports.approveBill_patch = async (req, res,next) => {
         newDebt = previousDebt  + bill.subTotal
         customer.Debt = newDebt
         customer.save()
-
+        
         const d = new Date();
       bill.status = "Approved";
       bill.ActivityLog.unshift({
@@ -713,6 +713,19 @@ module.exports.approveBill_patch = async (req, res,next) => {
         status: "Approved, Store keeper to Release Products",
       });
       bill.save();
+
+       //remove product from warehouse
+       bill.orders.forEach(async (order) =>{
+        await storeProduct.find({WHIDS: new ObjectId(bill.whId)})
+        .then(async(products)=>{
+          // filterproducts that are in warehouse to get product to deduct from
+          todeduct = products.filter(prud =>{
+            return prud.productId.toString() === order.item._id.toString()
+          }).map(currentQty=>{return currentQty.currentQty})
+        await storeProduct.updateOne({productId:order.item._id},{$set:{currentQty:todeduct - order.Qty}}) 
+        })
+       }); 
+
       res
         .status(200)
         .json({ message: "Store keeper will be Notified to Release Goods to Customer" });
@@ -732,7 +745,20 @@ module.exports.approveBill_patch = async (req, res,next) => {
           status: "Approved, Store keeper to Release Products",
         });
         bill.save();
-        // send order to delivery / store keeper to release goods
+
+         //remove product from warehouse
+         bill.orders.forEach(async (order) =>{
+           await storeProduct.find({WHIDS: new ObjectId(bill.whId)})
+           .then(async(products)=>{
+             // filterproducts that are in warehouse to get product to deduct from
+             todeduct = products.filter(prud =>{
+               return prud.productId.toString() === order.item._id.toString()
+              }).map(currentQty=>{return currentQty.currentQty})
+
+              await storeProduct.updateOne({productId:order.item._id},{$set:{currentQty:todeduct - order.Qty}}) 
+          })
+         }); 
+    // store keeper to release goods
         NotifyStoreKeeper(bill)
         res
           .status(200)
@@ -922,18 +948,7 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
              updatedBill.save()
             //  remove product from ware house productt list
             // find warehouse product by bill ware house id
-           updatedBill.orders.forEach(async (order) =>{
-            await storeProduct.find({WHIDS: new ObjectId(updatedBill.whId)})
-            .then(async(products)=>{
-              // filterproducts that are in warehouse to get product to deduct from
-              todeduct = products.filter(prud =>{
-                return prud.productId.toString() === order.item._id.toString()
-              }).map(currentQty=>{return currentQty.currentQty})
-            await storeProduct.updateOne({productId:order.item._id},{$set:{currentQty:todeduct - order.Qty}}) 
-            })
-           }); 
-
-             next()//send mail to storekeeper
+             next()//send mail to manager
            }else{
              throw new Error('Something seems to be wrong')
            }
@@ -949,7 +964,7 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
   }
 };
 
-
+//FOR DASHBOARD
 module.exports.Report_get = async(req, res, next)=>{
   res.render('reports',{});
 }
@@ -1011,4 +1026,18 @@ module.exports.query_get = async (req, res, next) => {
   const query = req.params.query
 const Appraisal = await Appraisals.findOne({ $or: [{ title: query}]})
 res.json(Appraisal)
+}
+
+//for expense controller  
+module.exports.expense_get =  async (req, res, next) => {
+  if (ObjectId.isValid(req.params.WHID)) {
+    await WHouse.findOne({ _id: new ObjectId(req.params.WHID) })
+      .limit(1)
+      .then(async (item) => {
+
+        res.status(200).render('Expense',{result:item} )
+      })
+    } else{
+      res.redirect('/logout')
+    }
 }

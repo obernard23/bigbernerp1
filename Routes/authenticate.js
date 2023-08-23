@@ -11,7 +11,6 @@ const fs = require('fs');
 const sendQuot = require("../Functions/sendQuot");
 const pdf = require("pdf-creator-node");
 const { ObjectId } = require('mongodb');
-const sendBirtdaysEmail = require('../Functions/sendBirthdayMail');
 const NotifyAccountant = require('../Functions/NotifyAccountant');
 const employe = require('../modules/Employees')
 
@@ -138,4 +137,7 @@ router.get('/vendor/:id',requireAuth,authController.vendorFind_get)
 
 //query global search parameters
 router.get('/search/:query',requireAuth,authController.query_get)
+
+//warehouse expense
+router.get('/Expense/:WHID',requireAuth,authController.expense_get)
 module.exports = router;

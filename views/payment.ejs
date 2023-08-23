@@ -59,6 +59,9 @@
                           <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" >
                               <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='grand total of this bill'>
                                 N<%=bill.grandTotal%>
+                                 <%if(bill.registeredBalance === 0 ){%>
+                                <span class="badge bg-secondary">New</span>
+                                <%}%>
                               </small>
                               <%customer = customers.filter(bills=>{%>
                                 <% return bills._id.toString() === bill.customer.toString()%>

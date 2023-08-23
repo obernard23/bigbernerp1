@@ -5,17 +5,13 @@ const birthdayTemplates = require('../EmailTemplates/birthdatTemplate')
 
 async function sendBirtdaysEmail( ){
 
-  const day = new Date().getDate()
-  const month = new Date().getMonth() + 1
-
     const data = await Employe.find({blocked:false})
     .then((employee)=>{
      return employee.filter(celebrante=>{
-      return celebrante.DOB.substring(0,3) === `${day}/${month}`
+      return celebrante.DOB === `${new Date().getDate()}/${+new Date().getMonth() + 1}`
     })
     
-    
-    })
+  })
 
   let config = {
       service : 'gmail',
