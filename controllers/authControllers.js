@@ -13,6 +13,7 @@ const NotifyAccountant = require("../Functions/NotifyAccountant");//for Accounta
 const VirtualstorageProduct = require('../modules/purchase')
 const Appraisals = require('../modules/Appraisal')
 const NotifyStoreKeeper = require('../Functions/NotifyStoreKeeper');
+const Expense = require('../modules/Expense')
 
 const restPassword = require("../Functions/resetPasword");
 var id = new mongoose.Types.ObjectId();
@@ -1040,4 +1041,21 @@ module.exports.expense_get =  async (req, res, next) => {
     } else{
       res.redirect('/logout')
     }
+}
+
+//post request for expense 
+module.exports.expense_post = async(req, res, next) => {
+  if (ObjectId.isValid(req.params.WHMANAGER)) {
+    console.log(req.params.WHMANAGER)
+    await Expense.create(req.body)
+    .then(expense => {
+      if(expense.acknowledged){
+        res.json({message:'accountant will be notified of expense creation'})
+      } else{
+        res.status(500).json({error: 'Something went wrong'})
+      } 
+    })
+  }else{
+    res.redirect('/logout')
+  }
 }

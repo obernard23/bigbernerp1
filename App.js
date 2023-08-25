@@ -21,7 +21,17 @@ mongoose
         // send  birthday mail automatically
         sendBirtdaysEmail()
         //this should log 24hrs
+        date = `${new Date().getDate()}/${new Date().getMonth()+1}`
+       console.log(date)
       },86400000)
+
+      setInterval(()=>{
+        // send  birthday mail automatically
+       date = `${new Date().getDate()}/${new Date().getMonth()+1}`
+       console.log(date)
+        //this should log 24hrs
+      },1000)
+
     }),
     console.log("connected to db");
   })
@@ -43,6 +53,14 @@ app.use(authRoutes);
 
 //entrty routes for server
 app.get("/", async (req, res, next) => {
+
+  setInterval(()=>{
+    // send  birthday mail automatically
+   date = new Date()
+   console.log(date,'from ')
+    //this should log 24hrs
+  },1000)
+
   //check and create virtual ware house
   try {
     const WHouses = await WHouse.find();

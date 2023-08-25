@@ -58,9 +58,9 @@
                         <span onclick="location.assign('/Register/bill/<%=user._id%>/<%=bill._id%>')" class="list-group position-relative mb-2" title="Total paid:N<%=bill.registeredBalance%>">
                           <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" >
                               <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='grand total of this bill'>
-                                N<%=bill.grandTotal%>
-                                 <%if(bill.registeredBalance === 0 ){%>
-                                <span class="badge bg-secondary">New</span>
+                                NGN<%=bill.grandTotal%>
+                                 <%if(bill.isDelivered){%>
+                                <span class="badge bg-secondary">Delivered</span>
                                 <%}%>
                               </small>
                               <%customer = customers.filter(bills=>{%>

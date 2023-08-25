@@ -16,8 +16,8 @@ const checkUserRole = async function (req, res, next) {
 };
 
 const ManagerAccess = async function (req, res, next) {
-  if (ObjectId.isValid(req.params.id)) {
-    user = await Employe.findById(new ObjectId(req.params.id));
+  if (ObjectId.isValid(req.params.WHMANAGER)) {
+    user = await Employe.findById(new ObjectId(req.params.WHMANAGER));
     if ( user.role === "Staff") {
       res.status(404);
       res.render('404',{name:"BigBern",error:"You are not allowed to perform this operation"})
