@@ -3,6 +3,8 @@ const {PASSWORD,EMAIL,ERPSmtpName} = require('../.env');
 const Employe = require('../modules/Employees')
 const birthdayTemplates = require('../EmailTemplates/birthdatTemplate')
 
+
+86400000
 async function sendBirtdaysEmail( ){
 
     const data = await Employe.find({blocked:false})

@@ -7,6 +7,10 @@ const { requireAuth, checkUser } = require("./middleware/authmidddleware");
 const Dotenv = require("./.env");
 const { WHouse } = require("./modules/warehouse");
 const sendBirtdaysEmail = require('./Functions/sendBirthdayMail');
+const Employe = require('./modules/Employees')
+const nodemailer = require("nodemailer");
+const {PASSWORD,EMAIL,ERPSmtpName} = require('./.env');
+const birthdayTemplates = require('./EmailTemplates/birthdatTemplate')
 
 //initialize app
 const app = express();
@@ -17,20 +21,54 @@ mongoose
   .then((result) => {
     app.listen(Dotenv.PORT, () => {
       console.log(`connected to ${Dotenv.PORT}`);
+      // for birthdat notifications
       setInterval(()=>{
         // send  birthday mail automatically
-        sendBirtdaysEmail()
-        //this should log 24hrs
-        date = `${new Date().getDate()}/${new Date().getMonth()+1}`
-       console.log(date)
-      },86400000)
+        
+        async function sendBirtdaysEmail( ){
 
-      setInterval(()=>{
-        // send  birthday mail automatically
-       date = `${new Date().getDate()}/${new Date().getMonth()+1}`
-       console.log(date)
+          const data = await Employe.find({blocked:false})
+          .then((employee)=>{
+           return employee.filter(celebrante=>{
+            return celebrante.DOB === `${new Date().getDate()}/${+new Date().getMonth() + 1}`
+          })
+          
+        })
+      
+        let config = {
+            service : 'gmail',
+            auth : {
+                user: EMAIL,
+                pass: PASSWORD
+            },
+            tls : { rejectUnauthorized: false }//always add this to stop error in console   
+        }
+      
+        let transporter = nodemailer.createTransport(config);
+        
+      
+          //send mail to each email
+             data.forEach((person) => {
+              if(person){
+                let message = {
+                  from : EMAIL,
+                  to : person.Email,//employee email
+                  subject: `Happy Birthday ${person.firstName} `,
+                  html: birthdayTemplates(person)
+              }
+              
+              transporter.sendMail(message).then(() => {
+                console.log('birthday message sent')
+              }).catch(error => {
+                console.log(error.message)
+              })
+                 }
+        })
+        
+      } 
+      sendBirtdaysEmail()
         //this should log 24hrs
-      },1000)
+      },86400000)
 
     }),
     console.log("connected to db");
@@ -53,14 +91,6 @@ app.use(authRoutes);
 
 //entrty routes for server
 app.get("/", async (req, res, next) => {
-
-  setInterval(()=>{
-    // send  birthday mail automatically
-   date = new Date()
-   console.log(date,'from ')
-    //this should log 24hrs
-  },1000)
-
   //check and create virtual ware house
   try {
     const WHouses = await WHouse.find();
