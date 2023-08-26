@@ -6,7 +6,6 @@ const Expense = new mongoose.Schema ( {
         type:Number,
         required: true
     },
-    RaiseBy:String,
     initiatorId:{
         type:mongoose.Types.ObjectId,
         ref:'EMPLOYEES'
@@ -27,8 +26,14 @@ const Expense = new mongoose.Schema ( {
     WHID:{
         type:mongoose.Types.ObjectId,
         ref:'WHouse'
-    }
-})
+    },
+    BankAccount:String,
+    BankName:String,
+    mailSent:{
+        default:false,
+        type:Boolean,
+    },
+},{timestamps:true})
 
 const WHExpense = mongoose.model('Expense', Expense);
 

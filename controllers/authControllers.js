@@ -1,4 +1,5 @@
 const customer = require("../modules/customers");
+const client = require('twilio')('AC68902380266ee09dbbbf6238728f930d', 'dbc59d53cbcf4f3cc1b98ff648d82293');
 const Lead = require("../modules/Leads");
 const Product = require("../modules/Product");
 const Vendor = require("../modules/Vendors");
@@ -14,15 +15,14 @@ const VirtualstorageProduct = require('../modules/purchase')
 const Appraisals = require('../modules/Appraisal')
 const NotifyStoreKeeper = require('../Functions/NotifyStoreKeeper');
 const Expense = require('../modules/Expense')
-
-const restPassword = require("../Functions/resetPasword");
+const NotifyCFO = require('../Functions/NotifyCFO')
 var id = new mongoose.Types.ObjectId();
 const bills = require("../modules/Bills");
 const NaijaStates = require('naija-state-local-government');
 const fs = require("fs");
 const XLSX = require("xlsx");
 var moment = require('moment'); 
-const { response } = require("express");
+const { accountSid,authToken} = require('../.env')
 
 // handle errors
 const handleErrors = (err) => {
@@ -998,6 +998,8 @@ module.exports.Appraisal_get = async (req, res) => {
       .then((item) => {
         res.status(200).render('Appraisal',{item})
       });
+  }else{
+    res.redirect('/logout')
   }
   
 };
@@ -1035,8 +1037,9 @@ module.exports.expense_get =  async (req, res, next) => {
     await WHouse.findOne({ _id: new ObjectId(req.params.WHID) })
       .limit(1)
       .then(async (item) => {
-
-        res.status(200).render('Expense',{result:item} )
+        const Expenses = await Expense.find({WHID:new ObjectId(item._id)})
+        const employee = await Employe.findOne(Expenses.initiatorId)
+        res.status(200).render('Expense',{result:item,Expenses,employee} )
       })
     } else{
       res.redirect('/logout')
@@ -1046,15 +1049,42 @@ module.exports.expense_get =  async (req, res, next) => {
 //post request for expense 
 module.exports.expense_post = async(req, res, next) => {
   if (ObjectId.isValid(req.params.WHMANAGER)) {
-    console.log(req.params.WHMANAGER)
-    await Expense.create(req.body)
+    try {
+      await Expense.create(req.body)
     .then(expense => {
-      if(expense.acknowledged){
-        res.json({message:'accountant will be notified of expense creation'})
-      } else{
-        res.status(500).json({error: 'Something went wrong'})
-      } 
+      NotifyCFO(expense)
+        res.status(200).json({message:`accountant will be notified of expense No: ${expense.refNo} creation`})
     })
+    } catch (error) {
+      res.status(500).json({error: error.message})
+    }
+  }else{
+    res.redirect('/logout')
+  }
+}
+
+module.exports.scrap_get = async(req, res, next) => {
+  if (ObjectId.isValid(req.params.WHID)) {
+    try {
+      await WHouse.findOne({ _id: new ObjectId(req.params.WHID) })
+      .limit(1)
+      .then(async (item) => {
+        // let Bills = await bill.filter(bill => {return bill.isDelivered === false  && bill.status === "Approved"})
+        const Expenses = await Expense.find({WHID:new ObjectId(item._id)})
+        const employee = await Employe.findOne(Expenses.initiatorId)
+      //       client.messages
+      // .create({
+      //   body: 'Hello from twilio-node',
+      //   to: '+2349047542925', // Text your number
+      //   from: '+2349047542925', // From a valid Twilio number
+      // })
+      // .then((message) => console.log(message.sid));
+
+        res.status(200).render('Scrap',{result:item,Expenses,employee} )
+      })
+    } catch (error) {
+      
+    }
   }else{
     res.redirect('/logout')
   }

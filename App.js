@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const { requireAuth, checkUser } = require("./middleware/authmidddleware");
 const Dotenv = require("./.env");
 const { WHouse } = require("./modules/warehouse");
-const sendBirtdaysEmail = require('./Functions/sendBirthdayMail');
 const Employe = require('./modules/Employees')
 const nodemailer = require("nodemailer");
 const {PASSWORD,EMAIL,ERPSmtpName} = require('./.env');

@@ -141,4 +141,7 @@ router.get('/search/:query',requireAuth,authController.query_get)
 //warehouse expense
 router.get('/Expense/:WHID',requireAuth,authController.expense_get)
 router.post('/Expense/:WHMANAGER',requireAuth,ManagerAccess,authController.expense_post)
+
+//SCRAP API
+router.get('/Scrap/:WHID',requireAuth,authController.scrap_get)
 module.exports = router;
