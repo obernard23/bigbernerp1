@@ -154,24 +154,18 @@
 
              <div class="d-flex align-items-start">
                 <span  onclick="location.assign('/warehouse/Product/<%=result._id%>')"   class=" p-2 font-bold position-relative" title="Product in Storage">
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger shadow">
-                        4
-                      </span>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD9UlEQVR4nO2dT08TQRiHl8QvoNGEbbbtxXD2b2IFCREUbxrxAMabeG27RDi0BvkAJEakKibtzcgFL8aDiRdSh6MpR++WwIHYmXBS4TVTaWxaSmfLru8Cv1/yXtvkefad2c40M5aFIAiCIAiCIAiCIPtFKXVNSrkopSxLKX8rpQiljBloZlLK71LKd0qpvo6fNiI6IaV8BfjK1wdQSpnTbD0LgQwV2EhQLpcLnocpdIYKdGguFArjlmV1mXbHIoSoQIWsrpa+RKPRS6ZCyo0fkHu+REP9Lg0kkqiEOQPNLDe31CRkY2Nj03Hsse7u7jMmQprepiAj2fGDeKN/oklIpVLZ1kJischVkzmk6QPQGckDMdiLqRbiOPadAwsh4aJEewZmQiKjECL+zwNl2CFjECIg5FgOcQPoEJddAoQIfvAQIvhhQ4jgBwwhgh8qhAh+kBASAngEIfzA6KgIqdVgX5Kyj1L0eT6Nmk9TdjxVZeJxcbG9ECnlT9Pl98HeJGTM/30gr/d6Wn7f8dIh35o2qOZab1ChQ9JVBq02qF6+eL/XBtUPL0LettuCxHK863nOaNzCNV5+39raOiel3IEQ19dJvL4mJycyxhtUu10yCyFuIEKKxeUPteHKaAtXh4i6lFLPpJTbGLJcX4ToibxYLH6Mx537/4TETlpeUqlULkOI64uQqanH2ZoIXfF45LwnGXXDFyZ14d8PQT2Rx2L2hY5kQIjr+y9zx3FOdSyDQ8ivZZdeZ1I0ctP/P+WNDKdoIZOufkdol0rCJmQhs/ePLD9LfweEGAoZCaAzGuvucApCjIUMpwIXcu+W/52NISvRuZA3WXSIp0l9IZMOpFMwqR+jGjiqb1l0SAtCBL8ECBH84CFE8MOGEMEPGEIEP1QICQFIghB+eAQh/MAIQvghEYTwgyEI4YdBISgsnQh+CRAi+MFDiOCHDSGCHzCECH6oEBICkAQh/PAIQviBEYTwQyII4QdDEMIPg0JQWDoR/BIgRPCDhxDBDxtCBD9gCBH8UCEkBCAJQvjhEYTwAyMI4YdEEMIPhiCEHwaFoLB0IvglQIjgBw8hgh/2oRKCSjYxCFQILglL+nYJmF9Cyl5OKT3ONdTiFNL19fVNP4Xoi3XbHuyIUi0ZlEpfzU8hNRBypd0ppSi1L4OZmemnWkg0at8+sJBdKTlAVx09eCsrK5/qzllM+CJEXzm9traWhxTlWUZPz9kHNSFGV616ST6ff1gqlYSepPSbAwSpprcpzUafXD09/aQ6TNUdCXvRCiBd+pbj+i9C2W0Z7Mowu667k+jW06cy60lKvzlAit0gITKq2WhGtm2fDkwEgiAIgiAIgliHLn8AKSCcApR8l94AAAAASUVORK5CYII="
                     width="40"
                     height="40"
                     >
                  </span>
                  <a href="/Location/<%=result._id%>" rel="noopener noreferrer" class=" p-2 font-bold position-relative" title="Delivery" >
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger shadow">
-                       8
-                      </span>
                      <img src="data:image/png;base64,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"
                      width="40"
                      height="40"
                      >
                  </a>
-                 <a href="http://"class=" p-2 font-bold position-relative" title="Notification">
+                 <a href="/Notification/<%=result._id%>"class=" p-2 font-bold position-relative" title="Notification">
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger shadow">
                         <%=result.Notification.length%>
                       </span>
@@ -181,17 +175,12 @@
                       >
                  </a>
                  <span onclick="location.assign('/Scrap/<%=result._id%>')" class=" p-2 font-bold position-relative" title="Scrap"  style="background-color:#fff;box-shadow: inset 1px 2px 4px 1px silver;">
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger shadow">
-                        2
-                      </span>
                      <img src="data:image/png;base64,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"
                      width="40"
                      height="40"
                      >
                  </span>
                  <a  href="/Expense/<%=result._id%>"  class=" p-2 font-bold position-relative" title="Expense">
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger shadow">
-                        20
                       </span>
                      <img src="data:image/png;base64,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"
                      width="40"
@@ -199,9 +188,6 @@
                      >
                  </a>
                  <a  href="http://"  class=" p-2 font-bold position-relative" title="Documents">
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger shadow">
-                        7
-                      </span>
                     <img  width="40"
                     height="40"src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAJdUlEQVR4nO2de1BU1x3HT0kfTqcP22mnZjrTqZNmMmNrirWNER88hCAVwfAwiBUBycMQlC1GMULISFlfpIJdJYloO4EE20R0QBmjaCmvUULQiIQGCKBuXKQse88FxQfw69z0wr1wL7i4e/xt5Xxnvn/f3e9n7/mdc+/vnCWEi4uLi4uLi4uLi4uLi4uLi4uLi4ulent7f00pTRdF8Syl9BqltF8URXCmKaWDlNJOURRrRVHcJQjCbKZf6v9RgiD8glJa6OzwJwCplFL6BHYOLiFKaYAoigIWDFGBcpNSGksmOwwWw5Ijvn79eg4AfJ1MxmHKFe4MUccWi6VCEIQfkMkkSukRvTCuXrXA9j/lQ1hQKvjMSwSvueuc6kXzE2HVc+mwLT0PWr+4OiaUzs7OK1ar9ZdkEs2mBkeHUFl+HoIDXnM6hLHs750EhR+WjQmlu7u712w2LyUPu+SprebOeJAwvFTevesQCIKAPlRKppQOUEotoiieo5RmSD9e5kCkdcboDyINU0MBhfu8CJVJnmDNcAeb0bnuypgFZ19dCNH+a0ZAMbyyByyWTnQgOoAGW1paqlJTUz0JIY8wASIt+kZfODw4dTgcCYazQYx2x9bZsDkkcgSUleFb4d+ftaJD0LPVar2RmZlpJIQ8zgKIZqqrLuAs7gw9d2e4Q050MHh7KFCW+G6E8rI6dAB6ttls/RkZGTsJIQsJIc6bmutdTP1LfRAwbCofT/AF/wXxw9eXfhzv7DsK5qsd6BBGu7u7+1ZAQMB6QoiP04YwVwNiM7rDJ5vmQ5jPiyiTCrWlH4M05Zem5c1Nl3WhXLx4sY4QsoIQMvuhBWIzukNb2lPwcuBqdChDXuy9AcrLzutCiYqK2kQIiSCE/PChBWKT60pRvB8kBEbBUs+X0aFISwG9ofPEiRNF8l0y76EGYkO2NKGpTvKE5YteGM5jp/E9TV7Nzc2fy0CeI4R8gwMxsgVTnuQ1DCQ8+PVxC700a6WUmkVRfF8UxQX8DjGyWcCqC/0EX8CZAMCND1lG50JRD+MTnR6bzeZcDsToOkCkOyUrK2sNIeRrvKgb8YFIrq2trbRrrcJnWe4TBjLaQYuTIW3LAbhy+dqYQDo6Ov4jz8R+zIEYHb9DfOe9cs91SujSFKi/2DzWY5Y7MhAPDsToOJC/RD0Li+bde/GYGJ891h1ilYEEMwdC35wDUGWYtG4oSITFnkpmDfUtmkwbGhrOy0CWMwfS+44feiiA7I0x64cz++fpWk2mxcXFH8pAljEH0ncoBD0QQHZkoALkQt3nmkzT0tK2y0C8mAO5eywaPRBAtO2kYTivZzyToNtq06xDZs6c+bwM5FfMgQz+KwE9FEB01X7lDevauDf1VurXZBiSH2UKhGZ5oAcCyM5NVYBkZf5dk+e5c+fKVUC+xRTIjQP+6IEAspNWK/Wj5Fi1Js+8vLyDMozAcWE4A8itfyxHDwQQPVBhgCU+ChC9Dsy4uLjXZCBPMwfSf2INeiiA6LZCpaCHLNmiu0KfOnXqKhnI42yBbJsFgxXr0UMBRB/frdSPzRve0mTZ1NQ09DZxhV3v3B0BIu5ZgB4IIDszURmu/pp7TJNlaWnpcdUK3Y0pkJt/W4IeCCA7NlTJqrryU02WWVlZ2TIQ33vCcBTI7cMR6IEAom+cMYCPh/Jqt7OzS5Olt7d3ggxkFnMg/adeQA8FEF33rlI/Yv+wTe8Jr01VP37GFIiwYzZ6IIDs/HSlfkg7BkbneOHChY9VQL7NFEjPPi/0QADZW+IUIHqbjQoLCwvsesLrDCA384LQAwFkhz6jegdy6QtNjsnJyekykAXMgdw5uhI9EEC0pVhZEP7edyMIAh2RoSAIg9OnT4+VgcxgDmTg9Fr0UADRZ/YqBT0xfo8mw/b29iuq+vETpkCEXb9DDwSQvXeTUj/eMh3RZFhZWXlahhExoX7f+wHS+/Yi9EAA2fERSkZnSj/WZJibm/u2DCTAbhj3C6Tv/WfRAwFE3y03gP/C/+Xj7bFed4tCZGTkRhnIU8yB3ClejR4KILqxQKkfK0Lf0ORntVr7pkyZslIG8hhzIINl8eihAKIP71DqxxtbDmjya2xsvKQq6N9nCoT+eS56IIDs9HgFSEH+KU1+JSUlR2UYYXY1WDsCpHc/f2UbqWr5qfukUZOf0WjMlIFIu3MJUyC3DoWh/0IB0fSk4atCPlbLj+Q5c+aslYE8yRzI3ZIY9FAA0dWqlp+X1mRqsrNYLJ2q+vFT5kAGy9ehhwKIPqBq+dmt0/JTW1tbrQIyhSkQMXs+eiDgSi0/xVWa7AoKCvJkGEEThjFRIDcOBqAHAogerDRA4D1afhISEl53aM/6RIDc/mBy92C1FyaO2/IjHUgzbdq01TKQJ5gD6f8oDj0UQHSJquUnOSlHk1tra2uLqn78iC2Q7b8BqExEDwUQnWlQhquD+7UtP2VlZR+pTnR4hCmQHtNC9EAA2bEhCpCqCm3Lj8lk2isD8b8vGBMBcvPdQPRAANF9ZwzDewzHavkJCgoyOHxUk71Abh+JRA8FXKTlJ2altuWnq6urx83NLVIG8nPmQAZOvYQeCiD6vfTEcVt+6uvrhzZ1Sv4uUyDCzt+iBwLITnl+3bgtP0VFRR/IMEIJ60Mwe3J80AMBZIf5Jwxnckln27NqU6eno0C+HO+YWOkAr778ZeiBAKKvHDWMOOpvdMuPtKlzxowZ9m3qvJ+DlKVDH4c+gHSaWo0pBgYq8YOBB+z+CgN8mmeAVUHKcPVq4l7N3WE2my12b+q04w7ZOvoC0gmcAT4bRtQS7nVfZfJZg7ZDsaampkIF5JsOAenp6XlS7zB+6QBjrPPfvVzQgX6boPRkjQaG5JSUlG12b+q08y45rHchqb1FOvSR1d9VeLm4h87t3ZGRD5fbv9SF0dbW1q5af8x1ChBBEB6jlFK9C3KLY2YgPd2Njo7erBqupjkFiAxlsSAILvWXR6ILW2qmzsnJ2aeCsZg4Ww0NDcusVmsv9pcVXdzSme8mk8mkgiE93WXzt0zZ2dlP19XVndUr9JPdlNLB+vr6upCQkD+qYEjN1NMJYz0aExNjKC4uPtzc3NzU0dHRLQjCAHYg4gO29J2lfYItLS3NJSUlR2JiYpJVICSHO/QgcYL6DiFk/qgPwE2GM5AekXyPIGgqIWQmIcRP3isXMQnBRMjf3U9ufptcf+PHxcXFxcXFxcXFxcXFxcXFRVD0X9ngJ0Uf0WsLAAAAAElFTkSuQmCC">
                 </a>
@@ -274,27 +260,8 @@
            <div class="h-59 p-1 d-flex flex-column" >
                 <%if(Expenses.length === 10){%>
                   <%Expenses.forEach(expense=>{%>
-                    <span onclick="location.assign('')" class="list-group position-relative mb-2" title="Expense for <%=expense.Amount%>">
-                      <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" >
-                          <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='grand total of this bill'>
-                            NGN<%=expense.Amount%>
-                             <%if(expense.status==='Approved'){%>
-                            <span class="badge bg-secondary">PAID</span>
-                            <%}%>
-                          </small>
-                              <p title="Manager"><%=employee.firstName.toUpperCase()%></p>
-                            <div>
-                              <p>Raised Date: <%=expense.Date%></p>
-                            </div>
-                            <div>
-                              <p><%=expense.category%></p>
-                            </div>
-                            <div>
-                              <p><%=expense.status%></p>
-                            </div>
-                              <p title="reference Number" >Exp No:<%=expense.refNo%></p>
-                        </div> 
-                      </span>
+                  <!-- display here  -->
+
                   <%})%>
                 <%}else{%>
                <p>Nothig to display</p>
@@ -322,15 +289,19 @@
                   </div>
   
                   <div class="col-md-4">
-                    <label for="billreferenceNo" class="form-label">PRODUCT LIST</label>
-                    <input type="text" id="billreferenceNo" list="referenceNo" name="expenseCategory" autocomplete="off" required class="form-control border" placeholder="Search Expense category" required/>
-                    <datalist id="referenceNo" >
-                     <!-- display options for Bills -->
-                        <option>DELIVERY FEE</option>
-                        <option>REFRESHMENT</option>
-                        <option>BANK CHARGES</option>
-                    </datalist>
-                </div>
+                    <label for="Manager" class="form-label">PRODUCT LIST</label>
+                    <select name="Manager" id="Manager" class="form-select">
+                        <option >Choose ....</option>
+                        <%products.forEach((products)=>{%>
+                            <%pname = prud.filter(name=>{%>
+                                <% return name._id.toString() === products.productId.toString()%>
+                                <%})%>
+                                 <%pname.map(n=>{%>
+                                   <option value="<%=products.id%>"><%=n.Name.toUpperCase()%> [<%=n.UMO%>]</option>
+                                 <%})%>
+                        <%})%>
+                    </select>
+                  </div>
   
                 <div class="col-md-4">
                     <label for="customer" class="form-label">RAISED BY</label>
@@ -346,12 +317,17 @@
                 </div>
                 <div class="col-md-4">
                   <label for="PAYEE" class="form-label">PRODUCT SERIAL NUMBER</label>
-                  <input type="text" placeholder="Payee" required class="form-control border" autocomplete="off" id="PAYEE" name="PAYEE"/>
+                  <input type="text" placeholder="PRODUCT SERIAL NUMBER" required class="form-control border" autocomplete="off" id="PAYEE" name="PAYEE"/>
               </div>
 
               <div class="col-md-4">
                 <label for="BankAccount" class="form-label">SCRAP REASON</label>
-                <input type="text" placeholder="Bank Account Number" required class="form-control border" autocomplete="off" id="BankAccount" name="BankAccount"/>
+                <select name="Manager" id="Manager" class="form-select">
+                    <option value="">Choose...</option>
+                    <option>Damaged Package</option>
+                    <option value="">Expired product</option>
+                    <option value="others">Others</option>
+                </select>
             </div>
 
             <div class="col-md-4">

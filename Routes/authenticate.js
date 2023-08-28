@@ -23,7 +23,7 @@ router.get('/Cart',authController.cart_get);
 router.get('/FAQ',authController.FAQ_get);
 router.get('/index',authController.index_get);//check this out
 router.get('/About',authController.About_get);
-router.get('/Notification',requireAuth,authController.Notification_get);
+router.get('/Notification/:WHID',requireAuth,authController.Notification_get);
 router.get('/register-NEW',requireAuth,authController.Register_get);
 router.get('/Reset',authController.Reset_get);
 router.get('/logout',requireAuth,authController.logout_get);

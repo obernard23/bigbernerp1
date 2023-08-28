@@ -110,8 +110,9 @@ module.exports.About_get = (req, res) => {
   res.render("About", { title: "Ecommerce", name: "BigBern" });
 };
 
-module.exports.Notification_get = (req, res) => {
-  res.render("Notification", { title: "Ecommerce", name: "BigBern" });
+module.exports.Notification_get = async(req, res) => {
+  const wHouse = await WHouse.findOne({id:new ObjectId(req.params.WHID)})
+  res.render("Notification", { title: "Ecommerce", name: "BigBern" ,result:wHouse});
 };
 module.exports.Register_get = async(req, res) => {
   const employees = await Employe.find()
@@ -910,6 +911,8 @@ module.exports.WareHouseStoreage_get = async(req,res,next) =>{
         res.status(200).render("wareHouseProduct", { result: item ,products,prud});
       });
       next()
+  }else{
+    res.redirect('/logout')
   }
 }
 
@@ -921,6 +924,7 @@ module.exports.WareHouseStoreage_patch = async(req,res,next) => {
     await storeProduct.updateOne({ _id: ObjectId(req.params.whId) }, { $set: update})
     .then(async (bill) =>{
       if(bill.acknowledged) {
+        console.log(bill)
         res.status(200).json({ message:'Product Qty updated successfully'})
       }else{
         throw new Error('Something seems to be wrong')
@@ -929,6 +933,8 @@ module.exports.WareHouseStoreage_patch = async(req,res,next) => {
    } catch (error) {
     res.status(500).json({ error:error.message })
    }
+  }else{
+    res.redirect('/logout')
   }
 }
 
@@ -1021,14 +1027,13 @@ res.end()
 module.exports.AppraisalsManagement_get = async (req,res)=>{//from dashboard
  const Appraisal = await Appraisals.find()
  const Employee = await  Employe.find();
- console.log(Appraisal)
   res.status(200).render('AppraisalsManagement',{Appraisal,Employee})
 }
 
 module.exports.query_get = async (req, res, next) => {
   const query = req.params.query
-const Appraisal = await Appraisals.findOne({ $or: [{ title: query}]})
-res.json(Appraisal)
+  const Appraisal = await Appraisals.findOne({ $or: [{ title: query}]})
+  res.json(Appraisal)
 }
 
 //for expense controller  
@@ -1069,21 +1074,14 @@ module.exports.scrap_get = async(req, res, next) => {
       await WHouse.findOne({ _id: new ObjectId(req.params.WHID) })
       .limit(1)
       .then(async (item) => {
-        // let Bills = await bill.filter(bill => {return bill.isDelivered === false  && bill.status === "Approved"})
         const Expenses = await Expense.find({WHID:new ObjectId(item._id)})
         const employee = await Employe.findOne(Expenses.initiatorId)
-      //       client.messages
-      // .create({
-      //   body: 'Hello from twilio-node',
-      //   to: '+2349047542925', // Text your number
-      //   from: '+2349047542925', // From a valid Twilio number
-      // })
-      // .then((message) => console.log(message.sid));
-
-        res.status(200).render('Scrap',{result:item,Expenses,employee} )
+        const prud = await Product.find()
+        const products = await storeProduct.find({WHIDS:req.params.WHID})
+        res.status(200).render('Scrap',{result:item,Expenses,employee,prud,products} )
       })
     } catch (error) {
-      
+      res.status(500).json({error:error.message});
     }
   }else{
     res.redirect('/logout')
