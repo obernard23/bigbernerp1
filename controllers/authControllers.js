@@ -112,7 +112,7 @@ module.exports.About_get = (req, res) => {
 };
 
 module.exports.Notification_get = async(req, res) => {
-  const wHouse = await WHouse.findOne({id:new ObjectId(req.params.WHID)})
+  const wHouse = await WHouse.findOne({_id:new ObjectId(req.params.WHID)})
   res.render("Notification", { title: "Ecommerce", name: "BigBern" ,result:wHouse});
 };
 module.exports.Register_get = async(req, res) => {
@@ -1075,7 +1075,7 @@ module.exports.scrap_get = async(req, res, next) => {
       await WHouse.findOne({ _id: new ObjectId(req.params.WHID) })
       .limit(1)
       .then(async (item) => {
-        const Scraps = await Scrap.find()
+        const Scraps = await Scrap.find({WHID:item._id})
         const prud = await Product.find()
         const products = await storeProduct.find({WHIDS:req.params.WHID})
         res.status(200).render('Scrap',{result:item,Scraps,prud,products} )
@@ -1094,8 +1094,7 @@ module.exports.Scrap_patch = async(req, res, next) => {
     try {
       await Scrap.create(req.body)
       .then((scraped) => {
-        res.status(200).json({message:'Validation has to be approved. the CFO has been notified'})
-        //send mail here for approval 
+        next()
       })
     } catch (error) {
       res.status(500).json({error: error.message})
@@ -1114,5 +1113,16 @@ module.exports.staff_get = async(req, res, next)=>{
   res.status(200).render('wareHouseStaff',{Employee})
   }else{
     res.redirect('/logout')
+  }
+}
+
+//GET ROUTE FOR REPLENISH 
+module.exports.replenish_storeproduct = async(req,res,next)=>{
+  if(ObjectId.isValid(req.params.WHID)){
+    const prud = await Product.find()
+    const products = await storeProduct.find({WHIDS:req.params.WHID})
+    res.status(200).render('wareHouseReplenish',{products,prud})
+  }else{
+    res,redirect('/logout')
   }
 }

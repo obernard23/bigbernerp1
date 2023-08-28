@@ -24,7 +24,7 @@
             aria-expanded="false"
             style="color: #fff !important"
           >
-            Employee
+            Replenishment
           </a>
         </h5>
       </li>
@@ -41,37 +41,85 @@
   </div>
 </nav>
 <div class="d-flex justify-content-between p-2 m-1 bg-success-subtle ">
-  <h5>Ware House Employee</h5>
+  <h5>Product Replenishment</h5>
   <span onclick="location.assign('')" title="Download in Xlsx">
     <img height="40" width="40" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB90lEQVR4nGNgGAWjYBSMgiEJxCYEZ4hNCP4oNjHkP6lY81A96fhg3Uetg3Xp1PQAWY4n2wOHwPgD9TxApuMp9MD/UQ/AwGgMHBpNQsM0CXEXWhRwF1p84Smy+E8RLrH8L9TsMSAe+EKx42G42OI/T4MrBpZck0o2ZiAEqOZ4GB71QOpoDPwXLrP9f+f1o/8gULVpEjx5aLUE/v/x+9f/b79+/NdpDR7cSShiXhnYA2++vP8vUekEFlt5didYrGHr9KGRB3ZdPw52cOO2Gf8te2L///339//tVw/BMTQkPGDSGfn/15/f/99/+/T/2L0L///9+/ffa1r20CqFphxc8R8Glp/ZPvSK0YUnNsE9sOLsDoIeEHfXwsBC04LIxgyUeMBzahY42Zx6cPn/kbvnwZ7wn5k/NDwgXGb7/8aL+2BHg9K9/YQksGcevn32X6zCcfB7oHvPArDjd1w7ChfbdOkAWKx378LB7QGzrihw6QMqNq174+Dihh1h/3///QPGVr2xg9cDPBTgUQ9MG2kxwF1k/plqHigwHwAPFJrnUcUTBeb/hKL0v4m7a75Hx6oZDmRjBmoBCQ+t/+Ri9TR7sjHDqAegYDQG0kaT0EhPQu5aH+nvATvqTXBIemilSXhofaCfB+w+qKbYp1LNA6NgFIyCUcBADQAA6UC2Ipn+q/gAAAAASUVORK5CYII=">
   </span>
 </div>
   <div class="container overflow-hidden flex-wrap d-flex">
     
-    <%if(Employee.length > 0){%>
-        <% Employee.forEach((Employee)=> { %>
-        <div class="card m-1 mb-3 shadow-sm" style="width:13rem;" title="<%=Employee.Username%>" >
-            <div class="card-img-top justify-content-center d-flex p-2">
-                <img src="<%if(Employee.Image){%>
-                    <%= Employee.Image %>
-                    <%}else{%>
-                        https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_640.png
-                    <%}%>
-                    " alt="No Photo uploaded"  width=100 height="100">
-            </div>
+    <%if(products.length > 0){%> <%products.forEach((products)=>{%>
+
+        <!-- display section -->
         
-            <div class="card-body" style="overflow:hidden;
-            white-space:nowrap;
-            text-overflow:ellipsis;
-            max-width:150px;">
-                <h5 class="card-title"><%= Employee.firstName.toUpperCase() %></h5> 
-                <a href="tel:+234<%=Employee.telephone%>">Tel: <%=Employee.telephone%></a>
-              </div>
-            <a href='/customer/<%=Employee._id%>/edit' class="btn btn-primary">Details..</a>
-        </div>
-        <% }) %>
-    <%}else{%>
-        <h2>No Employee to display</h2>
-        <%}%>
+    <div>
+      <div class=" table-responsive " id="incoming" >
+          <div class=" table table-dark shadow-sm " >
+          <div class=" " scope="col">
+              <!-- Split dropstart button -->
+    <div class="btn-group">
+    <div class="btn-group dropstart" style="border-right: 1px dotted rgb(190, 190, 190) !important;" role="group">
+    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+      <span class="visually-hidden">Toggle Dropstart</span>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAADR0lEQVR4nJ2Vy08TURjF51/Qlf+CS/CFUp6FtrSdvqctbYc+gBYfVJDHQlQkIeIbwfCIC0KCMYrR6MZEKSpEHoIkujAECxsgUCQpAlNYuDjmXqBhBAbKJN9mJvf73Xu+c88wFr6Qs3n8EZvXD85dBK6gEGbeB5PLC4PTA4PDDZ2dB2vjlzUOxxEm0cfmDUQmwmGsr6/vWmtra7RuNzZDwzn8CQPyfYF4o1gstmf1fPwMNefoTRhg9/opQKp5LBZDNLpE5Pqr5rhjCQFsewCqrteh+kad6F39vYdQme1QmWxQGK3I0XOQ6yzIZk3I0pqQoTEgQ61HmkoHmYKdlSlYLWP1FIsAvxcX0dT6BPr8AjrcxpZ2+o586+3rp2BBECQrEongQ+8npCo0MyLAysoKKq/VovBmO4rbhsDd7YW+9A6C1TX029LSEswuL6ZnZiUB8/PzmJqawrlcDRhizS3Al8FhOMvrUNM9Dr5tDLamEZgaeqD1VaJ/YIguvvWgCd2v3x4IcDZHDYb4fgtwvryK+p7Iw9p5aG0uYk2oLQ54LwTp4r6BQQSrrx4OsFcJ2xYvLy/D6PJArjPT4WZqjHS46Xkbw7W6i+KAlJw8MJYEAYIg0Ev39MXLfU9wRp4HhsSCFEDYpcHA8AgCZZWSgMnJSZzOVokBgcsVO7RXbfreXXIp3oA4yuTybMij1lN5ZEoWqUotiCIiAAm1vU4gNcj7j1vQ0fVM+gRZSjBGp+dQgK+jY3CXlEoCTmUpwBi2AYqDV6C1Oqk8eZZ8Ko/SuBELBYGLoiarq6tUDhoLRB6Fll4sM+/dCdgtSfeLA0EQ8Ki1He0dnTvAW4CTmQTgcO8AHKS5IAgY+/4Ddl9A1Hw74ERGLhidnZ//OT5xKMAqkYn3UXnIrSUXy+T0iAEazmlkra653axJtM81SETypvbPX72J7377CZLTc5DQvyNdbTiut/MIhXoQCoVQW9+AQFkFotGoCDA3N7cJkCcGYAhEpR/t7OpCc2sbddGvcBgLCwvxIv8CEhPhcBhJaYcAyFRsqd3np7d95NsYbUZ2+3+9e9+DJFn2dMKAFIXiqEzJ/iGxQHxPhktCjcQC8T2xJtE+OV0+nSSTq/4BNITUZwFW2l8AAAAASUVORK5CYII="
+      width="20"height="20" >
+    </button>
+    <ul class="dropdown-menu ">
+      <!-- Dropdown menu links -->
+      <span>History Logs</span>
+    </ul>
+    </div>
+          <div style="overflow:hidden;
+          white-space:nowrap;
+          text-overflow:ellipsis;
+          max-width:150px;" class="col-md-4" scope="row">&nbsp;
+              <!-- product name -->
+              <%pname = prud.filter(name=>{%>
+               <% return name._id.toString() === products.productId.toString()%>
+               <%})%>
+                <%pname.map(n=>{%>
+                  <h6 class="form-label"><%=n.Name.toUpperCase()%></h6>
+                  <%if(n.UMO){%>
+                    <P><%=n.UMO.toUpperCase()%></P>
+                  <%}%>
+                <%})%>
+          </div>
+          <div class="">&nbsp;
+            <%pname = prud.filter(name=>{%>
+              <% return name._id.toString() === products.productId.toString()%>
+              <%})%>
+               <%pname.map(n=>{%>
+                 <%if(n.image){%>
+                  <img src="<%=n.image%>" alt="Photo" srcset="" class="img-fluid img-thumbnail" width="40" height="40">
+                 <%}%>
+               <%})%>
+          </div>
+          <div class="divTableCell ">&nbsp;
+            <label>Qty in stock</label>
+            <h5><%=products.currentQty%></h5>
+            <input type="number" id="currentQty" value="<%=products.currentQty%>" disabled hidden/>
+          </div> 
+          <div class="divTableCell d-none" >&nbsp;
+            <label>Set min Qty </label>
+            <!-- <h5><%=products.pendings%></h5> -->
+            <input type="number" id="pendings" value="<%=products.replenishMin%>"  /></div>
+          <div class="divTableCell">&nbsp; Auto Replenish
+              <label class="switch" title="Toogle tp Activate or Deactivate this Product">
+                  <input type="checkbox" id="toggleReplenish"Name="AutoReplenish" <%if(products.autoReplenishment){%>
+                    checked="checked"
+                    <%}%>
+                    />
+                  <div class="slider"></div>
+              </label>
+          </div>
+          <div class="divTableCell">&nbsp;<button class="btn btn-success" id="confirm" data-id="<%=products._id%>">SAVE</button></div>
+          </div>
+          </div>
+          </div>
+          <!-- DivTable.com -->
+      <%})%> 
+      <%}else{%>
+        <p>Nothin to display</p>
+      <%}%>
 </div>
 </div>

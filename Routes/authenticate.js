@@ -13,6 +13,7 @@ const pdf = require("pdf-creator-node");
 const { ObjectId } = require('mongodb');
 const NotifyAccountant = require('../Functions/NotifyAccountant');
 const employe = require('../modules/Employees')
+const NotifyScrap = require('../Functions/NotifyScrap')
 
 const router = Router()
 
@@ -144,7 +145,8 @@ router.post('/Expense/:WHMANAGER',requireAuth,ManagerAccess,authController.expen
 
 //SCRAP API
 router.get('/Scrap/:WHID',requireAuth,authController.scrap_get)
-router.post('/Scrap/:WHMANAGER',requireAuth,ManagerAccess,authController.Scrap_patch)
+router.post('/Scrap/:WHMANAGER',requireAuth,ManagerAccess,authController.Scrap_patch,NotifyScrap)
 
 router.get('/Staff/:WHID',requireAuth,authController.staff_get)
+router.get('/Replenish/:WHID/storeproduct',requireAuth,authController.replenish_storeproduct)
 module.exports = router;
