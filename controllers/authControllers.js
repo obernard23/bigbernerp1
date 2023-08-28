@@ -4,6 +4,7 @@ const Lead = require("../modules/Leads");
 const Product = require("../modules/Product");
 const Vendor = require("../modules/Vendors");
 const { WHouse, storeProduct } = require("../modules/warehouse");
+const Scrap = require('../modules/Scrap')
 const Employe = require("../modules/Employees");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -1074,15 +1075,43 @@ module.exports.scrap_get = async(req, res, next) => {
       await WHouse.findOne({ _id: new ObjectId(req.params.WHID) })
       .limit(1)
       .then(async (item) => {
-        const Expenses = await Expense.find({WHID:new ObjectId(item._id)})
-        const employee = await Employe.findOne(Expenses.initiatorId)
+        const Scraps = await Scrap.find()
         const prud = await Product.find()
         const products = await storeProduct.find({WHIDS:req.params.WHID})
-        res.status(200).render('Scrap',{result:item,Expenses,employee,prud,products} )
+        res.status(200).render('Scrap',{result:item,Scraps,prud,products} )
       })
     } catch (error) {
       res.status(500).json({error:error.message});
     }
+  }else{
+    res.redirect('/logout')
+  }
+}
+
+
+module.exports.Scrap_patch = async(req, res, next) => {
+  if (ObjectId.isValid(req.params.WHMANAGER)) {
+    try {
+      await Scrap.create(req.body)
+      .then((scraped) => {
+        res.status(200).json({message:'Validation has to be approved. the CFO has been notified'})
+        //send mail here for approval 
+      })
+    } catch (error) {
+      res.status(500).json({error: error.message})
+    }
+  }else{
+    res.redirect('/logout')
+  }
+}
+
+
+
+//GET ROUTE FOR WHOUSE STAF
+module.exports.staff_get = async(req, res, next)=>{
+  if (ObjectId.isValid(req.params.WHID)) {
+  const Employee = await Employe.find({workLocation:req.params.WHID})
+  res.status(200).render('wareHouseStaff',{Employee})
   }else{
     res.redirect('/logout')
   }

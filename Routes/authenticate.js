@@ -144,4 +144,7 @@ router.post('/Expense/:WHMANAGER',requireAuth,ManagerAccess,authController.expen
 
 //SCRAP API
 router.get('/Scrap/:WHID',requireAuth,authController.scrap_get)
+router.post('/Scrap/:WHMANAGER',requireAuth,ManagerAccess,authController.Scrap_patch)
+
+router.get('/Staff/:WHID',requireAuth,authController.staff_get)
 module.exports = router;

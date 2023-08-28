@@ -2,18 +2,19 @@ const mongoose = require('mongoose')
 
 const Scrap = new mongoose.Schema ( {  
 
-    initiatorId:{
+    storeProductId:{
         type:mongoose.Types.ObjectId,
         ref:'storeProduct'
     },
     ActivityLog:Array,
-    Attachment:String,
-    Date:String,
+    Attachment1:String,
+    Attachment2:String,
+    ADC_CODE:String,
     status:{
         type:String,
         default:"pending"
     },
-    category:String,
+    REASON:String,
     remarks:String,
     WHID:{
         type:mongoose.Types.ObjectId,
@@ -23,6 +24,9 @@ const Scrap = new mongoose.Schema ( {
         default:false,
         type:Boolean,
     },
+    SERIALnUMBER:{
+        type:String,
+    }
 },{timestamps:true})
 
 const WHScrap = mongoose.model('Scrap', Scrap);
