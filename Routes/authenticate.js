@@ -149,4 +149,5 @@ router.post('/Scrap/:WHMANAGER',requireAuth,ManagerAccess,authController.Scrap_p
 
 router.get('/Staff/:WHID',requireAuth,authController.staff_get)
 router.get('/Replenish/:WHID/storeproduct',requireAuth,authController.replenish_storeproduct)
+router.get('/warehouse/purchase/:WHID',requireAuth,authController.wareHouse_Purchase)
 module.exports = router;

@@ -51,7 +51,6 @@
     <%if(products.length > 0){%> <%products.forEach((products)=>{%>
 
         <!-- display section -->
-        
     <div>
       <div class=" table-responsive " id="incoming" >
           <div class=" table table-dark shadow-sm " >
@@ -99,12 +98,18 @@
             <h5><%=products.currentQty%></h5>
             <input type="number" id="currentQty" value="<%=products.currentQty%>" disabled hidden/>
           </div> 
-          <div class="divTableCell d-none" >&nbsp;
-            <label>Set min Qty </label>
+          <div class="divTableCell">&nbsp;
+            <label for="minQTY">Minimum Qty </label>
             <!-- <h5><%=products.pendings%></h5> -->
-            <input type="number" id="pendings" value="<%=products.replenishMin%>"  /></div>
+            <input type="number" id="minQTY" value="<%=products.replenishMin%>" data-id="<%=products._id%>"/>
+        </div>
+        <div class="divTableCell">&nbsp;
+            <label for="minQTY">Re-Order Qty </label>
+            <!-- <h5><%=products.pendings%></h5> -->
+            <input type="number" id="re_order" value="<%=products.replenishQty%>" />
+        </div>
           <div class="divTableCell">&nbsp; Auto Replenish
-              <label class="switch" title="Toogle tp Activate or Deactivate this Product">
+              <label class="switch" title="This feature sets reminder when set parameters are reached and will notify the Manager and also send automatic P.O to virtual ware house operator">
                   <input type="checkbox" id="toggleReplenish"Name="AutoReplenish" <%if(products.autoReplenishment){%>
                     checked="checked"
                     <%}%>
@@ -112,8 +117,7 @@
                   <div class="slider"></div>
               </label>
           </div>
-          <div class="divTableCell">&nbsp;<button class="btn btn-success" id="confirm" data-id="<%=products._id%>">SAVE</button></div>
-          </div>
+        </div>
           </div>
           </div>
           <!-- DivTable.com -->
@@ -123,3 +127,40 @@
       <%}%>
 </div>
 </div>
+<script>
+    //get the toogle check boxes
+    let incoming = document.querySelectorAll('#incoming')
+    for (let i = 0 ; i < incoming.length ; i++) {
+        let confirm = incoming[i].querySelector('#toggleReplenish')
+        let minQty = incoming[i].querySelector('#minQTY')
+        let re_order = incoming[i].querySelector('#re_order')
+        if(confirm.checked){
+            incoming[i].querySelector('#minQTY').setAttribute('disabled',true);
+            incoming[i].querySelector('#re_order').setAttribute('disabled',true);
+        }
+
+       
+        
+        confirm.addEventListener('change', async function(e){
+           setqty =  minQty.value;
+           setReOrder = re_order.value;
+            let productId = minQty.dataset.id
+            const url = `/warehouse/Product/${productId}`
+
+            const update = {replenishMin :setqty, autoReplenishment : e.target.checked,replenishQty:setReOrder}
+            const request = await fetch(url,{
+            method:'PATCH',
+            body: JSON.stringify({update}),
+            headers: {'Content-Type': 'application/json'}
+            })
+            const respose = await request.json().then((response) => {
+                if(response.message){
+                    alert(response.message)
+                    location.reload()
+                }else if (response.error){
+                    alert(response.error)
+                }
+            })
+       })
+    }
+</script>

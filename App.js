@@ -20,55 +20,6 @@ mongoose
   .then((result) => {
     app.listen(Dotenv.PORT, () => {
       console.log(`connected to ${Dotenv.PORT}`);
-      // for birthdat notifications
-      setInterval(()=>{
-        // send  birthday mail automatically
-        
-        async function sendBirtdaysEmail( ){
-
-          const data = await Employe.find({blocked:false})
-          .then((employee)=>{
-           return employee.filter(celebrante=>{
-            return celebrante.DOB === `${new Date().getDate()}/${+new Date().getMonth() + 1}`
-          })
-          
-        })
-      
-        let config = {
-            service : 'gmail',
-            auth : {
-                user: EMAIL,
-                pass: PASSWORD
-            },
-            tls : { rejectUnauthorized: false }//always add this to stop error in console   
-        }
-      
-        let transporter = nodemailer.createTransport(config);
-        
-      
-          //send mail to each email
-             data.forEach((person) => {
-              if(person){
-                let message = {
-                  from : EMAIL,
-                  to : person.Email,//employee email
-                  subject: `Happy Birthday ${person.firstName} `,
-                  html: birthdayTemplates(person)
-              }
-              
-              transporter.sendMail(message).then(() => {
-                console.log('birthday message sent')
-              }).catch(error => {
-                console.log(error.message)
-              })
-                 }
-        })
-        
-      } 
-      sendBirtdaysEmail()
-        //this should log 24hrs
-      },86400000)
-
     }),
     console.log("connected to db");
   })
@@ -118,3 +69,57 @@ app.get("/", async (req, res, next) => {
     console.log(error);
   }
 });
+
+
+
+ // for birthdat notifications
+
+ async function sendBirtdaysEmail( ){
+  
+  // send  birthday mail automatically
+  const data = await Employe.find({blocked:false})
+  .then((employee)=>{
+   return employee.filter(celebrante=>{
+    return celebrante.DOB === `${new Date().getDate()}/${+new Date().getMonth() + 1}`
+  })
+  
+})
+
+let config = {
+    service : 'gmail',
+    auth : {
+        user: EMAIL,
+        pass: PASSWORD
+    },
+    tls : { rejectUnauthorized: false }//always add this to stop error in console   
+}
+
+let transporter = nodemailer.createTransport(config);
+
+
+  //send mail to each email
+     data.forEach((person) => {
+      if(person){
+        let message = {
+          from : EMAIL,
+          to : person.Email,//employee email
+          subject: `Happy Birthday ${person.firstName} `,
+          html: birthdayTemplates(person)
+      }
+      
+      transporter.sendMail(message).then(() => {
+        console.log('birthday message sent')
+      }).catch(error => {
+        console.log(error.message)
+      })
+         }
+})
+
+} 
+
+
+
+setInterval(()=>{
+sendBirtdaysEmail()
+  //this should log 24hrs
+},86400000)

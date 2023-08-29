@@ -925,8 +925,7 @@ module.exports.WareHouseStoreage_patch = async(req,res,next) => {
     await storeProduct.updateOne({ _id: ObjectId(req.params.whId) }, { $set: update})
     .then(async (bill) =>{
       if(bill.acknowledged) {
-        console.log(bill)
-        res.status(200).json({ message:'Product Qty updated successfully'})
+        res.status(200).json({ message:'Product updated successfully'})
       }else{
         throw new Error('Something seems to be wrong')
       }
@@ -1123,6 +1122,15 @@ module.exports.replenish_storeproduct = async(req,res,next)=>{
     const products = await storeProduct.find({WHIDS:req.params.WHID})
     res.status(200).render('wareHouseReplenish',{products,prud})
   }else{
-    res,redirect('/logout')
+    res.redirect('/logout')
+  }
+}
+
+module.exports.wareHouse_Purchase = async(req,res,next)=>{
+  if(ObjectId.isValid(req.params.WHID)){
+    const vendor = await Vendor.find();
+    const products = await storeProduct.find({WHIDS:req.params.WHID})
+    res.status(200).render('warehousePurchase',{vendor,products})
+    // res.send('hello world')
   }
 }
