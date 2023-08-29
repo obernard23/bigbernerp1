@@ -77,13 +77,8 @@ app.get("/", async (req, res, next) => {
  async function sendBirtdaysEmail( ){
   
   // send  birthday mail automatically
-  const data = await Employe.find({blocked:false})
-  .then((employee)=>{
-   return employee.filter(celebrante=>{
-    return celebrante.DOB === `${new Date().getDate()}/${+new Date().getMonth() + 1}`
-  })
-  
-})
+  const data = await Employe.find({DOB:`${new Date().getDate()}/${+new Date().getMonth() + 1}`})
+
 
 let config = {
     service : 'gmail',
@@ -120,6 +115,6 @@ let transporter = nodemailer.createTransport(config);
 
 
 setInterval(()=>{
-sendBirtdaysEmail()
+  sendBirtdaysEmail()
   //this should log 24hrs
 },86400000)
