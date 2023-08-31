@@ -1169,15 +1169,20 @@ module.exports.Inventory_patch  = async (req, res, next) => {
     .then(async(response)=>{
       if(response.acknowledged){
         log = await storeProduct.findById(req.params.PRODID)
-        log.ActivitiyLog.unshift({message:`${ req.body} quantity was sent From virtual ware house on `})
+        log.ActivitiyLog.unshift({message:`${ req.body.pendings} ${product.UMO} was transfered From virtual ware house on ${new Date(Date.now()).toLocaleString()}`})
         log.save()
         product.virtualQty = product.virtualQty - log.pendings
         product.ActivityLog.unshift({message:`${ req.body.pendings} ${product.UMO} was transfered to ${wh.WHName} on ${new Date(Date.now()).toLocaleString()}`})
         product.save()
         res.status(200).json({message:`New batch transfered to ${wh.WHName} sucessfully `})
       }
+      else{
+        res.status(500).json({error:`Something went wrong`})
+      }
     })
   
+  }else{
+    res.redirect('/logout')
   }
 }
 
