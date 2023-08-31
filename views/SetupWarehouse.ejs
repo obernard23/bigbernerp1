@@ -342,7 +342,7 @@
             const ADMINID = document.getElementById('ADMINID').value
             const wareHouseId = document.getElementById('WHID').value
             const storeProductId = outboundForm[i].storeProduct.value
-            alert(prompt(outBoundQty))
+            // alert(prompt(outBoundQty))
 
             //send patch to server   /outbound/:ADMINID/:WHID/edit
             const request = await fetch(`/outbound/${ADMINID}/${wareHouseId}/${productID}/${storeProductId}/edit`,{
@@ -353,7 +353,8 @@
             headers: {'Content-Type': 'application/json'},
           })
           const response = await request.json().then((res)=>{
-            alert(res.result || res.error)
+            alert(res.message || res.error)
+            location.reload()
           });  
 
 

@@ -1158,19 +1158,27 @@ module.exports.WareHouseSetup_get = async(req,res)=>{
   }
 };
 
+// send product to different warehouse inventory
 module.exports.Inventory_patch  = async (req, res, next) => {
-  // if(ObjectId.isValid(req.params.WHID)){
-  //   await Product.findById(req.params.STOREID).
-  //   then(async function(product) {
-  //     const newQty = await parseInt(this.virtualQty)  - parseInt(req.body)
-  //     product.virtualQty =  newQty
-  //     product.save()
-  //   // await Product.updateOne({ _id: ObjectId(req.params.STOREID) }, { $set: newQty})
-  //   console.log(product)
-  //   })
-  //   // await storeProduct.updateOne({ _id: ObjectId(req.params.PRODID) }, { $set: req.body})
-
-  // }
+  if(ObjectId.isValid(req.params.WHID)){
+    const pendings = req.body
+    const product = await Product.findById(req.params.STOREID)
+    const wh = await WHouse.findById(req.params.WHID)
+      
+    await storeProduct.updateOne({ _id: ObjectId(req.params.PRODID) }, { $set: pendings})
+    .then(async(response)=>{
+      if(response.acknowledged){
+        log = await storeProduct.findById(req.params.PRODID)
+        log.ActivitiyLog.unshift({message:`${ req.body} quantity was sent From virtual ware house on `})
+        log.save()
+        product.virtualQty = product.virtualQty - log.pendings
+        product.ActivityLog.unshift({message:`${ req.body.pendings} ${product.UMO} was transfered to ${wh.WHName} on ${new Date(Date.now()).toLocaleString()}`})
+        product.save()
+        res.status(200).json({message:`New batch transfered to ${wh.WHName} sucessfully `})
+      }
+    })
+  
+  }
 }
 
 // virtual ware house routes
