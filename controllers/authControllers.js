@@ -232,6 +232,20 @@ module.exports.OnboardEmployee_get = async (req, res) => {
   res.status(200).render("employeeRegister", { name: "bigBern",states ,Employee,Warehouse});
 };
 
+module.exports.OnboardEmployee_post = async(req, res)=>{
+  try {
+    await Employe.create(req.body).then((employed)=>{
+      if(employed){
+        res.status(200).json({message:'successfully created. please activate new user account'})
+      }else{
+        throw new Error('Could not create. Something seems wrong. Please try again')
+      }
+    });
+  } catch (error) {
+    res.status(500).json({error: error.message})
+  }
+};
+
 //login
 module.exports.signin_post = async (req, res) => {
   const { Email, password } = req.body;

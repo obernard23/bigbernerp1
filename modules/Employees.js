@@ -41,9 +41,6 @@ type:String,
 contract:{
 type:Object,
 },
-skills:{
-type:Object,
-},
 DOB:{
 type:String,
 },
@@ -64,7 +61,7 @@ AccountNumber:{type:String},
 EmploymentStaus:{type:String},
 StartDate:{type:String},
 EndDate:{type:String},
-EducationalQulification:{type:String},
+LGA:{type:String},
 staffId:{type:String},
 role:{
 type:String
@@ -87,14 +84,14 @@ Leave:{
 type:Array,
 },
 password:{
-  type:String
+  type:String,
+minlength:6,
+required:true,
+default:"123456"
 },
 workEmail:{type:String},
 Department:{type:String},
-coach:{type:String},
-unit:{type:String},
-Salary:{type:Number},
-document:{type:Array},
+Gender:{type:Array},
 status:{
   type:String,
   default:'suspended',
