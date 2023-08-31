@@ -299,7 +299,7 @@ transition-delay:1s;
                     <tbody id="">
                     <%DeliveredBill.forEach((Delivery)=>{%>
                     <tr>
-                      <td class="border"><b onclick="location.assign('/')"><%=Delivery.billReferenceNo%></b></td>
+                      <td class="border"><b onclick="location.assign('/<%=result.WHName%>/bill/<%=Delivery._id%>')"><%=Delivery.billReferenceNo%></b></td>
                       <td  class="border"><%=Delivery.customerName.toUpperCase()%></td>
                       <td  class="border">NGN <%=Delivery.shippingFee%></td>
                       <td  class="border"><%=Delivery.salesPerson.toUpperCase()%></td>
