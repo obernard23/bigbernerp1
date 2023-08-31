@@ -264,14 +264,14 @@
         <input type="number" id="currentQty" value="<%=products.currentQty%>" disabled hidden/>
       </div>
       <div class="divTableCell" >&nbsp;
-        <label>Incoming stock  qty </label>
+        <label>WH-IN BOUND QTY </label>
         <!-- <h5><%=products.pendings%></h5> -->
         <input type="number" id="pendings" value="<%=products.pendings%>" disabled /></div>
       <div class="divTableCell">&nbsp; 
-          <label for="incoming">Confirm Done Qty</label>
+          <label for="incoming">CONFIRM IN BOUND QTY</label>
            <input type="Number" id="qty"  placeholder="confirm qty to ware house" />
           </div>
-      <div class="divTableCell">&nbsp; product status
+      <div class="divTableCell">&nbsp; ACTIVATED
           <label class="switch" title="Toogle tp Activate or Deactivate this Product">
               <input type="checkbox" id="toggleReplenish"Name="AutoReplenish" <%if(products.isActivated){%>
                 checked="checked"

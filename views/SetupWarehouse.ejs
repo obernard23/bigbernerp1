@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%-include('./partials/head.ejs')%>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/icomoon/style.css">
+
+    <link rel="stylesheet" href="/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="/style.css">
+<body>
+    <nav class="navbar bg-black">
+      <div class="container-fluid">
+        <span class="navbar-brand" onclick="history.back()" href="/" title="Back">
+            <img 
+            width="30"
+            hegith="30"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEgklEQVR4nO2a/U/VVRzH31xEbjxEQmjYAobWUkdYIiYxYYg8c+/9HrqUhAaFbvaE60lnOVzTrRbFMCZjNkmvGV6433NjjY2W1WzrgVHNkq0VtkxXZmqaUwyBTzv0Zd01TO4ZP3zP5b628we8vp/z9P5+DhAkSJAgUw1RyPpWCsN0wOmmUI1TK+Pkzf6IZiCQcbpppqZTO+NEYmicXPX1ZEEgUtpFEYxT97isz2hGoOF0UxTjdGgC2fFKb0Og4HRTLOP0xbVkfcYzUB3NQwmM07eTkCWm0yjj9ChUhXVSisbp2KRk/53aw5pOTqiGndNiptMpf2R9pLdDJRw6ZTBOZ2Rkcxu+PAhAnQuJ5qFcjdNFv2V1Gl2+me8FsBpAJlTAoZNd4zTo9xTWR0bS6/a1GLI2ANEwO4zTGqbTVb9lPcNDd9U2vW7IlgCIgNnROD1pHCl+yTo6hwYXVr60w5AtABAOs6Nx2iSzOdk7rlycX/b0VkN2pfk3KqIQplOjjKyt/dIfibk1zxuyKwCEwuzxjum0R0a27O0LpxMy7Bt9dmNzJ6XCbgpnnDwysqWucyfjFq14zJBNBxACM1PVQ5GM0/sysiV7Tw/EJKetM2TTYHZK3qNZjNNnMrJFu0/0R8xJqTFkF8DsON10i6bTERnZgpZjfdbo+LUAHgQwD2bHzilZ0+kHGdm8nf2fWKyRVQAeAJAIs+P00kJNp5MysrkNfT0WS1glgAoACTA75V5KZzr9LiObveNwl7FeywHEw+yUc8phOv0plXi2dLkMWQ3ALJgdxqlMNvEsrXO1GrJ2JRLPFAmrkXh8CE2rbdro6PhrUGZK29svizuyUtwtpuW84sdfcBwc9H8d/yP+MhQiFECOkE7MrnrW9s6ls1LSnJpVaqFYANwnpOcsKX6qdP952b+PLpWaZSEAlgrpuDsyN5TsO3Nccnq/+3AbWaEQi4V0VOKi2uK2X6WumJpOH9q8pMYxZbBQSEfE31ZduPv4N5JrutehUxwUYr5IPGHRsWvzd33fK1npfpuX5kIhkkTysYRZH1rZeORjSekfHTqZPyb6ICpUAYulMueVzydqbk9m/GLnlAqFmA3gfrGuM7d2H5A8ss5qHroXChErrt5Cetkmz1syP+LHelBeyoNC3Ggko9VLntizS9NHhiXO6Sual0SUVIZI8V5FSKc+0tjg8Fwdkqi0+FDVUAgrgCIhfWdF/XbRM5Ko9CjTqQ4KMRPAKiGdUlr3ot096H+PWMGkNWM8aSXlr99sb798fjo8ebAAyBLSCem2urIDF36bDo9aQgBkjCWtBVkbSl3nfp7sOl72XMcbyvwPm4B7hHRMYuq6krZTA9cTXr6la79Sbzz+P2kl1RS9eeLotWSztn3Qacjmm785fn1uF0krPHZudWHrT1//Vzbn1d4eQ7ZYiWcPkyR5LF5G3LRmVfN3n47L5jUdPWy0ZMoA3IAA41aRtES8zH3tq0MFLQN9RrPNASAKAcrssaRlsVSGWaOrjP6T+VsyU5S0RGfxZkwTYoxqBwkC//gbNIgEXXRi6msAAAAASUVORK5CYII=">
+           </span>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item dropdown">
+  
+                  <h5>
+                      <a class="nav-link breadcrumb-item active" aria-current="page" href="/warehouse" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #fff !important;">
+                         SET-UP <%=warehouse.WHName.toUpperCase()%> 
+                      </a>
+                  </h5>
+                  
+                </li>
+          </ul>
+      </div>
+    </nav>
+    <!-- form here -->
+    <div class="container border mt-3 p-1" style="color: aliceblue;">
+        <form class="row g-3 needs-validation" id="EditWareHouseForm" novalidate>
+            <div class="col-md-4">
+              <label for="validationCustom01" class="form-label">ALIAS</label>
+              <input type="text" class="form-control" id="validationCustom01" name="WHName" value="<%=warehouse.WHName.toUpperCase()%>" required>
+            </div>
+            <div class="col-md-4">
+              <label for="validationCustom02" class="form-label">TELEPHONE NUMBER</label>
+              <input type="text" class="form-control" id="validationCustom02" value="<%=warehouse.Tel%>" name="Tel" required>
+            </div>
+            <div class="col-md-4">
+              <label for="validationCustomUsername" class="form-label">EMAIL</label>
+              <div class="input-group has-validation">
+                <span class="input-group-text" id="inputGroupPrepend">@</span>
+                <input type="text" class="form-control" id="validationCustomUsername" name="Email" value="<%=warehouse.Email%>" aria-describedby="inputGroupPrepend" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="validationCustom03" class="form-label">ADDRESS</label>
+              <input type="text" class="form-control" id="validationCustom03" name="Address" value="<%=warehouse.Address%>" required>
+            </div>
+            <div class="col-md-3">
+              <label for="validationCustom04" class="form-label">STATE</label>
+              <input class="form-control" id="validationCustom04" name="state" value="<%=warehouse.state%>" required />
+              <input type="text" id="ADMINID" value="<%=user._id%>" hidden>
+              <input type="text" id="WHID" value="<%=warehouse._id%>" hidden>
+            </div>
+            <div class="col-md-3">
+              <label for="validationCustom05" class="form-label">MANAGER</label>
+              <select type="text" class="form-select" id="validationCustom05" name="Manager" required>
+                <OPtion><%=warehouse.Manager.firstName%> <%=warehouse.Manager.lastName%> [Current]</OPtion>
+              </select> 
+            </div>
+            <div class="col-md-3">
+                <label for="validationCustom05" class="form-label">STORE KEEPER</label>
+                <select type="text" class="form-select" id="validationCustom05" name="StoreKeeper" required>
+                  <OPtion><%=warehouse.StoreKeeper.firstName%> <%=warehouse.StoreKeeper.lastName%> [Current]</OPtion>
+                </select> 
+            </div>
+            <div class="col-13">
+                <%if(warehouse.Status){%>
+                    Deactivate <%=warehouse.WHName.toUpperCase()%>
+                    <%}else{%>
+                        Activate <%=warehouse.WHName.toUpperCase()%>
+                    <%}%>
+                <label class="switch ">
+                    <input type="checkbox" name="Status" <%if(warehouse.Status=== true){%>
+                        checked
+                    <%}%>>
+                    <div class="slider "></div>
+                </label>
+            </div>
+
+            
+            <div class="col-12">
+              <button class="btn btn-primary" type="submit">SUBMIT</button>
+            </div>
+          </form>
+    </div>
+    <!-- ends here -->
+    <h6>Products</h6>
+    <div class="container border shadow">
+        <div class="table-responsive custom-table-responsive" >
+    
+            <table class="table custom-table" style="font-size: 15px !important;">
+              <thead>
+                <tr>  
+    
+                    <th scope="col">ACTIVITY LOG</th>
+                    <th scope="col">Virtual QTY</th>
+                    <th scope="col">PRODUCT</th>
+                    <th scope="col">SCALE</th>
+                    <th scope="col">PHOTO DESC</th>
+                    <th scope="col">WH QTY </th>
+                    <th scope="col">WH-OUT BOUND QTY</th>
+                    <th scope="col"> SUBMIT</th>
+                </tr>
+              </thead>
+              <tbody>
+        <%if(storeProducts.length > 0 ){%>
+            <%storeProducts.forEach(product=>{%>
+                <!-- activity log -->
+                  <td>
+                    <form id="outbound">
+                        <div class=" " scope="col">
+                            <!-- Split dropstart button -->
+                          <div class="btn-group dropstart" style="border-right: 1px dotted rgb(190, 190, 190) !important;" role="group">
+                          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropstart</span>
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAADR0lEQVR4nJ2Vy08TURjF51/Qlf+CS/CFUp6FtrSdvqctbYc+gBYfVJDHQlQkIeIbwfCIC0KCMYrR6MZEKSpEHoIkujAECxsgUCQpAlNYuDjmXqBhBAbKJN9mJvf73Xu+c88wFr6Qs3n8EZvXD85dBK6gEGbeB5PLC4PTA4PDDZ2dB2vjlzUOxxEm0cfmDUQmwmGsr6/vWmtra7RuNzZDwzn8CQPyfYF4o1gstmf1fPwMNefoTRhg9/opQKp5LBZDNLpE5Pqr5rhjCQFsewCqrteh+kad6F39vYdQme1QmWxQGK3I0XOQ6yzIZk3I0pqQoTEgQ61HmkoHmYKdlSlYLWP1FIsAvxcX0dT6BPr8AjrcxpZ2+o586+3rp2BBECQrEongQ+8npCo0MyLAysoKKq/VovBmO4rbhsDd7YW+9A6C1TX029LSEswuL6ZnZiUB8/PzmJqawrlcDRhizS3Al8FhOMvrUNM9Dr5tDLamEZgaeqD1VaJ/YIguvvWgCd2v3x4IcDZHDYb4fgtwvryK+p7Iw9p5aG0uYk2oLQ54LwTp4r6BQQSrrx4OsFcJ2xYvLy/D6PJArjPT4WZqjHS46Xkbw7W6i+KAlJw8MJYEAYIg0Ev39MXLfU9wRp4HhsSCFEDYpcHA8AgCZZWSgMnJSZzOVokBgcsVO7RXbfreXXIp3oA4yuTybMij1lN5ZEoWqUotiCIiAAm1vU4gNcj7j1vQ0fVM+gRZSjBGp+dQgK+jY3CXlEoCTmUpwBi2AYqDV6C1Oqk8eZZ8Ko/SuBELBYGLoiarq6tUDhoLRB6Fll4sM+/dCdgtSfeLA0EQ8Ki1He0dnTvAW4CTmQTgcO8AHKS5IAgY+/4Ddl9A1Hw74ERGLhidnZ//OT5xKMAqkYn3UXnIrSUXy+T0iAEazmlkra653axJtM81SETypvbPX72J7377CZLTc5DQvyNdbTiut/MIhXoQCoVQW9+AQFkFotGoCDA3N7cJkCcGYAhEpR/t7OpCc2sbddGvcBgLCwvxIv8CEhPhcBhJaYcAyFRsqd3np7d95NsYbUZ2+3+9e9+DJFn2dMKAFIXiqEzJ/iGxQHxPhktCjcQC8T2xJtE+OV0+nSSTq/4BNITUZwFW2l8AAAAASUVORK5CYII="
+                            width="20"height="20" >
+                          </button>
+                          <ul class="dropdown-menu ">
+                            <!-- Dropdown menu links -->
+                            <span>History Logs</span>
+                          </ul>
+                      <!--ends here  -->
+                        <td>
+                       
+                        <%var name =Products.filter(ProductName=>{%>
+                            <%return ProductName._id.toString() === product.productId.toString()%>
+                        <%})%>
+                        <%name.map(name=>{%>
+                        <%=name.virtualQty%>
+                        <%})%>
+                       
+                        </td>
+                        <td>
+                             <!-- product name -->
+                     
+                             <%var name =Products.filter(ProductName=>{%>
+                                <%return ProductName._id.toString() === product.productId.toString()%>
+                            <%})%>
+                            <%name.map(name=>{%>
+                            <%=name.Name%>
+                            <%})%>
+                        <!-- ends here -->
+                        </td>
+                        <td>
+                                <!-- product scale -->
+                                <%var name =Products.filter(ProductName=>{%>
+                                    <%return ProductName._id.toString() === product.productId.toString()%>
+                                <%})%>
+                                <%name.map(name=>{%>
+                                <%=name.UMO%>
+                                <%})%>
+                        </td>
+                        <td>
+                                   <!-- product scale -->
+                             <img width="50" height="50" src='
+                             <%var name =Products.filter(ProductName=>{%>
+                                <%return ProductName._id.toString() === product.productId.toString()%>
+                            <%})%>
+                            <%name.map(name=>{%>
+                            <%=name.image%>
+                            <%})%>
+                             ' alt="photo here" >
+                        </td>
+                        <td>
+                            <!-- ware house qty -->
+                            <%=product.currentQty%>
+                        </td>
+                        <td title=" <%if(product.pendings > 0){%>
+                            This field is disabled because there's a pending delivery scheduled to be Recived by <%=warehouse.Manager.firstName%> <%=warehouse.Manager.lastName%>
+                            <%}else{%>
+                               Enter OUT-BOUND qty sent to <%=warehouse.WHName%>
+                            <%}%>
+                                ">
+                            <input type="number" name="outBoundQty" id="outBoundQty" value="<%=product.pendings%>"  <%if(product.pendings > 0){%>
+                            disabled=disabled
+                            <%}%>
+                            >
+                            <input type="text" name="storeProduct" value="<%=product.productId%>" hidden>
+                            <input type="text"name='product'value="<%=product._id%>" hidden>
+                        </td>
+                        <td>
+                            <button class="btn btn-secondary "  <%if(product.pendings > 0){%>
+                                disabled=disabled
+                                <%}%>>submit
+                            </button>
+                        </td>
+                    </form>
+                  </tr>
+                 
+            <%})%>
+        <%}%>  
+              </tbody>
+            </table>
+        </div>  
+    </div>
+    <!-- ends here -->
+    <h6>SALES DASHBOARD</h6>
+    <div class="container border ">
+        <div class="table-responsive custom-table-responsive" >
+        <!-- show sales and totoal delivery , scrap request -->
+        <table class="table custom-table" style="font-size: 15px !important;">
+            <thead>
+                <tr> 
+                    <th scope="col">MONTH</th>
+                    <th scope="col">SALES COUNT</th>
+                    <th scope="col">TOTAL (NGN)</th>
+                    <th>TREND</th>
+                </tr>
+            </thead>
+            <tbody>
+                <div class=" " scope="col">
+                    <tr>
+                        <td>JAN</td>
+                        <td>100</td>
+                        <td>900000</td>
+                        <td>
+                            <img 
+                            width="30"
+                            height="30"
+                            src="data:image/png;base64,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">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>FEB</td>
+                        <td>150</td>
+                        <td>230000</td>
+                        <td>
+                            <img 
+                            width="30"
+                            height="30"
+                            src="data:image/png;base64,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">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>MAR</td>
+                        <td>600</td>
+                        <td>9100000</td>
+                    </tr>
+                    <tr>
+                        <td>APR</td>
+                        <td>170</td>
+                        <td>800000</td>
+                    </tr>
+                </div>
+            </tbody>
+        </table>
+    </div>
+    </div>
+    <!-- ENDS HERE -->
+
+     <!-- ends here -->
+     <h6>SALES PERSON LEADERS DASHBOARD</h6>
+     <div class="container border ">
+         <div class="table-responsive custom-table-responsive" >
+         <!-- show sales and totoal delivery , scrap request -->
+         <table class="table custom-table" style="font-size: 15px !important;">
+             <thead>
+                 <tr>
+                    <th scope="col"></th> 
+                     <th scope="col">SALES PERSON</th>
+                     <th scope="col">TODAY'S SALE (NGN)</th>
+                     <th scope="col">TOTAL SALES (NGN)</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 <div class=" " scope="col">
+                     <tr>
+                         <td>
+                            <img 
+                            width="50" height="50"
+                            class="rounded"
+                            src="https://firebasestorage.googleapis.com/v0/b/bigbern-erp.appspot.com/o/employee%20photo%2Fistockphoto-1060680104-612x612-removebg-preview.png?alt=media&token=7cf11aa7-6a6d-46bc-98a4-2c9524017566" alt="sales person photo" srcset="">
+                         </td>
+                         <td>JANET JONES</td>
+                         <td>30000</td>
+                         <td>124000</td>
+                     </tr>
+                     <tr>
+                        <td>
+                            <img 
+                            class="rounded shadow"
+                            width="50" height="50"
+                            src="https://firebasestorage.googleapis.com/v0/b/bigbern-erp.appspot.com/o/employee%20photo%2FIMG-20211015-WA0007-removebg-preview.png?alt=media&token=b5770956-919b-44ca-9ae1-9e46c9057f15" alt="">
+                        </td>
+                         <td>BERNARD FIDELIS</td>
+                         <td>15000</td>
+                         <td>230000</td>
+                     </tr>
+                 </div>
+             </tbody>
+         </table>
+     </div>
+     </div>
+     <!-- ENDS HERE -->
+</body>
+<script>
+    //Patch / edit ware house status
+      const EditWareHouseForm = document.getElementById('EditWareHouseForm');
+      EditWareHouseForm.addEventListener('submit', async function(e){
+        e.preventDefault();
+        const ADMINID = document.getElementById('ADMINID').value
+        const wareHouseId = document.getElementById('WHID').value
+        const request = await fetch(`/warehouse/${ADMINID}/${wareHouseId}/edit`,{
+            body:JSON.stringify({
+                WHName:EditWareHouseForm.WHName.value,
+                Tel:EditWareHouseForm.Tel.value,
+                Email:EditWareHouseForm.Email.value,
+                Address:EditWareHouseForm.Address.value,
+                // Manager:EditWareHouseForm.Manager.value,
+                Status:EditWareHouseForm.Status.checked,
+                state:EditWareHouseForm.state.value,
+            }),
+            method:'PATCH',
+            headers: {'Content-Type': 'application/json'},
+          })
+          const response = await request.json().then((res)=>{
+            alert(res.result || res.error)
+          });  
+  
+    })
+          
+    // sumit outbount form data
+    const outboundForm = document.querySelectorAll('#outbound')
+
+    for(let i = 0 ; i < outboundForm.length ; i++ ) {
+        outboundForm[i].addEventListener('submit',async (e)=>{
+            e.preventDefault();
+            const outBoundQty = outboundForm[i].outBoundQty.value
+            const productID = outboundForm[i].product.value
+            const ADMINID = document.getElementById('ADMINID').value
+            const wareHouseId = document.getElementById('WHID').value
+            const storeProductId = outboundForm[i].storeProduct.value
+            alert(prompt(outBoundQty))
+
+            //send patch to server   /outbound/:ADMINID/:WHID/edit
+            const request = await fetch(`/outbound/${ADMINID}/${wareHouseId}/${productID}/${storeProductId}/edit`,{
+            body:JSON.stringify({
+                pendings:parseInt(outBoundQty),
+            }),
+            method:'PATCH',
+            headers: {'Content-Type': 'application/json'},
+          })
+          const response = await request.json().then((res)=>{
+            alert(res.result || res.error)
+          });  
+
+
+        })
+    }
+</script>
+</html>
+ 

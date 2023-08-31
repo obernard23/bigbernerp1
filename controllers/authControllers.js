@@ -512,8 +512,8 @@ module.exports.Invoice_get = async (req, res) => {
 //Edit_patch request to update  a WHouse
 module.exports.Edit_patch = async (req, res) => {
   const update = req.body;
-  if (ObjectId.isValid(req.params.id)) {
-    WHouse.updateOne({ _id: ObjectId(req.params.id) }, { $set: update })
+  if (ObjectId.isValid(req.params.WHID)) {
+    WHouse.updateOne({ _id: ObjectId(req.params.WHID) }, { $set: req.body })
       .then((result) => {
         res.status(200).json({ result: "Ware House Updated" });
       })
@@ -603,9 +603,8 @@ module.exports.WareHouseStock_post = async (req, res) => {
 
 //VirtualstorageProduct get
 module.exports.VirtualstorageProduct_get = async (req,res) => {
-  const PurchasedProduct = await VirtualstorageProduct.find()
-  const prud = await Product.find()
-  res.status(200).render('purchaseReplenish',{PurchasedProduct,prud})
+  const PurchasedProduct = await Product.find()
+  res.status(200).render('purchaseReplenish',{PurchasedProduct})
 }
 
 // ..create bills
@@ -1133,4 +1132,41 @@ module.exports.wareHouse_Purchase = async(req,res,next)=>{
     res.status(200).render('warehousePurchase',{vendor,products})
     // res.send('hello world')
   }
+}
+
+module.exports.WareHouseSetup_get = async(req,res)=>{
+ 
+  if(ObjectId.isValid(req.params.WHID)){
+  const warehouse =  await WHouse.findById(new ObjectId(req.params.WHID));
+  const storeProducts = await storeProduct.find({WHIDS:new ObjectId(req.params.WHID)})
+  const Products = await Product.find()
+  res.status(200).render('SetupWarehouse',{warehouse,storeProducts,Products});
+  }
+};
+
+module.exports.Inventory_patch  = async (req, res, next) => {
+  // if(ObjectId.isValid(req.params.WHID)){
+  //   await Product.findById(req.params.STOREID).
+  //   then(async function(product) {
+  //     const newQty = await parseInt(this.virtualQty)  - parseInt(req.body)
+  //     product.virtualQty =  newQty
+  //     product.save()
+  //   // await Product.updateOne({ _id: ObjectId(req.params.STOREID) }, { $set: newQty})
+  //   console.log(product)
+  //   })
+  //   // await storeProduct.updateOne({ _id: ObjectId(req.params.PRODID) }, { $set: req.body})
+
+  // }
+}
+
+// virtual ware house routes
+module.exports.virtual_get = async(req, res, next)=>{
+  res.status(200).render('virtual')
+}
+
+module.exports.virtual_Scrap = async(req, res, next)=>{
+  const Scraps = await Scrap.find()
+  const Products = await Product.find()
+  const wH = await WHouse.find()
+  res.status(200).render('Virtualscrap',{Scraps,wH,Products})
 }

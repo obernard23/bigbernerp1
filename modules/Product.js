@@ -37,6 +37,11 @@ const ProductSchema = new mongoose.Schema(
     ActivityLog: {
       type: Array,
     },
+    virtualQty:{
+      type: Number,
+      default: 0,
+      minimum:0
+    }
   },
   { timestamps: true }
 );

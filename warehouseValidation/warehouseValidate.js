@@ -18,4 +18,18 @@ async function ValidStockTransfer(req, res, next) {
   }
 }
 
-module.exports = ValidStockTransfer;
+// warehouse setup  for route protection
+async function adminWareHouseSetUp(req, res, next) {
+  if (ObjectId.isValid(req.params.ADMINID)) {
+    user = await Employe.findById(new ObjectId(req.params.ADMINID));
+    if( user.role === "Admin"){
+      next();
+  }else{
+    res.redirect('/logout')
+  }
+  }
+}
+
+module.exports = {
+  ValidStockTransfer,
+  adminWareHouseSetUp};

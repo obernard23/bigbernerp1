@@ -3,7 +3,7 @@ const authController = require('../controllers/authControllers')
 const {requireAuth,checkUser} = require('../middleware/authmidddleware')
 const {checkResetUser,checkLoginUser} = require('../middleware/checkUser')
 const {checkUserRole,ManagerAccess} = require("../middleware/userRole");
-const ValidStockTransfer = require('../warehouseValidation/warehouseValidate')
+const {ValidStockTransfer,adminWareHouseSetUp} = require('../warehouseValidation/warehouseValidate')
 const bills = require('../modules/Bills');
 const NotifyManagerPayment = require('../Functions/NotifyManager');
 const restPassword = require("../Functions/resetPasword");
@@ -71,7 +71,8 @@ router.get('/Location/:id',requireAuth,authController.warehouseDelivery_get);//i
 router.get('/warehouse/:id/Invoices/new',requireAuth,authController.Invoice_get);
 router.get('/stock-move',requireAuth,authController.stock_get);//for inventory move
 router.get('/VirtualstorageProduct',requireAuth,authController.VirtualstorageProduct_get)//add url to frontend today
-router.patch('/warehouse/:id/edit',requireAuth,authController.Edit_patch);
+router.patch('/warehouse/:ADMINID/:WHID/edit',requireAuth,adminWareHouseSetUp,authController.Edit_patch);//edith ware house 
+router.patch('/outbound/:ADMINID/:WHID/:PRODID/:STOREID/edit',requireAuth,adminWareHouseSetUp,authController.Inventory_patch);
 router.post(`/wareHouseToTransfer`,requireAuth,authController.WareHouseStoreage_post);//here to post toWareHouse
 router.post(`/wareHouseToTransfer/toRecive`,requireAuth,authController.WareHouseStock_post);//use this for deliveries
 router.post('/wareHouse/Bill',requireAuth,authController.WareHouseBill_post,NotifyAccountant);//to post bill
@@ -81,6 +82,7 @@ router.patch(`/bill/:id/approved`,requireAuth,authController.approveBill_patch);
 router.get('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_get);//get products for specific ware house
 router.patch('/warehouse/Product/:whId',requireAuth,authController.WareHouseStoreage_patch);
 router.get('/Employee/:employeeId',requireAuth,authController.WareHouseManager_get)
+router.get('/SetUp/:WHID/:ADMINID',requireAuth,adminWareHouseSetUp,authController.WareHouseSetup_get)
 
 // delivery routes
 router.get('/delivery/:deliveryId',requireAuth,authController.delivery_get);//sends json response for single bills
@@ -150,4 +152,9 @@ router.post('/Scrap/:WHMANAGER',requireAuth,ManagerAccess,authController.Scrap_p
 router.get('/Staff/:WHID',requireAuth,authController.staff_get)
 router.get('/Replenish/:WHID/storeproduct',requireAuth,authController.replenish_storeproduct)
 router.get('/warehouse/purchase/:WHID',requireAuth,authController.wareHouse_Purchase)
+
+
+// virtual warehouse routes
+router.get('/VIRTUAL/:ADMINID',requireAuth,adminWareHouseSetUp,authController.virtual_get)
+router.get('/VIRTUAL/SCRAP/:ADMINID',requireAuth,adminWareHouseSetUp,authController.virtual_Scrap)
 module.exports = router;

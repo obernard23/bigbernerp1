@@ -55,7 +55,7 @@
                 </tr>
               </thead>
               <tbody>
-                <%if(PurchasedProduct.length > 0){%> <%PurchasedProduct.forEach((purchaseproducts)=>{%>
+                <%if(PurchasedProduct.length > 0){%> <%PurchasedProduct.forEach((product)=>{%>
                   <tr scope="row">
                     <th scope="row">
                       <label class="control control--checkbox">
@@ -80,37 +80,21 @@
                   <!--ends here  -->
                     </td>
                     <td>
-                   <h6><%=purchaseproducts.PurchasedQty%></h6>
+                   <h6><%=product.virtualQty%></h6>
                     </td>
                     <td>
                          <!-- product name -->
-                  <%pname = prud.filter(name=>{%>
-                    <% return name._id.toString() === purchaseproducts.productsId.toString()%>
-                    <%})%>
-                     <%pname.map(n=>{%>
-                       <a href="/Product/<%=n._id%>/<%=n.Name%>" class="form-label"><%=n.Name.toUpperCase()%></a>
-                     <%})%>
+                 
+                       <a href="/Product/<%=product._id%>/<%=product.Name%>" class="form-label"><%=product.Name.toUpperCase()%></a>
                     <!-- ends here -->
                     </td>
                     <td>
                             <!-- product scale -->
-                  <%pname = prud.filter(name=>{%>
-                    <% return name._id.toString() === purchaseproducts.productsId.toString()%>
-                    <%})%>
-                     <%pname.map(n=>{%>
-                       <%if(n.UMO){%>
-                         <P><%=n.UMO.toUpperCase()%></P>
-                       <%}%>
-                     <%})%>
+                         <P><%=product.UMO.toUpperCase()%></P>
                     </td>
                     <td>
                                <!-- product scale -->
-                  <%pname = prud.filter(name=>{%>
-                    <% return name._id.toString() === purchaseproducts.productsId.toString()%>
-                    <%})%>
-                     <%pname.map(n=>{%>
-                         <img width="50" height="50" src='<%=n.image%>' alt="photo here" >
-                     <%})%>
+                         <img width="50" height="50" src='<%=product.image%>' alt="photo here" >
                     </td>
                   </tr>
                   <tr class="spacer"><td colspan="100"></td></tr>

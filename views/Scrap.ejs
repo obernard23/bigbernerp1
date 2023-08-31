@@ -268,9 +268,22 @@
                           <span class="badge bg-secondary">SCRAPED</span>
                           <%}%>
                         </small>
-                            <p title="Manager"><%=Scrap.storeProductId%></p>
+                            <p title="Manager">
+                              <%pname = prud.filter(name=>{%>
+                                <% return name.ACDcode.toString() === Scrap.ADC_CODE.toString()%>
+                                <%})%>
+                                 <%pname.map(n=>{%>
+                                   <%=n.Name.toUpperCase()%>
+                                 <%})%>
+                            </p>
                           <div>
-                            <p> Volume: 1 CARTON</p>
+                            <p> <%pname = prud.filter(name=>{%>
+                              <% return name.ACDcode.toString() === Scrap.ADC_CODE.toString()%>
+                              <%})%>
+                               <%pname.map(n=>{%>
+                                 1 x <%=n.UMO.toUpperCase()%>
+                               <%})%>
+                              </p>
                           </div>
                           <div title="Mail status">
                             <%if(Scrap.mailSent){%>
@@ -323,7 +336,7 @@
                                 <% return name._id.toString() === products.productId.toString()%>
                                 <%})%>
                                  <%pname.map(n=>{%>
-                                   <option value="<%=products.id%>"><%=n.Name.toUpperCase()%> [<%=n.UMO%>]</option>
+                                   <option value="<%=products.id%>"><%=n.Name.toUpperCase()%> [<%=n.UMO%>] [<%=n.ACDcode%>]</option>
                                  <%})%>
                         <%})%>
                     </select>
