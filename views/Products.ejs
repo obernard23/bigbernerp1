@@ -32,9 +32,6 @@
    
     <div class="container p-2">
         <h5 class="card-title m-3">Products List</h5>
-        <%if(user.role ==="Admin" || user.role ==="Manager"){%>
-        <a class="btn btn-success m-3" href="Product/Create-new">Create-new Product</a>
-        <%}%>
         <div class="container overflow-hidden flex-wrap d-flex">
         <%if(Products){%>
             <% Products.forEach((product)=> { %>

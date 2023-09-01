@@ -78,7 +78,7 @@
   
   <!-- ends here -->
   <form action="" method="post" class="container" id="EmployeeForm">
-    <input type="text" name="" id="employeeImage" hidden>
+    <input type="text" name="employeeImage" id="employeeImage" hidden>
   <div class="accordion" id="accordionExample">
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -445,12 +445,12 @@
         <% Employee.forEach((Employee)=> { %>
         <div class="card m-1 mb-3 shadow-sm" style="width:13rem;" title="<%=Employee.Username%>" >
             <div class="card-img-top justify-content-center d-flex p-2">
-                <img src="<%if(Employee.Image){%>
-                    <%= Employee.Image %>
+                <img src="<%if(Employee.image){%>
+                    <%= Employee.image %>
                     <%}else{%>
                         https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_640.png
                     <%}%>
-                    " alt="No Photo uploaded"  width=100 height="100">
+                    " alt="No Photo uploaded"  width=130 height="100">
             </div>
         
             <div class="card-body" style="overflow:hidden;
@@ -513,7 +513,7 @@ document.getElementById("files").addEventListener("change", function(e) {
       //Loops through all the selected files
       for (let i = 0; i < files.length; i++) {
         //create a storage reference
-        var storage = firebase.storage().ref(`product photo/${files[i].name}`);
+        var storage = firebase.storage().ref(`Employeephoto/${files[i].name}`);
   
         //upload file
         var upload = storage.put(files[i])
@@ -583,7 +583,7 @@ document.getElementById("files").addEventListener("change", function(e) {
         NIN:EmployeeForm.NIN.value,
         AccountNumber:EmployeeForm.AccountNumber.value,
         AccountNumber:EmployeeForm.AccountNumber.value,
-
+        image:EmployeeForm.employeeImage.value
       }),
       headers:{"content-type": "application/json"}
     })

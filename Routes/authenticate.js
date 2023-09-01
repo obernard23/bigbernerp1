@@ -46,7 +46,7 @@ router.get('/employee/:employeeId',requireAuth,async(req,res)=>{//get json for a
     res.status(200).json(employee)
 })
 //for erp pls cut out when done 
-router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);
+
 router.post('/Product/Create-new',requireAuth,authController.ProductCreate_post);
 router.post('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_post);
 router.get(`/product/:ACDcode/bill`,requireAuth,authController.productFind_get);//get product with json format for quotation purposes
@@ -58,6 +58,7 @@ router.get('/Sales/Vendor',requireAuth,authController.Vendors_get);
 router.get('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_get);
 
 //for payment 
+router.get('/Sales/Payment/Home/:id',requireAuth,authController.paymentLanging_get)
 router.get('/Sales/Payment/:id',requireAuth,authController.Payment_get);
 router.get('/Register/bill/:id/:billId',requireAuth,authController.RegisterPayment_get)//acountatnt is and bill id
 router.patch('/bill/register/:id',requireAuth,authController.RegisterPayment_patch,NotifyManagerPayment)//register bill 
@@ -157,4 +158,8 @@ router.get('/warehouse/purchase/:WHID',requireAuth,authController.wareHouse_Purc
 // virtual warehouse routes
 router.get('/VIRTUAL/:ADMINID',requireAuth,adminWareHouseSetUp,authController.virtual_get)
 router.get('/VIRTUAL/SCRAP/:ADMINID',requireAuth,adminWareHouseSetUp,authController.virtual_Scrap)
+router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);
+
+// expense routes
+router.get('/CFO/EXPENSE/:CFOID',requireAuth,authController.CFexpense_get)
 module.exports = router;

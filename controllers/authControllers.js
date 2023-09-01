@@ -564,7 +564,8 @@ module.exports.stock_get = async (req, res) => {
   const Products = await Product.find();
   const wareHouse = await WHouse.find();
   const storeProducts = await storeProduct.find();
-  res.render("stockMove", { Products, wareHouse,storeProducts, name: "BigBern" });
+  const employees = await Employe.find();
+  res.render("stockMove", { Products, wareHouse,storeProducts,employees, name: "BigBern" });
 };
 
 //create product in storeProduct collection 
@@ -618,7 +619,8 @@ module.exports.WareHouseStock_post = async (req, res) => {
 //VirtualstorageProduct get
 module.exports.VirtualstorageProduct_get = async (req,res) => {
   const PurchasedProduct = await Product.find()
-  res.status(200).render('purchaseReplenish',{PurchasedProduct})
+  const wareHouse = await WHouse.find();
+  res.status(200).render('purchaseReplenish',{wareHouse,PurchasedProduct})
 }
 
 // ..create bills
@@ -811,8 +813,8 @@ module.exports.customer_get = async (req, res) => {
   }
 };
 
+//get information
 module.exports.vendor_get = async (req, res) => {
-  //edit customer information
   Vendor.findOne({ _id: req.params.id }).then((vendor) => {
     res.status(200).render("singlevendor", { vendor, name: "Bigbern" });
   });
@@ -1191,9 +1193,20 @@ module.exports.virtual_get = async(req, res, next)=>{
   res.status(200).render('virtual')
 }
 
+//VIRTUAL 
 module.exports.virtual_Scrap = async(req, res, next)=>{
   const Scraps = await Scrap.find()
   const Products = await Product.find()
   const wH = await WHouse.find()
   res.status(200).render('Virtualscrap',{Scraps,wH,Products})
+}
+
+module.exports.CFexpense_get = async(req,res)=>{
+  const Expenses = await Expense.find()
+  const WHID = await WHouse.find()
+  res.status(200).render('CFexpense',{Expenses,WHID})
+}
+
+module.exports.paymentLanging_get = async(req, res)=>{
+  res.status(200).render('AccountantLanding')
 }

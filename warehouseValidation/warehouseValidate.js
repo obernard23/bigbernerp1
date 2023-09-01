@@ -20,6 +20,7 @@ async function ValidStockTransfer(req, res, next) {
 
 // warehouse setup  for route protection
 async function adminWareHouseSetUp(req, res, next) {
+  console.log(req.params.ADMINID)
   if (ObjectId.isValid(req.params.ADMINID)) {
     user = await Employe.findById(new ObjectId(req.params.ADMINID));
     if( user.role === "Admin"){

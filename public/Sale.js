@@ -111,6 +111,13 @@ document.getElementById("files").addEventListener("change", function(e) {
 
 const productcode = Math.floor(Math.random()*1322300)
 
+const vendor = document.getElementById('vendor').addEventListener('input', function(e){
+  const value = e.target.value
+  const ACDcode = `${value.substring(0.4)}-${productcode}`
+  document.getElementById('AdcCode').value = ACDcode
+});
+
+
 // targeting the form 
 var ProductForm = document.getElementById('productForm');
 ProductForm.addEventListener('submit',async (e)=>{
