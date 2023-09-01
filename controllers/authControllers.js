@@ -6,15 +6,17 @@ const Vendor = require("../modules/Vendors");
 const { WHouse, storeProduct } = require("../modules/warehouse");
 const Scrap = require('../modules/Scrap')
 const Employe = require("../modules/Employees");
+const VendorPayment = require('../modules/VendorBill')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const sendMail = require("../Functions/SendBill");//for managers
 const NotifyAccountant = require("../Functions/NotifyAccountant");//for Accountant
-const VirtualstorageProduct = require('../modules/purchase')
+const VirtualstorageProduct = require('../modules/purchaseOrder')
 const Appraisals = require('../modules/Appraisal')
 const NotifyStoreKeeper = require('../Functions/NotifyStoreKeeper');
+const PurchaseOrder = require('../modules/purchaseOrder')
 const Expense = require('../modules/Expense')
 const NotifyCFO = require('../Functions/NotifyCFO')
 var id = new mongoose.Types.ObjectId();
@@ -565,7 +567,7 @@ module.exports.stock_get = async (req, res) => {
   const wareHouse = await WHouse.find();
   const storeProducts = await storeProduct.find();
   const employees = await Employe.find();
-  res.render("stockMove", { Products, wareHouse,storeProducts,employees, name: "BigBern" });
+  res.render("AllVirtualLocation", { Products, wareHouse,storeProducts,employees, name: "BigBern" });
 };
 
 //create product in storeProduct collection 
@@ -620,7 +622,7 @@ module.exports.WareHouseStock_post = async (req, res) => {
 module.exports.VirtualstorageProduct_get = async (req,res) => {
   const PurchasedProduct = await Product.find()
   const wareHouse = await WHouse.find();
-  res.status(200).render('purchaseReplenish',{wareHouse,PurchasedProduct})
+  res.status(200).render('virtualProduct',{wareHouse,PurchasedProduct})
 }
 
 // ..create bills
@@ -991,14 +993,6 @@ module.exports.Report_get = async(req, res, next)=>{
   res.render('reports',{});
 }
 
-
-// purchase controllers
-module.exports.purchase_get = async(req, res, next)=>{
-  const vendor = await Vendor.find();
-  const products = await Product.find()
-  res.render('vendorBill',{vendor,products,name:'Bigbern'});
-}
-
 // get product from invoice
 module.exports.vendorFind_get = async (req, res) => {
   if (ObjectId.isValid(req.params.id)) {
@@ -1201,12 +1195,73 @@ module.exports.virtual_Scrap = async(req, res, next)=>{
   res.status(200).render('Virtualscrap',{Scraps,wH,Products})
 }
 
+//expense get for cfo
 module.exports.CFexpense_get = async(req,res)=>{
   const Expenses = await Expense.find()
   const WHID = await WHouse.find()
   res.status(200).render('CFexpense',{Expenses,WHID})
 }
 
+// lading page for accountants
 module.exports.paymentLanging_get = async(req, res)=>{
   res.status(200).render('AccountantLanding')
+}
+
+//purchase lading page
+module.exports.PurchaseLanding_get = async(req, res)=>{
+  res.status(200).render('PurchaseLanding')
+}
+
+// purchase controllers
+module.exports.PurchaseRequestForm_get = async(req, res, next)=>{
+  const vendor = await Vendor.find();
+  const products = await Product.find()
+  res.render('PurchaseRequestForm',{vendor,products,name:'Bigbern'});
+}
+
+//PurchaseOrder_get
+module.exports.PurchaseOrder_get = async (req, res,next) => {
+  const purchaseOrder = await PurchaseOrder.find()
+  res.status(200).render('PurchaseOrder',{purchaseOrder})
+};
+
+// purchaserequest post
+module.exports.PurchaseOrder_post = async(req, res, next) => {
+  await PurchaseOrder.create(req.body)
+  .then(async(purchased) => {
+
+   const NewPayment = {
+    billReferenceNo:req.body.billReferenceNo,
+    Amount:req.body.grandTotal,
+    VendorID:req.body.Vendor
+  }
+    await VendorPayment.create(NewPayment).then((payment)=>{
+      purchased.orders.forEach(async(order)=>{
+        
+        const product = await Product.findById( order.item._id)
+        const update = product.virtualQty + order.Qty
+     
+          await Product.updateOne({ _id: ObjectId(order.item._id) }, { $set: {virtualQty: update}})
+        })
+
+          let date = new Date()
+        var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
+        product.ActivityLog.unshift({ message: `New batch Was registered in to Virtual ware House on${responseDate}. P.O ref${NewPayment.billReferenceNo}`})
+        product.save()
+       
+        res.status(200).json({message:'Product quantity updated successfully'})
+    })
+  })
+  next()
+}
+
+module.exports.PurchaseRequest_get = async (req, res, next) => {
+  
+  res.status(200).render('PurchaseRequest',{})
+}
+
+//CFOVendorBill_get
+module.exports.CFOVendorBill_get = async(req,res, next) => {
+  const VendorBills = await VendorPayment.find()
+  res.status(200).render('CFOVendorBill',{VendorBills})
 }

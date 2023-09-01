@@ -135,10 +135,6 @@ router.get('/Report', authController.Report_get)
 //getting work book to exce; for All bills
 router.get('/bills/excel',requireAuth,authController.BillsWorkBook_get)
 
-//purchse routers
-router.get('/purchase',requireAuth,authController.purchase_get)
-router.get('/vendor/:id',requireAuth,authController.vendorFind_get)
-
 //query global search parameters
 router.get('/search/:query',requireAuth,authController.query_get)
 
@@ -150,7 +146,7 @@ router.post('/Expense/:WHMANAGER',requireAuth,ManagerAccess,authController.expen
 router.get('/Scrap/:WHID',requireAuth,authController.scrap_get)
 router.post('/Scrap/:WHMANAGER',requireAuth,ManagerAccess,authController.Scrap_patch,NotifyScrap)
 
-router.get('/Staff/:WHID',requireAuth,authController.staff_get)
+router.get('/Staff/:WHID',requireAuth,authController.staff_get)//get staff by the location 
 router.get('/Replenish/:WHID/storeproduct',requireAuth,authController.replenish_storeproduct)
 router.get('/warehouse/purchase/:WHID',requireAuth,authController.wareHouse_Purchase)
 
@@ -158,8 +154,15 @@ router.get('/warehouse/purchase/:WHID',requireAuth,authController.wareHouse_Purc
 // virtual warehouse routes
 router.get('/VIRTUAL/:ADMINID',requireAuth,adminWareHouseSetUp,authController.virtual_get)
 router.get('/VIRTUAL/SCRAP/:ADMINID',requireAuth,adminWareHouseSetUp,authController.virtual_Scrap)
-router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);
-
+router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);//add virtual to url
+router.get('/VIRTUAL/Purchase/:ADMINID',requireAuth,adminWareHouseSetUp,authController.PurchaseLanding_get)
+//purchse routers
+router.get('/purchase/:ADMINID',requireAuth,authController.PurchaseRequestForm_get)
+router.get('/vendor/:id',requireAuth,authController.vendorFind_get)// kept at mind cant find url
+router.get('/Virtual/Purchase/Order/:ADMINID',requireAuth,adminWareHouseSetUp,authController.PurchaseOrder_get)
+router.get("/Virtual/Purchase/Request/:ADMINID",requireAuth,adminWareHouseSetUp,authController.PurchaseRequest_get)
+router.post('/Virtual/Purchase/Order/:ADMINID',requireAuth,adminWareHouseSetUp,authController.PurchaseOrder_post)
 // expense routes
 router.get('/CFO/EXPENSE/:CFOID',requireAuth,authController.CFexpense_get)
+router.get('/Vendor/Bills/:CFOID',requireAuth,authController.CFOVendorBill_get)
 module.exports = router;

@@ -22,20 +22,11 @@
                 aria-expanded="false"
                 style="color: #fff !important"
               >
-                Accountant Operations
+                Purchase Operations
               </a>
             </h5>
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-success" type="submit">Search</button>
-        </form>
       </div>
     </nav>
 
@@ -52,8 +43,8 @@
               height="50">
           </div>
               <div  class="card-body">
-                  <h5  class="card-title">Expense</h5>
-                  <a href="/CFO/EXPENSE/<%=user._id%>" data-doc=""  class="btn btn-warning"> 
+                  <h5  class="card-title">Purchase Order <sup>(L.P.O)</sup></h5>
+                  <a href="/Virtual/Purchase/Order/<%=user._id%>" data-doc=""  class="btn btn-warning"> 
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
                       <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
                       <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
@@ -71,8 +62,8 @@
             height="50">
         </div>
             <div  class="card-body">
-                <h5  class="card-title">Register Paymnet</h5>
-                <a href="/Sales/Payment/<%=user._id%>" data-doc=""  class="btn btn-warning"> 
+                <h5  class="card-title">Purchase Request <sup>(P.R)</sup></h5>
+                <a href="/Virtual/Purchase/Request/<%=user._id%>" data-doc=""  class="btn btn-warning"> 
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
                     <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
                     <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
@@ -83,26 +74,6 @@
     <!-- ENDS HERE  -->
 
     
-
-    <div class="card m-1 mb-3 shadow-sm shadow-sm" style="width:13rem;" title="PAYMENTS" >
-      <div class="card-img-top justify-content-center d-flex p-2">
-          <img
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEqklEQVR4nO2YXWxTZRjH//1cu25rXdd2Nuvabi0Tuo2PuXVj4MYGhBhRCQmYGKtB4p0gjLgEFZHFKy/8uCCaaCRsAYQZv4Jkm86kFY0XJl6YeKE33mCyeIGJJgQCj3nfndN27U5Ld/p1Ts+T/JOec573fZ7nd573PecU0EyzSpgJwCEAvwk6JJxTvZkBxAD8DoAy9CeAowCsUKE1AJgAcEMsuKOhnt7oWcfFfqeBuCH4sjGKt0bhrv4lFhhutNGp7jBd37WVftw9zPXD7mF6a/N6itgb00H8DeA0gAegQHMBeBPATbGgjY4menvLBl5wfOdWOhkJUbvNSn6bdQUQ5sN800DcFOZic1a9uYW79o9YQK+jid/d5cKHaHJDJ3ksdZnrn7xWC7/2vQDi/YEeGnY1p/v8C+BdAG2oQgsAOAvgFktWB9A2VzN9GO3lxSyMRemFUDs5zKZkQR0eM03u89DE427yNqfO++pXdgSbg83F5hR8bgmxWMyKWxeAcwBui4WPt7bQ+aFNPPmrowP0TLCNbEZD1h2/9monLZ4OcX39SmfW9UwQ00Ob+Nw6XdLnthCb5VB26wVwCcBdloxBp6NHvW76ZHgLT/az7Q/Tft+DVGfQJwuK+Cw0+aQ7eZyYCq+QeP7weAt57EZJECwGi2XU6USfu0IuLKeS2wCALwDcY8FNej3t87XSp9v7eHIXs5Ojvo56ev1AK104GqDZiWBeAJePB+n8i346vNOZEwSLyWKzHASfe0JuLMei2wiAeTEZi0FPB/1e+nKknyfz8eBGGvU4SS+0p0GfAnDxWICunAjQ7IkgVz4Aot+ViQBNHwlwELmWxlcj/fSU38tzSvObF3KWbXsAJMSJ2VqOBdvo2ugAD362v5uiTkcysNmoo8f67DR9xJ9VUKEAUiBSY3JtliynZ7P3m4RQQ0GmA7AXwE/iRHaTkZ7v9NH8jigP9l5fhHocqZcWq1lPT/Tb6dKxAMXPhHIWVCiA9DELr4Xo5P5WanOaJB+f344N0ksPBclpNqeD+EV4BTfkKlwvFP6zOJA9tljhC2ODdH3X8tva+qaG5MRN9QZ6+pFm+vzlIMXP3F9BcgAwv/hUmL45lR/E4vgyCFfdChC/CiCMqwH4bpUPFLVqcTUA81WQWLk0l2spENNMrEVVSis+r5EGAKXpgEy4+Y5V1wGodQAzFZQGAGvsgLAr9bKhNHW5TfI7AFVQiBwVDcDc3JyipAFAkTsACpVsAF3uGt8EZ9IGH3znA0UoVw2yADx37rIiVDIAUJg0ALEid8DsKn9XyZHUvHLPl6wDEhn/48mV1Lxyz5ccQHe7peD12Ou3qgcA1rgpqQ7AnaujXOLxfwf2cEld1wBMqbwDkKGa6YDhiD2r+G0Re+0AuJNHUomX6vGoAUAFOgAS679mOgBFBCAXjOKXQEIDEFZGB6CEkvPtoAoAUMImuPRRD5d4/MfeHVxS18v17aABQIU6ABnK1wGZWmsHSPmVDUA0bMsqZnCdTRJAsb8dKg5gKY+K9d6gAUAVdwAk1r9UB0itf8V2AGodwFIZ9oBCvxk0ADEZHQD1Kq8lqiDJUil+PwA0Qw3Z/7VEMnTKSU4TAAAAAElFTkSuQmCC" 
-          width=50 
-          height="50">
-      </div>
-          <div  class="card-body">
-              <h5  class="card-title">Vendor Bills</h5>
-              <a href="/Vendor/Bills/<%=user._id%>" data-doc=""  class="btn btn-warning"> 
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-                  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-                  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
-                </svg>
-              </a>
-          </div>
-  </div> 
-  <!-- ENDS HERE  -->
-
 </div>
     
    
