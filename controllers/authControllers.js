@@ -16,6 +16,7 @@ const NotifyAccountant = require("../Functions/NotifyAccountant");//for Accounta
 const VirtualstorageProduct = require('../modules/purchaseOrder')
 const Appraisals = require('../modules/Appraisal')
 const NotifyStoreKeeper = require('../Functions/NotifyStoreKeeper');
+const NotifyCFOPO = require('../Functions/NotifyCFOPO')
 const PurchaseOrder = require('../modules/purchaseOrder')
 const Expense = require('../modules/Expense')
 const NotifyCFO = require('../Functions/NotifyCFO')
@@ -1237,22 +1238,19 @@ module.exports.PurchaseOrder_post = async(req, res, next) => {
   }
     await VendorPayment.create(NewPayment).then((payment)=>{
       purchased.orders.forEach(async(order)=>{
-        
         const product = await Product.findById( order.item._id)
         const update = product.virtualQty + order.Qty
-     
-          await Product.updateOne({ _id: ObjectId(order.item._id) }, { $set: {virtualQty: update}})
-        })
-
-          let date = new Date()
-        var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
-        product.ActivityLog.unshift({ message: `New batch Was registered in to Virtual ware House on${responseDate}. P.O ref${NewPayment.billReferenceNo}`})
-        product.save()
-       
-        res.status(200).json({message:'Product quantity updated successfully'})
+        await Product.updateOne({ _id: ObjectId(order.item._id) }, { $set: {virtualQty: update}})
+      })
+        //   let date = new Date()
+        // var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
+        // product.ActivityLog.unshift({ message: `New batch Was registered in to Virtual ware House on${responseDate}. P.O ref${NewPayment.billReferenceNo}`})
+        // product.save()
+        // notify cfo email
+        NotifyCFOPO(purchased)
+        res.status(200).json({message:'Product quantity updated successfully.We will notify the Cfo to register payment'})
     })
   })
-  next()
 }
 
 module.exports.PurchaseRequest_get = async (req, res, next) => {
