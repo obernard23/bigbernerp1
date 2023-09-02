@@ -26,10 +26,10 @@ const NotifyCFO = async (data) => {
             let MailGenerator = new Mailgen({
                 theme: "salted",
                 product : {
-                    name: 'BigBern',
+                    name: 'BADE',
                     link : 'https://mailgen.js/',
-                    logo: 'https://mailgen.js/img/logo.png',
-                    copyright: 'Copyright © 2023 Bigbern.',
+                    logo: '',
+                    copyright: `© ${date.getFullYear()} BADE.`,
                 }
             })
         

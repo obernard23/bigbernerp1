@@ -27,10 +27,10 @@ const NotifyStoreKeeper = async (bill) => {
     let MailGenerator = new Mailgen({
         theme: "salted",
         product : {
-            name: 'BigBern',
+            name: 'BADE',
             link : 'https://mailgen.js/',
-            logo: 'https://mailgen.js/img/logo.png',
-            copyright: 'Copyright © 2023 Bigbern.',
+            logo: 'bade.jpg',
+            copyright: `© ${date.getFullYear()} BADE.`,
         }
     })
 

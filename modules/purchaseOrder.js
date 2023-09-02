@@ -20,7 +20,8 @@ const PurchaseOrderSchema = new mongoose.Schema({
         default:'pending'
     },
     ActivityLog: [],
-   
+    recievedDate:String,
+    
 },{timestamps:true})
 
 const PurchaseOrder = mongoose.model('PurchaseOrder', PurchaseOrderSchema)

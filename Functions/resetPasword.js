@@ -32,7 +32,7 @@ const restPassword = async (req,res,next) => {
     let message = {
         from : EMAIL,
         to : data.Email,
-        subject: `${ERPSmtpName} password reset`,
+        subject: `BADE password reset`,
         html: PasswordReset(otp)
     }
     

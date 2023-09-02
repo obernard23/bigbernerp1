@@ -389,10 +389,10 @@
                 <input
                   type="date"
                   class="form-control border"
-                  id="AccountNumber"
+                  id="RecievedDate"
                   aria-describedby="validationServer05Feedback"
                   required
-                  name="AccountNumber"
+                  name="RecievedDate"
                 />
               </div>
               <!-- ends here -->
@@ -403,10 +403,10 @@
                 <input
                   type="text"
                   class="form-control border"
-                  id="AccountNumber"
+                  id="poRefrence"
                   aria-describedby="validationServer05Feedback"
                   placeholder="RefNo: from Hard copy"
-                  name="AccountNumber"
+                  name="poRefrence"
                   required
                 />
               </div>
@@ -538,6 +538,17 @@
       <input type="text" hidden id="employee" value="<%=user.firstName%>">
   </body>
     <script>
+      //for RecievedDate
+      document.getElementById('RecievedDate').addEventListener('change', function(e){
+        BillProducts.recievedDate = e.target.value
+        saveToLocalStorage(BillProducts);
+      })
+
+      // set poRefrence
+      document.getElementById('poRefrence').addEventListener('change', function(e){
+        BillProducts.billReferenceNo = e.target.value
+        saveToLocalStorage(BillProducts);
+      })
      const submitBtn = document.getElementById('submit')
       //clear billproduct on page reload
       window.onload = () => {
@@ -563,8 +574,6 @@
             const discount = document.getElementById('discount').innerText = `Sales person: ${data.item.contact}%`;
             const employee = document.getElementById('employee').value
             const d = new Date();
-            BillProducts.startDate = `${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`
-            const startDate = document.getElementById('startdate').innerText = `start Date: ${BillProducts.startDate}` ;
             BillProducts.ActivityLog = []
             BillProducts.Vendor = data.item._id //assign custom properties
             BillProducts.salesPerson = employee
@@ -592,18 +601,18 @@
           grandTotal:'',
           shippingFee:'',
           subTotal:'',
-          startDate:`${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
+          recievedDate:'',
           Vendor:'',
           orders:[],
           billStatus:'',
           status:'Locked',
           discount:'',
           taxRate:'',
-          salesPerson:'Bernard Fidelis',
+          salesPerson:'',
           signatureUrl:'',
           ActivityLog:[],
           rejectionReasons:[],
-          billReferenceNo : Math.floor(Math.random() *1000001),
+          billReferenceNo : '',
           registeredBilling:0,
           registeredBalance:0,
           PaymentStatus:'',
@@ -653,9 +662,6 @@
         //generate id for each item
         const id = Math.floor(Math.random() * 10500600000787);
         // const Pname = document.getEle
-        
-        console.log(data)
-        console.log(BillProducts,"this is bill product")
         BillProducts.orders.push({...data,Qty:'',total:'',_id:id})//returns product, qty to perform and vat
         saveToLocalStorage(BillProducts)
         RenderDom(BillProducts)
@@ -670,7 +676,6 @@
         const  body = document.getElementById('item')
         body.innerHTML = ''
         BillProducts.orders.forEach(element => {
-          console.log(element)
           let tr = document.createElement('tr')
           
           let td2 = document.createElement('td')//product name

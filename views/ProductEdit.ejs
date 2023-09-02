@@ -66,8 +66,10 @@
             </div>
             <div class="border-b flex font-bold">
                 <div class="border-end p-1 subs" name="category" title="Double click to show section">Product information</div>
+                <%if(user.role === "Admin"){%>  
                 <div class="border-end p-1 subs" name="category" title="Double click to show section">Product Settings</div>
                 <div class="border-end p-1 subs" name="category" title="Double click to show section">Description</div> 
+                <%}%> 
             </div>
             <!-- prouct information -->
                 <div class="flex flex-col gap-9 hidden border-b p-5" id="workInfo">
@@ -93,6 +95,7 @@
                         <span class="input-group-text">.00</span>
                     </div>
 
+                    <%if(user.role === "Admin"){%> 
                     <div class="col-md-7">
                         <label for="pricelist" class="form-label">vendor</label>
                         <select
@@ -100,6 +103,8 @@
                           name="vendor"
                           aria-describedby="validationServer04Feedback"
                           required
+                            disabled
+                            
                         >
                         <option class="bg-warning" value="<%=product.Vendor%>" ><%=product.Vendor%></option>
                         <%if(vendor){%>
@@ -113,7 +118,8 @@
                           <%}%>
                         </select>
                         </div>
-    
+                        <%}%>
+
                     <label class="flex gap-9 ">
                         Manufacturer: <input type="text"  value="<%=product.Manufacturer%>"  name="Manufacturer"placeholder='Name of Manufacturer'>
                     </label>
@@ -127,6 +133,7 @@
                     </label>
     
                 </div>
+                <%if(user.role === "Admin"){%>  
                 <!-- product settings -->
                 <div id="privateinfo" class="flex flex-col hidden gap-5 p-5 border-b ">
                     <div class="flex flex-col gap-7">
@@ -187,14 +194,18 @@
                         <span class="input-group-text">%</span>
                     </div>
                 </div>
+                <%}%> 
+                <%if(user.role === "Admin"){%>  
                 <!-- description -->
                 <div id="thirdinfo" class="form-floating">
                         <textarea class="form-control" placeholder="Leave a discription here" rows="4" cols="50" name="Description" id="floatingTextarea" title="please note that description added will reflect on your E-commerce Product Description (EPD). Hence, it should be properly Constructed."><%=product.Description%></textarea>
                         <label for="floatingTextarea">Description</label>
                 </div>
+                <%}%> 
 
-                
+            <%if(user.role === "Admin"){%>  
             <button>Update <%=product.Name%> </button>
+            <%}%> 
         </form>
       </div>
 </body>

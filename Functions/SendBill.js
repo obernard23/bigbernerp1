@@ -20,10 +20,10 @@ const sendMail = async (result,wh) => {
     let MailGenerator = new Mailgen({
         theme: "salted",
         product : {
-            name: 'BigBern',
-            link : 'https://mailgen.js/',
-            logo: 'https://mailgen.js/img/logo.png',
-            copyright: 'Copyright © 2023 Bigbern.',
+            name: 'BADE',
+                    link : 'https://mailgen.js/',
+                    logo: 'bade.jpg',
+                    copyright: `© ${date.getFullYear()} BADE.`,
         }
     })
 

@@ -10,7 +10,7 @@ var moment = require('moment');
 // this function sends mail to ware house manager 
 const NotifyCFOPO = async (purchased) => {
     let date = new Date()
-    var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
+    var responseDate = moment(purchased.recievedDate).format("dddd, MMMM Do YYYY,");
    const Vendor =  await vendor.findById(purchased.Vendor)//find bill 
    await Employee.find({jobTittle:'CFO'})
     .then((CFO) => {
@@ -31,7 +31,7 @@ const NotifyCFOPO = async (purchased) => {
                 product : {
                     name: 'BADE',
                     link : 'https://mailgen.js/',
-                    logo: 'https://mailgen.js/img/logo.png',
+                    logo: 'bade.jpg',
                     copyright: `© ${date.getFullYear()} BADE.`,
                 }
             })

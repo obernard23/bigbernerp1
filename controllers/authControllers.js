@@ -95,7 +95,9 @@ module.exports.signup_get = (req, res) => {
 };
 
 module.exports.signin_get = (req, res) => {
-  res.render("SignIn", { title: "Ecommerce", name: "BigBern" });
+  let date = new Date()
+    var responseDate = moment(date).format("YYYY");
+  res.render("SignIn", { title: "Ecommerce", name: "BADE",responseDate });
 };
 
 module.exports.cart_get = (req, res) => {

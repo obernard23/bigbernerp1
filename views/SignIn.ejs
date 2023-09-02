@@ -3,16 +3,16 @@
   <%-include('./partials/head.ejs')%>
   <body  class="">
     <section   class="relative">
-      <div class="container-fluid h-custom">
+      <div class="container-fluid vh-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-md-9 col-lg-6 col-xl-5">
             <img
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+              src="BADES.jpg"
               class="img-fluid"
-              alt="Sample image"
+              alt="logo"
             />
           </div>
-          <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 shadow  vh-100 align-items-center d-flex col">
+          <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1  justify-content-center content p-3 align-items-center d-flex col">
             <form id="form">
               <h5>Login</h5>
               <!-- Email input -->
@@ -24,9 +24,7 @@
                   placeholder="Enter a valid email address"
                   name="Email"
                 />
-                <label class="form-label" for="form3Example3"
-                  >Email address</label
-                >
+                
                 <p class="email error " style="color: chocolate;"></p>
               </div>
 
@@ -39,23 +37,11 @@
                   placeholder="Enter password"
                   name="password"
                 />
-                <label class="form-label" for="form3Example4">Password</label>
+               
                 <p class="password error " style="color: chocolate;"></p>
               </div>
 
               <div class="d-flex justify-content-between align-items-center">
-                <!-- Checkbox -->
-                <div class="form-check mb-0">
-                  <input
-                    class="form-check-input me-2"
-                    type="checkbox"
-                    value=""
-                    id="form2Example3"
-                  />
-                  <label class="form-check-label" for="form2Example3">
-                    Remember me
-                  </label>
-                </div>
                 <% if (!user) { %>
                 <a href="/Reset" class="text-body">Forgot password?</a>
                 <% } %>
@@ -63,7 +49,7 @@
               <div class="text-center text-lg-start mt-4 pt-2">
                 <button
                   type="submit"
-                  class="btn btn-primary btn-lg"
+                  class="btn btn-dark btn-lg"
                   style="padding-left: 2.5rem; padding-right: 2.5rem"
                 >
                   Login
@@ -74,11 +60,11 @@
         </div>
       </div>
       <div
-        class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary"
+        class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-2 px-2 px-xl-2 bg-black"
       >
         <!-- Copyright -->
         <div class="text-white mb-3 mb-md-0">
-          Copyright © 2020. All rights reserved.
+           © BADE <%=responseDate%>. All rights reserved.
         </div>
         <!-- Copyright -->
 
