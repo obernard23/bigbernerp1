@@ -8,7 +8,7 @@ const {WHouse} = require('../modules/warehouse')
 
 // sends notification to raise delivery note / waybill to WH manager
 const NotifyStoreKeeper = async (bill) => {
-    
+    let date = new Date()
     const wareHouseEmail = await WHouse.findById(new ObjectId(bill.whId)).then((warehouse) =>{
         return warehouse.StoreKeeper.Email;
     })

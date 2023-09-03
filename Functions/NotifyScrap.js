@@ -8,6 +8,7 @@ const Scrap = require('../modules/Scrap')
 
 // this function sends mail to ware house manager 
 const NotifyScrap = async (req,res,next) => {
+    let date = new Date()
    const WHous =  await WHouse.findById(req.body.WHID)//find bill 
   const Scraps=  await Scrap.findOne({SERIALnUMBER:req.body.SERIALnUMBER})
    await Employee.find({jobTittle:'MD'})

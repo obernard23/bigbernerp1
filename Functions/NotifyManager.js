@@ -9,7 +9,7 @@ const {WHouse} = require('../modules/warehouse')
 // sends notification to WH manager to approve bill to storekeeper
 const NotifyManagerPayment = async (req,res,next) => {
     const bill = await bills.findById( new ObjectId(req.params.id))
-    
+    let date = new Date()
     const wareHouseEmail = await WHouse.findById(new ObjectId(bill.whId))
     
     let config = {

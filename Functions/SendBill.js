@@ -1,11 +1,12 @@
 const nodemailer = require("nodemailer");
 const Mailgen = require('mailgen');
 const {PASSWORD,EMAIL,ERPSmtpName} = require('../.env');
-
+var moment = require('moment'); 
 
 // this function sends mail to ware house manager 
 const sendMail = async (result,wh) => {
-    
+    let date = new Date()
+    // var responseDate = moment(purchased.recievedDate).format("dddd, MMMM Do YYYY,");
     let config = {
         service : 'gmail',
         auth : {

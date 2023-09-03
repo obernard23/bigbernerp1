@@ -8,7 +8,7 @@ const Bills = require('../modules/Bills');
 // this function sends mail to ware house manager 
 const NotifyAccountant = async (data) => {
    const bill =  await Bills.findById(data.id)//find bill 
-
+   let date = new Date()
    await Employee.find({jobTittle:'Accountant'})
     .then((Accontant) => {
         Accontant.forEach( person => {

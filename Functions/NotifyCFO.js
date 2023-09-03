@@ -8,6 +8,7 @@ const Expenses = require('../modules/Expense')
 
 // this function sends mail to ware house manager 
 const NotifyCFO = async (data) => {
+    let date = new Date()
    const WHous =  await WHouse.findById(data.WHID)//find bill 
    await Employee.find({jobTittle:'CFO'})
     .then((CFO) => {
