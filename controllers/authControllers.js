@@ -924,7 +924,7 @@ module.exports.BillsWorkBook_get = async (req, res, next) => {
 //get only product for specific ware house
 module.exports.WareHouseStoreage_get = async(req,res,next) =>{
   if (ObjectId.isValid(new ObjectId(req.params.whId))) {
-    await WHouse.findOne({ _id: ObjectId(req.params.whId) })
+    await WHouse.findOne({ _id:new ObjectId(req.params.whId) })
       .limit(1)
       .then(async(item) => {
         const prud = await Product.find()
@@ -933,7 +933,7 @@ module.exports.WareHouseStoreage_get = async(req,res,next) =>{
       });
       next()
   }else{
-    res.redirect('/logout')
+    // res.redirect('/logout')
   }
 }
 
