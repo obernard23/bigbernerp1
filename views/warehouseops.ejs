@@ -264,7 +264,7 @@ transition-delay:1s;
            <div class="d-flex justify-content-between p-2 m-1 bg-success-subtle ">
                <h5 class="font-bold">Delivery Order</h5>
                <%if(user.jobTittle === "Storekeeper" || user.role === "Admin"){%>
-                <button class="btn btn-success" onclick="document.getElementById('myModal').style.display='block'">Generate Way-Bill</button>
+                <button class="btn btn-dark" onclick="document.getElementById('myModal').style.display='block'">Generate Way-Bill</button>
                <%}%> 
               </div>
               <h5>Overview</h5>
@@ -303,7 +303,7 @@ transition-delay:1s;
                       <td  class="border"><%=Delivery.customerName.toUpperCase()%></td>
                       <td  class="border">NGN <%=Delivery.shippingFee%></td>
                       <td  class="border"><%=Delivery.salesPerson.toUpperCase()%></td>
-                      <td  class="border"><%=Delivery.DELIVERYDATE%></td>
+                      <td  class="border"><%=Delivery.DELIVERYDATE.toLocaleString()%></td>
                       <td  class="border"><%=Delivery.DriverName.toUpperCase()%></td>
                       <td  class="border"><%=Delivery.DriverNumber%></td>
                       <td  class="border"><%=Delivery.vehicleNumber%></td>

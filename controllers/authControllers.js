@@ -933,7 +933,7 @@ module.exports.WareHouseStoreage_get = async(req,res,next) =>{
       });
       next()
   }else{
-    // res.redirect('/logout')
+    res.redirect('/logout')
   }
 }
 
@@ -1225,7 +1225,8 @@ module.exports.PurchaseRequestForm_get = async(req, res, next)=>{
 //PurchaseOrder_get
 module.exports.PurchaseOrder_get = async (req, res,next) => {
   const purchaseOrder = await PurchaseOrder.find()
-  res.status(200).render('PurchaseOrder',{purchaseOrder})
+  const vendor = await Vendor.find()
+  res.status(200).render('PurchaseOrder',{purchaseOrder,vendor})
 };
 
 // purchaserequest post
@@ -1263,5 +1264,22 @@ module.exports.PurchaseRequest_get = async (req, res, next) => {
 //CFOVendorBill_get
 module.exports.CFOVendorBill_get = async(req,res, next) => {
   const VendorBills = await VendorPayment.find()
-  res.status(200).render('CFOVendorBill',{VendorBills})
+  const vendor = await Vendor.find()
+  res.status(200).render('CFOVendorBill',{VendorBills,vendor})
+}
+
+// get single PO 
+module.exports.SinglePurchasebillReferenceNo_get = async (req, res,next) => {
+ try {
+  await PurchaseOrder.findOne({billReferenceNo: req.params.billReferenceNo})
+  .then(async(result) => {
+    const vendor = await Vendor.findById(new ObjectId(result.Vendor))
+    res.status(200).render('SinglePurchaseBillReference',{Singlebill:result,vendor})
+    res.end()
+  })
+ } catch (error) {
+  console.log(error.message)
+ }finally{
+  next()
+ }
 }

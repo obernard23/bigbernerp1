@@ -48,23 +48,26 @@
     <div class="h-59 p-1 d-flex flex-column" >
         <%if(purchaseOrder.length > 0){%>
             <%purchaseOrder.forEach(purchase=>{%>
-                <span onclick="location.assign('')" class="list-group position-relative mb-2" title="Expense for <%=purchase.grandTotal%>">
+                <span  class="list-group position-relative mb-2" title="P/O <%=purchase.billReferenceNo%>">
                     <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" >
-                        <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='grand total of this bill'>
-                          NGN<%=purchase.grandTotal%>
-                           <%if(purchase.status==='Approved'){%>
-                          <span class="badge bg-secondary">EXPENSED</span>
-                          <%}%>
+                        <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='P/O has been registered in virtual ware house'>
+                          <span class="badge bg-secondary">POSTED</span>
                         </small>
-                           
+                        <% vend = vendor.filter(vendor=>{%>
+                          <%return vendor._id.toString() === purchase.Vendor.toString()  %>
+                          <%})%>
+                          <%vend.map(name=>{%>
+                           <h6>
+                            <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Purchase/bill/<%=purchase.billReferenceNo%>">GNO/<%=purchase.billReferenceNo%>/<%=name.Name.substring(0,5).toUpperCase()%></a>
+                           </h6>
+                          <%})%>
                           <div>
-                            <p>Raised Date: <%=purchase.createdAt%></p>
+                            <p>Raised Date: <%=purchase.createdAt.toLocaleString()%></p>
                           </div>
                          
                           <div>
-                            <p><%=purchase.status%></p>
+                            <p>NGN <%=purchase.grandTotal%></p>
                           </div>
-                            <p title="reference Number" >Bill Ref:<%=purchase.billReferenceNo%></p>
                       </div> 
                     </span>
             <%})%>

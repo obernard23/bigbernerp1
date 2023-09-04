@@ -41,33 +41,9 @@ app.use(authRoutes);
 
 //entrty routes for server
 app.get("/", async (req, res, next) => {
-  //check and create virtual ware house
-  try {
-    const WHouses = await WHouse.find();
-    if (WHouses.length < 1) {
-      await WHouse.create({
-        WHName: "Virtual WareHouse",
-        Manager: "Virtual Bot",
-        Location: "Cloud",
-        Tel: "###-####-###-###",
-        Email: "virtual@bot.com",
-        state: "Cloud Location",
-        InvoiceNo: "####",
-        others: "",
-        Status: true,
-      }).then((result) => {
-        res.status(200).render("warehouse", {
-          success: " Virtual ware house was created automatically",
-          title: "Warehouse",
-          WHouses,
-        });
-        next();
-      });
-    }
-    res.redirect("/Dashboard/userid");
-  } catch (error) {
-    console.log(error);
-  }
+  //check and CREATE ADMIN 
+  
+      res.redirect("/Dashboard/userid");
 });
 
 

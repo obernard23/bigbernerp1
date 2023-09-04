@@ -24,7 +24,7 @@ const VendorPaymentSchema = new mongoose.Schema( {
         ref:'Account'
     },
     remarks:String,
-    VendorID: {
+    Vendor: {
         type: mongoose.Types.ObjectId,
         ref: 'Vendor'
     }

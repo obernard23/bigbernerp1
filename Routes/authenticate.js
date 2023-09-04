@@ -162,6 +162,7 @@ router.get('/vendor/:id',requireAuth,authController.vendorFind_get)// kept at mi
 router.get('/Virtual/Purchase/Order/:ADMINID',requireAuth,adminWareHouseSetUp,authController.PurchaseOrder_get)
 router.get("/Virtual/Purchase/Request/:ADMINID",requireAuth,adminWareHouseSetUp,authController.PurchaseRequest_get)
 router.post('/Virtual/Purchase/Order/:ADMINID',requireAuth,adminWareHouseSetUp,authController.PurchaseOrder_post)
+router.get('/Purchase/bill/:billReferenceNo',requireAuth,authController.SinglePurchasebillReferenceNo_get)
 // expense routes
 router.get('/CFO/EXPENSE/:CFOID',requireAuth,authController.CFexpense_get)
 router.get('/Vendor/Bills/:CFOID',requireAuth,authController.CFOVendorBill_get)

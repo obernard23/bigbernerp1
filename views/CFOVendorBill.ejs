@@ -50,7 +50,7 @@
     <div class="h-59 p-1 d-flex flex-column" >
         <%if(VendorBills.length > 0){%>
             <%VendorBills.forEach(VendorBill=>{%>
-                <span onclick="location.assign('')" class="list-group position-relative mb-2" title="Expense for <%=VendorBill.Amount%>">
+                <span  class="list-group position-relative mb-2" title="Expense for <%=VendorBill.Amount%>">
                     <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" >
                         <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='grand total of this bill'>
                           NGN<%=VendorBill.Amount%>
@@ -58,15 +58,32 @@
                           <span class="badge bg-secondary">EXPENSED</span>
                           <%}%>
                         </small>
+
+                        <div class="btn-group">
+                          <div class="btn-group dropstart" style="border-right: 1px dotted rgb(190, 190, 190) !important;" role="group">
+                          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="MODAL" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropstart</span>
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAES0lEQVR4nO2Y3U9bZRzHz1+wsCy70Wg2r9yNKz0OhgPmYC8gzBggMYua+bItxjs1cTDoG2tLGYVWOoo3M0YkXhgvtqiUAqOshc3N+YJspUydaxuN0fWNlxUYfM1zSkt7eop9aNFD7C/5JMAJ5/f9POfbQwLD5CY3ufn/jdSuGmUdKrB2RbHUoSrhvs78e/u/JhALkGWYnECak9FJ25WQ2uSQXlFswidgV0JibcQ7Nz5G+ZAG0hHFJhJYCW+8/RXIuIK/QWJpEJeA9LKMC5lUD154MqZJC/IHG8UjkD/UhNM3e2H/w4mSAeVqPQTCd032cz9j7UrxCJA6eGfvcwEn/O6YRLrh2WwL6Dq6qnRGs1dn7AYf4frI8YJNjz/DIS6oM+BFqVWF9ltfxMKbXdaU4VmHKmkPocVg9ugM5kpqAe4XBW6YSoCTGJajbsQA3/wMF/j3OX9aJ8+uIbCCez0CSMVabxsiEf8kuJNPIzzrUKXcR6AX6OhCKv7plRl9En+Fp3HeaUkrPEsE1thJLaDt6EIq0nnvk8+E1HIGkoH0wrMOVcp92nUJtJ9HPCebOrHzmBHbaw3r+yucBttrDXjimAGnZKaE3QRqAY3ehHh2vGzGthcjbJTAtpX773jFnLCbQC2g1psQz2OvXsDWlz7k2NlzakPYunL/x1+7kLBbvS6Btk7E87q8G4+c6MGW470bJrDleC8ePdGDNxQfJOwmUAucbeuEmGCoBc69DzHB0E5zqxFigsmGwLufXETdVAjV95ZR9esSnvvlISp/WsSRqUUcnlzAIec8ym/No+zHMA788ADPfv8Apd/OoeSbWRRfn8W+r2dQdHUae0dDKLSHUDASxNO2ANjLAUgH/Sj60ou3uj/LjoBKZwCfuqlpHPUso/reEqruLqHy54eoiBM4eHse5ROrAvu/m0PpzajADJ65NoOisYhAgT2EPURgOAB2KID8QT8kVh+KLrmT9hKoBZQtHeDzvBc46l5GNTn9qMCdRRxxLeBQTCCMsvEwd/pRgeIbkdOPChQ6Qii4EowJSIf8yB/wQ9Lvw27L/aS9hOwIeJY5gdX6RAQOEwHnAg6S+kyEcWA8Up/90fpEBbj6xAnYgpH6cAI+7O734am+LAkotO3gU+sKRvp/NyJQQdP/a4n938Prv8QaESi86E7aS6AX0OjB5+2PPkeNM7Da/zv8/ocF+78vvv+O1P3fe8mNN02fJu0lUAvINXqICYZaQN0GMcHQjkzdBjHB0E7T2XPgY7FdxfVxV4w+21jG156U1yCvqSzGLnlN0l4CvUBzK/jEh4iS6bW8uPBRhHZTCzQ2t4KPUJBMr+UJCAjtphdQ6cBHMEiG1/KEBAR2UwucUbaAT9/wWGKXh0czvrZLxvsMyGqS9hKoBRqULRATDLWAXONpUGghBuoVWvr/zL0nU1fWy9SeerkG/yWn5Rp3vUJbQS2Qm9zkhtkU8zeUw8TP7c58rwAAAABJRU5ErkJggg=="
+                            width="20"height="20" >
+                          </button>
+                          </div>
+                        </div>
                            
                           <div>
-                            <p>Raised Date: <%=VendorBill.createdAt%></p>
+                            <% vend = vendor.filter(vendor=>{%>
+                              <%return vendor._id.toString() === VendorBill.Vendor.toString()  %>
+                              <%})%>
+                              <%vend.map(name=>{%>
+                               <h6>
+                                <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Purchase/bill/<%=VendorBill.billReferenceNo%>">GNO/<%=VendorBill.billReferenceNo%>/<%=name.Name.substring(0,5).toUpperCase()%></a>
+                               </h6>
+                              <%})%>
                           </div>
-                         
+                          
                           <div>
-                            <p><%=VendorBill.status%></p>
+                            <p>Raised Date: <%=VendorBill.createdAt.toLocaleString()%></p>
                           </div>
-                            <p title="reference Number" >Bill Ref:<%=VendorBill.billReferenceNo%></p>
+                            <p title="reference Number" >NGN <%=VendorBill.Amount%></p>
                       </div> 
                     </span>
             <%})%>
