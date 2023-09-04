@@ -581,8 +581,10 @@ module.exports.WareHouseStoreage_post = async (req, res) => {
       const wH = await WHouse.findById(ObjectId(WHIDS))
      await storeProduct.create({WHIDS,productId })
      .then(product => {
-      product.ActivitiyLog.push({message: 'Product registered successfully by Administrator'})
-      wH.Notification.push({message: 'New product has been created in your inventory catalog by Administrator. Please check your your inventory catalog'})
+      let date = new Date()
+    var responseDate = moment(date).format("YYYY");
+      product.ActivitiyLog.push({message: `Product registered successfully by Administrator on ${responseDate}`})
+      wH.Notification.push({message: `New product has been created in your inventory catalog by Administrator. on ${responseDate}`})
       product.save()
       wH.save()
       // send mail to ware house manager
@@ -940,14 +942,16 @@ module.exports.WareHouseStoreage_get = async(req,res,next) =>{
 //update product in ware house product
 module.exports.WareHouseStoreage_patch = async(req,res,next) => {
   const {update} = req.body
-  console.log(req.body)
   if (ObjectId.isValid(new ObjectId(req.params.whId))) {
    try {
     await storeProduct.updateOne({ _id: ObjectId(req.params.whId) }, { $set: update})
     .then(async (bill) =>{
       if(bill.acknowledged) {
+        let date = new Date()
+        var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
         await storeProduct.findOne(new ObjectId(req.params.whId)).then((product)=>{
-          product.ActivitiyLog.unshift({message:`Manager has accepted `})
+          product.ActivitiyLog.unshift({message:`Manager accepted ${update.qtyApproved} on ${responseDate}`})
+          product.save()
         })
         res.status(200).json({ message:'Product updated successfully'})
       }else{
@@ -1288,3 +1292,4 @@ module.exports.SinglePurchasebillReferenceNo_get = async (req, res,next) => {
   next()
  }
 }
+
