@@ -59,16 +59,16 @@
                            <%}%>
                          </small>
                          <h6>
-                             <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" title="Product">
-                                
-                                <%pname = Products.filter(name=>{%>
-                                    <% return name.ACDcode.toString() === Scrap.ADC_CODE.toString()%>
-                                    <%})%>
-                                     <%pname.map(n=>{%>
-                                       SCRP/<%=Scrap.ADC_CODE%>/<%=Scrap.SERIALnUMBER%>
-                                     <%})%>
-                                     </a>
-                                    </h6>           
+                          <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="">
+                             
+                             <%pname = Products.filter(name=>{%>
+                                 <% return name.ACDcode.toString() === Scrap.ADC_CODE.toString()%>
+                                 <%})%>
+                                  <%pname.map(n=>{%>
+                                    SCRP/WH/<%=Scrap.ADC_CODE%>/<%=Scrap.SERIALnUMBER%>
+                                  <%})%>
+                                  </a>
+                            </h6> 
                            <div>
                              <p> <%pname = Products.filter(name=>{%>
                                 <% return name.ACDcode.toString() === Scrap.ADC_CODE.toString()%>
@@ -78,6 +78,7 @@
                                  <%})%>
                                 </p>
                            </div>
+                           
                      </span>
                    <%})%>
                  <%}else{%>
