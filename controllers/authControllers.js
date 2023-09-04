@@ -1044,7 +1044,8 @@ module.exports.AppraisalsManagement_get = async (req,res)=>{//from dashboard
 
 module.exports.query_get = async (req, res, next) => {
   const query = req.params.query
-  const Appraisal = await Appraisals.findOne({ $or: [{ title: query}]})
+  
+  const Appraisal = await Employe.findOne({ $text: { $search: query } })
   res.json(Appraisal)
 }
 

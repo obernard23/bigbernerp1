@@ -136,7 +136,7 @@ router.get('/Report', authController.Report_get)
 router.get('/bills/excel',requireAuth,authController.BillsWorkBook_get)
 
 //query global search parameters
-router.get('/search/:query',requireAuth,authController.query_get)
+router.get('/search/:query',authController.query_get)
 
 //warehouse expense
 router.get('/Expense/:WHID',requireAuth,authController.expense_get)

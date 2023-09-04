@@ -185,14 +185,11 @@
                               <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='grand total of this bill'>
                                 N<%=bill.grandTotal%>
                               </small>
-                              <%customer = customers.filter(bills=>{%>
-                                <% return bills._id.toString() === bill.customer.toString()%>
-                                <%})%>
-                                 <%customer.map(n=>{%>
-                                  <p title="Customer"><%=n.Username.toUpperCase()%></p>
-                                 <%})%>
+                              
+                                 <h6>
+                                  <a href="/<%=result.WHName%>/bill/<%=bill._id%>">BILL/<%=bill.billStatus.toUpperCase()%>/<%=bill.billReferenceNo%></a>
+                                 </h6>
                                 <p title="Sales person"><%=bill.salesPerson%></p>
-                                <p><%=bill.startDate%></p>
                                  <!-- product name -->
                                 <p><%if(bill.status === 'Locked'){%>
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-lock" viewBox="0 0 16 16">
