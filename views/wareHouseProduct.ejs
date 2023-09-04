@@ -338,11 +338,11 @@ for (let i = 0 ; i < incoming.length ; i++) {
     }
     else{
 
-    const url = `/warehouse/Product/${productBatchId}`
+    const url = `/warehouse/Product/${productBatchId}`//sends whid
     const currentQty = parseInt(qtyApproved) + parseInt( CurrentstockValue)
     const pendings = parseInt(pending) - parseInt(qtyApproved)
 
-    const update = {currentQty,pendings ,isActivated}
+    const update = {currentQty,pendings ,isActivated,qtyApproved}
     const request = await fetch(url,{
       method:'PATCH',
       body: JSON.stringify({update}),

@@ -940,11 +940,15 @@ module.exports.WareHouseStoreage_get = async(req,res,next) =>{
 //update product in ware house product
 module.exports.WareHouseStoreage_patch = async(req,res,next) => {
   const {update} = req.body
+  console.log(req.body)
   if (ObjectId.isValid(new ObjectId(req.params.whId))) {
    try {
     await storeProduct.updateOne({ _id: ObjectId(req.params.whId) }, { $set: update})
     .then(async (bill) =>{
       if(bill.acknowledged) {
+        await storeProduct.findOne(new ObjectId(req.params.whId)).then((product)=>{
+          product.ActivitiyLog.unshift({message:`Manager has accepted `})
+        })
         res.status(200).json({ message:'Product updated successfully'})
       }else{
         throw new Error('Something seems to be wrong')

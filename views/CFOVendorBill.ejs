@@ -71,11 +71,11 @@
                            
                           <div>
                             <% vend = vendor.filter(vendor=>{%>
-                              <%return vendor._id.toString() === VendorBill.Vendor.toString()  %>
+                              <%return vendor._id.toString() === `${VendorBill.Vendor}`  %>
                               <%})%>
                               <%vend.map(name=>{%>
                                <h6>
-                                <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Purchase/bill/<%=VendorBill.billReferenceNo%>">GNO/<%=VendorBill.billReferenceNo%>/<%=name.Name.substring(0,5).toUpperCase()%></a>
+                                <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Purchase/bill/<%=VendorBill.billReferenceNo%>">GNO/<%=VendorBill.billReferenceNo%>/<%=name.Name.substring(0,3).toUpperCase()%></a>
                                </h6>
                               <%})%>
                           </div>
