@@ -109,11 +109,11 @@ document.getElementById("files").addEventListener("change", function(e) {
    
   });
 
-const productcode = Math.floor(Math.random()*1322300)
+const productcode = Math.floor(Math.random()*1320)
 
 const vendor = document.getElementById('vendor').addEventListener('input', function(e){
   const value = e.target.value
-  const ACDcode = `${value.substring(0.4)}-${productcode}`
+  const ACDcode = `${value.charAt(0)}${value.charAt(1)}${value.charAt(2)}-${productcode}`
   document.getElementById('AdcCode').value = ACDcode
 });
 
@@ -170,4 +170,3 @@ ProductForm.addEventListener('submit',async (e)=>{
         data?.Message? prompt(data.Message) : prompt(data.error)
         data.Message? ProductForm.reset() : ''
 });
-
