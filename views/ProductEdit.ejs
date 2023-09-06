@@ -33,7 +33,7 @@
       </nav>
       <div class="container p-3 ">
         <form action=""  method="patch" id='form' class="p-2 border shadow bg-light" >
-            <input type="text" placeholder="Product Name" name="Name" value="<%=product.Name%>" style="width:570px;padding:10px;font-size: x-large;" required/>
+            <input type="text" placeholder="Product Name" name="Name" value="<%=product.Name%>" id="Name" style="width:570px;padding:10px;font-size: x-large;" required/>
             <div class="d-flex  gap-3 p-5 justify-content-around">
                 <!-- cateory -->
                 <div>
@@ -103,13 +103,18 @@
                           name="vendor"
                           aria-describedby="validationServer04Feedback"
                           required
-                            disabled
-                            
+                          id="vendor"
                         >
-                        <option class="bg-warning" value="<%=product.Vendor%>" ><%=product.Vendor%></option>
+                        <% vend = vendor.filter(vendor=>{%>
+                            <%return vendor._id.toString() === product.Vendor.toString()  %>
+                            <%})%>
+                            <%vend.map(name=>{%>
+                                <option class="bg-warning" value="<%=product.Vendor%>" ><%=name.Name%></option>
+                                <%})%>
+                        
                         <%if(vendor){%>
                           <%vendor.forEach((vendor)=>{%>
-                              <option value="<%=vendor.Name%>"
+                              <option value="<%=vendor._id%>"
                               <%if(vendor.block_vendor){%>
                                 disabled="true"
                               <%}%>
@@ -129,7 +134,7 @@
                     </label>
     
                     <label class="flex gap-9 ">
-                        ADC Code: <input type="text"  value="<%=product.product_code%>"  name="AdcCode"placeholder='Name of Manufacturer'id="AdcCode" data-id='<%=product._id%>'>
+                        ADC Code: <input type="text"  value="<%=product.ACDcode%>"  name="AdcCode"placeholder='Name of Manufacturer'id="AdcCode" data-id='<%=product._id%>' disabled>
                     </label>
     
                 </div>
@@ -211,6 +216,14 @@
 </body>
  <script  src="/Erp.js"></script>
 <script>
+
+    const productcode = document.getElementById('Name').value
+
+    const vendor = document.getElementById('vendor').addEventListener('input', function(e){
+    const value = e.target.value
+    const ACDcode = `${productcode.substring(0,4)}-${value.charAt(0)}${value.charAt(1)}${value.charAt(2)}`
+    document.getElementById('AdcCode').value = ACDcode
+    });
 
     const ProductForm = document.getElementById('form');
     ProductForm.addEventListener('submit',async (e)=>{

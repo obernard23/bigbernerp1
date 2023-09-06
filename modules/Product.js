@@ -19,7 +19,11 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    Vendor: { type: String, required: [true, "Provide vendor"] },
+    Vendor: { 
+      type:mongoose.Types.ObjectId,
+       required: [true, "Provide vendor"],
+       ref:'Vendor',
+      },
     UMO: { type: String },
     color: { type: String },
     Description: { type: String },

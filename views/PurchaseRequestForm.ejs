@@ -290,39 +290,14 @@
                   
                 </li>
           </ul>
-          <%if(user.role ==="Admin" ){%>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-success" type="submit">Search</button>
-        </form>
-        <%}%>
+         
       </div>
     </nav>
 
-    <!--bread crum div -->
-    <div class="d-flex justify-content-between p-2 m-1 bg-success-subtle ">
-     <!-- action buttons -->
-     <div class="p-2">
-      <button type="button" id="submit" class="btn btn-secondary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
-        </svg>  
-        Submit 
-      </button>
-      <button type="button" class="btn btn-warning" id="Signature" data-id="<%=user._id%>" onclick="Signature()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fingerprint" viewBox="0 0 16 16">
-          <path d="M8.06 6.5a.5.5 0 0 1 .5.5v.776a11.5 11.5 0 0 1-.552 3.519l-1.331 4.14a.5.5 0 0 1-.952-.305l1.33-4.141a10.5 10.5 0 0 0 .504-3.213V7a.5.5 0 0 1 .5-.5Z"/>
-          <path d="M6.06 7a2 2 0 1 1 4 0 .5.5 0 1 1-1 0 1 1 0 1 0-2 0v.332c0 .409-.022.816-.066 1.221A.5.5 0 0 1 6 8.447c.04-.37.06-.742.06-1.115V7Zm3.509 1a.5.5 0 0 1 .487.513 11.5 11.5 0 0 1-.587 3.339l-1.266 3.8a.5.5 0 0 1-.949-.317l1.267-3.8a10.5 10.5 0 0 0 .535-3.048A.5.5 0 0 1 9.569 8Zm-3.356 2.115a.5.5 0 0 1 .33.626L5.24 14.939a.5.5 0 1 1-.955-.296l1.303-4.199a.5.5 0 0 1 .625-.329Z"/>
-          <path d="M4.759 5.833A3.501 3.501 0 0 1 11.559 7a.5.5 0 0 1-1 0 2.5 2.5 0 0 0-4.857-.833.5.5 0 1 1-.943-.334Zm.3 1.67a.5.5 0 0 1 .449.546 10.72 10.72 0 0 1-.4 2.031l-1.222 4.072a.5.5 0 1 1-.958-.287L4.15 9.793a9.72 9.72 0 0 0 .363-1.842.5.5 0 0 1 .546-.449Zm6 .647a.5.5 0 0 1 .5.5c0 1.28-.213 2.552-.632 3.762l-1.09 3.145a.5.5 0 0 1-.944-.327l1.089-3.145c.382-1.105.578-2.266.578-3.435a.5.5 0 0 1 .5-.5Z"/>
-          <path d="M3.902 4.222a4.996 4.996 0 0 1 5.202-2.113.5.5 0 0 1-.208.979 3.996 3.996 0 0 0-4.163 1.69.5.5 0 0 1-.831-.556Zm6.72-.955a.5.5 0 0 1 .705-.052A4.99 4.99 0 0 1 13.059 7v1.5a.5.5 0 1 1-1 0V7a3.99 3.99 0 0 0-1.386-3.028.5.5 0 0 1-.051-.705ZM3.68 5.842a.5.5 0 0 1 .422.568c-.029.192-.044.39-.044.59 0 .71-.1 1.417-.298 2.1l-1.14 3.923a.5.5 0 1 1-.96-.279L2.8 8.821A6.531 6.531 0 0 0 3.058 7c0-.25.019-.496.054-.736a.5.5 0 0 1 .568-.422Zm8.882 3.66a.5.5 0 0 1 .456.54c-.084 1-.298 1.986-.64 2.934l-.744 2.068a.5.5 0 0 1-.941-.338l.745-2.07a10.51 10.51 0 0 0 .584-2.678.5.5 0 0 1 .54-.456Z"/>
-          <path d="M4.81 1.37A6.5 6.5 0 0 1 14.56 7a.5.5 0 1 1-1 0 5.5 5.5 0 0 0-8.25-4.765.5.5 0 0 1-.5-.865Zm-.89 1.257a.5.5 0 0 1 .04.706A5.478 5.478 0 0 0 2.56 7a.5.5 0 0 1-1 0c0-1.664.626-3.184 1.655-4.333a.5.5 0 0 1 .706-.04ZM1.915 8.02a.5.5 0 0 1 .346.616l-.779 2.767a.5.5 0 1 1-.962-.27l.778-2.767a.5.5 0 0 1 .617-.346Zm12.15.481a.5.5 0 0 1 .49.51c-.03 1.499-.161 3.025-.727 4.533l-.07.187a.5.5 0 0 1-.936-.351l.07-.187c.506-1.35.634-2.74.663-4.202a.5.5 0 0 1 .51-.49Z"/>
-        </svg>
-        Signature
-      </button>
+    
+  <form id="purchaseForm" class="shadow-lg m-4 p-3">
       <a href="/VirtualstorageProduct" class="link-opacity-75">See Virtual storage Product </a>
-     </div>
-    </div>
-    <div id="invoice" class="shadow-lg m-4 p-3">
+     
       <div id="pspdfkit-header">
         <div class="header-columns">
           <div class="logotype">
@@ -342,7 +317,7 @@
 
       <div class="page" style="page-break-after: always">
         <div>
-          <h2>" Purchase Request "</h2>
+          <h2>" Purchase Order "</h2>
         </div>
 
         <div class="intro-table">
@@ -439,7 +414,7 @@
                       class="form-select "
                       id="products"
                       aria-describedby="validationServer04Feedback"
-                      required
+                      
                     >
                     <option value="">Choose...</option>
                     <%if(products){%>
@@ -481,7 +456,7 @@
               <tr class="no-border-item">
                 <td></td>
                 <td>Shipping/Handling:</td>
-                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px"> </td>
+                <td>N<input type="number" name="" id="Shipping" required placeholder="0.00" style="width:50px"> </td>
               </tr>
 
               <tr class="total">
@@ -498,16 +473,15 @@
       
         <div class="page" style="page-break-after: always">
           <div class="signer">
-            <div class="form signer-item">
-              <label class="border-bottom" for="date" class="label">Terms & Conditions</label>
-                <p>Payment must be made before 15 days of issue date</p>
-            </div>
+           
 
             <div class="form signer-item">
-              <label for="signature" class="label">Issued by: <%=user.firstName%></label>
-              <img class="logo" src=""
-                id="signature"
-              />
+              <button type="submit" class="btn btn-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
+                </svg>  
+                Submit 
+              </button>
             </div>
           </div>
         </div>
@@ -517,25 +491,22 @@
       <div id="pspdfkit-footer">
         <input type="text" value="<%=user._id%>" id="id" hidden>
         <div class="footer-columns">
-          <span>Purchase Request Builder</span>
+          
         </div>
       </div>
-    </div>
-    <%-include('./partials/footer')%>
-
-
-     <!-- The Modal -->
-     <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
+    </form>
+    
+    
+    <!-- The Modal -->
+    <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
       <!-- Modal content -->
         <div class="modal-body d-flex justify-content-center container">
-          <form class="bg-light gap-3 p-3 rounded shadow  flex-column d-flex" id="opsCode" >
-            <label for="opsCodes" class="form-label">Operational Code</label>
-            <input type="password" name="opsCode" id="opsCodes" class="form-control input-group has-validation" placeholder="Enter operational code" autocomplete="off">
-            <button type="submit" class="btn btn-danger">Action</button>
-          </form>
+          
         </div>
       </div>
       <input type="text" hidden id="employee" value="<%=user.firstName%>">
+    </div>
+      <%-include('./partials/footer')%>
   </body>
     <script>
       //for RecievedDate
@@ -549,13 +520,10 @@
         BillProducts.billReferenceNo = e.target.value
         saveToLocalStorage(BillProducts);
       })
-     const submitBtn = document.getElementById('submit')
       //clear billproduct on page reload
       window.onload = () => {
         localStorage.removeItem('bill_products');
-            if(!BillProducts ){
-            submitBtn.style.display = 'none'
-          }
+           
       }
 
       //get request for customer
@@ -782,22 +750,11 @@
         });
       }
 
-
-      
-      
-      //hide submit button pending  signature validation
-      setInterval(() => {
-            if(!BillProducts.signatureUrl ){
-            submitBtn.style.display = 'none'
-          }else{
-                submitBtn.style.display = 'block'
-          }
-      }, 100);
-
       //submit to the server and get the results
-      // const submitBtn = document.getElementById('submit')
-      submitBtn.addEventListener('click',async (e)=>{
-       
+      const purchaseForm = document.getElementById('purchaseForm')
+      purchaseForm.addEventListener('submit',async (e)=>{
+        const modal = document.getElementById('myModal')
+        modal.style.display = 'block'
        
               spinner = ()=>{
                 return`
@@ -808,7 +765,7 @@
                 </div>
                       `}
 
-              // modal.innerHTML = spinner();
+              modal.innerHTML = spinner();
               const ADMINID = document.getElementById('id').value
               const endpoint = `/Virtual/Purchase/Order/${ADMINID}`
               const res = await fetch(endpoint,{
@@ -830,96 +787,12 @@
                   }
                 })
                 localStorage.removeItem('bill_products');
+                purchaseForm.reset()
                 location.assign(`/Virtual/Purchase/Order/${ADMINID}`);
               }
             
 
       })
-
-      //appending signature to the quotation
-      const Signature = ()=>{
-        const modal = document.getElementById('myModal')
-        modal.style.display='block'
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-               let opInput = document.querySelector('#opsCode')
-                modal.style.display = "none";
-                opInput.value = ''
-            }
-        }
-
-      }
-
-
-      //ops code form 
-      const opsCodesForm = document.getElementById('opsCode')
-      opsCodesForm.addEventListener('submit', async (e)=>{
-        e.preventDefault()
-        let opInput = opsCodesForm.opsCode.value
-        let user = document.getElementById('Signature')
-        let userId =user.dataset.id
-
-        const request = await fetch(`/users/${userId}/${opInput}`,{
-          method:'GET',
-          headers:{'Content-Type': 'application/json'}
-        })
-
-        const response = await request.json()
-        if(response.signature){
-          const appendSignature = document.getElementById('signature')
-            appendSignature.src = response.signature;
-            BillProducts.signatureUrl = response.signature;
-            saveToLocalStorage(BillProducts)
-            submitBtn.style.display = 'block';
-            document.getElementById('myModal').style.display='none';
-
-            // convert integer for grad total to word count
-            let Grandtotal = document.getElementById('Grandtotal').value
-    function test(n) {
-      if (n < 0)
-      return false;
-	 let single_digit = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
-	 let double_digit = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
-	 let below_hundred = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
-	if (n === 0) return 'Zero'
-	function translate(n) {
-		let word = ""
-		if (n < 10) {
-			word = single_digit[n] + ' '
-		}
-		else if (n < 20) {
-			word = double_digit[n - 10] + ' '
-		}
-		else if (n < 100) {
-			let rem = translate(n % 10)
-			word = below_hundred[(n - n % 10) / 10 - 2] + ' ' + rem
-		}
-		else if (n < 1000) {
-			word = single_digit[Math.trunc(n / 100)] + ' Hundred ' + translate(n % 100)
-		}
-		else if (n < 1000000) {
-      word = translate(parseInt(n / 1000)).trim() + ' Thousand ' + translate(n % 1000)
-		}
-		else if (n < 1000000000) {
-			word = translate(parseInt(n / 1000000)).trim() + ' Million ' + translate(n % 1000000)
-		}
-		// else {
-		// 	word = translate(parseInt(n / 1000000000)).trim() + ' Billion ' + translate(n % 1000000000)
-		// }
-		return word
-	}
-	let result = translate(n) 
-	return result.trim()+'.'
-}
-document.getElementById('words').innerHTML = `${test(parseInt(BillProducts.grandTotal))} Naira only.`;
-        }else{
-            alert(response.error);
-            opInput.focus();
-            opInput.value = ''
-          }
-        
-      } )
 
 
     </script>

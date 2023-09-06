@@ -109,11 +109,14 @@ document.getElementById("files").addEventListener("change", function(e) {
    
   });
 
-const productcode = Math.floor(Math.random()*1320)
+  let productcode 
+document.getElementById('Name').addEventListener('change', (e) =>{
+   productcode = e.target.value
+})
 
 const vendor = document.getElementById('vendor').addEventListener('input', function(e){
   const value = e.target.value
-  const ACDcode = `${value.charAt(0)}${value.charAt(1)}${value.charAt(2)}-${productcode}`
+  const ACDcode = `${productcode.substring(0,4)}-${value.charAt(0)}${value.charAt(1)}${value.charAt(2)}`
   document.getElementById('AdcCode').value = ACDcode
 });
 

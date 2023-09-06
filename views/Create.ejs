@@ -34,7 +34,7 @@
                 <input type="file" id="files" name='image' multiple />
         </div>
     <form action=""  method="post" id='productForm' class="p-2 " style="background-color: aliceblue;">
-        <input type="text" placeholder="Product Name" name="Name" style="width:570px;padding:10px;font-size: x-large;" required/>
+        <input type="text" placeholder="Product Name" name="Name" id="Name" style="width:570px;padding:10px;font-size: x-large;" required/>
         <div class="d-flex  gap-3 p-5 justify-content-around">
             <!-- cateory -->
             <div>
@@ -68,36 +68,45 @@
             <div class="border-end p-1 subs" name="category" title="Double click to show section">Description</div> 
         </div>
         <!-- prouct information -->
-            <div class="flex flex-col gap-9 hidden border-b p-5" id="workInfo">
+            <div class="flex flex-col gap-9 hidden border-b p-5 container-fluid" id="workInfo">
                 <label class="flex gap-7">
-                    WareHouse price: <input type="number" name="WareHouse_Price" placeholder="Eg 10.00">
+                     <input type="number" name="WareHouse_Price" required placeholder="Whole sale price">
                 </label>
 
                 <label class="flex gap-7">
-                    Super Market price: <input type="number" name="Market_Price" placeholder="Eg 10.00">
+                    Super Market price: <input type="number" name="Market_Price" required placeholder="Eg 10.00">
                 </label>
+                <div class="col-md-7">
+                    <label class="form-label">
+                        Van price: <input type="number" name="Van_Price" required placeholder="Eg 10.00">
+                    </label>
+                </div>
 
-                <label class="flex gap-7">
-                    Van price: <input type="number" name="Van_Price" placeholder="Eg 10.00">
-                </label>
-
-                <label class="flex gap-7">
-                    Vendor price: <input type="number" name="vendor_Price" placeholder="Eg 10.00">
-                </label>
-
-                <label class="flex gap-9 ">Vendor
-                    <input type="text" name="vendor" id="vendor" list="vendors" placeholder="select a vendor" required/>
-                    <datalist id="vendors" >
+                <label for="pricelist" class="form-label">
+                Vendor price: <input type="number" name="vendor_Price" required placeholder="Eg 10.00">
+            </label>
+            
+            <div class="col-md-7">
+                <label class="form-label">vendor
+                    <select
+                    class="form-select "
+                    name="vendor"
+                    aria-describedby="validationServer04Feedback"
+                    required
+                    id="vendor"
+                  >
+                  <option value="">Choose...</option>
                         <!-- display options for vendors -->
                         <%if(vendor){%>
                            <%vendor.forEach((vendor)=>{%>
-                               <option value="<%=vendor.Name%>"></option>
+                               <option value="<%=vendor._id%>"><%=vendor.Name%></option>
                            <%})%>
                            <%}else{%>
                             <option value="">No vendor to select</option>
                             <%}%>
-                    </datalist>
+                    </select>
                 </label>
+                </div>
 
                 <label class="flex gap-9 ">
                     Manufacturer: <input type="text" name="Manufacturer"placeholder='Name of Manufacturer'>

@@ -63,10 +63,9 @@
                                 <%})%>
                                  <%customer.map(n=>{%>
                                   <h6>
-                                  <a href="">BILL/<%=bill.billStatus.toUpperCase()%>/<%=bill.billReferenceNo%></a>
+                                  <a href="/Register/bill/<%=user._id%>/<%=bill._id%>">BILL/<%=bill.billStatus.substring(0,3).toUpperCase()%>/<%=bill.billReferenceNo%></a>
                                 </h6>
                                  <%})%>
-                                <p title="Sales person"><%=bill.salesPerson%></p>
                                 <%if(bill.registeredBalance === bill.grandTotal){%>
                                   <p  class="badge rounded-pill bg-success">Fully Paid</p>
                                 <%}else{%>

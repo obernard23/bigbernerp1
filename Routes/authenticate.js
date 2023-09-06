@@ -14,6 +14,7 @@ const { ObjectId } = require('mongodb');
 const NotifyAccountant = require('../Functions/NotifyAccountant');
 const employe = require('../modules/Employees')
 const NotifyScrap = require('../Functions/NotifyScrap')
+const NotifyWhTovir = require('../Functions/NotifyWhTovir')
 
 const router = Router()
 
@@ -52,6 +53,7 @@ router.post('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_pos
 router.get(`/product/:ACDcode/bill`,requireAuth,authController.productFind_get);//get product with json format for quotation purposes
 router.get('/Products',requireAuth,authController.Product_get);
 router.patch('/Products/:id/edit',requireAuth,authController.Product_patch);
+router.patch('/Products/:id/return',requireAuth,authController.ProductReturn_patch,NotifyWhTovir)//return product to virtual and logs message 
 router.get('/Product/:id/:name',requireAuth,authController.SingleProduct_get)
 router.get('/Ecommerce/Customers',requireAuth,authController.Customer_get);
 router.get('/Sales/Vendor',requireAuth,authController.Vendors_get);

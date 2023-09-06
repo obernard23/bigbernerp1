@@ -187,9 +187,8 @@
                               </small>
                               
                                  <h6>
-                                  <a href="/<%=result.WHName%>/bill/<%=bill._id%>">BILL/<%=bill.billStatus.toUpperCase()%>/<%=bill.billReferenceNo%></a>
+                                  <a href="/<%=result.WHName%>/bill/<%=bill._id%>">BILL/<%=bill.billStatus.substring(0,3).toUpperCase()%>/<%=bill.billReferenceNo%></a>
                                  </h6>
-                                <p title="Sales person"><%=bill.salesPerson%></p>
                                  <!-- product name -->
                                 <p><%if(bill.status === 'Locked'){%>
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-lock" viewBox="0 0 16 16">

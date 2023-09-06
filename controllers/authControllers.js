@@ -27,6 +27,8 @@ const fs = require("fs");
 const XLSX = require("xlsx");
 var moment = require('moment'); 
 const { accountSid,authToken} = require('../.env')
+let date = new Date()
+var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
 
 // handle errors
 const handleErrors = (err) => {
@@ -85,8 +87,7 @@ module.exports.Signature_get = async(req,res,next) =>{
 }
 
 module.exports.Dashboard_get = async (req, res) => {
-    let date = new Date()
-    var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
+
   res.render("dashboard", { title: "Dashboard", name: "Bigbern" ,responseDate});
 };
 
@@ -947,8 +948,7 @@ module.exports.WareHouseStoreage_patch = async(req,res,next) => {
     await storeProduct.updateOne({ _id: ObjectId(req.params.whId) }, { $set: update})
     .then(async (bill) =>{
       if(bill.acknowledged) {
-        let date = new Date()
-        var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
+       
         await storeProduct.findOne(new ObjectId(req.params.whId)).then((product)=>{
           product.ActivitiyLog.unshift({message:`Manager accepted ${update.qtyApproved} on ${responseDate}`})
           product.save()
@@ -1293,3 +1293,24 @@ module.exports.SinglePurchasebillReferenceNo_get = async (req, res,next) => {
  }
 }
 
+
+// patch to return backto virtual warehouse
+module.exports.ProductReturn_patch = async(req,res,next) => {
+ try{
+  virtualStorageQty = await Product.findById(req.params.id)
+ const wH = await WHouse.findById(req.body.WHIDS)
+ const storeProd = await storeProduct.findById(req.body.storeProductId)
+
+ const update = parseInt(virtualStorageQty.virtualQty) + parseInt(req.body.virtualQty)
+  await storeProduct.updateOne({ _id: ObjectId(req.body.storeProductId) }, { $set: {pendings: 0}})
+  await  Product.updateOne({ _id: ObjectId(req.params.id) }, { $set: {virtualQty: update}})
+  virtualStorageQty.ActivityLog.unshift({message:`${wH.WHName} Returned ${req.body.virtualQty}${virtualStorageQty.UMO} on ${responseDate} new Virtual QTY is now ${update}`})
+  storeProd.ActivitiyLog.unshift({message:`Returned ${req.body.virtualQty}${virtualStorageQty.UMO} back to Virtual warehouse on ${responseDate}`})
+  storeProd.save()
+  virtualStorageQty.save()
+
+  next()
+ }catch(err){
+  res.status(500).json({error:err.message})
+ }
+}

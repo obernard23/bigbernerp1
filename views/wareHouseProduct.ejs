@@ -267,6 +267,9 @@
         <label>Qty in stock</label>
         <h5><%=products.currentQty%></h5>
         <input type="number" id="currentQty" value="<%=products.currentQty%>" disabled hidden/>
+        <input type="text" id="productId" value="<%= products.productId%>" hidden>
+        <input type="text" id="WHIDS" value="<%=result._id%>" hidden>
+        <input type="text" id="storeProductId" value="<%=products._id%>" hidden>
       </div>
       <div class="divTableCell" >&nbsp;
         <label>WH-IN BOUND QTY </label>
@@ -290,10 +293,10 @@
           disabled="disabled"
           <%}%>
         >UPDATE</button></div>
-      <div class="divTableCell">&nbsp;<button onclick="location.assign('/Scrap/<%=result._id%>')" class="btn btn-danger shadow" <%if(products.pendings <= 0){%>
+      <div class="divTableCell">&nbsp;
+        <button id="returnButton" class="btn btn-danger shadow" <%if(products.pendings <= 0){%>
         disabled="disabled"
         <%}%>
-        
         >RETURN</button>
       </div>
       </div>
@@ -363,6 +366,45 @@ for (let i = 0 ; i < incoming.length ; i++) {
 
   }
 
+  // return button 
+
+  let returnButton = document.querySelectorAll('#incoming')
+for (let i = 0 ; i < incoming.length ; i++) {
+  let confirm = incoming[i].querySelector('#returnButton')
+  confirm.addEventListener('click', async function(e){
+    
+    //for pending / sent
+    let virtualQty = incoming[i].querySelector('#pendings').value;
+    let productId = incoming[i].querySelector('#productId').value;//virtual product  id 
+    let WHIDS = incoming[i].querySelector('#WHIDS').value;
+    let storeProductId = incoming[i].querySelector('#storeProductId').value;//storeProductId store product id
+
+    const url = `/Products/${productId}/return`
+    const request = await fetch(url,{
+      method:'PATCH',
+      body:JSON.stringify({
+        WHIDS,
+        virtualQty,
+        storeProductId
+      }),
+      headers:{'Content-Type': 'application/json'}
+    })
+      const respose = await request.json().then((response) => {
+              if(response.message){
+                alert(response.message)
+                qtyApproved = ''
+                location.reload()
+              }else if (response.error){
+                alert(response.error)
+              }
+        
+    })
+
+  })
+
+}
+
+ 
 
 </script>
 </html>

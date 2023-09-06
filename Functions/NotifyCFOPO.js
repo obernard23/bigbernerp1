@@ -60,11 +60,11 @@ const NotifyCFOPO = async (purchased) => {
                     ],
                     action: [
                         {
-                            instructions: `To view Purchse Order please contact the Administrator `,
+                            instructions: `To view Hard copy of this P.O, please contact the MD `,
                             button: {
                                 color: '#22BC66',
                                 text: 'View Vendor Bill',
-                                // link: `https://bigbern.onrender.com/invoice/${result._id}`
+                                link: `https://bigbern.onrender.com/Purchase/bill/${purchased.billReferenceNo}`
                             }
                         }
                     ],
