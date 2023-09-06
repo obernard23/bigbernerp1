@@ -1246,7 +1246,7 @@ module.exports.PurchaseOrder_post = async(req, res, next) => {
    const NewPayment = {
     billReferenceNo:req.body.billReferenceNo,
     Amount:req.body.grandTotal,
-    VendorID:req.body.Vendor
+    Vendor:req.body.Vendor
   }
     await VendorPayment.create(NewPayment).then((payment)=>{
       purchased.orders.forEach(async(order)=>{
@@ -1312,5 +1312,22 @@ module.exports.ProductReturn_patch = async(req,res,next) => {
   next()
  }catch(err){
   res.status(500).json({error:err.message})
+ }
+}
+
+
+//cfo expense get
+module.exports.SingleExpense_get = async(req,res)=>{
+ try {
+  const expense = await Expense.findById(new ObjectId(req.params.id)).
+  then(async(expense)=>{
+    const wH = await WHouse.findById(expense.WHID)
+    res.status(200).render('SingleExpense',{expense,wH})
+  })
+
+ } catch (error) {
+  console.log(error)
+ }finally {
+  res.end()
  }
 }

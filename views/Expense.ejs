@@ -262,7 +262,7 @@
            <div class="h-59 p-1 d-flex flex-column" >
                 <%if(Expenses.length > 0){%>
                   <%Expenses.forEach(expense=>{%>
-                    <span onclick="location.assign('')" class="list-group position-relative mb-2" title="Expense for <%=expense.Amount%>">
+                    <span onclick="location.assign('/EXP/<%=expense._id%>')" class="list-group position-relative mb-2" title="Expense for <%=expense.Amount%>">
                       <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" >
                           <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='grand total of this bill'>
                             NGN<%=expense.Amount%>
@@ -270,13 +270,11 @@
                             <span class="badge bg-secondary">EXPENSED</span>
                             <%}%>
                           </small>
-                              <p title="Manager"><%=employee.firstName.toUpperCase()%></p>
-                            <div>
-                              <p>Raised Date: <%=expense.Date%></p>
-                            </div>
-                            <div>
-                              <p><%=expense.category%></p>
-                            </div>
+                          <h6>
+                            <a href="/EXP/<%=expense._id%>" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" >
+                                 EXP/<%=result.WHName.toUpperCase()%>/<%=expense.refNo%>   
+                             </a> 
+                             </h6>
                             <div title="Mail status">
                               <%if(expense.mailSent){%>
                                 <img 
@@ -290,7 +288,7 @@
                             <div>
                               <p><%=expense.status%></p>
                             </div>
-                              <p title="reference Number" >Exp No:<%=expense.refNo%></p>
+                             
                         </div> 
                       </span>
                   <%})%>

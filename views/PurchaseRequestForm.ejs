@@ -265,7 +265,7 @@
   <body>
     <nav class="navbar bg-black">
       <div class="container-fluid">
-        <span class="navbar-brand" onclick="history.back()" href="/" title="Back">
+        <span class="navbar-brand" onclick="location.assign('/Virtual/Purchase/Order/<%=user._id%>')" href="/" title="Back">
           <img 
           width="30"
           hegith="30"
@@ -784,6 +784,8 @@
                     })
                   }else{
                     alert(data.message ? data.message : data.error)
+                    purchaseForm.reset()
+                    location.assign(`/Virtual/Purchase/Order/${ADMINID}`);
                   }
                 })
                 localStorage.removeItem('bill_products');

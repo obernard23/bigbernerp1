@@ -168,4 +168,5 @@ router.get('/Purchase/bill/:billReferenceNo',requireAuth,authController.SinglePu
 // expense routes
 router.get('/CFO/EXPENSE/:CFOID',requireAuth,authController.CFexpense_get)
 router.get('/Vendor/Bills/:CFOID',requireAuth,authController.CFOVendorBill_get)
+router.get('/EXP/:id',requireAuth,authController.SingleExpense_get)
 module.exports = router;

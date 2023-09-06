@@ -284,7 +284,7 @@
                     aria-expanded="false"
                     style="color: #fff !important"
                   >
-                  GNO/<%=Singlebill.billReferenceNo%>/<%=vendor.Name.substring(0,3).toUpperCase()%>
+                  EXP/<%=wH.WHName.toUpperCase()%>/<%=expense.refNo%> 
                   </a>
                   </h5>
                 
@@ -295,191 +295,78 @@
 
     
     <div id="invoice" class="shadow-lg m-4 p-3">
-        <div class="logotype ms-5 p-2">
-            <%if(vendor.image !== ""){%>
-            <img class="logo ms-5" src="<%=vendor.image%>" alt="No vendor photo found"/>
-            <%}%>
-          </div>
+        <form  class="row g-3 needs-validation" id="form" >
+            <div class=" d-flex justify-content-between">
+              
+                  <!-- <h5>Register Payment</h5> -->
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABj0lEQVR4nO2VwUrDQBCG9yWqb9DePSkIveyAh14Ec9jVi2QOPof2abx7KkJt00KCVqF489CTJLlZe3YlpVuWGLBNmo2t88MPYQd25tuZ3TBGIpH+nzw/9IZByM213ui95gXh7bqxRP3H6Njzow6zpUEQqcSeH3aHQdwc+rEz8KNYr68cC+Jm8q3XrQNs2owAVhR1IKARKiZ9gs3Tu5WcdeJZcWZLWwcAF1d7ILHNhfvMBc7KusRc4Awkjrhwb5Kcmyleug4XOAWJSrssADByzHOe41nh4kHil7mxCbDu2Pw2QpDKM8+dFyJpYfrkKwBQXODHiXNZy3H62M7a0NYIgQkh8XptAC7wJb1R/eBw7rIA6ov9MyBGOTrgfv4VAC5wmgPgZyt1grINGbkJACo228QIEYCsuANPb0dWDATAqAOKRkjSJcbK336gH5ncsR/Z/YOnJpPJ0p1uv3Dstd5Sap8vPW60ygMwi9AuGlNG8doEsLMd6HT7qVnuFY6NGxbvwNa/QkAAaK8DJBKJbYW+AX7aIYn4KzT3AAAAAElFTkSuQmCC"
+                 width="40"
+                 height="40"
+                 >
 
-      <div class="page" style="page-break-after: always">
-        <div class="d-flex justify-content-between">
-          <h2>" GNO/<%=Singlebill.billReferenceNo%>/<%=vendor.Name.substring(0,3).toUpperCase()%>"</h2>
-          <button class="btn btn-dark">Post Payment</button>
-        </div>
-        <div class="intro-table">
-           
-                
-          <div class="intro-form  intro-form-item d-flex intro-table-title align-items-start  justify-content-evenly">
-            <h1 class="intro-table-title" >NAME:<%=vendor.Name %></h>
-            <h4 class="intro-table-title" >Adr: <%=vendor.Address %></h4>
-            <h4 class="intro-table-title" >TEL: <%=vendor.vendor_tel%></h4>
-            <h4 class="intro-table-title">EMAIL: <%=vendor.email %></h4>
-            <h4 class="intro-table-title">BANK: <%=vendor.Account_name %> </h4>
-            <h4 class="intro-table-title">ACC NAME: <%=vendor.Bank_name %></h4>
-            <h4 class="intro-table-title">ACC NO: <%=vendor.Account_num %></h4>
-          </div>
-
-          <div class="intro-form">
-            <div class="intro-form-item-border d-flex flex-column gap-3">
-              <!-- recived date -->
-              <div class="col-md-7 ">
-                <label for="AccountNumber" class="form-label">Recived Date</label>
-                <input
-                  type="date"
-                  class="form-control border"
-                  id="RecievedDate"
-                  aria-describedby="validationServer05Feedback"
-                  disabled
-                  value="<%=Singlebill.recievedDate%>"
-                />
-              </div>
-              <!-- ends here -->
-
-              <div class="col-md-7 ">
-                <label for="AccountNumber" class="form-label">Accoutant Payment Record</label>
-                <input
-                  type="number"
-                  class="form-control border"
-                  id="RecievedDate"
-                  aria-describedby="validationServer05Feedback"
-                  placeholder="Record Payment"
-                  value="<%=Singlebill.recievedDate%>"
-                />
-              </div>
-
-              <div class="col-md-7 ">
-                <label for="AccountNumber" class="form-label">Bank Jornal</label>
-                <input
-                  type="number"
-                  class="form-control border"
-                  id="RecievedDate"
-                  aria-describedby="validationServer05Feedback"
-                  placeholder="Bank Account"
-                  value="<%=Singlebill.recievedDate%>"
-                />
-              </div>
-
+               <h5> EXP/<%=wH.WHName.toUpperCase()%>/<%=expense.refNo%></h5>
                
+              </div>
 
+              <div class="col-md-4">
+                <label for="billreferenceNo" class="form-label">EXPENSE TYPE</label>
+                <input type="text" id="billreferenceNo" name="expenseCategory"  class="form-control border" value="<%=expense.category%>" />
+               
             </div>
 
+            <div class="col-md-4">
+                <label for="customer" class="form-label">JOURNAL POSTING</label>
+                <input id="customer" class="form-control border" name="manager"  disabled>
+            </div>
+
+            <div class="col-md-4">
+                <label for="date" class="form-label">DATE</label>
+                <input type="date" placeholder="" required class="form-control border" id="date" value="<%=expense.Date%>"/>
+            </div>
+            <div class="col-md-4">
+              <label for="PAYEE" class="form-label">PAYEE</label>
+              <input type="text" placeholder="Payee" required class="form-control border" autocomplete="off" id="PAYEE" value="<%=expense.payee%>"/>
           </div>
+
+          <div class="col-md-4">
+            <label for="BankAccount" class="form-label">ACCOUNT NUMBER</label>
+            <input type="text" placeholder="Bank Account Number" required class="form-control border" autocomplete="off" id="BankAccount" value="<%=expense.BankAccount%>"/>
         </div>
 
-        <div class="table-box">
-          <table cellpadding="0" cellspacing="0">
-            <tr class="heading font-bold">
-              <td  >Product</td>
-              <td  >QTY</td>
-              <td  >Scale</td>
-              <td  >Unit Price</td>
-              <td  >Total (NGN)</td>
-            </tr>
-            <tbody  >
-                <% Singlebill.orders.forEach(bill=>{%>
-              <tr class="item">
-                <td  ><%=bill.item.Name%></td>
-                <td  ><%=bill.Qty%></td>
-                <td  ><%=bill.item.UMO%></td>
-                <td  ><%=bill.item.vendor_Price%></td>
-                <td  ><%=bill.total%></td>
-              </tr>
-              <%})%>
-
-            </tbody>
-          </table>
-        </div>
-
-        <div class="summary-box">
-          <table cellpadding="10" cellspacing="0">
-            <tbody>
-              <tr class="item">
-                <td></td>
-                <td>Subtotal:</td>
-                <td id="Subtotal"><%=Singlebill.subTotal%></td>
-              </tr>
-
-              <tr class="item">
-                <td></td>
-                <td>Discount:</td>
-                <td id="discountinCalc"><%=Singlebill.discount%>%</td>
-              </tr>
-
-              <tr class="item">
-                <td></td>
-                <td>Tax Rate:</td>
-                <td>0</td>
-              </tr>
-
-              <tr class="no-border-item">
-                <td></td>
-                <td>Shipping/Handling:</td>
-                <td><%=Singlebill.shippingFee%> </td>
-              </tr>
-
-              <tr class="total">
-                <td></td>
-                <td>Total Due:</td>
-                <td id="Grandtotal"><%=Singlebill.grandTotal%></td>
-                <input type="number" value="<%=Singlebill.grandTotal%>" hidden id="Grandtotal">
-              </tr>
-          </table>
-          <p id="words"></p>
-        </div>
+        <div class="col-md-4">
+          <label for="BankName" class="form-label">BANK </label>
+          <input type="text" placeholder="Bank Name" required class="form-control border" autocomplete="off" id="BankName" value="<%=expense.BankName%>"/>
       </div>
-
-      
+          <div class="col-md-4">
+            <label for="DriverNumber" class="form-label">ATTACHMENT</label>
+            <input type="file" class="form-control border" id="DriverNumber" name="DriverNumber"/>
         </div>
-        
-      </div>
+        <div class="col-md-4">
+          <label for="Amount" class="form-label">AMOUNT (NGN)</label>
+          <input type="number" inputmode="numeric" placeholder="Enter amount" required class="form-control border" id="Amount" value="<%=expense.Amount%>"/>
+        </div>
+           <div class="col-md-4">
+            <label for="remark" class="form-label">REMARKS</label>
+            <textarea type="text" id="remark"  name="remark"  class="form-control" autocomplete="off" autocapitalize="on"  ><%=expense.remarks%></textarea>
+          </div>
 
+            <div class="col-md-4 d-flex justify-content-between flex-column p-2">
+              <label for="InvoiceNo" class="form-label "> All done!</label>
+               <%if(user.JobTittle === 'CFO'){%>
+                <button class="btn btn-dark form-control" > POST TO EXPENSE ACCOUNT</button>
+               <%}%>
+                <%if(user._id.toString() === expense.initiatorId.toString() ){%>
+                    <button class="btn btn-success form-control" >EDIT EXP/<%=wH.WHName.toUpperCase()%>/<%=expense.refNo%> </button>
+                <%}%>
+               </div>
+
+          </form>
      
+          <%-include('./partials/footer')%>
     </div>
-    <%-include('./partials/footer')%>
 
   </body>
     <script>
-            // convert integer for grad total to word count
-            let Grandtotal = document.getElementById('Grandtotal').value
-    function test(n) {
-      if (n < 0)
-      return false;
-	 let single_digit = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
-	 let double_digit = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
-	 let below_hundred = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
-	if (n === 0) return 'Zero'
-	function translate(n) {
-		let word = ""
-		if (n < 10) {
-			word = single_digit[n] + ' '
-		}
-		else if (n < 20) {
-			word = double_digit[n - 10] + ' '
-		}
-		else if (n < 100) {
-			let rem = translate(n % 10)
-			word = below_hundred[(n - n % 10) / 10 - 2] + ' ' + rem
-		}
-		else if (n < 1000) {
-			word = single_digit[Math.trunc(n / 100)] + ' Hundred ' + translate(n % 100)
-		}
-		else if (n < 1000000) {
-      word = translate(parseInt(n / 1000)).trim() + ' Thousand ' + translate(n % 1000)
-		}
-		else if (n < 1000000000) {
-			word = translate(parseInt(n / 1000000)).trim() + ' Million ' + translate(n % 1000000)
-		}
-		// else {
-		// 	word = translate(parseInt(n / 1000000000)).trim() + ' Billion ' + translate(n % 1000000000)
-		// }
-		return word
-	}
-	let result = translate(n) 
-	return result.trim()+'.'
-}
-    document.getElementById('words').innerHTML = `${test(parseInt(BillProducts.grandTotal))} Naira only.`;
-       
-
-
+         
     </script>
 </html>
