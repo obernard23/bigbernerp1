@@ -506,7 +506,9 @@ module.exports.delivery_patch = async(req,res)=>{
   await bills.findOne({billReferenceNo:req.params.deliveryId})
   .then(async(done)=>{
       if(done.isDelivered) {
-        res.status(500).json({error:'Fraud alert'})
+        res.status(500).json({error:'Fraud alert, This batch has already been delivered'})
+      }else if(done.status !== 'Approved'){
+        res.status(500).json({error:'This bill has not been approved. Please try again later'})
       }else{
         await bills.updateOne({billReferenceNo:req.params.deliveryId},{ $set: update })
     .then((response)=>{
