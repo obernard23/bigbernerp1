@@ -344,15 +344,16 @@ transition-delay:1s;
                   </div>
   
                   <div class="col-md-4">
-                    <label for="billreferenceNo" class="form-label">ENTER INVOICE  REF NUMBER FOR PICK UP </label>
-                    <input type="text" id="billreferenceNo" list="referenceNo" name="referenceNo" required class="form-control border" placeholder="Search Invoice refence number" required/>
-                    <datalist id="referenceNo" >
-                     <!-- display options for Bills -->
-                        <%Bills.forEach(bill =>{%>
-                            <option value="<%=bill.billReferenceNo%>"></option>
-                        <%})%>
-                           
-                    </datalist>
+                    <label for="billreferenceNo" class="form-label">SELECT INVOICE  REF NUMBER FOR PICK UP </label>
+                    <select id="billreferenceNo" name="referenceNo"  required class="form-select border" >
+                      <!-- display options for Bills -->
+                      <option >Choose...</option>
+                      <%if(Bills.length > 0){%>
+                         <%Bills.forEach(bill =>{%>
+                             <option value="<%=bill.billReferenceNo%>"><%=bill.billReferenceNo%></option>
+                         <%})%>
+                       <%}%>
+                         </select>
                 </div>
   
                 <div class="col-md-4">
