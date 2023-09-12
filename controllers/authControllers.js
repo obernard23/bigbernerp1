@@ -1176,7 +1176,8 @@ module.exports.WareHouseSetup_get = async(req,res)=>{
   const warehouse =  await WHouse.findById(new ObjectId(req.params.WHID));
   const storeProducts = await storeProduct.find({WHIDS:new ObjectId(req.params.WHID)})
   const Products = await Product.find()
-  res.status(200).render('SetupWarehouse',{warehouse,storeProducts,Products});
+  const purchaseOrder = await PurchaseOrder.find()
+  res.status(200).render('SetupWarehouse',{warehouse,storeProducts,Products,purchaseOrder});
   }
 };
 

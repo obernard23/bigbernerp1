@@ -109,7 +109,7 @@
                     <th scope="col">SCALE</th>
                     <th scope="col">PHOTO DESC</th>
                     <th scope="col">WH QTY </th>
-                    <th scope="col">BATCH REF</th>
+                    <th scope="col">P/O REF</th>
                     <th scope="col">WH-OUT BOUND QTY</th>
                     <th scope="col"> SUBMIT</th>
                 </tr>
@@ -201,10 +201,16 @@
                         </td>
                         <td>
                             <!-- Batch id -->
-                            <input type="text" name="Batch_Ref" id="" required placeholder=" Batch Ref"<%if(product.pendings > 0){%>
-                                disabled=disabled
-                                <%}%>
-                                />
+                                <select  name="Batch_Ref"  required class="form-select"<%if(product.pendings > 0){%>
+                                    disabled=disabled
+                                    <%}%>>
+                                    <option value="">Choose...</option>
+                                    <%if(purchaseOrder.length > 0){%>
+                                      <%purchaseOrder.forEach(ref=>{%>
+                                        <option value="<%=ref.billReferenceNo%>"><%=ref.billReferenceNo%></option>
+                                      <%})%>
+                                      <%}%>
+                                  </select>
                         </td>
                         <td title=" <%if(product.pendings > 0){%>
                             This field is disabled because there's a pending delivery scheduled to be Recived by <%=warehouse.Manager.firstName%> <%=warehouse.Manager.lastName%>
