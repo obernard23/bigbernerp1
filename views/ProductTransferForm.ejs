@@ -265,7 +265,7 @@
   <body>
     <nav class="navbar bg-black">
       <div class="container-fluid">
-        <span class="navbar-brand" onclick="history.back()"  title="Back">
+        <span class="navbar-brand" onclick="history.back()" href="/" title="Back">
           <img 
           width="30"
           hegith="30"
@@ -275,117 +275,83 @@
               <li class="nav-item dropdown">
 
                   <h5>
-                    <a
-                    class="nav-link breadcrumb-item active"
-                    aria-current="page"
-                    href="/"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style="color: #fff !important"
-                  >
-                  Purchase Order Builder
-                  </a>
+                      <a class="nav-link breadcrumb-item active" aria-current="page" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #fff !important;">
+                          Product Transfer
+                      </a>
                   </h5>
                   
                 </li>
           </ul>
-         
       </div>
     </nav>
 
     
-  <form id="purchaseForm" class="shadow-lg m-4 p-3">
-      <a href="/VirtualstorageProduct" class="link-opacity-75">See Virtual storage Product </a>
-     
+    
+    
+    <form id="invoice" class="shadow-lg m-4 p-3">
       <div id="pspdfkit-header">
         <div class="header-columns">
-          <div class="logotype">
-            <img class="logo" src="https://www.historyhit.com/app/uploads/fly-images/5154061/BigBen-788x537.jpg?x63000" />
-            <p><%=name%></p>
-          </div>
-
-          <div>
-            <h5>DUMMY COMPANY</h5>
-            <p>[Dummy Address here]</p>
-            <p>dummycompany@email.com</p>
-            <p>09000000000</p>
-            <p></p>
-          </div>
+          
+           <!-- action buttons -->
+     <div class="p-2">
+        <button type="submit"  class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
+          </svg>  
+          Submit 
+        </button>
+    </div>
         </div>
       </div>
 
       <div class="page" style="page-break-after: always">
         <div>
-          <h2>" Purchase Order "</h2>
+          <h2>"Virtual to WH Product Transfer Builder"</h2>
         </div>
 
         <div class="intro-table">
           <div class="intro-form  intro-form-item d-flex intro-table-title align-items-start  justify-content-evenly">
-            <h1 class="intro-table-title" id="Username"></h>
-            <h4 class="intro-table-title" id="Email"></h4>
-            <h4 class="intro-table-title" id="Address"></h4>
-            <h4 class="intro-table-title"id="phone"></h4>
-            <h4 class="intro-table-title"id="discount"></h4>
-            <h4 class="intro-table-title" id="creditLimit" style="color: #1db669;"> </h4>
-            <h4 class="intro-table-title" id="Debt" style="color: #c45b5b;"></h4>
-            <h4 id='startdate' class="intro-table-title"></h4>
+            <h4 class="intro-table-title" id="Debt" style="color: #c45b5b;">From  Virtual ware house</h4>
           </div>
 
           <div class="intro-form">
             <div class="intro-form-item-border d-flex flex-column gap-3">
 
               <!-- dropdown for customer list -->
+              <div class="col-md-7">
+                <label for="pricelist" class="form-label">Transfer date</label>
+                <input type="date" name="date" id="date" class="form-control border" required>
+              </div>   
+              
+              <div class="col-md-7">
+                <label for="ref" class="form-label">Transfer PO ref</label>
+                <select name="ref" id="ref" required class="form-select">
+                  <option value="">Choose...</option>
+                  <%if(PurchaseOrders.length > 0){%>
+                    <%PurchaseOrders.forEach(ref=>{%>
+                      <option value="<%=ref.billReferenceNo%>"><%=ref.billReferenceNo%></option>
+                    <%})%>
+                    <%}%>
+                </select>
+              </div> 
+              <input type="text" name="id" value="<%=user._id%>" hidden>
 
              <div class="col-md-7">
-              <label for="pricelist" class="form-label">vendor</label>
+              <label for="pricelist" class="form-label">Transfer To</label>
               <select
                 class="form-select "
-                id="customer"
+                id="warehouse"
                 aria-describedby="validationServer04Feedback"
                 required
               >
-              <option>Choose...</option>
-              <%if(vendor){%>
-                <%vendor.forEach((vendor)=>{%>
-                    <option value="<%=vendor._id%>"
-                    <%if(vendor.block_vendor){%>
-                      disabled="true"
-                    <%}%>
-                    ><%=vendor.Name%></option>
+              <option value=" ">Choose...</option>
+             <%if(WHous.length > 0){%>
+                <%WHous.forEach(wH =>{%>
+                    <option value="<%=wH._id%>"><%=wH.WHName%></option>
                 <%})%>
-                <%}%>
+             <%}%>
               </select>
               </div>
-
-              <!-- recived date -->
-              <div class="col-md-7 ">
-                <label for="AccountNumber" class="form-label">Recived Date</label>
-                <input
-                  type="date"
-                  class="form-control border"
-                  id="RecievedDate"
-                  aria-describedby="validationServer05Feedback"
-                  required
-                  name="RecievedDate"
-                />
-              </div>
-              <!-- ends here -->
-
-               <!-- P/O Ref NO -->
-               <div class="col-md-7 ">
-                <label for="AccountNumber" class="form-label">P/O Ref NO:</label>
-                <input
-                  type="text"
-                  class="form-control border"
-                  id="poRefrence"
-                  aria-describedby="validationServer05Feedback"
-                  placeholder="RefNo: from Hard copy"
-                  name="poRefrence"
-                  required
-                />
-              </div>
-              <!-- ends here -->
 
             </div>
 
@@ -398,8 +364,6 @@
               <td  >Product</td>
               <td  >QTY</td>
               <td  >Scale</td>
-              <td  >Unit Price</td>
-              <td  >Total</td>
             </tr>
             <tbody  class="item" id="item"></tbody>
               
@@ -414,12 +378,8 @@
                       class="form-select "
                       id="products"
                       aria-describedby="validationServer04Feedback"
-                      
                     >
-                    <option value="">Choose...</option>
-                    <optgroup id="product"  >
-
-                    </optgroup>
+                    <option>Choose...</option>
                     
                     </select>
                     </div>
@@ -431,157 +391,98 @@
           </table>
         </div>
 
-        <div class="summary-box">
-          <table cellpadding="10" cellspacing="0">
-            <tbody>
-              <tr class="item">
-                <td></td>
-                <td>Subtotal:</td>
-                <td id="Subtotal">N0.00</td>
-              </tr>
-
-              <tr class="item">
-                <td></td>
-                <td>Discount:</td>
-                <td id="discountinCalc">0%</td>
-              </tr>
-
-              <tr class="item">
-                <td></td>
-                <td>Tax Rate:</td>
-                <td></td>
-              </tr>
-
-              <tr class="no-border-item">
-                <td></td>
-                <td>Shipping/Handling:</td>
-                <td>N<input type="number" name="" id="Shipping" required placeholder="0.00" style="width:50px"> </td>
-              </tr>
-
-              <tr class="total">
-                <td></td>
-                <td>Total Due:</td>
-                <td id="Grandtotal">N0.00</td>
-              </tr>
-          </table>
-          <p id="words"></p>
-        </div>
+        <!-- summery was here -->
       </div>
 
       <div class="page" style="page-break-after: always">
       
         <div class="page" style="page-break-after: always">
           <div class="signer">
+  
            
-
-            <div class="form signer-item">
-              <button type="submit" id="submitBtn" class="btn btn-dark">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
-                </svg>  
-                Submit 
-              </button>
-            </div>
           </div>
         </div>
         
       </div>
 
       <div id="pspdfkit-footer">
-        <input type="text" value="<%=user._id%>" id="id" hidden>
         <div class="footer-columns">
-          
+          <span>Product Request Builder</span>
         </div>
       </div>
     </form>
-    
-    
-    <!-- The Modal -->
-    <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
+
+
+     <!-- The Modal -->
+     <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
       <!-- Modal content -->
         <div class="modal-body d-flex justify-content-center container">
-          
+          <form class="bg-light gap-3 p-3 rounded shadow  flex-column d-flex" id="opsCode" >
+            <label for="opsCodes" class="form-label">Operational Code</label>
+            <input type="password" name="opsCode" id="opsCodes" class="form-control input-group has-validation" placeholder="Enter operational code" autocomplete="off">
+            <button type="submit" class="btn btn-danger">Action</button>
+          </form>
         </div>
       </div>
-      <input type="text" hidden id="employee" value="<%=user.firstName%>">
-    </div>
-      <%-include('./partials/footer')%>
   </body>
     <script>
-      //select product per vendor
-      
-      const VendorProduct = async function(vendorId){
         
-        const select = document.getElementById('product')
-        select.innerHTML = " "
-        const productEndPoint = `/Vendorproduct/${vendorId}`
-              const vendorProduct = await fetch(productEndPoint,{
-              method:'GET',
-              headers:{'Content-Type': 'application/json'}
-            })
-
-            const product = await vendorProduct.json()
-            select.label="Vendor Product"
-            product.forEach(function(productItem) {
-              const option = document.createElement('option')
-
-              //assign the option to the product
-              option.value = productItem.ACDcode
-              option.innerText = `${productItem.Name} [Current: ${productItem.virtualQty}]`
-
-              //append option to select element
-              select.appendChild(option)
-            })
-      }
-
-
-
-      //for RecievedDate
-      document.getElementById('RecievedDate').addEventListener('change', function(e){
-        BillProducts.recievedDate = e.target.value
-        saveToLocalStorage(BillProducts);
-      })
-
-      // set poRefrence
-      document.getElementById('poRefrence').addEventListener('change', function(e){
-        BillProducts.billReferenceNo = e.target.value
-        saveToLocalStorage(BillProducts);
-      })
-      //clear billproduct on page reload
+        //clear billproduct on page reload
       window.onload = () => {
-        localStorage.removeItem('bill_products');
+        localStorage.deleteItem('bill_products');
            
       }
+      
+     
+      //set billproduct date
+      document.getElementById('date').addEventListener('change', (e) => {
+        BillProducts.transferedDate = e.target.value;
+        saveToLocalStorage(BillProducts);
+      })
+
+       //set billproduct reference
+       document.getElementById('ref').addEventListener('change', (e) => {
+        BillProducts.billReferenceNo = e.target.value;
+        saveToLocalStorage(BillProducts);
+      })
 
       //get request for customer
-      const customerInput = document.getElementById('customer')
-      customerInput.addEventListener('change',async(e)=>{
-            const endPoint = `/vendor/${e.target.value}`
+      const warehouse = document.getElementById('warehouse')
+      warehouse.addEventListener('change',async(e)=>{
+        BillProducts.WHID = e.target.value //assign custom properties
+            const endPoint = `/warehouse/json/${e.target.value}`
             const res = await fetch(endPoint,{
                 method:'GET',
                 headers:{'Content-Type': 'application/json'}
             })
-
             const data = await res.json()
+            const AllProduct =[]
+           
+            // create product options from product list in ware house
+            const options = data.storeproduct.forEach(storeproduct => {
+                const real =  data.products.filter(product =>{
+                   return product._id === storeproduct.productId
+                })
+                real.forEach(product =>{
+                    AllProduct.push(product)
+                })
+            })
+            const productsOption = document.getElementById('products')
+            productsOption.innerHTML = " "
+            const choose = document.createElement('option')
+            choose.innerText = `Choose...`
+            productsOption.appendChild(choose)
+            AllProduct.forEach(product =>{
+                const opt = document.createElement('option')
+                opt.value = product.ACDcode
+                opt.innerText = `${product.Name} [QTY:${product.virtualQty}] [UOM:${product.UMO}]`
+                productsOption.appendChild(opt)
+            })
+
             
-            const Username = document.getElementById('Username').innerText = `Billed To: ${data.item.Name}`;
-            const Email =  document.getElementById('Email').innerText = `Email: ${data.item.email}`;
-            const phone = document.getElementById('phone').innerText = `phone: ${data.item.vendor_tel}`;
-            const Address = document.getElementById('Address').innerText = `Address: ${data.item.Address}`;
-            const discount = document.getElementById('discount').innerText = `Sales person: ${data.item.contact}%`;
-            const employee = document.getElementById('employee').value
-            const d = new Date();
-            BillProducts.orders = []
-            BillProducts.ActivityLog = []
-            BillProducts.Vendor = data.item._id //assign custom properties
-            BillProducts.salesPerson = employee
-            BillProducts.discount = data.item.discount //assign custom discount
-            BillProducts.ActivityLog.push({
-              logMsg:`${BillProducts.salesPerson } created  a new purchase Order on ${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
-              status:`${BillProducts.orders.length}product registered in Virtual ware house`
-            }) //for activity log
+            BillProducts.orders=[]
+            
             saveToLocalStorage(BillProducts);
-            VendorProduct(e.target.value)
             RenderDom(BillProducts)
       })
      
@@ -598,26 +499,14 @@
         if(quoteData === null){
           const d = new Date();
           return {
-          grandTotal:'',
-          shippingFee:'',
-          subTotal:'',
-          recievedDate:'',
-          Vendor:'',
+          WHID:'',
           orders:[],
-          billStatus:'',
-          status:'Locked',
-          discount:'',
-          taxRate:'',
-          salesPerson:'',
-          signatureUrl:'',
           ActivityLog:[],
-          rejectionReasons:[],
-          billReferenceNo : '',
-          registeredBilling:0,
-          registeredBalance:0,
-          PaymentStatus:'',
-          PaymentReference:'',
-          supportDoc:'',
+          billReferenceNo : "",
+          managerStatus:'',
+          recievedDate:'',
+          transferedDate:'',
+          managerStatus:'Pending',
           };
         }else{
           return JSON.parse(quoteData)
@@ -627,28 +516,7 @@
       // for qoutation generation
       const BillProducts = getSaveBill()
 
-      //get subtotal and assign various feilds to quotation
-      const calculateTotals = async (BillProducts,)=>{
-
-          BillProducts.subTotal =  await parseInt(BillProducts.orders.map(item => {return item.total})
-        .reduce((total , currentValue) => {return total + currentValue},0))
-
-        // let shippingFee = Shipping.value
-        const Shipping = document.getElementById('Shipping')
-        
-        Shipping.addEventListener('input',(e) =>{
-          value =  parseInt(e.target.value < 0 ? Shipping.value = 0 : e.target.value )//tenary operator  to avoid overflow or underflow of 0 qty values;
-          BillProducts.grandTotal = parseInt(BillProducts.subTotal) + parseInt(value)
-          Grandtotal.textContent = `N${BillProducts.grandTotal}`;
-          BillProducts.shippingFee =  value;
-          saveToLocalStorage(BillProducts);
-        });
-        
-        document.getElementById('Subtotal').innerHTML = `N${BillProducts.subTotal}`;
-       
-         
-      }
-      // calculateTotals(BillProducts)
+      
 
       // get product for quoatation
       const products = document.getElementById('products')
@@ -660,9 +528,8 @@
         })
         const data = await res.json()
         //generate id for each item
-        const id = Math.floor(Math.random() * 10500600000787);
         // const Pname = document.getEle
-        BillProducts.orders.push({...data,Qty:'',total:'',_id:id})//returns product, qty to perform and vat
+        BillProducts.orders.push({...data,Qty:''})//returns product, qty to perform and vat
         saveToLocalStorage(BillProducts)
         RenderDom(BillProducts)
         e.target.value=''
@@ -683,9 +550,6 @@
           let td8Image = document.createElement('img')//product availability
           let td3 = document.createElement('td')// qty
           let td4 = document.createElement('td')//umo
-          let td5 = document.createElement('td')//vat
-          let td6 = document.createElement('td')//price
-          let td7 = document.createElement('td')//total
 
         //   imagesrc="data:image/png;base64,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"
           //assign values to each element and input that can stillbe edited
@@ -717,7 +581,7 @@
 
           let td3Input = document.createElement('input')
           td3Input.value = element.Qty
-          td7.innerText= `N${element.total}`//for rerendering purposes
+         
           td3Input.setAttribute('type', 'number')
           td3Input.addEventListener('input', async (e)=>{
             //find index of element to set qty
@@ -732,24 +596,12 @@
               const val = parseInt(e.target.value < 1 ? td3Input.value = 1 : e.target.value )//tenary operator  to avoid overflow or underflow of 0 qty values
               found.Qty = val
 
-              // const total = element.item.selling_Price * val
-            //   const singleVat = Math.round(parseInt(element.item.selling_Price *  element.item.VAT)/100)//find single vat for each product qty to perform
-              const total = parseInt(Math.floor(element.item.vendor_Price * found.Qty ) )
-              found.total = total
-              
-              //calculate  total sum of available prices in orders
-              BillProducts.subTotal =  await parseInt(BillProducts.orders.map(item => {return item.total})
-              .reduce((total , currentValue) => {return total + currentValue},0))
-
-              //save to local storage function 
-              calculateTotals(BillProducts)
               saveToLocalStorage(BillProducts)
-              td7.innerText= `N${found.total}`
-              
+             
             }
-            calculateTotals(BillProducts)
+            
           })
-          calculateTotals(BillProducts)
+          
 
           td3Input.setAttribute('placeholder','Qty')
           td3Input.style.width='60px'
@@ -758,80 +610,44 @@
 
           td4.innerText = element.item.UMO
           
-        //   td5.textContent = `${element.item.VAT}%`
-
-          td6.textContent= `N${element.item.vendor_Price}`
-
-        //   td8Image.src = imagesrc
-        //   td8Image.width = 20
-
           //assign class
           tr.classList.add('item')
           td3Input.classList.add('itemQty')
-
           //append to quotation 
           tr.appendChild(td2)
-        //   td8.appendChild(td8Image)
           tr.appendChild(td3)
-        //   tr.appendChild(td8)
           tr.appendChild(td4)
-        //   tr.appendChild(td5)
-          tr.appendChild(td6)
-          tr.appendChild(td7)
+       
           body.appendChild(tr)
         });
       }
 
-      //submit to the server and get the results
-      const purchaseForm = document.getElementById('purchaseForm')
-      purchaseForm.addEventListener('submit',async (e)=>{
-        const modal = document.getElementById('myModal')
-        modal.style.display = 'block'
-       
-              spinner = ()=>{
-                return`
-                <div class="modal-body d-flex justify-content-center container">
-                  <div class="spinner-border" text-info" role="status" style="width: 3rem; height: 3rem;">
-                         <span class="visually-hidden">Please Wait...</span>
-                  </div>
-                </div>
-                      `}
 
-              modal.innerHTML = spinner();
-              const ADMINID = document.getElementById('id').value
-              const endpoint = `/Virtual/Purchase/Order/${ADMINID}`
-              const res = await fetch(endpoint,{
+    //   form submision
+    const invoice = document.getElementById('invoice')
+    
+    invoice.addEventListener('submit', async(e)=>{
+        e.preventDefault();
+        setTimeout(() => {
+        alert('registered successfully')
+        localStorage.deleteItem('bill_products');
+      },500)
+
+        const endpoint = `/TransferForm/${invoice.id.value}`
+              const res =  fetch(endpoint,{
                 method:"POST",
                 body: JSON.stringify(BillProducts),
                 headers:{'Content-Type': 'application/json'}
               })
 
               const data = await res.json()
-              if (data){
-                Notification.requestPermission().then((perm) =>{
-                  if(perm ==='granted'){
-                    new Notification('Bigbern Notification',{
-                      body:data.message ? data.message : data.error,
-                      icon:'bade.jpg',
-                    })
-                      localStorage.removeItem('bill_products');
-                      purchaseForm.reset()
-                      location.assign(`/Virtual/Purchase/Order/${ADMINID}`)
-                  }else{
-                    alert(data.message ? data.message : data.error)
-                    if(data.message){
-                      localStorage.removeItem('bill_products');
-                      purchaseForm.reset()
-                      location.assign(`/Virtual/Purchase/Order/${ADMINID}`)
-                    }
-                  }
-                })
-                ;
-              }
-            
-
-      })
-
+                alert(data.message || data.error)
+                if(data.message){
+                    localStorage.removeItem('bill_products');
+                location.reload();
+                }
+              
+    })
 
     </script>
 </html>

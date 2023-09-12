@@ -11,7 +11,9 @@ const Expense = new mongoose.Schema ( {
         ref:'EMPLOYEES'
     },
     payee:String,
-    BankAccount:String,
+    bankAccount:{
+        type: String,
+    },
     ActivityLog:Array,
     Attachment:String,
     Amount:Number,

@@ -292,26 +292,26 @@ transition-delay:1s;
                     <thead class="border">
                       <td class="border"><b>INVOICE REF NO</b></td>
                       <td class="border"><b>CUSTOMER</b></td>
-                      <td class="border"><b>DELIVERY FEE (NGN)</b></td>
-                      <td class="border"><b>SALES PERSON</b></td>
+                      <td class="border"><b>DELIVERY FEE (₦)</b></td>
                       <td class="border"><b>DELIVERY DATE</b></td>
                       <td class="border"><b>DISPATCHER</b></td>
                       <td class="border"><b>DISPATCHER Tel..</b></td>
                       <td class="border"><b>DISPATCHER PLATE Num...</b></td>
                       <td class="'border"><b>COMMENT</b></td>
+                      <td class="'border"><b></b></td>
                     </thead>
                     <tbody id="">
                     <%DeliveredBill.forEach((Delivery)=>{%>
                     <tr>
                       <td class="border"><b onclick="location.assign('/<%=result.WHName%>/bill/<%=Delivery._id%>')"><%=Delivery.billReferenceNo%></b></td>
-                      <td  class="border"><%=Delivery.customerName.toUpperCase()%></td>
-                      <td  class="border">NGN <%=Delivery.shippingFee%></td>
-                      <td  class="border"><%=Delivery.salesPerson.toUpperCase()%></td>
-                      <td  class="border"><%=Delivery.DELIVERYDATE.toLocaleString()%></td>
-                      <td  class="border"><%=Delivery.DriverName.toUpperCase()%></td>
-                      <td  class="border"><%=Delivery.DriverNumber%></td>
-                      <td  class="border"><%=Delivery.vehicleNumber%></td>
+                      <td class="border"><%=Delivery.customerName.toUpperCase()%></td>
+                      <td class="border">₦<%=Delivery.shippingFee%></td>
+                      <td class="border"><%=Delivery.DELIVERYDATE.toString().substring(0,15)%></td>
+                      <td class="border"><%=Delivery.DriverName.toUpperCase()%></td>
+                      <td class="border"><%=Delivery.DriverNumber%></td>
+                      <td class="border"><%=Delivery.vehicleNumber%></td>
                       <td class="border"><%=Delivery.DeliveryComment%></td>
+                      <td class="border" style="cursor: pointer !important;" title="download <%=Delivery.billReferenceNo%> "><img width="20" height="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFSElEQVR4nO2d3U9bZRzHzxLvuHV/iV4IMixs+BYyps5BB4wNhi9ZrAWGDJyM6SKZTgeMohBx8WrzYrrEXTi9AAwagzVbMvbiBmNbKYVBoc/vevozp+nbKZSe0vac5xy+3+SbEEKf0+f74ZznhV8fFAWCIAiCIAiCIAjSiIh2CCEuCiH8QognRMSZWH2NEGJOCHGBiIq1rUO6xcxPCSG+yhSADkAetW2gyFAiDzCi9vl83wJIho8pyhOMqPv6+g4rirINYPTdHRfzDcTr9U4oivIsgOgD4k8O0NN3iXeVNLOj0JWR1dd4+i+tAbKwsBBUFMWpKMp2QEkP5ElygJuBEXV5ScsaIKFQ6N8IkCIAST+GcLI3CyPq9dqMANkDIFkCcY+yLusEUg0gcgFxAgiAWEuEO0QuEYDIJQIQuUQAIpcIQOQSAYhcIgCRSwQgcokARC4RgMglAhC5RAAiV5kOGQikubm52xZlRnks0xkwCsj4+PgvtikzymeZDhkExDZlRkaU6ZCFgRheZmREmQ5ZHIihZUZGlOmQwUAsXWZkRJkOGQzE0mVGRpXpkIFALF1mZHZgbou0b1iZkV0CI7uUGdklMAIQuQKjrQqkquMnLi3eeBYjExBHktX3rvbBNkDSwbDCtLe0uMU+QDbqqBrE4LkfTAfi6U+/MLQlkHTBkElANnNdACkEENwhhbhDGI8sCcaQIc9lfsnRuuGgms0jK5XVaw4PXsYYkgykorxdV4DrTT9TOd10O+qKF9sBJBnI2TPf64DRzFWdV3QD0bMgVa1eG7OsJCChkODuD0c0Qe1r+1F3+LohdV7RXON4+7D6twsAWe83MhQKcVfHN5rAnF1XcwbD2fWzpu2OtiFeXU0NA+sQIl5ZWeUPWgY1we0/+WvWMGpOjWrabHnvHAeDK1gY6lkdrwRXudU1EA+w6H2u7flt0zDqPvsj3EZslnakn5eXg1ipZ7KFsbQUZNc7vRoodacnMoZx4MyfGhjvHv6Clx7rg4FHFmnDWF4K8pG3vtRAqT/7l24YB/uvsaPIHXv924c+58XFZexlZbPJt7iwxE31pxOguLm+7++0MA4NXOfS5+MwGmp7eH5+EZuLySvmzey4BgKPuaGuR7MeaRi8kRJGw9Ct8AIy+vMHaz5l/9wCdntzuQ3u8wX4QPUpLZSvp9bAaBy+w2U74lswNW9+zA8f+LH9nmsgpEJ5NM+1+z6JtVVW0sqNI3dj12k6P8NlLxyNr2He6OYHs3NZXRO7vbRxQPdnfFz12on4nVJylJvOT3PTd7O809EW+/7e3R/x9L1HWcEAENIX0r27D8OBR8PfWdoediIM9WeyhQEgpD+oO7dn+fWK42s2Citf6eSbUzM5gQEglFlYt2/d5z2vdsZg7H75GE/dmM4ZDAChzAO7fu0f3r/3ZNjq17mEASCU2zABJI9lQAQgctVlEYAACGFhSKbfERjUJQidAMT8oAlAMKjnTZhlsX0+jmBlu+0CRG9Jp0Ni2+oTVHpLOh2SOlUJq2WB2NUOAGHTIQDIqPnBA8io+WHbCshWNJkJJNfnZVnd5Rufl+U050Q5HR+8t6N3pTj4IBAIBI0EckGGjT+S2JOTkxOGnZclhHhOCPGf2Z0mie12u09EgFTmHUgEisfsTpOkHhsbu5rwuCo0BIh6erPf7x8xu/MkIYyCgoLaBCDG/vPj3t7eRq/X+7s6iKkzC7MDIYOt9lntu3pOr8vlij6mon5GMUHbIgcGJ74RWAnDMOZk6xTaHjmjtjIys9hqUKojfVczeNpMEBAEQRAEQZCSpP8Bizjvx+gH74MAAAAASUVORK5CYII="></td>
                     </tr>
                   </tbody>
                   <%})%>        
@@ -361,7 +361,7 @@ transition-delay:1s;
                   </div>
                   
                   <div class="col-md-4">
-                    <label for="Grandtotals" class="form-label"> BILL TOTAL (N)</label>
+                    <label for="Grandtotals" class="form-label"> BILL TOTAL (₦)</label>
                     <h5 id="Grandtotals"> </h5>
                 </div>
   
@@ -378,12 +378,12 @@ transition-delay:1s;
                 <input type="text" placeholder="" required class="form-control border" id="DriverNumber" name="DriverNumber"/>
             </div>
             <div class="col-md-4">
-              <label for="fee" class="form-label">DELIVERY FEE (NGN)</label>
+              <label for="fee" class="form-label">DELIVERY FEE (₦)</label>
               <input type="number" placeholder="" required class="form-control border" id="fee" name="fee"/>
             </div>
             <div class="col-md-4">
               <label for="plateNumber" class="form-label">DISPATCHER PLATE NUMBER</label>
-              <input type="text" placeholder="" required class="form-control border" id="plateNumber" name="plateNumber"/>
+              <input type="text" placeholder="Eg ABC-324-XY" required class="form-control border" id="plateNumber" name="plateNumber"/>
           </div>
                 <h5>Dispatcher Order</h5>
                <!-- table sowing products here -->

@@ -6,22 +6,19 @@ const VendorPaymentSchema = new mongoose.Schema( {
         type:String,
         required: true
     },
-    initiatorId:{//person who actions the payment
+    AccountatntId:{//person who actions the payment
         type:mongoose.Types.ObjectId,
         ref:'EMPLOYEES'
     },
-    BankAccount:String,
     ActivityLog:Array,
-    Attachment:String,
     Amount:Number,
     PaymentDate:String,
     status:{
         type:String,
         default:"pending"
     },
-    BankJornal:{
-        type:mongoose.Types.ObjectId,
-        ref:'Account'
+    bankAccount:{
+        type: String,
     },
     remarks:String,
     Vendor: {

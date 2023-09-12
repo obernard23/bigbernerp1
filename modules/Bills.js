@@ -1,6 +1,4 @@
-const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose')
-var id = new mongoose.Types.ObjectId;
 
 const BillsSchema = new mongoose.Schema({
     customer:{
@@ -27,7 +25,9 @@ const BillsSchema = new mongoose.Schema({
     status:{
         type:String,
     },
-    bankAccount:{type:String},
+    bankAccount:{
+        type: String,
+    },
     discount:{type:Number},
     taxRate:{},
     whId:{
@@ -35,7 +35,7 @@ const BillsSchema = new mongoose.Schema({
         ref:'whouses',
         required:true,
     },
-    salesPerson:{type:String},
+    RaiseBy:{type:String},
     signatureUrl:{type:String},
     ActivityLog:[],
     rejectionReasons:String,
@@ -51,6 +51,13 @@ const BillsSchema = new mongoose.Schema({
     DeliveryComment:String,
     customerName:String,
     whProductId:mongoose.Types.ObjectId,//to map back to store object of product  so we can reduce quantity
+    AccountantId:{
+        type:mongoose.Types.ObjectId,
+        ref:'Employees',
+    },
+    AccountantName:{
+        type: String,
+    }
 })
 
 const bills = mongoose.model('bill',BillsSchema)

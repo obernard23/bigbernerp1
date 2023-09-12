@@ -156,17 +156,36 @@ router.get('/warehouse/purchase/:WHID',requireAuth,authController.wareHouse_Purc
 // virtual warehouse routes
 router.get('/VIRTUAL/:ADMINID',requireAuth,adminWareHouseSetUp,authController.virtual_get)
 router.get('/VIRTUAL/SCRAP/:ADMINID',requireAuth,adminWareHouseSetUp,authController.virtual_Scrap)
+router.get('/scrap/single/:ID',requireAuth,authController.SingleScrap_get)
 router.get('/Product/Create-new',requireAuth,authController.ProductCreate_get);//add virtual to url
 router.get('/VIRTUAL/Purchase/:ADMINID',requireAuth,adminWareHouseSetUp,authController.PurchaseLanding_get)
 //purchse routers
 router.get('/purchase/:ADMINID',requireAuth,authController.PurchaseRequestForm_get)
 router.get('/vendor/:id',requireAuth,authController.vendorFind_get)// kept at mind cant find url
 router.get('/Virtual/Purchase/Order/:ADMINID',requireAuth,adminWareHouseSetUp,authController.PurchaseOrder_get)
+router.get(`/Vendorproduct/:vendorID`,requireAuth,authController.productsJson_get)//json to get product by vendorID
 router.get("/Virtual/Purchase/Request/:ADMINID",requireAuth,adminWareHouseSetUp,authController.PurchaseRequest_get)
 router.post('/Virtual/Purchase/Order/:ADMINID',requireAuth,adminWareHouseSetUp,authController.PurchaseOrder_post)
 router.get('/Purchase/bill/:billReferenceNo',requireAuth,authController.SinglePurchasebillReferenceNo_get)
+router.get('/Virtual/Product/TransferLogs/:ADMINID',requireAuth,adminWareHouseSetUp,authController.productTransferLogs_get)// for transfers to warehouse log
+router.get('/Virtual/Product/TransferForm/:ADMINID',requireAuth,adminWareHouseSetUp,authController.ProductTransferForm_get)
+router.post('/TransferForm/:ADMINID',requireAuth,adminWareHouseSetUp,authController.ProductTransferForm_post)
+router.get('/warehouse/json/:WHID',requireAuth,authController.wareHouseJson_get)//SENDS WHID,STOREPRODUCT PER WHID,PRODUCT LIST
+
+// SET UP COMPANY details
+
+router.get('/Company/Register/:ADMINID',requireAuth,adminWareHouseSetUp,authController.companyRegister_get)
+router.post('/company/register/:ADMINID',requireAuth,adminWareHouseSetUp,authController.companyRegister_post);
 // expense routes
 router.get('/CFO/EXPENSE/:CFOID',requireAuth,authController.CFexpense_get)
 router.get('/Vendor/Bills/:CFOID',requireAuth,authController.CFOVendorBill_get)
+router.patch('/Vendor/Bill/:BillId',requireAuth,authController.CFOVendorBill_patch)
 router.get('/EXP/:id',requireAuth,authController.SingleExpense_get)
+router.get('/AccountSettingLanding/:id',requireAuth,authController.AccountSettingLanding_get)
+router.post('/Bank/Account/create',requireAuth,authController.BankAccount_post)
+
+// accountant routes
+router.get('/Credit/customers',requireAuth,authController.CreditCustomers_get)
+router.post('/CREDIT/log',requireAuth,authController.registerCustomerPayment_post)
+
 module.exports = router;

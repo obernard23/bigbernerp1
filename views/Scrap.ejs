@@ -259,48 +259,20 @@
               </div>
            <div class="h-59 p-1 d-flex flex-column" >
                 <%if(Scraps.length > 0){%>
-                  <%Scraps.forEach(Scrap=>{%>
+                  <%Scraps.map(Scrap=>{%>
                   <!-- display here  -->
                   <span onclick="location.assign('')" class="list-group position-relative mb-2">
-                    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" >
-                        <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='grand total of this bill'>
-                           <%if(Scrap.status==='Approved'){%>
-                          <span class="badge bg-secondary">SCRAPED</span>
-                          <%}%>
-                        </small>
-                            <p title="Manager">
-                              <%pname = prud.filter(name=>{%>
-                                <% return name.ACDcode.toString() === Scrap.ADC_CODE.toString()%>
-                                <%})%>
-                                 <%pname.map(n=>{%>
-                                   <%=n.Name.toUpperCase()%>
-                                 <%})%>
-                            </p>
-                          <div>
-                            <p> <%pname = prud.filter(name=>{%>
-                              <% return name.ACDcode.toString() === Scrap.ADC_CODE.toString()%>
-                              <%})%>
-                               <%pname.map(n=>{%>
-                                 1 x <%=n.UMO.toUpperCase()%>
-                               <%})%>
-                              </p>
-                          </div>
-                          <div title="Mail status">
-                            <%if(Scrap.mailSent){%>
-                              <img 
-                              width="30"
-                              height="30"
-                              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC6ElEQVR4nO2YTWgTQRiGRxFEUBRFaAh66alI9dCLBz1YitCDJxFvXgz1KChJRSyhYKFgsvNFRUTw4kGhPYmIB62Ch5gZAi1LpdUi2l6UoOBPdWeidmR/YrbWJJP9mU1hH/ggkMs3m2ffzbsIxcTExIRJvih2Fmh1CAi7jdYLhddis0bZMaB8AhNWBcoFJuwc6nQKpWofUF7AlH00l64P+3mdLHehTiRHf+zBhA0D4QvupXMvDJF59Nn6jAl/iDqJ8bLYjkv8FBD+GBO2svpqczEy9U30X3snrhQN+wCUn4x6Z5QVYqNGjQFM2B0gbPnfpcGZ1GRFdI+8FJeefHWWZ1/yRbElssU1wvcB5eOY8veNlgZHmcGbSyKR0cXpiYrb/1uRRR+mrNxsaXAps3/slbX80RuLq78vVw9FFn0yk5qsiL0XZ63ley/P//XembdCiA0RRV/zcSuTyOjWIWreu/TJKo0+2XErk3BmtffWg2ulUDa6lUWfF2USzqzx3r76z5VFnxdlatO71ntrNMJToUefH2Uae8/N7DfwtNjh+QBA2N0gFm+kTCPvoe7/PeTbd8IXw1Cmufe89gsMIr9opephTNmvIJVp5T3Y/3s+ZJ+JTSgIMOW5IJVp5j3UD5BDQT5dMWUzQSjTyntw5mqJH0BBYiaSmQp+lJHxHmz3Z1AYAGHnvSoj4z3U0yec2mg+0IDyKS/KyHgPKmpjvvg9CZR9akcZWe9BVW0Eyo7LKiPrPdTTR01t7BtbONIzOn8/OawbQXgPUdXGXem5bYm0PpRI62Xv3vPoaqOb/x1CxntQXRsb0ZXRz3jxHlTVxlbszs5uTV6w7wlZ70Ovje3SMzr3oD3vQ6iNfjiovRloy/ugamOQAOEnag87mdH81MawsN5YUP5UIvv91cYwMVMFKDuLCWNN/PdXG1Vgvxxg06HVRhWYpch8wwGE/Q6lNqpCKxn9QPhS4LVRJeZNa76yCbw2xsTEoHXLH1K6lxNbQo4wAAAAAElFTkSuQmCC">
-                            <%}else{%>
-                              
-                            <%}%>
-                          </div>
-                          <div>
-                            <p><%=Scrap.REASON%></p>
-                          </div>
-                            <p title="reference Number" >Serial No:<%=Scrap.SERIALnUMBER%></p>
-                      </div> 
-                    </span>
+                  <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='grand total of this bill'>
+                      <%if(Scrap.status==='Approved'){%>
+                     <span class="badge bg-secondary">SCRAPED</span>
+                     <%}%>
+                   </small>
+                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="http://">
+                           SCRP/<%=Scrap.ADC_CODE%>/<%=Scrap.SERIALnUMBER%>
+                    </a>
+                  </div>
+                  </span>
                   <%})%>
                 <%}else{%>
                <p>Nothig to display</p>

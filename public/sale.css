@@ -64,7 +64,6 @@ input:checked + .slider:before{
     text-align: center;
     padding: 5px;
     border: 1px solid rgba(167, 165, 165, 0.273);
-    color:
 }
 
 #tbody tr:nth-child(odd){
@@ -77,7 +76,7 @@ textarea:focus{
 }
 
 table{
-    font-size: x-small !important
+    font-size: small !important
 }
 
 #warehouseEdit label{

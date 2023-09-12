@@ -487,8 +487,8 @@
               <td  >QTY</td>
               <td  >Scale</td>
               <td  >VAT</td>
-              <td  >Unit Price (N)</td>
-              <td  >Total (N)</td>
+              <td  >Unit Price (₦)</td>
+              <td  >Total (₦)</td>
             </tr>
             <tbody  class="item" id="item">
              
@@ -501,8 +501,8 @@
                     <td  ><%=bill.Qty%></td>
                     <td  ><%=bill.item.UMO%></td>
                     <td  ><%=bill.item.VAT%></td>
-                    <td  ><%=bill.priceListPrice%></td>
-                    <td  ><%=bill.total%></td>
+                    <td  > ₦<%=bill.priceListPrice%></td>
+                    <td  > ₦<%=bill.total%></td>
                   </tr>
                 <%})){%>
                 <%}%>
@@ -520,7 +520,7 @@
               <tr class="item">
                 <td></td>
                 <td>Subtotal:</td>
-                <td id="Subtotal">N<%=Singlebill.subTotal%></td>
+                <td id="Subtotal"> ₦<%=Singlebill.subTotal%></td>
               </tr>
 
               <tr class="item">
@@ -532,19 +532,19 @@
               <tr class="item">
                 <td></td>
                 <td>Tax Rate:</td>
-                <td>N<%=Singlebill.taxRate%></td>
+                <td>₦<%=Singlebill.taxRate%></td>
               </tr>
 
               <tr class="no-border-item">
                 <td></td>
                 <td>Shipping/Handling:</td>
-                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px"value="<%=Singlebill.shippingFee%>" disabled> </td>
+                <td> ₦<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px"value="<%=Singlebill.shippingFee%>" disabled> </td>
               </tr>
 
               <tr class="total">
                 <td></td>
                 <td>Total Due:</td>
-                <td id="Grandtotal">N<%=Singlebill.grandTotal%></td>
+                <td id="Grandtotal">₦<%=Singlebill.grandTotal%></td>
               </tr>
           </table>
           <p>Total in words:</p>
@@ -634,20 +634,21 @@
 
                 <div class="col-md-4">
                   <label for="validationCustom01" class="form-label">RECEIVING JOURNAL </label>
-                  <input type="text" list="pickManager" name="bankAccount" required class="form-control border" placeholder="Choose from Account list" required/>
-                  <datalist id="pickManager" >
+                  <select id="bankAccount" name="bankAccount" class="form-select" >
+                    <option value="">Choose...</option>
                    <!-- display options for department -->
-                 <option >Zenith bank</option>
-                 <option >Access Bank</option>
-                 <option >GT Bank</option>
-                 <option >CASH</option>
-                   </datalist>
+                   <%if(account.length > 0){%>
+                    <%account.forEach((account)=>{%>
+                      <option value="<%=account.AccountNum%>"><%=account.bankName%></option>
+                    <%})%>
+                    <%}%>
+                   </select>
               </div>
 
               <div class="col-md-4">
-                  <label for="validationCustom01" class="form-label">BILL TOTAL (N)</label>
+                  <label for="validationCustom01" class="form-label">BILL TOTAL (₦)</label>
                   <input type="number" disabled id="Grandtotals" class="form-control" value="<%=Singlebill.grandTotal%>" hidden/>
-                  <h5 id="Grandtotals" data-grandTotal="<%=Singlebill.grandTotal%>">N <%=Singlebill.grandTotal%></h5>
+                  <h5 id="Grandtotals" data-grandTotal="<%=Singlebill.grandTotal%>">₦ <%=Singlebill.grandTotal%></h5>
               </div>
 
               <div class="col-md-4">
@@ -678,7 +679,7 @@
 
               <div class="col-md-4">
                   <label for="InvoiceNo" class="form-label">Customer Current Debt</label>
-                 <h5 style="color: rgb(50, 68, 40);">Debit:N<%=cust.Debt%></h5>
+                 <h5 style="color: rgb(50, 68, 40);">₦<%=cust.Debt%></h5>
               </div>
 
               <!-- <div class="progress">
@@ -690,7 +691,7 @@
 
               <div class="col-md-4">
               <label class="form-label" style="height: 3px;" title="Attachement upload progress"><%=cust.Username.toUpperCase()%>'s  credit Limit</label>
-              <h5>N <%=cust.creditLimit%></h5>
+              <h5>₦ <%=cust.creditLimit%></h5>
             </div>
 
               <div class="col-md-4">
@@ -702,7 +703,8 @@
                 <label for="InvoiceNo" class="form-label"> All done!</label>
                   <button class="btn btn-success form-control" disabled  id="submit" >Confirm Payment for <%=cust.Username.toUpperCase()%></button>
               </div>
-
+              <input type="text" value="<%=user._id%>"  name="AccountantId" hidden disabled>
+              <input type="text" value="<%=user.firstName%> <%=user.lastName%>"  name="AccountantName" hidden disabled>
             </form>
       </div>
   </div>
@@ -828,7 +830,9 @@ let app = firebase.initializeApp(firebaseConfig);
      paymentMethod :form.paymentMethod.value,
      supportDoc:supportDoc,
      billStatus:'Invoiced',
-     remark: form.remark.value
+     remark: form.remark.value,
+     AccountantId:form.AccountantId.value,
+     AccountantName:form.AccountantName.value
     }
 
     const request = await fetch(url,{

@@ -503,7 +503,7 @@
               <tr class="no-border-item">
                 <td></td>
                 <td>Shipping/Handling:</td>
-                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px" > </td>
+                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px" disabled> </td>
               </tr>
 
               <tr class="total">
@@ -526,7 +526,8 @@
             </div>
 
             <div class="form signer-item">
-              <label for="signature" class="label" >Raised by: <%=user.firstName.toUpperCase()%> on Behalf of Sales person</label>
+              <label for="signature" class="label" >Raised by: <%=user.firstName.toUpperCase()%></label>
+              <input type="hidden" value="<%=user.firstName%> <%=user.lastName%>"  id="raisedBy" hidden disabled>
               <img class="logo" src=""
                 id="signature"
               />
@@ -564,6 +565,7 @@
         localStorage.removeItem('bill_products');
             if(!BillProducts ){
             submitBtn.style.display = 'none'
+            
           }
       }
 
@@ -577,6 +579,7 @@
                 headers:{'Content-Type': 'application/json'}
             })
             const data = await res.json()
+
             const Username = document.getElementById('Username').innerText = `Billed for: ${data.item.Username}`;
             const Email =  document.getElementById('Email').innerText = `Email: ${data.item.Email}`;
             const phone = document.getElementById('phone').innerText = `phone: ${data.item.phone}`;
@@ -597,7 +600,7 @@
             document.getElementById('Subtotal').innerHTML = "N0.00"
             document.getElementById('Shipping').value = 0
             BillProducts.customer = data.item._id //assign custom properties
-            BillProducts.salesPerson = data.item.salesPerson.firstName 
+            BillProducts.RaiseBy = document.getElementById('raisedBy').value
             BillProducts.discount = data.item.discount //assign custom discount
             BillProducts.priceList = data.item.priceList //assign customizes price list for product for diffrent customer pricelist
             BillProducts.ActivityLog.push({
@@ -624,7 +627,7 @@
         if(quoteData === null){
           const d = new Date();
           return {
-          grandTotal:0,
+            grandTotal:0,
           shippingFee:0,
           subTotal:0,  
           startDate:`${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
@@ -636,7 +639,7 @@
           discount:'',
           taxRate:'',
           whId:'',
-          salesPerson:'',
+          RaiseBy:'',
           signatureUrl:'',
           ActivityLog:[],
           rejectionReasons:'',
@@ -658,6 +661,8 @@
           DELIVERYDATE:"",
           isDelivered:false,
           customerName:"",
+          AccountantId:'',
+          AccountantName:'',
           
           };
         }else{

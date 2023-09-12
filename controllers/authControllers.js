@@ -29,6 +29,10 @@ var moment = require('moment');
 const { accountSid,authToken} = require('../.env')
 let date = new Date()
 var responseDate = moment(date).format("dddd, MMMM Do YYYY,");
+const Account = require('../modules/BankAccount')
+const CreditCustomerPayment = require('../modules/Creditpayment');
+const Customer = require("../modules/customers");
+const ProductTransfer = require("../modules/WHTransferLog");
 
 // handle errors
 const handleErrors = (err) => {
@@ -86,48 +90,57 @@ module.exports.Signature_get = async(req,res,next) =>{
   next()
 }
 
+
+
+module.exports.companyRegister_get = async(req,res)=>{
+  const states = await NaijaStates.all();
+  res.status(200).render('companyRegister',{states})
+}
+
+module.exports.companyRegister_post = async(req,res)=>{
+  console.log(req.body)
+}
+
 module.exports.Dashboard_get = async (req, res) => {
 
-  res.render("dashboard", { title: "Dashboard", name: "Bigbern" ,responseDate});
+  res.render("dashboard", { title: "Dashboard", name: "BADE" ,responseDate});
 };
 
 module.exports.signup_get = (req, res) => {
-  res.render("signup", { title: "Ecommerce", name: "BigBern" });
+  res.render("signup", { title: "Ecommerce", name: "BADE" });
 };
 
 module.exports.signin_get = (req, res) => {
-  let date = new Date()
-    var responseDate = moment(date).format("YYYY");
   res.render("SignIn", { title: "Ecommerce", name: "BADE",responseDate });
 };
 
 module.exports.cart_get = (req, res) => {
-  res.render("Cart", { title: "Ecommerce", name: "BigBern" });
+  res.render("Cart", { title: "Ecommerce", name: "BADE" });
 };
 
 module.exports.FAQ_get = (req, res) => {
-  res.render("FAQ", { title: "Ecommerce", name: "BigBern" });
+  res.render("FAQ", { title: "Ecommerce", name: "BADE" });
 };
 
 module.exports.index_get = (req, res) => {
-  res.render("index", { title: "Ecommerce", name: "BigBern" });
+  res.render("index", { title: "Ecommerce", name: "BADE" });
 };
 
 module.exports.About_get = (req, res) => {
-  res.render("About", { title: "Ecommerce", name: "BigBern" });
+  res.render("About", { title: "Ecommerce", name: "BADE" });
 };
 
 module.exports.Notification_get = async(req, res) => {
   const wHouse = await WHouse.findOne({_id:new ObjectId(req.params.WHID)})
-  res.render("Notification", { title: "Ecommerce", name: "BigBern" ,result:wHouse});
+  res.render("Notification", { title: "Ecommerce", name: "BADE" ,result:wHouse});
 };
 module.exports.Register_get = async(req, res) => {
   const employees = await Employe.find()
-  res.render("register-customer", { title: "Ecommerce", name: "BigBern" ,employees});
+  res.render("register-customer", { title: "Ecommerce", name: "BADE" ,employees});
 };
 
 module.exports.Reset_get = (req, res) => {
-  res.render("Reset", { title: "Ecommerce", name: "BigBern" });
+  res.render("Reset", { title: "Ecommerce", name: "BADE" });
 };
 
 module.exports.logout_get = (req, res) => {
@@ -136,7 +149,7 @@ module.exports.logout_get = (req, res) => {
 };
 
 module.exports.edith_get = async (req, res) => {
-  res.render("Edit", { title: "Ecommerce", name: "BigBern" });
+  res.render("Edit", { title: "Ecommerce", name: "BADE" });
 };
 
 // register new employee
@@ -235,7 +248,7 @@ module.exports.OnboardEmployee_get = async (req, res) => {
  const Warehouse = await WHouse.find()
 //  console.log(NaijaStates.lgas("Oyo"))
   const Employee = await Employe.find();
-  res.status(200).render("employeeRegister", { name: "bigBern",states ,Employee,Warehouse});
+  res.status(200).render("employeeRegister", { name: "BADE",states ,Employee,Warehouse});
 };
 
 module.exports.OnboardEmployee_post = async(req, res)=>{
@@ -343,17 +356,17 @@ module.exports.Lead_post = async (req, res) => {
 
 module.exports.ProductCreate_get = async (req, res) => {
   const vendor = await Vendor.find();
-  res.render("Create", { title: "Ecommerce", name: "BigBern", vendor });
+  res.render("Create", { title: "Ecommerce", name: "BADE", vendor });
 };
 
 //get and dispaly all vendor
 module.exports.Vendors_get = async (req, res) => {
   const vendor = await Vendor.find();
-  res.render("Vendors", { vendor, title: "Vendors", name: "BigBern" });
+  res.render("Vendors", { vendor, title: "Vendors", name: "BADE" });
 };
 
 module.exports.VendorCreate_get = async (req, res) => {
-  res.render("Vendor-create", { title: "Vendors", name: "BigBern" });
+  res.render("Vendor-create", { title: "Vendors", name: "BADE" });
 };
 
 module.exports.VendorCreate_post = async (req, res) => {
@@ -368,7 +381,7 @@ module.exports.VendorCreate_post = async (req, res) => {
 // get all products
 module.exports.Product_get = async (req, res) => {
   const Products = await Product.find();
-  res.render("Products", { Products, title: "Sales", name: "BigBern" });
+  res.render("Products", { Products, title: "Sales", name: "BADE" });
 };
 
 //get single product
@@ -386,7 +399,7 @@ module.exports.SingleProduct_get = async (req,res) => {
 //get all ecomerce customers
 module.exports.Customer_get = async (req, res) => {
   const Cusomers = await customer.find();
-  res.render("Customers", { Cusomers, title: "Sales", name: "BigBern" });
+  res.render("Customers", { Cusomers, title: "Sales", name: "BADE" });
 };
 
 module.exports.ProductCreate_post = async (req, res) => {
@@ -522,7 +535,7 @@ module.exports.Invoice_get = async (req, res) => {
           prud,
           Cusomers,
           title: "Vendors",
-          name: "BigBern",
+          name: "BADE",
           products
         });
       });
@@ -571,7 +584,7 @@ module.exports.stock_get = async (req, res) => {
   const wareHouse = await WHouse.find();
   const storeProducts = await storeProduct.find();
   const employees = await Employe.find();
-  res.render("AllVirtualLocation", { Products, wareHouse,storeProducts,employees, name: "BigBern" });
+  res.render("AllVirtualLocation", { Products, wareHouse,storeProducts,employees, name: "BADE" });
 };
 
 //create product in storeProduct collection 
@@ -582,8 +595,7 @@ module.exports.WareHouseStoreage_post = async (req, res) => {
       const wH = await WHouse.findById(ObjectId(WHIDS))
      await storeProduct.create({WHIDS,productId })
      .then(product => {
-      let date = new Date()
-    var responseDate = moment(date).format("YYYY");
+    
       product.ActivitiyLog.push({message: `Product registered successfully by Administrator on ${responseDate}`})
       wH.Notification.push({message: `New product has been created in your inventory catalog by Administrator. on ${responseDate}`})
       product.save()
@@ -863,6 +875,7 @@ module.exports.Payment_get = async (req, res) =>{
 module.exports.RegisterPayment_get = async (req, res,next) =>{
   if (ObjectId.isValid(req.params.billId)) {
     Singlebill = await bills.findOne({ _id: ObjectId(req.params.billId) });
+    const account = await Account.find({inactive:false})
     await WHouse.findOne({ _id: new ObjectId(Singlebill.whId) }).then(
       async (warehouse) => {
         cust = await customer.findOne({
@@ -873,6 +886,7 @@ module.exports.RegisterPayment_get = async (req, res,next) =>{
           Singlebill,
           warehouse,
           cust,
+          account
         });
       }
     );
@@ -899,8 +913,8 @@ module.exports.BillsWorkBook_get = async (req, res, next) => {
     workSheet.Sheet1.push({
       _id: `${data._id}`,
       customerId: data.customer.toString(),
-      "Grand Total (NGR)" : parseInt(data.grandTotal),
-      "ShippingFee (NGR)": data.shippingFee,
+      "Grand Total (₦)" : `₦${parseInt(data.grandTotal)}`,
+      "ShippingFee (₦)": `₦${data.shippingFee}`,
       "Start Date": data.startDate,
       "Payment Method": data.paymentMethod,
       Orders: data.orders.length,
@@ -908,11 +922,11 @@ module.exports.BillsWorkBook_get = async (req, res, next) => {
       Status: data.billStatus,
       "Bank Account": data.bankAccount,
       "Discount %": data.discount,
-      "Ware House":data.whId.toString(),
-      "Sales Person": data.salesPerson,
-      "Registered Balance":data.registeredBalance,
+      "raised By": data.RaiseBy,
+      "Registered Balance":`₦${data.registeredBalance}`,
       "Reference No":data.billReferenceNo,
-      "Bill Status":data.status
+      "Bill Status":data.status,
+      AccountantName:data.AccountantName
     });
   });
 
@@ -979,7 +993,7 @@ module.exports.RegisterPayment_patch = async(req, res,next) => {
         await bills.updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
          .then(async (bill) =>{
            if(bill.acknowledged){
-             await updatedBill.ActivityLog.unshift({logMsg:`Accountant Remarks: (${update.paymentMethod}:N${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
+             await updatedBill.ActivityLog.unshift({logMsg:`${update.AccountantName} Remarks: (${update.paymentMethod}:₦${update.registeredBalance}) ,${update.remark}.`,status:updatedBill.billStatus})
              updatedBill.save()
             //  remove product from ware house productt list
             // find warehouse product by bill ware house id
@@ -1177,10 +1191,10 @@ module.exports.Inventory_patch  = async (req, res, next) => {
     .then(async(response)=>{
       if(response.acknowledged){
         log = await storeProduct.findById(req.params.PRODID)
-        log.ActivitiyLog.unshift({message:`${ req.body.pendings} ${product.UMO} was transfered From virtual ware house on ${new Date(Date.now()).toLocaleString()}`})
+        log.ActivitiyLog.unshift({message:`${ req.body.pendings} ${product.UMO} was transfered From virtual ware house on ${new Date(Date.now()).toLocaleString()} with batch ref ${req.body.Batch_Ref}`})
         log.save()
         product.virtualQty = product.virtualQty - log.pendings
-        product.ActivityLog.unshift({message:`${ req.body.pendings} ${product.UMO} was transfered to ${wh.WHName} on ${new Date(Date.now()).toLocaleString()}`})
+        product.ActivityLog.unshift({message:`${ req.body.pendings} ${product.UMO} was transfered to ${wh.WHName} on ${new Date(Date.now()).toLocaleString()} with batch ref ${req.body.Batch_Ref}`})
         product.save()
         res.status(200).json({message:`New batch transfered to ${wh.WHName} sucessfully `})
       }
@@ -1207,12 +1221,32 @@ module.exports.virtual_Scrap = async(req, res, next)=>{
   res.status(200).render('Virtualscrap',{Scraps,wH,Products})
 }
 
+module.exports.SingleScrap_get = async (req, res)=>{
+ try {
+  const scraps = await Scrap.findById(new ObjectId(req.params.ID))
+  .then(async(scrap)=>{
+    await storeProduct.findById(new ObjectId(scrap.storeProductId))
+   .then(async(store)=>{
+    const products  = await Product.findById(new ObjectId(store.productId))
+    console.log(products)
+    res.status(200).render('SingleScrap',{products,scrap })
+  })
+  })
+ } catch (error) {
+  console.log(error)
+ }finally {
+  res.end()
+ }
+}
+
 //expense get for cfo
 module.exports.CFexpense_get = async(req,res)=>{
   const Expenses = await Expense.find()
   const WHID = await WHouse.find()
   res.status(200).render('CFexpense',{Expenses,WHID})
 }
+
+
 
 // lading page for accountants
 module.exports.paymentLanging_get = async(req, res)=>{
@@ -1277,21 +1311,42 @@ module.exports.CFOVendorBill_get = async(req,res, next) => {
   res.status(200).render('CFOVendorBill',{VendorBills,vendor})
 }
 
+// register payment for vendor bills
+module.exports.CFOVendorBill_patch = async (req, res, next) => {
+ try {
+  await VendorPayment.updateOne({ billReferenceNo: req.params.BillId}, { $set: req.body})
+  .then((response)=>{
+    if(response.acknowledged){
+      res.status(200).json({ message:'Payment updated successfully'})
+    }else{
+      throw new Error('Something went wrong')
+    }
+  })
+ } catch (error) {
+  res.status(500).json({error: error.message})
+ } finally {
+  next()
+ }
+}
+
 // get single PO 
 module.exports.SinglePurchasebillReferenceNo_get = async (req, res,next) => {
  try {
   await PurchaseOrder.findOne({billReferenceNo: req.params.billReferenceNo})
   .then(async(result) => {
     const vendor = await Vendor.findById(new ObjectId(result.Vendor))
-    res.status(200).render('SinglePurchaseBillReference',{Singlebill:result,vendor})
-    res.end()
+    const Acconuts = await Account.find() 
+    const VendorPayments = await VendorPayment.findOne({billReferenceNo: req.params.billReferenceNo})
+    res.status(200).render('SinglePurchaseBillReference',{Singlebill:result,vendor,Acconuts,VendorPayments})
   })
  } catch (error) {
-  console.log(error.message)
- }finally{
+  res.status(500).json({error: error.message})
+  }finally{
   next()
  }
 }
+
+
 
 
 // patch to return backto virtual warehouse
@@ -1329,5 +1384,109 @@ module.exports.SingleExpense_get = async(req,res)=>{
   console.log(error)
  }finally {
   res.end()
+ }
+}
+
+//send json for product list 
+module.exports.productsJson_get = async (req,res) => {
+  const productsJson = await Product.find({Vendor: ObjectId(req.params.vendorID)})
+  res.status(200).send(productsJson)
+}
+
+///Credit/customers get 
+module.exports.CreditCustomers_get = async (req,res) =>{
+ const creditCustomes = await customer.find({category:'Credit-Customer'})
+ const Acconuts = await Account.find()
+ const creditPayment = await  CreditCustomerPayment.find()
+ res.status(200).render('CreditPayment', {creditCustomes,Acconuts,creditPayment})
+}
+
+
+// for AccountSettingLanding
+module.exports.AccountSettingLanding_get =async(req,res)=>{
+  const account = await Account.find()
+  res.render('AccountSettingLanding',{account});
+}
+
+// to create bank ,account
+module.exports.BankAccount_post = async(req,res)=>{
+ try {
+  await Account.create(req.body)
+  .then((account)=>{
+    if(account){
+      res.status(200).json({message:`${account.NAME} added to list of account`})
+    }else{
+      throw new Error('something went wrong')
+    }
+  })
+ } catch (error) {
+  res.status(500).json({message:error.message})
+ }
+}
+
+//register customer payment
+module.exports.registerCustomerPayment_post = async (req,res)=>{
+
+    await CreditCustomerPayment.create(req.body)
+  .then(async(payment)=>{
+    let customer =  await Customer.findById( ObjectId(payment.customer))
+    const debt  = customer.Debt
+    customer.Debt =  parseInt(debt) - parseInt(payment.Amount)
+    customer.save()
+    payment.ActivityLog.unshift({message:"New payment recorded successfully"})
+    payment.save()
+    res.status(200).json({message:"New payment recorded successfully"})
+  })
+}
+
+// for transfers logs to ware house
+module.exports.productTransferLogs_get = async (req,res) =>{
+
+ const transferLogs =  await ProductTransfer.find()
+ const WHous = await WHouse.find()
+  res.status(200).render('ProductTransferLanding',{transferLogs,WHous})
+
+}
+
+//product trasferform
+module.exports.ProductTransferForm_get = async (req, res,next) => {
+ try {
+  const WHous = await WHouse.find()
+  const PurchaseOrders = await PurchaseOrder.find()
+  res.status(200).render('ProductTransferForm',{WHous,PurchaseOrders})
+} catch (error) {
+  console.log(error)
+ }finally {
+  res.end()
+ }
+}
+
+
+// get warehouse json data for product transfer form
+module.exports.wareHouseJson_get = async (req, res) => {
+  try{
+    
+  const WHous = await WHouse.findOne({_id:req.params.WHID})
+  const storeproduct = await storeProduct.find({WHIDS:req.params.WHID})
+  const products = await Product.find()
+  res.json({WHID:WHous._id,products,storeproduct}) 
+
+  }catch(err){
+    res.end() 
+  }
+}
+
+// post for product transfer
+module.exports.ProductTransferForm_post = async(req, res, next)=>{
+ try {
+  await ProductTransfer.create(req.body).then((product)=>{
+    if(product){
+      res.status(200).json({message:'Batch loged successfully'})
+    }else{
+      throw new Error('Product transfer failed')
+    }
+  })
+ } catch (error) {
+  res.status(500).json({error: error.message})
  }
 }

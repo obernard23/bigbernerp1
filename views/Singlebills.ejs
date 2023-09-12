@@ -433,8 +433,8 @@
               <td  >QTY</td>
               <td  >Scale</td>
               <td  >VAT</td>
-              <td  >Unit Price (N)</td>
-              <td  >Total (N)</td>
+              <td  >Unit Price (₦)</td>
+              <td  >Total (₦)</td>
             </tr>
             <tbody  class="item" id="item">
              
@@ -447,8 +447,8 @@
                     <td  ><%=bill.Qty%></td>
                     <td  ><%=bill.item.UMO%></td>
                     <td  ><%=bill.item.VAT%></td>
-                    <td  ><%=bill.priceListPrice%></td>
-                    <td  ><%=bill.total%></td>
+                    <td  >₦<%=bill.priceListPrice%></td>
+                    <td  >₦<%=bill.total%></td>
                   </tr>
                 <%})){%>
                 <%}%>
@@ -466,7 +466,7 @@
               <tr class="item">
                 <td></td>
                 <td>Subtotal:</td>
-                <td id="Subtotal">N<%=Singlebill.subTotal%></td>
+                <td id="Subtotal">₦<%=Singlebill.subTotal%></td>
               </tr>
 
               <tr class="item">
@@ -478,19 +478,19 @@
               <tr class="item">
                 <td></td>
                 <td>Tax Rate:</td>
-                <td>N<%=Singlebill.taxRate%></td>
+                <td>₦<%=Singlebill.taxRate%></td>
               </tr>
 
               <tr class="no-border-item">
                 <td></td>
                 <td>Shipping/Handling:</td>
-                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px"value="<%=Singlebill.shippingFee%>" disabled> </td>
+                <td>₦<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px"value="<%=Singlebill.shippingFee%>" disabled> </td>
               </tr>
 
               <tr class="total">
                 <td></td>
                 <td>Total Due:</td>
-                <td >N <%=Singlebill.grandTotal%></td>
+                <td >₦ <%=Singlebill.grandTotal%></td>
                
               </tr>
 
@@ -515,7 +515,7 @@
             </div>
 
             <div class="form signer-item">
-              <label for="signature" class="label">Issued by: <%=Singlebill.salesPerson%></label>
+              <label for="signature" class="label">Issued by: <%=Singlebill.RaiseBy%></label>
               <img class="logo" src="<%=Singlebill.signatureUrl%>"
                 id="signature"
               />

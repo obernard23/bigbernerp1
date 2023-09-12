@@ -22,7 +22,7 @@
                 aria-expanded="false"
                 style="color: #fff !important"
               >
-               Purchase Orders
+               Product Transfers
               </a>
             </h5>
           </li>
@@ -42,31 +42,34 @@
      <div class="d-flex justify-content-between p-2 m-1 bg-success-subtle ">
         <h5 class="font-bold"></h5>
         <%if(user.role === "Admin"){%>
-         <button class="btn btn-success" onclick="location.assign('/purchase/<%=user._id%>')">Generate LPO</button>
+         <button class="btn btn-success" onclick="location.assign('/Virtual/Product/TransferForm/<%=user._id%>')">Generate Transfer</button>
         <%}%> 
        </div>
     <div class="h-59 p-1 d-flex flex-column" >
-        <%if(purchaseOrder.length > 0){%>
-            <%purchaseOrder.forEach(purchase=>{%>
-                <span  class="list-group position-relative mb-2" title="P/O <%=purchase.billReferenceNo%>">
-                    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" >
-                        <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='P/O has been registered in virtual ware house'>
-                          <span class="badge bg-secondary">POSTED TO VIRTUAL</span>
-                        </small>
-                        <% vend = vendor.filter(vendor=>{%>
-                          <%return vendor._id.toString() === purchase.Vendor.toString()  %>
-                          <%})%>
-                          <%vend.map(name=>{%>
-                           <h6>
-                            <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Purchase/bill/<%=purchase.billReferenceNo%>">GNO/<%=purchase.billReferenceNo%>/<%=name.Name.substring(0,3).toUpperCase()%>/<%=purchase.grandTotal%></a>
-                           </h6>
-                          <%})%>
-                      </div> 
-                    </span>
-            <%})%>
+      <%if(transferLogs.length > 0){%>
+        <%transferLogs.forEach(transfer=>{%>
+
+          <span  class="list-group position-relative mb-2" title="P/O <%=transfer.billReferenceNo%>">
+            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" >
+                <small class="position-absolute top-0  start-50 translate-middle badge rounded-pill bg-warning"title='P/O has been registered in virtual ware house'>
+                  <span class="badge bg-secondary">Stock moved</span>
+                </small>
+                <% wh = WHous.filter(WHous=>{%>
+                  <%return WHous._id.toString() === transfer.WHID.toString()  %>
+                  <%})%>
+                  <%wh.map(name=>{%>
+                   <h6>
+                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Purchase/bill/<%=transfer.billReferenceNo%>">TRNS/<%=transfer.billReferenceNo%>/<%=name.WHName.substring(0,5).toUpperCase()%>/<%=transfer.transferedDate%></a>
+                   </h6>
+                  <%})%>
+              </div> 
+            </span>
+
+        <%})%>
         <%}else{%>
+       
         <div class="container">
-            <p>Sadly,You havent bought a thing yet..!!</p>
+            <p>Sadly,You havent Transfered a thing yet..!!</p>
         </div>
         <%}%>
     </div>
@@ -75,7 +78,9 @@
      <div id="myModal" class="modal flex items-center flex-col justify-center gap-3 shadow">
         <!-- Modal content -->
         <div class="modal-body modal-content container">
+            <!-- the transfer form -->
             
+            <!-- ends here -->
         </div>
      </div>
 
