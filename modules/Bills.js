@@ -29,7 +29,7 @@ const BillsSchema = new mongoose.Schema({
         type: String,
     },
     discount:{type:Number},
-    taxRate:{},
+    taxRate:String,
     whId:{
         type:mongoose.Types.ObjectId,
         ref:'whouses',
