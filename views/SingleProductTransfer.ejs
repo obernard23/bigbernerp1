@@ -284,7 +284,7 @@
                     aria-expanded="false"
                     style="color: #fff !important"
                   >
-                  EXP/<%=wH.WHName.toUpperCase()%>/<%=expense.refNo%> 
+                  TRNS/<%=transferLog.billReferenceNo%>/<%=Whouse.WHName.substring(0,5).toUpperCase()%>/<%=transferLog.transferedDate%>
                   </a>
                   </h5>
                 
@@ -294,101 +294,77 @@
     </nav>
 
     
-    <div id="invoice" class="shadow-lg m-4 p-3">
-        <form  class="row g-3 needs-validation" id="form" >
-            <div class=" d-flex justify-content-between">
+    <form id="invoice" class="shadow-lg m-4 p-3">
+        
+      <div class="page" style="page-break-after: always">
+        <div class="d-flex justify-content-between">
+          <a href="http://" class="btn btn-dark shadow">Confirm Recieved Batch</a>
+          <button type="button" class="btn btn-danger shadow">Recall Batch Entry</button>  
+         
+        </div>
+        <div class="intro-table">
+           
+                
+          <div class="intro-form  intro-form-item d-flex intro-table-title align-items-start  justify-content-evenly">
+            
+            TRNS/<%=transferLog.billReferenceNo%>/<%=Whouse.WHName.substring(0,5).toUpperCase()%>/<%=transferLog.transferedDate%>
+            
+          </div>
+
+          <div class="intro-form">
+            <div class="intro-form-item-border d-flex flex-column gap-3">
               
-                  <!-- <h5>Register Payment</h5> -->
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABj0lEQVR4nO2VwUrDQBCG9yWqb9DePSkIveyAh14Ec9jVi2QOPof2abx7KkJt00KCVqF489CTJLlZe3YlpVuWGLBNmo2t88MPYQd25tuZ3TBGIpH+nzw/9IZByM213ui95gXh7bqxRP3H6Njzow6zpUEQqcSeH3aHQdwc+rEz8KNYr68cC+Jm8q3XrQNs2owAVhR1IKARKiZ9gs3Tu5WcdeJZcWZLWwcAF1d7ILHNhfvMBc7KusRc4Awkjrhwb5Kcmyleug4XOAWJSrssADByzHOe41nh4kHil7mxCbDu2Pw2QpDKM8+dFyJpYfrkKwBQXODHiXNZy3H62M7a0NYIgQkh8XptAC7wJb1R/eBw7rIA6ov9MyBGOTrgfv4VAC5wmgPgZyt1grINGbkJACo228QIEYCsuANPb0dWDATAqAOKRkjSJcbK336gH5ncsR/Z/YOnJpPJ0p1uv3Dstd5Sap8vPW60ygMwi9AuGlNG8doEsLMd6HT7qVnuFY6NGxbvwNa/QkAAaK8DJBKJbYW+AX7aIYn4KzT3AAAAAElFTkSuQmCC"
-                 width="40"
-                 height="40"
-                 >
-
-               <h5> Status :<%=expense.status%></h5>
-               
+              <div class="col-md-7 ">
+                <label for="AccountNumber" class="form-label">Recieved Date</label>
+                <input
+                  type="date"
+                  class="form-control border"
+                  id="RecievedDate"
+                  name="Amount"
+                  aria-describedby="validationServer05Feedback"
+                  required
+                  value="<%=transferLog.recievedDate%>"
+                />
               </div>
+              
+              <div class="col-md-7 ">
+                <label for="AccountNumber" class="form-label">Manager Confirmation</label>
+                <p><%=transferLog.managerStatus%></p>
+              </div>
+               
+            </div>
 
-              <div class="col-md-4">
-                <label for="billreferenceNo" class="form-label">EXPENSE TYPE</label>
-                <p class="form-control"><%=expense.category%></p>
-            </div>
-            <%if(user.jobTittle === "CFO"){%>
-              <%}%>
-            <div class="col-md-4">
-                <label for="ACCOUNT" class="form-label">JOURNAL POSTING</label>
-                <select id="ACCOUNT" class="form-select border" name="ACCOUNT">
-                  <%if(Accounts.length > 0){%>
-                  <option >Choose...</option>
-                  <%Accounts.forEach(account =>{%>
-                    
-                    <option value="<%=account.AccountNum%>"><%=account.bankName%></option>
-                  <%})%>
-
-                  <%}%>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="date" class="form-label">PAYMENT DATE</label>
-                <input type="date" name="paymentDate" id="" class="form-control border">
-            </div>
-            <div class="col-md-4">
-              <label for="PAYEE" class="form-label">PAYEE</label>
-              <p class="form-control"><%=expense.payee%></p>
           </div>
-
-          <div class="col-md-4">
-            <label for="BankAccount" class="form-label">CREDIT ACCOUNT NUMBER</label>
-            <p class="form-control"><%=expense.BankAccount%></p>
         </div>
 
-        <div class="col-md-4">
-          <label for="BankName" class="form-label">BANK </label>
-          <p class="form-control"><%=expense.BankName%></p>
+        <div class="table-box pb-3">
+          <table cellpadding="0" cellspacing="0">
+            <tr class="heading font-bold">
+              <td  >Product</td>
+              <td  >QTY</td>
+              <td  >Scale</td>
+            </tr>
+            <tbody  >
+                <% transferLog.orders.forEach(bill=>{%>
+              <tr class="item">
+                <td  ><%=bill.item.Name%></td>
+                <td  ><%=bill.Qty%></td>
+                <td  ><%=bill.item.UMO%></td>
+              </tr>
+              <%})%>
+
+            </tbody>
+          </table>
+        </div>
+
+        </div>
+        
       </div>
-          <div class="col-md-4">
-            <label for="DriverNumber" class="form-label">ATTACHMENT</label>
-            <input type="file" class="form-control border" id="DriverNumber" name="DriverNumber"/>
-        </div>
-        <div class="col-md-4">
-          <label for="Amount" class="form-label">AMOUNT (NGN)</label>
-          <p class="form-control"><%=expense.Amount%></p>
-        </div>
-           <div class="col-md-4">
-            <label for="remark" class="form-label">REMARKS</label>
-            <textarea type="text" id="remark"  name="remark"  class="form-control" autocomplete="off" autocapitalize="on"  disabled ><%=expense.remarks%></textarea>
-          </div>
 
-            <div class="col-md-4 d-flex justify-content-between flex-column p-2">
-              <label for="InvoiceNo" class="form-label "> All done!</label>
-               <%if(user.JobTittle === 'CFO'){%>
-                <%}%>
-                <button type="submit" class="btn btn-dark form-control" > POST EXPENSE</button>
-               </div>
-
-          </form>
+      <%-include('./partials/footer')%>
      
-          <%-include('./partials/footer')%>
-    </div>
+    </form>
 
   </body>
-    <script>
-         const form = document.getElementById('form');
-         form.addEventListener('submit', async(event) => {
-          event.preventDefault();
 
-            const request =  await fetch('Expense/edit/',{
-            method: 'PATCH',
-            body:JSON.stringify({
-              Accountant:form.ACCOUNT.value,
-              BankAccount:form.BankAccount.value,
-              status:'Approved',
-              paymentDate:form.paymentDate.value,
-            }),
-            headers:{'Content-Type': 'application/json'}
-          })
-
-          const response = await request.json()
-
-         })
-    </script>
 </html>

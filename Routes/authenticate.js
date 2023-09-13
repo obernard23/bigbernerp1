@@ -55,7 +55,13 @@ router.get('/Products',requireAuth,authController.Product_get);
 router.patch('/Products/:id/edit',requireAuth,authController.Product_patch);
 router.patch('/Products/:id/return',requireAuth,authController.ProductReturn_patch,NotifyWhTovir)//return product to virtual and logs message 
 router.get('/Product/:id/:name',requireAuth,authController.SingleProduct_get)
+
 router.get('/Ecommerce/Customers',requireAuth,authController.Customer_get);
+router.post('/Sales/Register-customer',requireAuth,authController.CustomerRegister_post)
+router.get('/customer/:id/search',requireAuth,authController.CustomerFind_get);
+router.get(`/customer/:id/edit`,requireAuth,authController.customer_get);
+router.patch(`/customer/update/:id`,requireAuth,authController.customerEdit_patch)
+
 router.get('/Sales/Vendor',requireAuth,authController.Vendors_get);
 router.get('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_get);
 
@@ -65,7 +71,6 @@ router.get('/Sales/Payment/:id',requireAuth,authController.Payment_get);
 router.get('/Register/bill/:id/:billId',requireAuth,authController.RegisterPayment_get)//acountatnt is and bill id
 router.patch('/bill/register/:id',requireAuth,authController.RegisterPayment_patch,NotifyManagerPayment)//register bill 
 
-router.get('/customer/:id/search',requireAuth,authController.CustomerFind_get);
 
 //warehouseops
 router.get('/warehouse/:id/employeeLocation',requireAuth,ValidStockTransfer,authController.warehouse_get);
@@ -125,8 +130,6 @@ router.get(`/sendmail/:id`,requireAuth,authController.sendMail,sendQuot);
 
 //customer routesfor get, patch and delete
 router.get("/Dashboard/:userid",requireAuth, authController.Dashboard_get);
-router.get(`/customer/:id/edit`,requireAuth,authController.customer_get);
-router.patch(`/customer/update/:id`,requireAuth,authController.customerEdit_patch)
 
 router.get(`/vendor/:id/edit`,requireAuth,authController.vendor_get);
 router.patch(`/vendor/update/:id`,requireAuth,authController.vendorEdit_patch);
@@ -169,8 +172,9 @@ router.post('/Virtual/Purchase/Order/:ADMINID',requireAuth,adminWareHouseSetUp,a
 router.get('/Purchase/bill/:billReferenceNo',requireAuth,authController.SinglePurchasebillReferenceNo_get)
 router.get('/Virtual/Product/TransferLogs/:ADMINID',requireAuth,adminWareHouseSetUp,authController.productTransferLogs_get)// for transfers to warehouse log
 router.get('/Virtual/Product/TransferForm/:ADMINID',requireAuth,adminWareHouseSetUp,authController.ProductTransferForm_get)
-router.post('/TransferForm/:ADMINID',requireAuth,adminWareHouseSetUp,authController.ProductTransferForm_post)
+router.post('/TransferForm/:ADMINID',requireAuth,adminWareHouseSetUp,authController.ProductTransferForm_post)//transfer log to warehouse
 router.get('/warehouse/json/:WHID',requireAuth,authController.wareHouseJson_get)//SENDS WHID,STOREPRODUCT PER WHID,PRODUCT LIST
+router.get('/Transfer/:TRANSFERREF',requireAuth,authController.SingleProductTransfer_get)
 
 // SET UP COMPANY details
 

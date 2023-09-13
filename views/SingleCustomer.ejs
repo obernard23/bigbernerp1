@@ -68,6 +68,79 @@
                   <%}%>
                   " alt="<%= result.Name %> Photo" class="card-img-top" alt="...">
             </div>
+            <!-- view only section -->
+
+            <div class="row g-3 p-3 box">
+               <!-- curent sales person -->
+            <div class="col-6">
+              <label for="street" class="form-label">Current Sales Person </label>
+              <h5 class="form-text">
+                <%salesp = employees.filter((person)=>{%>
+                  <%return person._id.toString() === result.salesPerson.toString()%>
+                <%})%>
+                <%salesp.map(name =>{%>
+                  <%=name.firstName.toUpperCase()%> <%=name.lastName.toUpperCase()%>
+                <%})%></h5>
+            </div>
+            <!-- ends here -->
+
+             <!-- curent billing  -->
+             <div class="col-6">
+              <label for="street" class="form-label">Billing Method </label>
+              <h5 class="form-text">
+                <%=result.category%>
+              </h5>
+            </div>
+            <!-- ends here -->
+
+             <!-- curent priceList  -->
+             <div class="col-6">
+              <label for="street" class="form-label"> PriceList </label>
+              <h5 class="form-text">
+                <%=result.priceList%>
+              </h5>
+            </div>
+            <!-- ends here -->
+
+            <!-- curent email  -->
+            <div class="col-6">
+              <label for="street" class="form-label"> Email </label>
+              <h5 class="form-text">
+                <%=result.Email%>
+              </h5>
+            </div>
+            <!-- ends here -->
+
+             <!-- curent telephone  -->
+             <div class="col-6">
+              <label for="street" class="form-label"> Telephone </label>
+              <h5 class="form-text">
+                <%=result.phone%>
+              </h5>
+            </div>
+            <!-- ends here -->
+            <!-- curent priceList  -->
+            <div class="col-6">
+              <label for="street" class="form-label"> Debt </label>
+              <h5 class="form-text">
+                ₦<%=result.Debt%>
+              </h5>
+            </div>
+            <!-- ends here -->
+
+            <!-- curent priceList  -->
+            <div class="col-6">
+              <label for="street" class="form-label"> Address </label>
+              <h5 class="form-text">
+                <%=result.street.toUpperCase()%>
+              </h5>
+            </div>
+            <!-- ends here -->
+
+            </div>
+            <!-- view only div ends here -->
+
+            <%if(user.role ==="Admin"){%>
             <!-- FOR customer type -->
             <div>
               
@@ -75,8 +148,8 @@
                 <label for="category" class="form-label">Billing Method</label>
                 <select id="category" class="form-select">
                   <option class="bg-warning p-2" value="<%=result.category%>" ><%=result.category%> (CURRENT)</option>
-                  <option value='Credit-Customer'>Credit Customer(CC)</option>
-                  <option value="Pay as Go">Pay as Go (B2B)</option>
+                  <option value='Credit-Customer'>Credit Customer</option>
+                  <option value="Pay as Go">Prepaid customer</option>
                 </select>
               </div>
             </div>
@@ -84,27 +157,27 @@
             <div class="col-md-4">
               <label for="salesPerson" class="form-label">Change Sale person</label>
               <select name="salesPerson" id="salesPerson" class="form-select">
-                  <option ><%=result.salesPerson.firstName.toUpperCase()%> <%=result.salesPerson.lastName.toUpperCase()%> [Current]</option>
-                  <%employees.forEach(employe=>{%>
-                 <option value="<%=employe._id%>"><%=employe.firstName%> <%=employe.lastName%></option>
-                 <% })%>
-              </select>
+                <option >Choose...</option>
+                <%employees.forEach(employe=>{%>
+               <option value="<%=employe._id%>"><%=employe.firstName%> <%=employe.lastName%></option>
+               <% })%>
+            </select>
             </div>
 
               <!-- drop down for pricelist -->
 
               <div class="col-md-5">
-                <label for="pricelist" class="form-label">Price List</label>
+                <label for="priceList" class="form-label">Price List</label>
                 <select
                   class="form-select "
-                  id="pricelist"
+                  id="priceList"
                   aria-describedby="validationServer04Feedback"
                   required
                 >
-                  <option disabled value="">Choose...</option>
-                  <option value="5" selected>Van Price </option>
-                  <option value="5">Super Market price</option>
-                  <option value="5">Whole sale price</option>
+                <option class="bg-warning p-2" value="<%=result.priceList%>" ><%=result.priceList%> (CURRENT)</option>
+                  <option value="Van_Price">Van Price </option>
+                  <option value="Market_Price">Super Market price</option>
+                  <option value="WareHouse_Price">Whole Sale price</option>
                 </select>
                 </div>
 
@@ -127,7 +200,7 @@
               <label for="Name" class="form-label">Name</label>
               <input type="text" class="form-control" id="Name" value="<%=result.Username%>">
             </div>
-            <div class="col-12">
+            <div class="col-6">
               <label for="street" class="form-label">Address </label>
               <input type="text" class="form-control" id="street" placeholder="Apartment, studio, or floor" value="<%=result.street%>">
             </div>
@@ -170,15 +243,14 @@
                 </label>
               </div>
             </div>
-            <%if(user.role ==="Admin"){%>
+            
             <div class="col-12">
               <button type="submit" data-id="<%=result._id%>"  id="update" class="btn btn-primary">Update</button>
-              <a href="/" class="btn btn-danger">Remove <%=result.Username.toUpperCase()%></a>
             </div>
-            <%}%>
-        </div>
+          </div>
+          <%}%>
+          <%-include('./partials/footer.ejs')%>
     </div>
-    <%-include('./partials/footer.ejs')%>
 </body>
 <script>
   // =================================================================
@@ -209,7 +281,7 @@ update.addEventListener('click',async ()=>{
   const DOB = document.querySelector('input#DOB').value;
   const categorys = document.getElementById("category")
   let category = categorys.options[categorys.selectedIndex].value;
-
+  let priceList = document.querySelector('#priceList').value
 
   const url = `/customer/update/${id}`;
 
@@ -226,7 +298,8 @@ update.addEventListener('click',async ()=>{
       DOB,
       category,
       street,
-      salesPerson
+      salesPerson,
+      priceList
     }),
     headers:{'Content-Type': 'application/json'}
   })

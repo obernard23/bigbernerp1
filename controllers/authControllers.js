@@ -830,10 +830,30 @@ module.exports.customer_get = async (req, res) => {
           res.status(200).render("SingleCustomer", { result, name: "BigBern" ,employees});
         });
     } catch (error) {
-      res.status(404).render("", { error: error });
+      res.status(404).render("404", { error: error });
     }
+  }else{
+    res.end()
   }
 };
+
+// create customer account
+module.exports.CustomerRegister_post = async (req, res) => {
+  try {
+    await customer.create(req.body).
+  then((newCustomer) => {
+    if(newCustomer){
+      res.status(200).json({message:'New customer has been registered successfully. the administrator will be notified to assign necessary permissions'})
+    }else{
+      throw new Error('Could not register customer ')
+    }
+  })
+  } catch (error) {
+    res.status(500).json({error: error.message})
+  }finally {
+    console.log('send mail here')
+  }
+}
 
 //get information
 module.exports.vendor_get = async (req, res) => {
@@ -1376,18 +1396,26 @@ module.exports.ProductReturn_patch = async(req,res,next) => {
 
 //cfo expense get
 module.exports.SingleExpense_get = async(req,res)=>{
- try {
-  const expense = await Expense.findById(new ObjectId(req.params.id)).
-  then(async(expense)=>{
-    const wH = await WHouse.findById(expense.WHID)
-    res.status(200).render('SingleExpense',{expense,wH})
-  })
+    if(ObjectId.isValid(req.params.id)){
+    try {
+      const Accounts = await Account.find()
+      const expense = await Expense.findById(new ObjectId(req.params.id)).
+      then(async(expense)=>{
+        const wH = await WHouse.findById(expense.WHID)
+        res.status(200).render('SingleExpense',{expense,wH,Accounts})
+      })
 
- } catch (error) {
-  console.log(error)
- }finally {
-  res.end()
- }
+    } catch (error) {
+      console.log(error)
+    }
+  }else{
+    res.end()
+  }
+}
+
+//SingleExpense_patch
+module.exports.SingleExpense_patch = async (req,res)=>{
+
 }
 
 //send json for product list 
@@ -1451,17 +1479,33 @@ module.exports.productTransferLogs_get = async (req,res) =>{
 
 }
 
+// SingleProductTransfer_get 
+module.exports.SingleProductTransfer_get = async (req,res)=>{
+      if (ObjectId.isValid(req.params.TRANSFERREF)) {
+        try {
+          const transferLog =  await ProductTransfer.findOne({_id:new ObjectId(req.params.TRANSFERREF)})
+          const Whouse = await WHouse.findById(new ObjectId(transferLog.WHID))
+          res.status(200).render('SingleProductTransfer',{transferLog,Whouse})
+        } catch (error) {
+          console.log(error)
+        }
+    }else{
+      res.end()
+    }
+}
+
 //product trasferform
 module.exports.ProductTransferForm_get = async (req, res,next) => {
- try {
-  const WHous = await WHouse.find()
-  const PurchaseOrders = await PurchaseOrder.find()
-  res.status(200).render('ProductTransferForm',{WHous,PurchaseOrders})
-} catch (error) {
-  console.log(error)
- }finally {
-  res.end()
- }
+  
+    try {
+      const WHous = await WHouse.find()
+      const PurchaseOrders = await PurchaseOrder.find()
+      res.status(200).render('ProductTransferForm',{WHous,PurchaseOrders})
+    } catch (error) {
+      console.log(error)
+    }finally {
+      res.end()
+    }
 }
 
 

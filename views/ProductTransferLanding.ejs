@@ -59,7 +59,7 @@
                   <%})%>
                   <%wh.map(name=>{%>
                    <h6>
-                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Purchase/bill/<%=transfer.billReferenceNo%>">TRNS/<%=transfer.billReferenceNo%>/<%=name.WHName.substring(0,5).toUpperCase()%>/<%=transfer.transferedDate%></a>
+                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Transfer/<%=transfer._id%>">TRNS/<%=transfer.billReferenceNo%>/<%=name.WHName.substring(0,5).toUpperCase()%>/<%=transfer.transferedDate%></a>
                    </h6>
                   <%})%>
               </div> 

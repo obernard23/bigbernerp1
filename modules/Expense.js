@@ -35,6 +35,11 @@ const Expense = new mongoose.Schema ( {
         default:false,
         type:Boolean,
     },
+    Accountant:{
+        type:mongoose.Types.ObjectId,
+        ref:'EMPLOYEES'
+    },
+    paymentDate:String
 },{timestamps:true})
 
 const WHExpense = mongoose.model('Expense', Expense);

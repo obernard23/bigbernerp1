@@ -60,8 +60,6 @@ initializeApp(firebaseConfig);
 // });
 
 
-const ActivateProduct = document.getElementById('ActivateProduct')
-ActivateProduct.addEventListener("change",(e) =>console.log(e.target.checked))
 
 // form image 
 var files = [];

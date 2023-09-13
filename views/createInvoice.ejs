@@ -398,9 +398,9 @@
                 required
               >
                 <option value="">Choose...</option>
-                <option  value="percentage" disabled >By percentage </option>
-                <option  value="priceList"selected>By Defined price List</option>
-                <option  value="Price" disabled>Regular Price</option>
+                <option  value="percentage"  >By Discount </option>
+                <option  value="priceList">By Defined price List</option>
+                <option  value="Price" >By whole Sale Price</option>
               </select>
               </div>
             </div>
@@ -413,7 +413,6 @@
             <tr class="heading font-bold">
               <td  >Product</td>
               <td  >QTY</td>
-              <td  >Forecast</td>
               <td  >Scale</td>
               <td  >VAT</td>
               <td  >Unit Price</td>
@@ -485,7 +484,7 @@
               <tr class="item">
                 <td></td>
                 <td>Subtotal:</td>
-                <td id="Subtotal">N0.00</td>
+                <td id="Subtotal">₦0.00</td>
               </tr>
 
               <tr class="item">
@@ -503,13 +502,13 @@
               <tr class="no-border-item">
                 <td></td>
                 <td>Shipping/Handling:</td>
-                <td>N<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px" disabled> </td>
+                <td>₦<input type="number" name="" id="Shipping" placeholder="0.00" style="width:50px" disabled> </td>
               </tr>
 
               <tr class="total">
                 <td></td>
                 <td>Total Due:</td>
-                <td id="Grandtotal">N0.00</td>
+                <td id="Grandtotal">₦0.00</td>
               </tr>
           </table>
           <p id="words"></p>
@@ -569,7 +568,7 @@
           }
       }
 
-      
+      let customerPercent
       //get request for customer
       const customerInput = document.getElementById('customer')
       customerInput.addEventListener('change',async(e)=>{
@@ -579,14 +578,14 @@
                 headers:{'Content-Type': 'application/json'}
             })
             const data = await res.json()
-
+            customerPercent = data.item.discount
             const Username = document.getElementById('Username').innerText = `Billed for: ${data.item.Username}`;
             const Email =  document.getElementById('Email').innerText = `Email: ${data.item.Email}`;
             const phone = document.getElementById('phone').innerText = `phone: ${data.item.phone}`;
             const Address = document.getElementById('Address').innerText = `Address: ${data.item.street}`;
             const discount = document.getElementById('discount').innerText = `Discount: ${data.item.discount}%`;
             const discountinCalc = document.getElementById('discountinCalc').innerText = `${data.item.discount}%`
-            const customerDebt = document.getElementById('Debt').innerText = `Customer-Debt: N${data.item.Debt}.00k`
+            const customerDebt = document.getElementById('Debt').innerText = `Customer-Debt: ₦${data.item.Debt}`
             BillProducts.customerName = data.item.Username
             const d = new Date();
             BillProducts.startDate = `${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`
@@ -596,8 +595,8 @@
             BillProducts.grandTotal = 0
             BillProducts.subTotal = 0 
             BillProducts.shippingFee = 0
-            Grandtotal.textContent  = "N0.00"
-            document.getElementById('Subtotal').innerHTML = "N0.00"
+            Grandtotal.textContent  = "₦0.00"
+            document.getElementById('Subtotal').innerHTML = "₦0.00"
             document.getElementById('Shipping').value = 0
             BillProducts.customer = data.item._id //assign custom properties
             BillProducts.RaiseBy = document.getElementById('raisedBy').value
@@ -689,13 +688,22 @@
           Shipping.addEventListener('input',(e) =>{//still error with this
           value =  parseInt(e.target.value < 0 ? Shipping.value = 0 : e.target.value )//tenary operator  to avoid overflow or underflow of 0 qty values;
           BillProducts.grandTotal = parseInt(BillProducts.subTotal) + parseInt(value)
-          Grandtotal.textContent = `N${BillProducts.grandTotal}`;
+          Grandtotal.textContent = `₦${BillProducts.grandTotal}`;
           BillProducts.shippingFee =  value;
           saveToLocalStorage(BillProducts);
         });
         
         document.getElementById('Subtotal').innerHTML = `N${BillProducts.subTotal}`; 
       }
+
+
+      // clear bill order when when costing method is changed
+      const costing = document.getElementById('pricelist')
+      costing.addEventListener('change',(e)=>{
+        BillProducts.orders = [];
+        saveToLocalStorage(BillProducts);
+        RenderDom(BillProducts);
+      })
 
       // get product for quoatation
       const products = document.getElementById('products')
@@ -707,6 +715,8 @@
         })
         const data = await res.json()
 
+
+
         //get value from billing method 
         const price = document.getElementById('pricelist').value
         function priceLists(price){
@@ -714,10 +724,9 @@
           if(price === 'percentage'){
 
              //add price list to the list of prices 
-            const percentage =  5 //should return % as assigned to the costing method
-            const realPrice = percentage / 100
-            const actualPrice =  data.item.WareHouse_Price * realPrice 
-            const finalPrice  =  Math.floor(data.item.WareHouse_Price + actualPrice) //set a base selling  price
+            const percentage =  parseInt(customerPercent) //should return discount% as assigned to the customer 
+            const discountedPrice =  parseInt((data.item.WareHouse_Price * percentage )/ 100)//discounted value as percentage
+            const finalPrice  =  Math.floor(data.item.WareHouse_Price - discountedPrice) //set a base selling  price
             return finalPrice
 
           }else if(price ==='priceList'){
@@ -741,11 +750,7 @@
           }
         }
 
-         //add price list to the list of prices 
-          const priceList =  5 //should return price list as assigned to the cunstomer 
-          const realPrice = priceList / 100
-          const actualPrice =  data.item.selling_Price * realPrice 
-          const finalPrice  =  Math.floor(data.item.selling_Price  + actualPrice)
+         
 
         //generate id for each item
         const id = Math.floor(Math.random() * 10500600000787);
@@ -767,14 +772,12 @@
           
           let td2 = document.createElement('td')//product name
           let td8 = document.createElement('td')//product availability
-          let td8Image = document.createElement('img')//product availability
           let td3 = document.createElement('td')// qty
           let td4 = document.createElement('td')//umo
           let td5 = document.createElement('td')//vat
           let td6 = document.createElement('td')//price
           let td7 = document.createElement('td')//total
 
-          imagesrc="data:image/png;base64,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"
           //assign values to each element and input that can stillbe edited
           td2.innerText = element.item.Name.toUpperCase()
           td2.setAttribute("title", `Double click here to delete ${element.item.Name.toUpperCase()}`)
@@ -795,7 +798,7 @@
                 BillProducts.subTotal = parseInt(BillProducts.orders.map(item => {return item.total})
                 .reduce((total , currentValue) => {return total + currentValue},0))
                 BillProducts.grandTotal = BillProducts.subTotal + parseInt(BillProducts.shippingFee) 
-                Grandtotal.textContent = `N${BillProducts.grandTotal}`;
+                Grandtotal.textContent = `₦${BillProducts.grandTotal}`;
                 alert("products removed successfully")
                 saveToLocalStorage(BillProducts)
               } catch (error) {
@@ -811,7 +814,7 @@
           td3Input.value = element.Qty
           
 
-          td7.innerText= `N${element.total}`//for rerendering purposes
+          td7.innerText= `₦${element.total}`//for rerendering purposes
           td3Input.setAttribute('type', 'number')
           td3Input.addEventListener('input', async (e)=>{
             //find index of element to set qty
@@ -835,12 +838,12 @@
               BillProducts.subTotal =  await parseInt(BillProducts.orders.map(item => {return item.total})
               .reduce((total , currentValue) => {return total + currentValue},0))
               BillProducts.grandTotal = BillProducts.subTotal + parseInt(BillProducts.shippingFee)
-              Grandtotal.textContent = `N${BillProducts.grandTotal}`;
+              Grandtotal.textContent = `₦${BillProducts.grandTotal}`;
 
               //save to local storage function 
               calculateTotals(BillProducts)
               saveToLocalStorage(BillProducts)
-              td7.innerText= `N${found.total}`
+              td7.innerText= `₦${found.total}`
               
             }
             calculateTotals(BillProducts)
@@ -856,10 +859,7 @@
           
           td5.textContent = `${element.item.VAT}%`
 
-          td6.textContent= `N${element.priceListPrice}`
-
-          td8Image.src = imagesrc
-          td8Image.width = 20
+          td6.textContent= `₦${element.priceListPrice}`
 
           //assign class
           tr.classList.add('item')
@@ -867,9 +867,7 @@
 
           //append to quotation 
           tr.appendChild(td2)
-          td8.appendChild(td8Image)
           tr.appendChild(td3)
-          tr.appendChild(td8)
           tr.appendChild(td4)
           tr.appendChild(td5)
           tr.appendChild(td6)
@@ -957,11 +955,11 @@
                       icon:'495670-removebg-preview.png',
                     })
                   }else{
-                    alert(data.message ? data.message : data.error)
+                    alert(data.message || data.error)
                   }
                 })
                 localStorage.removeItem('bill_products');
-                location.assign(location.href);
+                location.reload();
               }
               
                 }

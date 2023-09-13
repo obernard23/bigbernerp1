@@ -89,13 +89,13 @@
                         <span class="input-group-text">.00</span>
                     </div>
 
+                    <%if(user.role === "Admin"){%> 
                     <div class="input-group mb-3">
                         <span class="input-group-text"> Vendor price N</span>
                         <input type="number" class="form-control" name="vendor_Price"  value="<%=product.vendor_Price%>" placeholder="Eg 10.00" aria-label="Amount (to the nearest dollar)">
                         <span class="input-group-text">.00</span>
                     </div>
 
-                    <%if(user.role === "Admin"){%> 
                     <div class="col-md-7">
                         <label for="pricelist" class="form-label">vendor</label>
                         <select

@@ -82,7 +82,6 @@ const CustomerSchema = new  mongoose.Schema({
     },
     Image:{
         type:String,
-        required:false
     },
     discount:{
         type:Number,
@@ -94,20 +93,18 @@ const CustomerSchema = new  mongoose.Schema({
     },
     blocked:{
         type:Boolean,
-        default:false
+        default:true
     },
     category:{
         type:String,
     },
-    bills:[
-        {
-            type:mongoose.Types.ObjectId,ref:'bills'
-        }
-    ],
     priceList:{
         type:String,
     },
-    salesPerson:Object
+    salesPerson:{
+        type:mongoose.Types.ObjectId,
+        ref:'EMPLOYEES'
+    },
 
 },{timestamps:true});
 
