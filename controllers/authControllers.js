@@ -33,6 +33,7 @@ const Account = require('../modules/BankAccount')
 const CreditCustomerPayment = require('../modules/Creditpayment');
 const Customer = require("../modules/customers");
 const ProductTransfer = require("../modules/WHTransferLog");
+const NotifyCustomerCreate = require('../Functions/NotifyCustomerCreate')
 
 // handle errors
 const handleErrors = (err) => {
@@ -788,6 +789,7 @@ module.exports.approveBill_patch = async (req, res,next) => {
 
          //remove product from warehouse
          bill.orders.forEach(async (order) =>{
+          console.log(order)
            await storeProduct.find({WHIDS: new ObjectId(bill.whId)})
            .then(async(products)=>{
              // filterproducts that are in warehouse to get product to deduct from
@@ -796,6 +798,7 @@ module.exports.approveBill_patch = async (req, res,next) => {
               }).map(currentQty=>{return currentQty.currentQty})
 
               await storeProduct.updateOne({productId:order.item._id},{$set:{currentQty:todeduct - order.Qty}}) 
+              
           })
          }); 
     // store keeper to release goods
@@ -843,6 +846,7 @@ module.exports.CustomerRegister_post = async (req, res) => {
     await customer.create(req.body).
   then((newCustomer) => {
     if(newCustomer){
+      NotifyCustomerCreate(newCustomer)//notify customer creation for activation
       res.status(200).json({message:'New customer has been registered successfully. the administrator will be notified to assign necessary permissions'})
     }else{
       throw new Error('Could not register customer ')
@@ -850,8 +854,6 @@ module.exports.CustomerRegister_post = async (req, res) => {
   })
   } catch (error) {
     res.status(500).json({error: error.message})
-  }finally {
-    console.log('send mail here')
   }
 }
 
