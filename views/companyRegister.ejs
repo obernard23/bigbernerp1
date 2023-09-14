@@ -34,29 +34,42 @@
 
     
     <form id="companyform" class=" shadow-lg m-4 p-3 row g-3 needs-validation">
+      <h5 class="form-text">BADE Business Account Setup</h5>
+      <div>
+        <div class=" ">
+            <div id="productImage" style="background-image: url( https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_640.png);"></div>
+            <!-- display progress % for photo upload -->
+            <!-- <progress value="0" max="100" id="progress"></progress> -->
+            <!-- <input type="url" name="image" disabled id="imageLoader" class='hidden'> -->
+          </div>
+    </div>
         <div class="col-md-6">
             <label for="inputEmail4" class="form-label">Business Email</label>
-            <input type="email" class="form-control" id="inputEmail4" name="email">
+            <input type="email" class="form-control"  required id="inputEmail4" name="email">
           </div>
           <div class="col-md-6">
             <label for="inputPassword4" class="form-label">Business Name</label>
-            <input type="text" class="form-control" id="inputPassword4" name="CompayName">
+            <input type="text" class="form-control" required id="inputPassword4" name="CompayName">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Anniversiry Date</label>
+            <input type="date" class="form-control" id="inputPassword4" required name="Anniversiry">
           </div>
           <div class="col-6">
             <label for="inputAddress" class="form-label">Business Address</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="Address">
+            <input type="text" class="form-control" id="inputAddress" required placeholder="1234 Main St" name="Address">
           </div>
           <div class="col-6">
             <label for="inputAddress2" class="form-label">Business Tel..</label>
-            <input type="tel" class="form-control" id="inputAddress2" placeholder="Tel..." name="Tel">
+            <input type="tel" class="form-control" id="inputAddress2" required placeholder="Tel..." name="Tel">
           </div>
           <div class="col-md-6">
             <label for="inputCity" class="form-label">Business City</label>
-            <input type="text" class="form-control" id="inputCity" name="CompanyCity">
+            <input type="text" class="form-control" id="inputCity" required name="CompanyCity">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5">
             <label for="inputState" class="form-label">Business State</label>
-            <select id="inputState" class="form-select" name="CompayState">
+            <select id="inputState" class="form-select" required name="CompayState">
               <option selected>Choose...</option>
               <%if(states){%>
                 <%states.forEach(state=>{%>
@@ -66,13 +79,14 @@
               <option>...</option>
             </select>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-4">
             <label for="inputZip" class="form-label"> Business Zip</label>
-            <input type="text" class="form-control" id="inputZip" name="CompayZip">
+            <input type="text" class="form-control" required id="inputZip" name="CompayZip">
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
               <label for="inputLogo" class="form-label"> Business Logo</label>
-              <input type="file" class="form-control" id="inputLogo" name="CompanyLogo">
+              <input type="file" class="form-control" id="files" required name="CompanyLogo">
+              <input type="hidden" name="imageLoader" id="imageLoader">
               <input type="hidden" name="user" value="<%=user._id%>"> 
             </div>
          
@@ -83,6 +97,12 @@
             </form>
 
   </body>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-storage.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+  <script src="/ImageUpload.js" type="module"></script>
   <script>
     try{//eventlistener for companyform
     const companyform = document.getElementById("companyform")
@@ -101,7 +121,8 @@
                 CompanyCity:companyform.CompanyCity.value,
                 CompayState:companyform.CompayState.value,
                 CompayZip:companyform.CompayZip.value,
-                CompayLogo:companyform.CompanyLogo.value,
+                CompayLogo:companyform.imageLoader.value,
+                AnniversiryDate:companyform.Anniversiry.value
             }),
             headers: {"content-type": "application/json"}
 
@@ -110,7 +131,7 @@
         alert(response.message||response.error)
         if(response.message){
             companyform.reset()
-            location.reload()
+            location.assign('/dashboard')
         }else{
             throw new Error(response.error)
         }

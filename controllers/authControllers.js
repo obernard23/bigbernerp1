@@ -34,6 +34,7 @@ const CreditCustomerPayment = require('../modules/Creditpayment');
 const Customer = require("../modules/customers");
 const ProductTransfer = require("../modules/WHTransferLog");
 const NotifyCustomerCreate = require('../Functions/NotifyCustomerCreate')
+const companyRegister = require('../modules/company')
 
 // handle errors
 const handleErrors = (err) => {
@@ -95,11 +96,30 @@ module.exports.Signature_get = async(req,res,next) =>{
 
 module.exports.companyRegister_get = async(req,res)=>{
   const states = await NaijaStates.all();
-  res.status(200).render('companyRegister',{states})
+  const Business = await companyRegister.findOne()
+  res.status(200).render('companyRegister',{states,Business})
 }
 
-module.exports.companyRegister_post = async(req,res)=>{
-  console.log(req.body)
+module.exports.companyRegister_post = async(req,res,next)=>{
+ try {
+  const Business = await companyRegister.find()
+  if(Business.length > 0){
+    throw new Error ('company Already registered')
+  }else{
+    await companyRegister.create(req.body)
+    .then((registerd)=>{
+      if(registerd){
+        next()
+      }else{
+        throw new Error('Registration failed')
+      }
+    })
+  }
+ 
+ } catch (error) {
+  res.status(500).json({ error: error.message })
+ }
+  
 }
 
 module.exports.Dashboard_get = async (req, res) => {
@@ -1468,9 +1488,21 @@ module.exports.SingleExpense_get = async(req,res)=>{
   }
 }
 
-//SingleExpense_patch
+//SingleExpense_patch REGISTER PAYMENT ON EXPENSE
 module.exports.SingleExpense_patch = async (req,res)=>{
-
+ 
+ try {
+  await Expense.updateMany({ _id: ObjectId(req.params.EXPID) }, { $set: req.body})
+  .then((updae)=>{
+   if(updae){
+    res.status(200).json({message:'Payment recorded sucessfully.'})
+   }else{
+    throw new Error('Something went wrong')
+   }
+  })
+ } catch (error) {
+  res.status(500).json({error: error.message})
+ }
 }
 
 //send json for product list 

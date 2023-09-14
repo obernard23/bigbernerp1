@@ -11,7 +11,7 @@ const Expense = new mongoose.Schema ( {
         ref:'EMPLOYEES'
     },
     payee:String,
-    bankAccount:{
+    payeebankAccount:{
         type: String,
     },
     ActivityLog:Array,
@@ -29,8 +29,8 @@ const Expense = new mongoose.Schema ( {
         type:mongoose.Types.ObjectId,
         ref:'WHouse'
     },
-    BankAccount:String,
-    BankName:String,
+    BankAccount:String,//for journal
+    payeeBankName:String,
     mailSent:{
         default:false,
         type:Boolean,

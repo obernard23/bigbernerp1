@@ -313,10 +313,11 @@
                 <p class="form-control"><%=expense.category%></p>
             </div>
             <%if(user.jobTittle === "CFO"){%>
-              <%}%>
+            <%if(expense.paymentDate){%>
+              
             <div class="col-md-4">
-                <label for="ACCOUNT" class="form-label">JOURNAL POSTING</label>
-                <select id="ACCOUNT" class="form-select border" name="ACCOUNT">
+                <label for="BankAccount" class="form-label">DEBIT JOURNAL POSTING</label>
+                <select id="BankAccount" class="form-select border" name="BankAccount">
                   <%if(Accounts.length > 0){%>
                   <option >Choose...</option>
                   <%Accounts.forEach(account =>{%>
@@ -327,10 +328,22 @@
                   <%}%>
                 </select>
             </div>
+
+            <!-- show if payment isnt registered  -->
+
+           
+              <div class="col-md-4">
+                <label for="date" class="form-label">PAYMENT DATE</label>
+                <h5 class="form-text"><%=expense.paymentDate%></h5>
+              </div>
+              
+
             <div class="col-md-4">
                 <label for="date" class="form-label">PAYMENT DATE</label>
-                <input type="date" name="paymentDate" id="" class="form-control border">
+                <input type="date" name="paymentDate" id="date" class="form-control border" >
             </div>
+            <%}%>
+            <%}%>
             <div class="col-md-4">
               <label for="PAYEE" class="form-label">PAYEE</label>
               <p class="form-control"><%=expense.payee%></p>
@@ -338,16 +351,16 @@
 
           <div class="col-md-4">
             <label for="BankAccount" class="form-label">CREDIT ACCOUNT NUMBER</label>
-            <p class="form-control"><%=expense.BankAccount%></p>
+            <p class="form-control"><%=expense.payeebankAccount%></p>
         </div>
 
         <div class="col-md-4">
           <label for="BankName" class="form-label">BANK </label>
-          <p class="form-control"><%=expense.BankName%></p>
+          <p class="form-control"><%=expense.payeeBankName%></p>
       </div>
           <div class="col-md-4">
             <label for="DriverNumber" class="form-label">ATTACHMENT</label>
-            <input type="file" class="form-control border" id="DriverNumber" name="DriverNumber"/>
+            <img class="form-img" width="20" height="20" src="<%=expense.Attachment%>" alt="Expense Attachement" srcset="">
         </div>
         <div class="col-md-4">
           <label for="Amount" class="form-label">AMOUNT (NGN)</label>
@@ -355,15 +368,19 @@
         </div>
            <div class="col-md-4">
             <label for="remark" class="form-label">REMARKS</label>
-            <textarea type="text" id="remark"  name="remark"  class="form-control" autocomplete="off" autocapitalize="on"  disabled ><%=expense.remarks%></textarea>
+            <p class="form-text" ><%=expense.remarks%></p>
           </div>
 
-            <div class="col-md-4 d-flex justify-content-between flex-column p-2">
-              <label for="InvoiceNo" class="form-label "> All done!</label>
-               <%if(user.JobTittle === 'CFO'){%>
-                <%}%>
+          <%if(user.JobTittle === 'CFO'){%>
+            <%if(!expense.paymentDate){%>
+              <div class="col-md-4 d-flex justify-content-between flex-column p-2">
+                <label for="InvoiceNo" class="form-label "> All done!</label>
+                <input type="hidden" name="billId" value="<%=expense._id%>" hidden>
+                <input type="hidden" id="ACCOUNT" value="<%=user._id%>">
                 <button type="submit" class="btn btn-dark form-control" > POST EXPENSE</button>
-               </div>
+              </div>
+              <%}%>
+              <%}%>
 
           </form>
      
@@ -375,11 +392,11 @@
          const form = document.getElementById('form');
          form.addEventListener('submit', async(event) => {
           event.preventDefault();
-
-            const request =  await fetch('Expense/edit/',{
+         const AccountatntId =  document.getElementById('ACCOUNT').value
+            const request =  await fetch( `/Expense/edit/${form.billId.value}/${AccountatntId}`,{
             method: 'PATCH',
             body:JSON.stringify({
-              Accountant:form.ACCOUNT.value,
+              Accountant:AccountatntId,//cfo id
               BankAccount:form.BankAccount.value,
               status:'Approved',
               paymentDate:form.paymentDate.value,
@@ -388,6 +405,9 @@
           })
 
           const response = await request.json()
+          alert(response.message || response.error)
+
+          response.message? location.reload() : ''
 
          })
     </script>

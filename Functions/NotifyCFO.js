@@ -49,8 +49,8 @@ const NotifyCFO = async (data) => {
                                 {
                                     Exp : data.category.toLowerCase(),
                                     Payee : data.payee.toLowerCase(),
-                                    Account :data.BankAccount,
-                                    Bank: data.BankName.toLowerCase(),
+                                    Account :data.payeebankAccount,
+                                    Bank: data.payeeBankName.toLowerCase(),
                                     "NGN": data.Amount,
                                 }
                             ]

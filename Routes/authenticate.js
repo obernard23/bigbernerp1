@@ -15,6 +15,7 @@ const NotifyAccountant = require('../Functions/NotifyAccountant');
 const employe = require('../modules/Employees')
 const NotifyScrap = require('../Functions/NotifyScrap')
 const NotifyWhTovir = require('../Functions/NotifyWhTovir')
+const WelcomeMessageHandler = require('../Functions/WelcomeMessageHandler')
 
 const router = Router()
 
@@ -179,9 +180,10 @@ router.get('/Transfer/:TRANSFERREF',requireAuth,authController.SingleProductTran
 // SET UP COMPANY details
 
 router.get('/Company/Register/:ADMINID',requireAuth,adminWareHouseSetUp,authController.companyRegister_get)
-router.post('/company/register/:ADMINID',requireAuth,adminWareHouseSetUp,authController.companyRegister_post);
+router.post('/company/register/:ADMINID',requireAuth,adminWareHouseSetUp,authController.companyRegister_post,WelcomeMessageHandler);
 // expense routes
 router.get('/CFO/EXPENSE/:CFOID',requireAuth,authController.CFexpense_get)
+router.patch('/Expense/edit/:EXPID/:CFOID',requireAuth,authController.SingleExpense_patch)
 router.get('/Vendor/Bills/:CFOID',requireAuth,authController.CFOVendorBill_get)
 router.patch('/Vendor/Bill/:BillId',requireAuth,authController.CFOVendorBill_patch)
 router.get('/EXP/:id',requireAuth,authController.SingleExpense_get)

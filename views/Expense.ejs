@@ -347,12 +347,12 @@
 
               <div class="col-md-4">
                 <label for="BankAccount" class="form-label">ACCOUNT NUMBER</label>
-                <input type="text" placeholder="Bank Account Number" required class="form-control border" autocomplete="off" id="BankAccount" name="BankAccount"/>
+                <input type="text" placeholder="Bank Account Number" required class="form-control border" autocomplete="off" id="payeebankAccount" name="Payee Account"/>
             </div>
 
             <div class="col-md-4">
               <label for="BankName" class="form-label">BANK </label>
-              <input type="text" placeholder="Bank Name" required class="form-control border" autocomplete="off" id="BankName" name="BankName"/>
+              <input type="text" placeholder="Payee Bank Name" required class="form-control border" autocomplete="off" id="BankName" name="payeeBankName"/>
           </div>
               <div class="col-md-4">
                 <label for="DriverNumber" class="form-label">ATTACHMENT</label>
@@ -396,8 +396,8 @@
         Date:EXPENSEFORM.Date.value,
         payee:EXPENSEFORM.PAYEE.value,
         remarks:EXPENSEFORM.remark.value,
-        BankAccount:EXPENSEFORM.BankAccount.value,
-        BankName:EXPENSEFORM.BankName.value,
+        payeebankAccount:EXPENSEFORM.payeebankAccount.value,
+        payeeBankName:EXPENSEFORM.payeeBankName.value,
       }),
       headers: {"content-type": "application/json"}
     })
