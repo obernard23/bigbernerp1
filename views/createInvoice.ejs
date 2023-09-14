@@ -603,7 +603,7 @@
             BillProducts.discount = data.item.discount //assign custom discount
             BillProducts.priceList = data.item.priceList //assign customizes price list for product for diffrent customer pricelist
             BillProducts.ActivityLog.push({
-              logMsg:`${BillProducts.salesPerson } created  a new ${BillProducts.billStatus} for ${data.item.Username} on ${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
+              logMsg:`${BillProducts.RaiseBy } created  a new ${BillProducts.billStatus} for ${data.item.Username} on ${d.getFullYear() }-${d.getMonth() + 1}-${d.getDate()}`,
               status:`${BillProducts.status} and awaiting Action`
             }) //for activity log
             saveToLocalStorage(BillProducts);
