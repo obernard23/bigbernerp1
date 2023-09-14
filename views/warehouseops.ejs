@@ -427,7 +427,7 @@ transition-delay:1s;
     const response = await request.json()
     if(response){
       document.getElementById('customer').innerText = response.Customers.Username.toUpperCase()
-      document.getElementById('Grandtotals').innerText = `NGN ${response.deliveryBill.grandTotal}`
+      document.getElementById('Grandtotals').innerText = `₦${response.deliveryBill.grandTotal}`
       // FOR ORDERS
       let count = 1
       response.deliveryBill.orders.forEach(element => {

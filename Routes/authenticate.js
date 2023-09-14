@@ -81,7 +81,7 @@ router.get('/stock-move',requireAuth,authController.stock_get);//for inventory m
 router.get('/VirtualstorageProduct',requireAuth,authController.VirtualstorageProduct_get)//add url to frontend today
 router.patch('/warehouse/:ADMINID/:WHID/edit',requireAuth,adminWareHouseSetUp,authController.Edit_patch);//edith ware house 
 router.patch('/outbound/:ADMINID/:WHID/:PRODID/:STOREID/edit',requireAuth,adminWareHouseSetUp,authController.Inventory_patch);
-router.post(`/wareHouseToTransfer`,requireAuth,authController.WareHouseStoreage_post);//here to post toWareHouse
+router.post(`/wareHouseToTransfer/:WHID`,requireAuth,authController.WareHouseStoreage_post);//here to post toWareHouse
 router.post(`/wareHouseToTransfer/toRecive`,requireAuth,authController.WareHouseStock_post);//use this for deliveries
 router.post('/wareHouse/Bill',requireAuth,authController.WareHouseBill_post,NotifyAccountant);//to post bill
 router.get(`/warehouse/:id/Bills`,requireAuth,authController.WareHouseBill_get);//GET BILL BY WAREHOUSE ID

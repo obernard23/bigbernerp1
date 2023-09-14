@@ -590,27 +590,80 @@ module.exports.stock_get = async (req, res) => {
   res.render("AllVirtualLocation", { Products, wareHouse,storeProducts,employees, name: "BADE" });
 };
 
-//create product in storeProduct collection 
+//create product in storeProduct collection
+
 module.exports.WareHouseStoreage_post = async (req, res) => {
+
   const { WHIDS,productId } = req.body;
+
+  const wH = await WHouse.findById(ObjectId(req.body.WHIDS))
+
   if (ObjectId.isValid(WHIDS) && ObjectId.isValid(productId)) {
+
     try {
-      const wH = await WHouse.findById(ObjectId(WHIDS))
-     await storeProduct.create({WHIDS,productId })
-     .then(product => {
-    
-      product.ActivitiyLog.push({message: `Product registered successfully by Administrator on ${responseDate}`})
-      wH.Notification.push({message: `New product has been created in your inventory catalog by Administrator. on ${responseDate}`})
-      product.save()
-      wH.save()
-      // send mail to ware house manager
-      res.status(200).json({message: `Product registered successfully by Administrator.${wH.WHName} manager will be Notified`})
-     })
+
+     
+
+       wareHouseProduct = await storeProduct.find({WHIDS:req.params.WHID})
+
+      let productID =  wareHouseProduct.filter(product =>{
+
+        return product.productId.toString() === req.body.productId.toString()
+
+       
+
+       })
+
+     
+
+       if (productID.length  > 0){
+
+        throw new Error('this product has already been added to the store')
+
+       }else{
+
+        async function Register(){
+
+          await storeProduct.create({WHIDS,productId })
+
+          .then(registerdProduct => {
+
+            registerdProduct.ActivitiyLog.push({message: `Product registered successfully by Administrator on ${responseDate}`})
+
+            wH.Notification.push({message: `New product has been created in your inventory catalog by Administrator. on ${responseDate}`})
+
+            registerdProduct.save()
+
+            wH.save()
+
+            // send mail to ware house manager
+
+            res.status(200).json({message: `Product registered successfully by Administrator.${wH.WHName} manager will be Notified`})
+
+          })
+
+        }
+
+        Register()
+
+       }
+
+ 
+
     }catch (e) {
+
       res.status(500).json({Errormessage:e.message})
+
     };
-  
+
+ 
+
+  }else{
+
+    res.redirect('/logout')
+
   };
+
 }
 
 //add product to ware house to recive array

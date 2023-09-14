@@ -109,122 +109,232 @@
               </tbody>
             </table>
           </div>
-    <!-- The Modal -->
-    <div
-      id="myModal"
-      class="modal flex items-center flex-col justify-center gap-3"
-    >
-      <!-- Modal content -->
-      <div class="modal-content container p-3">
-        <div class="d-flex  justify-content-between container">
-          <h5 id="myModalText d-flex align-self-start" class="fw-bolder">New Entry</h5>
-          <svg xmlns="http://www.w3.org/2000/svg" title="close Modal" onclick="document.getElementById('myModal').style.display='none'" width="16" height="16" fill="currentColor" class="bi bi-x-lg  border" viewBox="0 0 16 16">
-            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-          </svg>
-        </div>
-        <form action="" id="inventoryForm" method="post">
-        <label for="productList" class="form-label fw-bolder"
-          >Choose From Product List</label
-        >
-        <input
-          class="form-control"
-          list="datalistOptions"
-          id="productList"
-          name="productList"
-          placeholder="Type to search product list..."
-        />
-        <datalist id="datalistOptions">
-          <!-- display options for product -->
-          <%if(PurchasedProduct){%> <%PurchasedProduct.forEach((product)=>{%>
-          <option value="<%=product._id%>">
-            <%=product.Name%> (<%=product.UMO%>)
-          </option>
-          <%})%> <%}%>
-        </datalist>
+   <!-- The Modal -->
 
-        <label class="flex flex-row gap-9 justify-around m-2 fw-bolder"
-          >Select Location</label
-        >
-        <!-- display options for product -->
-        <%if(wareHouse){%> <%wareHouse.forEach((wareHouse)=>{%>
-        <div class="input-group">
-          <div class="input-group-text">
-            <input
-              class="form-check-input mt-0"
-              type="radio"
-              aria-label="Radio button for following text input"
-              id="wareHouse"
-              name="wareHouse"
-              data-id="<%=wareHouse._id%>"
-            />
-          </div>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Text input with radio button"
-            value="<%=wareHouse.WHName%>"
-            disabled
-          />
-          <%})%> <%}%>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-success">Register Product</button>
-    </form>
-    </div>
-  </div>
-  <!-- first modal ends here  -->
-  <!-- second modal for product category statrs here -->
-  <div
-  id="myModal2"
-  class="modal flex items-center flex-col justify-center gap-3"
+   <div
+
+   id="myModal"
+
+   class="modal flex items-center flex-col justify-center gap-3"
+
+ >
+
+   <!-- Modal content -->
+
+   <div class="modal-content container p-3">
+
+     <div class="d-flex  justify-content-between container">
+
+       <h5 id="myModalText d-flex align-self-start" class="fw-bolder">New Inventory Product</h5>
+
+       <svg xmlns="http://www.w3.org/2000/svg" title="close Modal" onclick="document.getElementById('myModal').style.display='none'" width="16" height="16" fill="currentColor" class="bi bi-x-lg  border" viewBox="0 0 16 16">
+
+         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+
+       </svg>
+
+     </div>
+
+     <form action="" id="inventoryForm" method="post">
+
+     <label for="productList" class="form-label fw-bolder"
+
+       >Choose From Product List</label
+
+     >
+
+    
+
+     <select id="productList" class="form-select">
+
+       <option >Choose...</option>
+
+       <!-- display options for product -->
+
+       <%if(PurchasedProduct){%> <%PurchasedProduct.forEach((product)=>{%>
+
+       <option value="<%=product._id%>">
+
+         <%=product.Name%> (<%=product.UMO%>)
+
+       </option>
+
+       <%})%> <%}%>
+
+     </select>
+
+
+
+     <label class="flex flex-row gap-9 justify-around m-2 fw-bolder"
+
+       >Select Location</label
+
+     >
+
+     <!-- display options for product -->
+
+     <%if(wareHouse){%> <%wareHouse.forEach((wareHouse)=>{%>
+
+     <div class="input-group">
+
+       <div class="input-group-text">
+
+         <input
+
+           class="form-check-input mt-0"
+
+           type="radio"
+
+           aria-label="Radio button for following text input"
+
+           id="wareHouse"
+
+           name="wareHouse"
+
+           data-id="<%=wareHouse._id%>"
+
+         />
+
+       </div>
+
+       <input
+
+         type="text"
+
+         class="form-control"
+
+         aria-label="Text input with radio button"
+
+         value="<%=wareHouse.WHName%>"
+
+         disabled
+
+       />
+
+       <%})%> <%}%>
+
+     </div>
+
+   </div>
+
+   <button type="submit" class="btn btn-success">Register Product</button>
+
+ </form>
+
+ </div>
+
+</div>
+
+<!-- first modal ends here  -->
+
+<!-- second modal for product category statrs here -->
+
+<div
+
+id="myModal2"
+
+class="modal flex items-center flex-col justify-center gap-3"
+
 >
-  <!-- Modal content -->
-  <div class="modal-content container p-3">
-    <div class="d-flex  justify-content-between container">
-      <h5 id="myModalText d-flex align-self-start" class="fw-bolder">New Entry</h5>
-      <svg xmlns="http://www.w3.org/2000/svg" title="close Modal" onclick="document.getElementById('myModal2').style.display='none'" width="16" height="16" fill="currentColor" class="bi bi-x-lg  border" viewBox="0 0 16 16">
-        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-      </svg>
-    </div>
-    <form action="" id="inventoryForm" method="post">
-      kmsddcjdsncdcjsdcd
-    </form>
-  </div>
 
-      <script src="/jquery-3.3.1.min.js"></script>
-    <script src="/popper.min.js"></script>
-    <script src="/bootstrap.min.js"></script>
-    <script src="/main.js"></script>
-    <script>
-       //get value for selected ware House
-    const inventoryForm = document.getElementById('inventoryForm')
+<!-- Modal content -->
+
+<div class="modal-content container p-3">
+
+ <div class="d-flex  justify-content-between container">
+
+   <h5 id="myModalText d-flex align-self-start" class="fw-bolder">New Entry</h5>
+
+   <svg xmlns="http://www.w3.org/2000/svg" title="close Modal" onclick="document.getElementById('myModal2').style.display='none'" width="16" height="16" fill="currentColor" class="bi bi-x-lg  border" viewBox="0 0 16 16">
+
+     <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+
+   </svg>
+
+ </div>
+
+ <form action="" id="inventoryForm" method="post">
+
+   kmsddcjdsncdcjsdcd
+
+ </form>
+
+</div>
+
+
+
+   <script src="/jquery-3.3.1.min.js"></script>
+
+ <script src="/popper.min.js"></script>
+
+ <script src="/bootstrap.min.js"></script>
+
+ <script src="/main.js"></script>
+
+ <script>
+
+    //get value for selected ware House
+
+ const inventoryForm = document.getElementById('inventoryForm')
+
+
 
 inventoryForm.addEventListener('submit',async function (e){
-  e.preventDefault()
-  const wareHouseId = document.querySelectorAll('#wareHouse');
-  let  wareHouse 
 
-  for(let i=0;i < wareHouseId.length; i++) {
-      if (wareHouseId[i].checked){
-        wareHouse =  wareHouseId[i].dataset.id;
-      }
-      
-    }
+e.preventDefault()
 
-  const product = inventoryForm.elements.productList.value;
-  const endPoint = `/wareHouseToTransfer`
+const wareHouseId = document.querySelectorAll('#wareHouse');
 
-  const request = await fetch(endPoint,{
-    method:'POST',
-    body: JSON.stringify({WHIDS:wareHouse,productId:product}),
-    headers: {"Content-Type": 'application/json'}
-  })
+let  wareHouse
 
-  const response = await request.json()
-  response?.message? alert(response.message) : alert(response.Errormessage)
-  response?.message? inventoryForm.reset() : ""
-  location.reload();
+
+
+for(let i=0;i < wareHouseId.length; i++) {
+
+   if (wareHouseId[i].checked){
+
+     wareHouse =  wareHouseId[i].dataset.id;
+
+   }
+
+  
+
+ }
+
+
+
+const product = inventoryForm.elements.productList.value;
+
+const endPoint = `/wareHouseToTransfer/${wareHouse}`
+
+
+
+const request = await fetch(endPoint,{
+
+ method:'POST',
+
+ body: JSON.stringify({WHIDS:wareHouse,productId:product}),
+
+ headers: {"Content-Type": 'application/json'}
+
 })
-    </script>
+
+
+
+const response = await request.json()
+
+response?.message? alert(response.message) : alert(response.Errormessage)
+
+response?.message? inventoryForm.reset() : ""
+
+location.reload();
+
+})
+
+ </script>
+
 </body>
+
 </html>
+
+has context menu
