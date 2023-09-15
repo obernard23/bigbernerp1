@@ -575,7 +575,7 @@ document.getElementById("files").addEventListener("change", function(e) {
   EmployeeForm.addEventListener('submit',async(e) => {
     e.preventDefault();
 
-    await fetch("/register/employee",{
+    const request = await fetch("/register/employee",{
       method: 'POST',
       body: JSON.stringify({
         firstName: EmployeeForm.firstName.value,
@@ -609,6 +609,15 @@ document.getElementById("files").addEventListener("change", function(e) {
       }),
       headers:{"content-type": "application/json"}
     })
+
+    const response = await request.json()
+
+    if(response){
+      alert(response.message || response.error)
+      response.message ? EmployeeForm.reset(): ""
+      response.message ? location.reload(): ""
+    }
+    
 
   });
 

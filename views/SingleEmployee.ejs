@@ -1,6 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%-include('./partials/head.ejs')%>
+    <%-include('./partials/head.ejs')%>    <style>
+      .box {
+  position: relative;
+}
+.ribbon {
+  position: absolute;
+  right: -5px; top: -20px;
+  z-index: 1;
+  overflow: hidden;
+  width: 95px; height: 95px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+    </style>
 <body>
     <nav class="navbar bg-black">
       <div class="container-fluid">
@@ -31,5 +78,190 @@
           </ul>
       </div>
     </nav>
+
+    <div class="container p-3">
+      
+      <div class="row g-3 shadow p-3 m-3 box">
+        
+          <div class="ribbon"><span>LAST SEEN</span></div>
+        
+        <h3><%=Employee.firstName.toUpperCase()%> <%=Employee.lastName.toUpperCase()%></h3>
+          <div  style="width: 12rem;" class="shadow-sm ">
+              <img  src="<%if(Employee.image){%>
+                <%= Employee.image %>
+                <%}else{%>
+                   https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_640.png
+                <%}%>
+                " alt="<%= Employee.firstName %> Photo" class="card-img-top" alt="...">
+          </div>
+          <!-- view only section -->
+          
+          <div class="row g-3 p-3 box">
+             <!-- curent sales person -->
+          <div class="col-6">
+            <label for="street" class="form-label">Email </label>
+            <h5 class="form-text"><%= Employee.Email %></h5>
+          </div>
+          <!-- ends here -->
+
+           <!-- curent billing  -->
+           <div class="col-6">
+            <label for="street" class="form-label">Telephone </label>
+            <h5 class="form-text">
+              <%= Employee.telephone %>
+            </h5>
+          </div>
+          <!-- ends here -->
+
+           <!-- curent priceList  -->
+           <div class="col-6">
+            <label for="street" class="form-label"> Job Tittle </label>
+            <h5 class="form-text">
+              <%= Employee.jobTittle %>
+            </h5>
+          </div>
+          <!-- ends here -->
+
+          <!-- curent email  -->
+          <div class="col-6">
+            <label for="street" class="form-label"> Emergency Contact </label>
+            <h5 class="form-text">
+              <%= Employee.EmaergencyContact %>
+            </h5>
+          </div>
+          <!-- ends here -->
+
+           <!-- curent telephone  -->
+           <div class="col-6">
+            <label for="street" class="form-label"> Emergency Contact Telephone </label>
+            <h5 class="form-text">
+              <%= Employee.EmaergencyContactNumber %>
+            </h5>
+          </div>
+          <!-- ends here -->
+          <!-- curent priceList  -->
+          <div class="col-6">
+            <label for="street" class="form-label">Home Address </label>
+            <h5 class="form-text">
+              <%= Employee.HomeAddress %>
+            </h5>
+          </div>
+          <!-- ends here -->
+
+          <!-- curent priceList  -->
+          <div class="col-6">
+            <label for="street" class="form-label"> Department</label>
+            <h5 class="form-text">
+              <%= Employee.Department %>
+            </h5>
+          </div>
+          <!-- ends here -->
+
+          <!-- curent priceList  -->
+          <div class="col-6">
+            <label for="street" class="form-label"> Gender</label>
+            <h5 class="form-text">
+              <%= Employee.Gender %>
+            </h5>
+          </div>
+          <!-- ends here -->
+           <!-- curent priceList  -->
+           <div class="col-6">
+            <label for="street" class="form-label"> Birthday<small> M/D</small></label>
+            <h5 class="form-text">
+              <%= Employee.DOB.substring(5,10) %>-YYYY
+            </h5>
+          </div>
+          <!-- ends here -->
+
+          <div class="col-6">
+            <label for="street" class="form-label"> Work Location </label>
+            <h5 class="form-text">
+              <%= WH.WHName %>
+            </h5>
+          </div>
+
+          <div class="col-6">
+            <label for="street" class="form-label">  </label>
+            <p>
+              <a href="/" class="link-success link-opacity-25-hover">
+               Last Appraisal 
+              </a>
+            </p>
+          </div>
+
+          <div class="col-6">
+            <label for="street" class="form-label">  </label>
+            <p>
+              <a href="/" class="link-warning link-opacity-25-hover">
+               Absence | TimeOut
+              </a>
+            </p>
+          </div>
+
+          </div>
+          <!-- view only div ends here -->
+
+        <%if(user.role ==="Admin"){%>
+          <form class="row g-3" style="border-top: silver dotted 2px;">
+            <h3 style="color: rgb(228, 165, 83);font-family:'Times New Roman', Times, serif;">EDIT <%=Employee.firstName.toUpperCase()%> <%=Employee.lastName.toUpperCase()%></h3>
+            <div class="col-md-4">
+              <label for="validationDefault01" class="form-label">First name</label>
+              <input type="text" class="form-control" id="validationDefault01" value="<%=Employee.firstName%>" required>
+            </div>
+            <div class="col-md-4">
+              <label for="validationDefault02" class="form-label">Last name</label>
+              <input type="text" class="form-control" id="validationDefault02" value="<%=Employee.lastName%>" required>
+            </div>
+            <div class="col-md-4">
+              <label for="validationDefault03" class="form-label">Email</label>
+              <input type="text" class="form-control" value="<%=Employee.Email%>" id="validationDefault03" required>
+            </div>
+            <div class="col-md-3">
+              <label for="validationDefault04" class="form-label">Telephone</label>
+              <input type="text" class="form-control" value="<%=Employee.telephone%>" id="validationDefault03" required>
+            </div>
+            <div class="col-md-3">
+              <label for="validationDefault05" class="form-label">Date of Birth</label>
+              <input type="date" class="form-control" id="validationDefault05" required>
+            </div>
+            <div class="col-md-4">
+              <label for="validationDefault01" class="form-label">First name</label>
+              <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
+            </div>
+            <div class="col-md-4">
+              <label for="validationDefault02" class="form-label">Last name</label>
+              <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
+            </div>
+            <div class="col-md-4">
+              <label for="validationDefault03" class="form-label">City</label>
+              <input type="text" class="form-control" id="validationDefault03" required>
+            </div>
+            <div class="col-md-3">
+              <label for="validationDefault04" class="form-label">State</label>
+              <select class="form-select" id="validationDefault04" required>
+                <option selected disabled value="">Choose...</option>
+                <option>...</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="validationDefault05" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="validationDefault05" required>
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" value="" id="invalidCheck2" required>
+                <label class="form-check-label" for="invalidCheck2">
+                  Send Invite
+                </label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-dark" type="submit">Submit</button>
+            </div>
+          </form>  
+        <%}%>
+        <%-include('./partials/footer.ejs')%>
+  </div>
 </body>
 </html>

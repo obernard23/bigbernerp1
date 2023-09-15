@@ -63,7 +63,7 @@ staffId:{type:String},
 role:{
 type:String
 },
-manager:{
+Manager:{
 type:Object,
 },
 nextOfKin:{
@@ -81,7 +81,6 @@ type:Array,
 password:{
   type:String,
 minlength:6,
-
 },
 workEmail:{type:String},
 Department:{type:String},
@@ -95,7 +94,9 @@ jobTittle:{
 },
 EndDate:{type:String},
 firstTimeOnboard:{type:Boolean, default:false},
-
+EmaergencyContactNumber:{type:String},
+NOK:String,
+lastSeen:{type:String}
 })
 
 const  EMPLOYEES = mongoose.model(' EMPLOYEES',EmployeSchema);

@@ -178,37 +178,7 @@ module.exports.Register_post = async (req, res) => {
   
 
  try {
-  await Employe.create({
-    firstName,
-    lastName,
-    Email,
-    DOB,
-    telephone,
-    HomeAddress,
-    NOK,
-    StateOfOringin,
-    LGA,
-    EmaergencyContact,
-    EmaergencyContactNumber,
-    Gender,
-    workLocation,
-    Equiptment,
-    workEmail,
-    contract,
-    Manager,
-    role,
-    staffId,
-    jobTittle,
-    Department,
-    BVN,
-    NIN,
-    AccountNumber,
-    AccountNumber,
-    image,
-    StartDate,
-    EndDate,
-   
-  }).then((NewEmployee)=>{
+  await Employe.create(req.body).then((NewEmployee)=>{
     if(NewEmployee){
       res.status(200).json({message: 'New Employee Registered. You should send them an invite when you are ready to onboard them'})
     }else{
@@ -264,7 +234,8 @@ module.exports.OnboardEmployee_patch = async(req, res)=>{
 // single employee get
 module.exports.getSingleEmployee_get = async (req,res) => {
   const Employee = await Employe.findById(req.params.EmployeeId)
-  res.status(200).render('SingleEmployee',{Employee})
+  const WH = await WHouse.findById(Employee.workLocation)
+  res.status(200).render('SingleEmployee',{Employee,WH})
 }
 
 //login
