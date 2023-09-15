@@ -206,24 +206,36 @@ module.exports.OnboardEmployee_get = async (req, res) => {
 // for onboarding
 module.exports.OnboardEmployee_patch = async(req, res)=>{
 
-
-  // let handelPassword = `${ Math.floor(Math.random()*122756)}`
-  // // const saltOps 
-  // let handelOps = `${Math.floor(Math.random()*1236)}`
-
-  // const salt = bcrypt.genSaltSync(10);
-  // const hashpassword = bcrypt.hashSync(handelPassword, salt);
-  // const hashops = bcrypt.hashSync(handelOps, salt);
-  // // Store hash in your password DB.
-  // password:hashpassword,
-  // opsCode:hashops
-
+  
   try {
-    await Employe.create(req.body).then((employed)=>{
-      if(employed){
-        res.status(200).json({message:'successfully created. please activate new user account'})
+    await Employe.findById(req.params.EmployeeId).then(async(employed)=>{
+      if(!employed.firstTimeOnboard){
+        employed.firstTimeOnboard = true;
+        // send onboarding mail notification
+        let handelPassword = `${ Math.floor(Math.random()*122756)}`
+        // const saltOps 
+        let handelOps = `${Math.floor(Math.random()*1236)}`
+
+        const salt = bcrypt.genSaltSync(10);
+        const hashpassword = bcrypt.hashSync(handelPassword, salt);
+        const hashops = bcrypt.hashSync(handelOps, salt);
+        // Store hash in your password DB.
+        employed.password = hashpassword,
+        employed.opsCode = hashops
+        employed.status = 'active'
+        // console.log(employed)
+        console.log(req.body)
+      }else if(employed.firstTimeOnboard){
+        await Employe.updateMany({_id:req.params.EmployeeId},{$set:req.body})
+        .then((update)=>{
+          if(update.acknowledged){
+            res.status(200).json({message:'updated successfully'})
+          }else{
+            
+          }
+        })
       }else{
-        throw new Error('Could not create. Something seems wrong. Please try again')
+        throw new Error('Could not update. Something seems wrong. Please try again')
       }
     });
   } catch (error) {
@@ -233,9 +245,12 @@ module.exports.OnboardEmployee_patch = async(req, res)=>{
 
 // single employee get
 module.exports.getSingleEmployee_get = async (req,res) => {
+  const states = await NaijaStates.all();
   const Employee = await Employe.findById(req.params.EmployeeId)
+  const Warehouse = await WHouse.find()
   const WH = await WHouse.findById(Employee.workLocation)
-  res.status(200).render('SingleEmployee',{Employee,WH})
+  const Employees = await Employe.find();
+  res.status(200).render('SingleEmployee',{Employee,WH,states,Warehouse,Employees})
 }
 
 //login

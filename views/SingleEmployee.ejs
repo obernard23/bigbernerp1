@@ -167,7 +167,7 @@
           <!-- ends here -->
            <!-- curent priceList  -->
            <div class="col-6">
-            <label for="street" class="form-label"> Birthday<small> M/D</small></label>
+            <label for="street" class="form-label"> Birthday<small> M-D-Y</small></label>
             <h5 class="form-text">
               <%= Employee.DOB.substring(5,10) %>-YYYY
             </h5>
@@ -203,60 +203,337 @@
           <!-- view only div ends here -->
 
         <%if(user.role ==="Admin"){%>
-          <form class="row g-3" style="border-top: silver dotted 2px;background-color: rgba(253, 246, 227, 0.178);">
+          <form class="row g-3" id="EmployeeForm" style="border-top: silver dotted 2px;background-color: rgba(253, 246, 227, 0.178);">
             <h3 style="color: rgb(228, 165, 83);font-family:'Times New Roman', Times, serif;">EDIT <%=Employee.firstName.toUpperCase()%> <%=Employee.lastName.toUpperCase()%></h3>
+            <!-- ALL FIELDS FROM FOR HERE -->
+            
+          <div class="col-md-6">
+            <label for="FirstName" class="form-label">First Name</label>
+            <input type="text" class="form-control is-invalid" id="FirstName"  name="firstName" value="<%=Employee.firstName%>" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="LastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control is-invalid" id="LastName" name="lastName" value="<%=Employee.lastName%>" required />
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control is-invalid"
+              id="inputEmail4"
+              placeholder="Example@Bigbern.com"
+              required
+              name="Email"
+              value="<%=Employee.Email%>"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="DOB" class="form-label">DOB</label>
+            <input type="date" class="form-control is-invalid" id="DOB" name="DOB" value="<%=Employee.DOB%>" />
+          </div>
+          <div class="col-12">
+            <label for="inputAddress" class="form-label">Home Address</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputAddress"
+              placeholder="1234 Main St"
+              name="HomeAddress"
+              value="<%=Employee.HomeAddress%>"
+            />
+          </div>
+          <div class="col-4">
+            <label for="NOK" class="form-label">Next of Kin</label>
+            <input
+              type="text"
+              class="form-control"
+              id="NOK"
+              placeholder="Next of Kin"
+              name="NOK"
+              value="<%=Employee.NOK%>"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="inputState" class="form-label">State of Origin</label>
+            <select id="inputState" class="form-select" name="StateOfOringin">
+              <option  value="<%=Employee.StateOfOringin%>"><%=Employee.StateOfOringin%> [current]</option>
+              
+              <%states.forEach(state=>{%>
+                <option value="<%=state.state%>" ><%=state.state%></option>
+              <%})%>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="LGA" class="form-label">LGA</label>
+            <input type="text" class="form-control" id="LGA" name="LGA" value="<%=Employee.LGA%>"/>
+          </div>
+          <div class="col-md-6">
+            <label for="EmaergencyContact" class="form-label">Emergency Contact</label>
+            <input type="text" class="form-control" id="EmaergencyContact" name="EmaergencyContact"  value="<%=Employee.EmaergencyContact%>"/>
+          </div>
+          <div class="col-md-6">
+            <label for="EmaergencyContactNumber" class="form-label">Emergency contact Number</label>
+            <input type="text" class="form-control" id="EmaergencyContactNumber"  name="EmaergencyContactNumber" value="<%=Employee.EmaergencyContactNumber%>"/>
+          </div>
+          <div class="col-md-6">
+            <label for="Mobile" class="form-label">Mobile</label>
+            <input
+              type="text"
+              class="form-control is-invalid"
+              id="Mobile"
+              placeholder="+234-0000-000"
+              required
+              name="telephone"
+              value="<%=Employee.telephone%>"
+            />
+          </div>
+          <div class="row g-3">
+            <h5>Gender</h5>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Gender"
+                id="inlineRadio1"
+                value="Male"
+              />
+              <label class="form-check-label" for="inlineRadio1">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Gender"
+                id="inlineRadio2"
+                value="Female"
+              />
+              <label class="form-check-label" for="inlineRadio2">Female</label>
+            </div>
+          </div>
+          <!-- work info -->
+          <div class="col-md-3">
+            <label for="workLocation" class="form-label">Assign Work Location</label>
+            <select  id="workLocation" class="form-select"  name="workLocation">
+              <option  value="<%=Employee.workLocation%>"><%=Employee.workLocation%></option>
+              
+              <%Warehouse.forEach(Warehouse=>{%>
+                <option value="<%=Warehouse._id%>" ><%=Warehouse.WHName%></option>
+              <%})%>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="validationServer02" class="form-label"
+              >Equiptment</label
+            >
+            <input
+              type="text"
+              class="form-control "
+              id="validationServer02"
+              name="Equiptment"
+              value="<%=Employee.Equiptment%>"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="validationServerUsername" class="form-label"
+              >Work Email</label
+            >
+            <div class="input-group has-validation">
+              <span class="input-group-text" id="inputGroupPrepend3">@</span>
+              <input
+                type="text"
+                class="form-control "
+                id="validationServerUsername"
+                aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
+                value="<%=Employee.woekEmail%>"
+                name="workEmail"
+              />
+             
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="validationServer03" class="form-label"
+              >Employee Contract</label
+            >
+            <select
+              class="form-select is-invalid"
+              id="validationServer04"
+              aria-describedby="validationServer04Feedback"
+              name="contract"
+            >
+              <option  value="<%=Employee.contract%>"><%=Employee.contract%></option>
+              
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="Manager" class="form-label"
+              >Manager to report to</label
+            >
+            <select
+              class="form-select "
+              id="Manager"
+              name="Manager"
+              aria-describedby="validationServer04Feedback"
+              
+            >
+              <option ><%=Employee.Manager%></option>
+              <optgroup label="Admin">
+                <%Admin = Employees.filter(staff=>{%>
+                  <%return staff.role === 'Admin'%>
+                <%})%>
+                  <%Admin.forEach(Employee=>{%>
+                    <option value="<%=Employee._id%>" ><%=Employee.firstName%> <%=Employee.lastName%></option>
+                  <%})%>
+              </optgroup>
+              <optgroup label="Managers">
+                <%manager = Employees.filter(staff=>{%>
+                  <%return staff.role === 'Manager'%>
+                <%})%>
+                  <%manager.forEach(Employee=>{%>
+                    <option value="<%=Employee._id%>" ><%=Employee.firstName%> <%=Employee.lastName%></option>
+                  <%})%>
+              </optgroup>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="Role" class="form-label"
+              > Assign system Role </label
+            >
+            <select
+              class="form-select"
+              id="Role"
+              name="role"
+              aria-describedby="validationServer04Feedback"
+              
+            >
+              <option selected disabled value="<%=Employee.role%>"><%=Employee.role%> [current]</option>
+                <option value="Admin" >Admin Access</option>
+                <option value="Manager" >Manager Access</option>
+                <option value="Staff" >Staff Access</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="staffId" class="form-label"
+              >Staff ID Number</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="staffId"
+              aria-describedby="staffId"
+              name="staffId"
+              value="<%=Employee.staffId%>"
+            />
+          </div>
+
+          <div class="col-md-3">
+            <label for="staffId" class="form-label"
+              >Employement Date</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              id="staffId"
+              aria-describedby="staffId"
+              name="StartDate"
+              value="<%=Employee.StartDate%>"
+            />
+          </div>
+          
+          <div class="col-md-3">
+            <label for="jobTittle" class="form-label">Job Tittle</label>
+            <select
+              class="form-select "
+              id="jobTittle"
+              aria-describedby="validationServer04Feedback"
+              required
+              name="jobTittle"
+            >
+            <option value="<%=Employee.jobTittle%>"><%=Employee.jobTittle%> [Current]</option>
+            <option>MD</option>
+            <option>CFO</option>
+            <option>Human Resource</option>
+            <option>Sales Manager</option>
+            <option>Accountant</option>
+            <option>Sales Rep</option>
+            <option>Invoicer</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="Department" class="form-label">DEPARTMENT</label>
+            <select
+              class="form-select "
+              id="Department"
+              aria-describedby="validationServer04Feedback"
+              name="Department"
+            >
+              <option value="<%=Employee.Department%>"><%=Employee.Department%> [Current]</option>
+              <option>CTO Suit</option>
+              <option>Human Resource</option>
+              <option>Sales</option>
+              <option>Accounting</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="BVN" class="form-label">BVN</label>
+            <input
+              type="text"
+              class="form-control"
+              id="BVN"
+              aria-describedby="validationServer05Feedback"
+              value="<%=Employee.BVN%>"
+              name="BVN"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="NIN" class="form-label">NIN</label>
+            <input
+              type="text"
+              class="form-control"
+              id="NIN"
+              aria-describedby="validationServer05Feedback"
+              name="NIN"
+              value="<%=Employee.NIN%>"
+            />
+          </div>
             <div class="col-md-4">
-              <label for="validationDefault01" class="form-label">First name</label>
-              <input type="text" class="form-control" id="validationDefault01" value="<%=Employee.firstName%>" required>
+              <label for="AccountNumber" class="form-label">Account Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="AccountNumber"
+                aria-describedby="validationServer05Feedback"
+                name="AccountNumber"
+                value="<%=Employee.AccountNumber%>"
+              />
             </div>
             <div class="col-md-4">
-              <label for="validationDefault02" class="form-label">Last name</label>
-              <input type="text" class="form-control" id="validationDefault02" value="<%=Employee.lastName%>" required>
+              <label for="AccountNumber" class="form-label">Bank Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="AccountNumber"
+                aria-describedby="validationServer05Feedback"
+                name="AccountNumber"
+                value="<%=Employee.AccountNumber%>"
+              />
             </div>
-            <div class="col-md-4">
-              <label for="validationDefault03" class="form-label">Email</label>
-              <input type="text" class="form-control" value="<%=Employee.Email%>" id="validationDefault03" required>
-            </div>
-            <div class="col-md-3">
-              <label for="validationDefault04" class="form-label">Telephone</label>
-              <input type="text" class="form-control" value="<%=Employee.telephone%>" id="validationDefault03" required>
-            </div>
-            <div class="col-md-3">
-              <label for="validationDefault05" class="form-label">Date of Birth</label>
-              <input type="date" class="form-control" id="validationDefault05" required>
-            </div>
-            <div class="col-md-4">
-              <label for="validationDefault01" class="form-label">First name</label>
-              <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
-            </div>
-            <div class="col-md-4">
-              <label for="validationDefault02" class="form-label">Last name</label>
-              <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
-            </div>
-            <div class="col-md-4">
-              <label for="validationDefault03" class="form-label">City</label>
-              <input type="text" class="form-control" id="validationDefault03" required>
-            </div>
-            <div class="col-md-3">
-              <label for="validationDefault04" class="form-label">State</label>
-              <select class="form-select" id="validationDefault04" required>
-                <option selected disabled value="">Choose...</option>
-                <option>...</option>
-              </select>
-            </div>
-            <div class="col-md-3">
-              <label for="validationDefault05" class="form-label">Zip</label>
-              <input type="text" class="form-control" id="validationDefault05" required>
-            </div>
+            
+         
+            <!-- ENDS HERE -->
             <div class="col-12">
               <div class="form-check">
-                <input class="form-check-input" type="radio" value="" id="invalidCheck2" required>
+                <input class="form-check-input" name="firstTimeOnboard" type="radio" <%if(Employee.firstTimeOnboard){%>
+                  checked
+                <%}%>
+                  id="invalidCheck2" required>
                 <label class="form-check-label" for="invalidCheck2">
-                  Send Invite
+                  Send Invitation link
                 </label>
               </div>
             </div>
             <div class="col-12">
+              <input type="hidden" name="id" value="<%=Employee._id%>">
               <button class="btn btn-dark" type="submit">Submit</button>
             </div>
           </form>  
@@ -264,4 +541,72 @@
         <%-include('./partials/footer.ejs')%>
   </div>
 </body>
+<script>
+  // get manager
+  let manager 
+  document.getElementById('Manager').addEventListener('change',async (e) =>{
+    
+    const request = await fetch(`/employee/${e.target.value}`,{
+      method: 'GET',
+      headers:{"content-type": "application/json"}
+    })
+
+    const response = await request.json()
+    manager = response
+  })
+
+
+
+  // submit employee form
+  const EmployeeForm =  document.getElementById('EmployeeForm')
+  EmployeeForm.addEventListener('submit',async(e) => {
+    e.preventDefault();
+
+    const id = EmployeeForm.id.value
+    const request = await fetch(`/employee/Onboard/${id}`,{
+      method: 'PATCH',
+      body: JSON.stringify({
+        firstName: EmployeeForm.firstName.value,
+        lastName: EmployeeForm.lastName.value,
+        Email:EmployeeForm.Email.value,
+        DOB:EmployeeForm.DOB.value,
+        telephone:EmployeeForm.telephone.value,
+        HomeAddress:EmployeeForm.HomeAddress.value,
+        NOK:EmployeeForm.NOK.value,
+        StateOfOringin:EmployeeForm.StateOfOringin.value,
+        LGA:EmployeeForm.LGA.value,
+        EmaergencyContact:EmployeeForm.EmaergencyContact.value,
+        EmaergencyContactNumber:EmployeeForm.EmaergencyContactNumber.value,
+        Gender:EmployeeForm.Gender.value,
+        workLocation:EmployeeForm.workLocation.value,
+        Equiptment:EmployeeForm.Equiptment.value,
+        workEmail:EmployeeForm.workEmail.value,
+        contract:{},
+        Manager:manager,
+        role:EmployeeForm.role.value,
+        staffId:EmployeeForm.staffId.value,
+        jobTittle:EmployeeForm.jobTittle.value,
+        Department:EmployeeForm.Department.value,
+        BVN:EmployeeForm.BVN.value,
+        NIN:EmployeeForm.NIN.value,
+        AccountNumber:EmployeeForm.AccountNumber.value,
+        AccountNumber:EmployeeForm.AccountNumber.value,
+        StartDate:EmployeeForm.StartDate.value,
+        EndDate:'',
+        firstTimeOnboard:EmployeeForm.firstTimeOnboard.checked
+      }),
+      headers:{"content-type": "application/json"}
+    })
+
+    const response = await request.json()
+
+    if(response){
+      alert(response.message || response.error)
+      response.message ? EmployeeForm.reset(): ""
+      response.message ? location.reload(): ""
+    }
+    
+
+  });
+</script>
 </html>

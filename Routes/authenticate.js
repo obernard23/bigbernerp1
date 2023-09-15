@@ -42,7 +42,7 @@ router.post('/SignIn',checkLoginUser,authController.signin_post);
 router.get('/Reset/account/:EmailTOreset',authController.ResetEmail_get,restPassword);
 router.post('/Register-lead',requireAuth,authController.Lead_post);
 router.patch('/Reset-password/:id/Security',authController.ResetId_patch);
-router.post('/employee/Onboard',requireAuth,authController.OnboardEmployee_patch)//patch request for employee login
+router.patch('/employee/Onboard/:EmployeeId',requireAuth,authController.OnboardEmployee_patch)//patch request for employee login
 
 router.get('/employee/:employeeId',requireAuth,async(req,res)=>{//get json for all employees
     const employee = await employe.findById(new ObjectId(req.params.employeeId))
