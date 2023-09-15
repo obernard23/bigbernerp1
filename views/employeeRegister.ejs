@@ -103,18 +103,18 @@
 
           <div class="col-md-6">
             <label for="FirstName" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="FirstName"  name="firstName" required />
+            <input type="text" class="form-control is-invalid" id="FirstName"  name="firstName" required />
           </div>
 
           <div class="col-md-6">
             <label for="LastName" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="LastName" name="lastName" required />
+            <input type="text" class="form-control is-invalid" id="LastName" name="lastName" required />
           </div>
           <div class="col-md-6">
             <label for="inputEmail4" class="form-label">Email</label>
             <input
               type="email"
-              class="form-control"
+              class="form-control is-invalid"
               id="inputEmail4"
               placeholder="Example@Bigbern.com"
               required
@@ -123,7 +123,7 @@
           </div>
           <div class="col-md-6">
             <label for="DOB" class="form-label">DOB</label>
-            <input type="date" class="form-control" id="DOB" name="DOB" />
+            <input type="date" class="form-control is-invalid" id="DOB" name="DOB" />
           </div>
           <div class="col-12">
             <label for="inputAddress" class="form-label">Home Address</label>
@@ -171,7 +171,7 @@
             <label for="Mobile" class="form-label">Mobile</label>
             <input
               type="text"
-              class="form-control"
+              class="form-control is-invalid"
               id="Mobile"
               placeholder="+234-0000-000"
               required
@@ -225,7 +225,7 @@
       >
         <div class="accordion-body row g-3">
           <!-- work information starts here -->
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="workLocation" class="form-label">Assign Work Location</label>
             <select  id="workLocation" class="form-select"  name="workLocation">
               <option >Choose...</option>
@@ -235,7 +235,7 @@
               <%})%>
             </select>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="validationServer02" class="form-label"
               >Equiptment</label
             >
@@ -246,7 +246,7 @@
               name="Equiptment"
             />
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="validationServerUsername" class="form-label"
               >Work Email</label
             >
@@ -254,21 +254,16 @@
               <span class="input-group-text" id="inputGroupPrepend3">@</span>
               <input
                 type="text"
-                class="form-control is-invalid"
+                class="form-control "
                 id="validationServerUsername"
                 aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
                 
                 name="workEmail"
               />
-              <div
-                id="validationServerUsernameFeedback"
-                class="invalid-feedback"
-              >
-                Please Register a work email.
-              </div>
+             
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <label for="validationServer03" class="form-label"
               >Employee Contract</label
             >
@@ -293,7 +288,7 @@
               aria-describedby="validationServer04Feedback"
               
             >
-              <option selected disabled value="">Choose...</option>
+              <option >Choose...</option>
               <optgroup label="Admin">
                 <%Admin = Employee.filter(staff=>{%>
                   <%return staff.role === 'Admin'%>
@@ -341,22 +336,37 @@
               name="staffId"
             />
           </div>
+
+          <div class="col-md-3">
+            <label for="staffId" class="form-label"
+              >Employement Date</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              id="staffId"
+              aria-describedby="staffId"
+              name="StartDate"
+            />
+          </div>
+          
           <div class="col-md-3">
             <label for="jobTittle" class="form-label">Job Tittle</label>
             <select
               class="form-select "
               id="jobTittle"
               aria-describedby="validationServer04Feedback"
-              
+              required
               name="jobTittle"
             >
-              <option>Choose...</option>
-              <option>MD</option>
-              <option>CFO</option>
-              <option>Human Resource</option>
-              <option>Sales Manager</option>
-              <option>Accountant</option>
-              <option>Sales Rep</option>
+            <option>Choose...</option>
+            <option>MD</option>
+            <option>CFO</option>
+            <option>Human Resource</option>
+            <option>Sales Manager</option>
+            <option>Accountant</option>
+            <option>Sales Rep</option>
+            <option>Invoicer</option>
             </select>
           </div>
           <div class="col-md-3">
@@ -365,7 +375,6 @@
               class="form-select "
               id="Department"
               aria-describedby="validationServer04Feedback"
-              
               name="Department"
             >
               <option>Choose...</option>
@@ -386,42 +395,38 @@
               name="BVN"
             />
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label for="NIN" class="form-label">NIN</label>
             <input
               type="text"
               class="form-control"
               id="NIN"
               aria-describedby="validationServer05Feedback"
-              
               name="NIN"
             />
           </div>
-          <div class="col-12">
-            <div class="col-md-3">
+            <div class="col-md-4">
               <label for="AccountNumber" class="form-label">Account Number</label>
               <input
                 type="text"
                 class="form-control"
                 id="AccountNumber"
                 aria-describedby="validationServer05Feedback"
-                
                 name="AccountNumber"
               />
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <label for="AccountNumber" class="form-label">Bank Name</label>
               <input
                 type="text"
                 class="form-control"
                 id="AccountNumber"
                 aria-describedby="validationServer05Feedback"
-                
                 name="AccountNumber"
               />
             </div>
             
-          </div>
+         
          
           <!-- ends here -->
         </div>
@@ -467,7 +472,7 @@
                 </h5> 
                 <a href="mailto:<%=Employee.Email%>"><%=Employee.Email%></a>
               </div>
-            <a href='/customer/<%=Employee._id%>/edit' class="btn btn-primary">Details..</a>
+            <a href='/employe/<%=Employee._id%>' class="btn btn-dark">Details..</a>
         </div>
         <% }) %>
     <%}else{%>
@@ -550,12 +555,27 @@ document.getElementById("files").addEventListener("change", function(e) {
   });
 
 
+  // get manager
+  let manager 
+  document.getElementById('Manager').addEventListener('change',async (e) =>{
+
+    const request = await fetch(`/employee/${e.target.value}`,{
+      method: 'GET',
+      headers:{"content-type": "application/json"}
+    })
+
+    const response = await request.json()
+    manager = response
+  })
+
+
+
   // submit employee form
   const EmployeeForm =  document.getElementById('EmployeeForm')
   EmployeeForm.addEventListener('submit',async(e) => {
     e.preventDefault();
 
-    await fetch("/employee/Onboard",{
+    await fetch("/register/employee",{
       method: 'POST',
       body: JSON.stringify({
         firstName: EmployeeForm.firstName.value,
@@ -574,7 +594,7 @@ document.getElementById("files").addEventListener("change", function(e) {
         Equiptment:EmployeeForm.Equiptment.value,
         workEmail:EmployeeForm.workEmail.value,
         contract:{},
-        Manager:EmployeeForm.Manager.value,
+        Manager:manager,
         role:EmployeeForm.role.value,
         staffId:EmployeeForm.staffId.value,
         jobTittle:EmployeeForm.jobTittle.value,
@@ -583,7 +603,9 @@ document.getElementById("files").addEventListener("change", function(e) {
         NIN:EmployeeForm.NIN.value,
         AccountNumber:EmployeeForm.AccountNumber.value,
         AccountNumber:EmployeeForm.AccountNumber.value,
-        image:EmployeeForm.employeeImage.value
+        image:EmployeeForm.employeeImage.value,
+        StartDate:EmployeeForm.StartDate.value,
+        EndDate:'',
       }),
       headers:{"content-type": "application/json"}
     })

@@ -301,15 +301,15 @@
       <div id="pspdfkit-header">
         <div class="header-columns">
           <div class="logotype">
-            <img class="logo" src="https://www.historyhit.com/app/uploads/fly-images/5154061/BigBen-788x537.jpg?x63000" />
-            <p><%=name%></p>
+            <img  height="100" width="100" src="<%=Business.CompayLogo%>" /> 
           </div>
 
           <div>
-            <h5>DUMMY COMPANY</h5>
-            <p>[Dummy Address here]</p>
-            <p>dummycompany@email.com</p>
-            <p>09000000000</p>
+            <h5><%=Business.CompayName%></h5>
+            <p>[<%=Business.email%>]</p>
+            <p><%=Business.Tel%></p>
+            <p><%=Business.Address%></p>
+            <p><%=Business.CompanyCity%></p>
             <p></p>
           </div>
         </div>
@@ -398,8 +398,8 @@
               <td  >Product</td>
               <td  >QTY</td>
               <td  >Scale</td>
-              <td  >Unit Price</td>
-              <td  >Total</td>
+              <td  >Unit Price ₦</td>
+              <td  >Total ₦</td>
             </tr>
             <tbody  class="item" id="item"></tbody>
               
@@ -437,7 +437,7 @@
               <tr class="item">
                 <td></td>
                 <td>Subtotal:</td>
-                <td id="Subtotal">N0.00</td>
+                <td id="Subtotal">₦0.00</td>
               </tr>
 
               <tr class="item">
@@ -455,13 +455,13 @@
               <tr class="no-border-item">
                 <td></td>
                 <td>Shipping/Handling:</td>
-                <td>N<input type="number" name="" id="Shipping" required placeholder="0.00" style="width:50px"> </td>
+                <td>₦<input type="number" name="" id="Shipping" required placeholder="0.00" style="width:50px"> </td>
               </tr>
 
               <tr class="total">
                 <td></td>
                 <td>Total Due:</td>
-                <td id="Grandtotal">N0.00</td>
+                <td id="Grandtotal">₦0.00</td>
               </tr>
           </table>
           <p id="words"></p>
@@ -644,7 +644,7 @@
           saveToLocalStorage(BillProducts);
         });
         
-        document.getElementById('Subtotal').innerHTML = `N${BillProducts.subTotal}`;
+        document.getElementById('Subtotal').innerHTML = `₦${BillProducts.subTotal}`;
        
          
       }
@@ -744,7 +744,7 @@
               //save to local storage function 
               calculateTotals(BillProducts)
               saveToLocalStorage(BillProducts)
-              td7.innerText= `N${found.total}`
+              td7.innerText= `₦${found.total}`
               
             }
             calculateTotals(BillProducts)
@@ -760,7 +760,7 @@
           
         //   td5.textContent = `${element.item.VAT}%`
 
-          td6.textContent= `N${element.item.vendor_Price}`
+          td6.textContent= `₦${element.item.vendor_Price}`
 
         //   td8Image.src = imagesrc
         //   td8Image.width = 20
@@ -808,30 +808,13 @@
 
               const data = await res.json()
               if (data){
-                Notification.requestPermission().then((perm) =>{
-                  if(perm ==='granted'){
-                    new Notification('Bigbern Notification',{
-                      body:data.message ? data.message : data.error,
-                      icon:'bade.jpg',
-                    })
-                      localStorage.removeItem('bill_products');
-                      purchaseForm.reset()
-                      location.assign(`/Virtual/Purchase/Order/${ADMINID}`)
-                  }else{
-                    alert(data.message ? data.message : data.error)
+                alert( data.message || data.error)
                     if(data.message){
                       localStorage.removeItem('bill_products');
                       purchaseForm.reset()
-                      location.assign(`/Virtual/Purchase/Order/${ADMINID}`)
+                      location.reload()
                     }
                   }
-                })
-                ;
-              }
-            
-
       })
-
-
     </script>
 </html>

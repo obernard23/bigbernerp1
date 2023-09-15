@@ -175,91 +175,51 @@ module.exports.edith_get = async (req, res) => {
 
 // register new employee
 module.exports.Register_post = async (req, res) => {
-  const { firstName, lastName, Email, telephone,workLocation,opsCode,password,Equiptment,
-    HomeAddress,
-    workTelephone,
-    contract,
-    skills,
+  
+
+ try {
+  await Employe.create({
+    firstName,
+    lastName,
+    Email,
     DOB,
-    Appraisal,
+    telephone,
+    HomeAddress,
+    NOK,
     StateOfOringin,
+    LGA,
     EmaergencyContact,
-    NIN,
+    EmaergencyContactNumber,
+    Gender,
+    workLocation,
+    Equiptment,
+    workEmail,
+    contract,
+    Manager,
+    role,
+    staffId,
+    jobTittle,
+    Department,
     BVN,
+    NIN,
     AccountNumber,
-    EmploymentStaus,
+    AccountNumber,
+    image,
     StartDate,
     EndDate,
-    EducationalQulification,
-    staffId,
-    role,
-    manager,
-    nextOfKin,
-    Signature,
-    image,
-    Leave,
-    workEmail,
-    Department,
-    coach,
-    unit,
-    Salary,
-    document,
-    status,
-    jobTittle } = req.body;
+   
+  }).then((NewEmployee)=>{
+    if(NewEmployee){
+      res.status(200).json({message: 'New Employee Registered. You should send them an invite when you are ready to onboard them'})
+    }else{
+      throw new Error('Something went wrong')
+    }
+  })
+ } catch (error) {
+  res.status(500).json({ error: error.message })
+ }
 
-  const salt = await bcrypt.genSalt();
-  const handelPassword = await bcrypt.hash(password, salt);
-
-  const saltOps = await bcrypt.genSalt();
-  const handelOps = await bcrypt.hash(opsCode, saltOps);
-
-  try {
-    const NewEmploye = await Employe.create({
-      firstName,
-      lastName,
-      Email,
-      telephone,
-      workLocation,
-      opsCode:handelOps,
-      password:handelPassword,
-      workLocation,
-      Equiptment,
-      HomeAddress,
-      workTelephone,
-      contract,
-      skills,
-      DOB,
-      Appraisal,
-      StateOfOringin,
-      EmaergencyContact,
-      NIN,
-      BVN,
-      AccountNumber,
-      EmploymentStaus,
-      StartDate,
-      EndDate,
-      EducationalQulification,
-      staffId,
-      role,
-      manager,
-      nextOfKin,
-      Signature,
-      image,
-      Leave,
-      workEmail,
-      Department,
-      coach,
-      unit,
-      Salary,
-      document,
-      status,
-      jobTittle
-    })
-    .then(result => res.status(200).json({result:'success'}));
-  }catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
-  }
+ 
 }
 ;
 
@@ -272,7 +232,22 @@ module.exports.OnboardEmployee_get = async (req, res) => {
   res.status(200).render("employeeRegister", { name: "BADE",states ,Employee,Warehouse});
 };
 
-module.exports.OnboardEmployee_post = async(req, res)=>{
+
+// for onboarding
+module.exports.OnboardEmployee_patch = async(req, res)=>{
+
+
+  // let handelPassword = `${ Math.floor(Math.random()*122756)}`
+  // // const saltOps 
+  // let handelOps = `${Math.floor(Math.random()*1236)}`
+
+  // const salt = bcrypt.genSaltSync(10);
+  // const hashpassword = bcrypt.hashSync(handelPassword, salt);
+  // const hashops = bcrypt.hashSync(handelOps, salt);
+  // // Store hash in your password DB.
+  // password:hashpassword,
+  // opsCode:hashops
+
   try {
     await Employe.create(req.body).then((employed)=>{
       if(employed){
@@ -285,6 +260,12 @@ module.exports.OnboardEmployee_post = async(req, res)=>{
     res.status(500).json({error: error.message})
   }
 };
+
+// single employee get
+module.exports.getSingleEmployee_get = async (req,res) => {
+  const Employee = await Employe.findById(req.params.EmployeeId)
+  res.status(200).render('SingleEmployee',{Employee})
+}
 
 //login
 module.exports.signin_post = async (req, res) => {
@@ -546,9 +527,11 @@ module.exports.delivery_patch = async(req,res)=>{
 
 // create invoice page
 module.exports.Invoice_get = async (req, res) => {
+  const Business = await companyRegister.findOne()
   const prud = await Product.find()
   const Cusomers = await customer.find();
   const products = await storeProduct.find({ WHIDS: new ObjectId(req.params.id)})
+
   if (ObjectId.isValid(req.params.id)) {
     await WHouse.findOne({ _id: ObjectId(req.params.id) })
     .limit(1)
@@ -559,7 +542,7 @@ module.exports.Invoice_get = async (req, res) => {
           Cusomers,
           title: "Vendors",
           name: "BADE",
-          products
+          products,Business
         });
       });
   }
@@ -780,6 +763,7 @@ module.exports.WareHouseBill_get = async (req, res) => {
 //get single bill
 module.exports.WareHouseSingleBill_get = async (req, res, next) => {
   if (ObjectId.isValid(req.params.id)) {
+    const Business = await companyRegister.findOne()
     Singlebill = await bills.findOne({ _id: new ObjectId(req.params.id) });
     await WHouse.findOne({ _id: new ObjectId(Singlebill.whId) }).then(
       async (warehouse) => {
@@ -791,6 +775,7 @@ module.exports.WareHouseSingleBill_get = async (req, res, next) => {
           Singlebill,
           warehouse,
           cust,
+          Business
         });
       }
     );
@@ -1358,9 +1343,10 @@ module.exports.PurchaseLanding_get = async(req, res)=>{
 
 // purchase controllers
 module.exports.PurchaseRequestForm_get = async(req, res, next)=>{
+  const Business = await companyRegister.findOne()
   const vendor = await Vendor.find();
   const products = await Product.find()
-  res.render('PurchaseRequestForm',{vendor,products,name:'Bigbern'});
+  res.render('PurchaseRequestForm',{vendor,products,Business});
 }
 
 //PurchaseOrder_get

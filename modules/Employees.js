@@ -44,9 +44,6 @@ type:Object,
 DOB:{
 type:String,
 },
-Appraisal:{
-type:Array
-},
 StateOfOringin:{
 type:String                    
 },
@@ -76,8 +73,6 @@ Signature:{type:String},
 opsCode:{
 type:String,
 minlength:4,
-required:true,
-default:"1234"
 },
 image:{type:String},
 Leave:{
@@ -86,19 +81,20 @@ type:Array,
 password:{
   type:String,
 minlength:6,
-required:true,
-default:"123456"
+
 },
 workEmail:{type:String},
 Department:{type:String},
-Gender:{type:Array},
+Gender:{type:String},
 status:{
   type:String,
   default:'suspended',
 },
 jobTittle:{
   type:String,
-}
+},
+EndDate:{type:String},
+firstTimeOnboard:{type:Boolean, default:false},
 
 })
 

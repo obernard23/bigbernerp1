@@ -327,16 +327,16 @@
       <div id="pspdfkit-header">
         <div class="header-columns">
           <div class="logotype">
-            <img class="logo" src="https://www.historyhit.com/app/uploads/fly-images/5154061/BigBen-788x537.jpg?x63000" />
-            <p><%=name%></p>
+            <img  height="100" width="100" src="<%=Business.CompayLogo%>" />
           </div>
 
           <div>
             <input type="hidden" id="whId" value="<%=wareHouse._id%>" hidden class="d-none">
-            <h5><%=wareHouse.WHName%></h5>
-            <p>[<%=wareHouse.state%>]</p>
-            <p><%=wareHouse.Email%></p>
-            <p><%=wareHouse.Tel%></p>
+            <h5><%=Business.CompayName%></h5>
+            <p>[<%=Business.email%>]</p>
+            <p><%=Business.Tel%></p>
+            <p><%=Business.Address%></p>
+            <p><%=Business.CompanyCity%></p>
             <p> wareHouse invoice no:<%=wareHouse.InvoiceNo%></p>
           </div>
         </div>
@@ -947,18 +947,11 @@
 
               const data = await res.json()
               if (data){
-                Notification.requestPermission().then((perm) =>{
-                  if(perm ==='granted'){
-                    new Notification('Bigbern Notification',{
-                      body:data.message ? data.message : data.error,
-                      icon:'495670-removebg-preview.png',
-                    })
-                  }else{
-                    alert(data.message || data.error)
-                  }
-                })
+                alert(data.message || data.error)
+               if(data.message){
                 localStorage.removeItem('bill_products');
                 location.reload();
+               }
               }
               
                 }
@@ -974,18 +967,11 @@
 
               const data = await res.json()
               if (data){
-                Notification.requestPermission().then((perm) =>{
-                  if(perm ==='granted'){
-                    new Notification('Bigbern Notification',{
-                      body:data.message ? data.message : data.error,
-                      icon:'495670-removebg-preview.png',
-                    })
-                  }else{
-                    alert(data.message ? data.message : data.error)
-                  }
-                })
+                alert(data.message || data.error)
+               if(data.message){
                 localStorage.removeItem('bill_products');
                 location.assign(location.href);
+               }
               }
                   }else{
                     throw new Error(`This bill total has exceeded the maximum credit limit assigned to the customer. Ask the customer to clear debt on thier account or reduce the quatity of products added to this bill total`)
@@ -1005,18 +991,11 @@
 
               const data = await res.json()
               if (data){
-                Notification.requestPermission().then((perm) =>{
-                  if(perm ==='granted'){
-                    new Notification('Bigbern Notification',{
-                      body:data.message ? data.message : data.error,
-                      icon:'495670-removebg-preview.png',
-                    })
-                  }else{
-                    alert(data.message ? data.message : data.error)
-                  }
-                })
+                alert( data.message || data.error)
+               if(data.message){
                 localStorage.removeItem('bill_products');
                 location.assign(location.href);
+               }
               }
             }
      

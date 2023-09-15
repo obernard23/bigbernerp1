@@ -407,7 +407,7 @@
 
       <div id="pspdfkit-footer">
         <div class="footer-columns">
-          <span>Product Request Builder</span>
+          <span>Product Transfer Builder</span>
         </div>
       </div>
     </form>
@@ -631,7 +631,8 @@
         setTimeout(() => {
         alert('registered successfully')
         localStorage.deleteItem('bill_products');
-      },500)
+        location.reload()
+      },700)
 
         const endpoint = `/TransferForm/${invoice.id.value}`
               const res =  fetch(endpoint,{

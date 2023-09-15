@@ -137,6 +137,15 @@
             </div>
             <!-- ends here -->
 
+            <div class="col-6">
+              <label for="street" class="form-label">  </label>
+              <p>
+                <a href="/" class="link-dark link-opacity-25-hover">
+                 View Transaction History 
+                </a>
+              </p>
+            </div>
+
             </div>
             <!-- view only div ends here -->
 
@@ -306,17 +315,8 @@ update.addEventListener('click',async ()=>{
 
     const res = await data.json().then(json => {
         if (json){
-          Notification.requestPermission().then((perm) =>{
-                  if(perm ==='granted'){
-                    new Notification('Bigbern Notification',{
-                      body:json.result ? json.result : json.error,
-                      icon:'/495670-removebg-preview.png',
-                    })
-                  }else{
-                    alert(json.result ? json.result : json.error)
-                  }
-                })
-                location.reload()
+          alert( json.result|| json.error)
+          json.result ? location.reload() : ''
         }
       }
     )

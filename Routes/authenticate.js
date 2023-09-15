@@ -36,12 +36,13 @@ router.get('/Appraisal/:id',requireAuth,authController.Appraisal_get)//for emplo
 router.post('/Appraiasl/Employee/Apraisal',authController.Appraisal_post)
 router.get('/Appraisals/:id',authController.AppraisalsManagement_get)//for top management view    
 
-router.post('/register',authController.Register_post);
+router.post('/register/employee',authController.Register_post);//to create new employee but not activated
+router.get('/employe/:EmployeeId',requireAuth, authController.getSingleEmployee_get)
 router.post('/SignIn',checkLoginUser,authController.signin_post);
 router.get('/Reset/account/:EmailTOreset',authController.ResetEmail_get,restPassword);
 router.post('/Register-lead',requireAuth,authController.Lead_post);
 router.patch('/Reset-password/:id/Security',authController.ResetId_patch);
-router.post('/employee/Onboard',requireAuth,authController.OnboardEmployee_post)//post request for employee on check id 
+router.post('/employee/Onboard',requireAuth,authController.OnboardEmployee_patch)//patch request for employee login
 
 router.get('/employee/:employeeId',requireAuth,async(req,res)=>{//get json for all employees
     const employee = await employe.findById(new ObjectId(req.params.employeeId))
