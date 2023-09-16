@@ -169,7 +169,12 @@
            <div class="col-6">
             <label for="street" class="form-label"> Birthday<small> M-D-Y</small></label>
             <h5 class="form-text">
-              <%= Employee.DOB.substring(5,10) %>-YYYY
+              <%if(Employee.DOB){%>
+                <%= Employee.DOB.substring(5,10) %>-YYYY
+                <%}else{%>
+                  Not assigned
+                <%}%> 
+              
             </h5>
           </div>
           <!-- ends here -->
@@ -177,7 +182,11 @@
           <div class="col-6">
             <label for="street" class="form-label"> Work Location </label>
             <h5 class="form-text">
+             <%if(WH){%>
               <%= WH.WHName %>
+              <%}else{%>
+                Not assigned
+              <%}%>  
             </h5>
           </div>
 
@@ -203,8 +212,8 @@
           <!-- view only div ends here -->
 
         <%if(user.role ==="Admin"){%>
-          <form class="row g-3" id="EmployeeForm" style="border-top: silver dotted 2px;background-color: rgba(253, 246, 227, 0.178);">
-            <h3 style="color: rgb(228, 165, 83);font-family:'Times New Roman', Times, serif;">EDIT <%=Employee.firstName.toUpperCase()%> <%=Employee.lastName.toUpperCase()%></h3>
+          <form class="row g-3" id="EmployeeForm" style="border-top: silver dotted 2px;background-color: rgba(253, 246, 227, 0.377);">
+            <h5 style="color: rgb(228, 165, 83);font-family:'Times New Roman', Times, serif;">EDIT <%=Employee.firstName.toUpperCase()%> <%=Employee.lastName.toUpperCase()%></h5>
             <!-- ALL FIELDS FROM FOR HERE -->
             
           <div class="col-md-6">
@@ -297,6 +306,9 @@
                 name="Gender"
                 id="inlineRadio1"
                 value="Male"
+                <%if(Employee.Gender === "Male"){%>
+                  checked="checked"
+                  <%}%>
               />
               <label class="form-check-label" for="inlineRadio1">Male</label>
             </div>
@@ -307,6 +319,9 @@
                 name="Gender"
                 id="inlineRadio2"
                 value="Female"
+                <%if(Employee.Gender === "Female"){%>
+                  checked="checked"
+                  <%}%>
               />
               <label class="form-check-label" for="inlineRadio2">Female</label>
             </div>
@@ -315,8 +330,16 @@
           <div class="col-md-3">
             <label for="workLocation" class="form-label">Assign Work Location</label>
             <select  id="workLocation" class="form-select"  name="workLocation">
-              <option  value="<%=Employee.workLocation%>"><%=Employee.workLocation%></option>
-              
+              <%if(Employee.workLocation !== ""){%>
+                <%locations = Warehouse.filter((Warehouse)=>{%>
+                  <%return Warehouse._id.toString() === Employee.workLocation.toString() %>
+                <%})%>
+                <%locations.map(location=>{%>
+                  <option disabled value=""><%=location.WHName%> [current]</option>
+                <%})%>
+                <%}%>
+
+    
               <%Warehouse.forEach(Warehouse=>{%>
                 <option value="<%=Warehouse._id%>" ><%=Warehouse.WHName%></option>
               <%})%>
@@ -324,7 +347,7 @@
           </div>
           <div class="col-md-3">
             <label for="validationServer02" class="form-label"
-              >Equiptment</label
+              >Equiptment Assigned</label
             >
             <input
               type="text"
@@ -335,7 +358,7 @@
             />
           </div>
           <div class="col-md-3">
-            <label for="validationServerUsername" class="form-label"
+            <label for="workEmail" class="form-label"
               >Work Email</label
             >
             <div class="input-group has-validation">
@@ -343,9 +366,9 @@
               <input
                 type="text"
                 class="form-control "
-                id="validationServerUsername"
+                id="workEmail"
                 aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
-                value="<%=Employee.woekEmail%>"
+                value="<%=Employee.workEmail%>"
                 name="workEmail"
               />
              
@@ -361,7 +384,7 @@
               aria-describedby="validationServer04Feedback"
               name="contract"
             >
-              <option  value="<%=Employee.contract%>"><%=Employee.contract%></option>
+              <option disabled  value=""><%=Employee.contract%></option>
               
             </select>
           </div>
@@ -376,7 +399,9 @@
               aria-describedby="validationServer04Feedback"
               
             >
-              <option ><%=Employee.Manager%></option>
+             <%if(Employee.Manager){%>
+              <option disabled value="" ><%=Employee.Manager.firstName%> <%=Employee.Manager.lastName%>[Current]</option>
+              <%}%>
               <optgroup label="Admin">
                 <%Admin = Employees.filter(staff=>{%>
                   <%return staff.role === 'Admin'%>
@@ -406,7 +431,7 @@
               aria-describedby="validationServer04Feedback"
               
             >
-              <option selected disabled value="<%=Employee.role%>"><%=Employee.role%> [current]</option>
+              <option  disabled value=""><%=Employee.role%> [current]</option>
                 <option value="Admin" >Admin Access</option>
                 <option value="Manager" >Manager Access</option>
                 <option value="Staff" >Staff Access</option>
@@ -420,23 +445,34 @@
               type="text"
               class="form-control"
               id="staffId"
-              aria-describedby="staffId"
               name="staffId"
               value="<%=Employee.staffId%>"
             />
           </div>
 
           <div class="col-md-3">
-            <label for="staffId" class="form-label"
+            <label for="StartDate" class="form-label"
               >Employement Date</label
             >
             <input
               type="date"
               class="form-control"
-              id="staffId"
-              aria-describedby="staffId"
+              id="StartDate"
               name="StartDate"
               value="<%=Employee.StartDate%>"
+            />
+          </div>
+
+          <div class="col-md-3">
+            <label for="EndDate" class="form-label"
+              >Dismisal Date</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              id="EndDate"
+              name="EndDate"
+              value="<%=Employee.EndDate%>"
             />
           </div>
           
@@ -445,11 +481,10 @@
             <select
               class="form-select "
               id="jobTittle"
-              aria-describedby="validationServer04Feedback"
               required
               name="jobTittle"
             >
-            <option value="<%=Employee.jobTittle%>"><%=Employee.jobTittle%> [Current]</option>
+            <option disabled value=""><%=Employee.jobTittle%> [Current]</option>
             <option>MD</option>
             <option>CFO</option>
             <option>Human Resource</option>
@@ -464,10 +499,9 @@
             <select
               class="form-select "
               id="Department"
-              aria-describedby="validationServer04Feedback"
               name="Department"
             >
-              <option value="<%=Employee.Department%>"><%=Employee.Department%> [Current]</option>
+              <option disabled value=""><%=Employee.Department%> [Current]</option>
               <option>CTO Suit</option>
               <option>Human Resource</option>
               <option>Sales</option>
@@ -508,14 +542,14 @@
               />
             </div>
             <div class="col-md-4">
-              <label for="AccountNumber" class="form-label">Bank Name</label>
+              <label for="BankName" class="form-label">Bank Name</label>
               <input
                 type="text"
                 class="form-control"
-                id="AccountNumber"
+                id="BankName"
                 aria-describedby="validationServer05Feedback"
-                name="AccountNumber"
-                value="<%=Employee.AccountNumber%>"
+                name="BankName"
+                value="<%=Employee.BankName%>"
               />
             </div>
             
@@ -532,8 +566,26 @@
                 </label>
               </div>
             </div>
+
+            
+
+
             <div class="col-12">
-              <input type="hidden" name="id" value="<%=Employee._id%>">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="<%=Employee.status%>" name="status" id="status" <%if(Employee.status === "active"){%>
+                    checked="checked"
+                    <%}%>
+                   
+                    
+                    >
+                <label class="form-check-label" for="gridCheck1">
+                  Grant <%=Employee.firstName%> Acess to Enviroment
+                </label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <input type="hidden" id="id" name="id" value="<%=Employee._id%>">
               <button class="btn btn-dark" type="submit">Submit</button>
             </div>
           </form>  
@@ -590,10 +642,11 @@
         BVN:EmployeeForm.BVN.value,
         NIN:EmployeeForm.NIN.value,
         AccountNumber:EmployeeForm.AccountNumber.value,
-        AccountNumber:EmployeeForm.AccountNumber.value,
+        BankName:EmployeeForm.BankName.value,
         StartDate:EmployeeForm.StartDate.value,
-        EndDate:'',
-        firstTimeOnboard:EmployeeForm.firstTimeOnboard.checked
+        EndDate:EmployeeForm.EndDate.value,
+        firstTimeOnboard:EmployeeForm.firstTimeOnboard.checked,
+        status:EmployeeForm.status.value
       }),
       headers:{"content-type": "application/json"}
     })
@@ -602,11 +655,28 @@
 
     if(response){
       alert(response.message || response.error)
-      response.message ? EmployeeForm.reset(): ""
       response.message ? location.reload(): ""
     }
     
 
   });
+
+
+  const status = document.getElementById('status')
+  status.addEventListener('change',async (e) =>{
+    if(e.target.value == 'active'){
+      e.target.value = 'suspended'
+    }else if(e.target.value == 'suspended'){
+      e.target.value = 'active'
+    }
+    alert(`you have set user Access to ${e.target.value}`)
+  })
+
+
+  // <%if(Employee.status !== "active"){%>
+  //                     value="active"
+  //                     <%}else if(Employee.status === "suspended"){%>
+  //                      value = "suspended"
+  //                       <%}%>
 </script>
 </html>

@@ -64,7 +64,7 @@ router.get('/customer/:id/search',requireAuth,authController.CustomerFind_get);
 router.get(`/customer/:id/edit`,requireAuth,authController.customer_get);
 router.patch(`/customer/update/:id`,requireAuth,authController.customerEdit_patch)
 
-router.get('/Sales/Vendor',requireAuth,authController.Vendors_get);
+router.get('/VIRTUAL/Vendors/:ADMINID',requireAuth,adminWareHouseSetUp,authController.Vendors_get);
 router.get('/Sales/Register-Vendor',requireAuth,authController.VendorCreate_get);
 
 //for payment 

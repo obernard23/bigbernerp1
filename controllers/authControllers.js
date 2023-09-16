@@ -35,6 +35,7 @@ const Customer = require("../modules/customers");
 const ProductTransfer = require("../modules/WHTransferLog");
 const NotifyCustomerCreate = require('../Functions/NotifyCustomerCreate')
 const companyRegister = require('../modules/company')
+const EmployeeOnboarded = require('../Functions/EmployeeOnbord')
 
 // handle errors
 const handleErrors = (err) => {
@@ -212,9 +213,9 @@ module.exports.OnboardEmployee_patch = async(req, res)=>{
       if(!employed.firstTimeOnboard){
         employed.firstTimeOnboard = true;
         // send onboarding mail notification
-        let handelPassword = `${ Math.floor(Math.random()*122756)}`
+        let handelPassword = `${ Math.floor(Math.random()*12275)}${req.body.firstName.substring(0,4)}`
         // const saltOps 
-        let handelOps = `${Math.floor(Math.random()*1236)}`
+        let handelOps = `${Math.floor(Math.random()*12369)}`
 
         const salt = bcrypt.genSaltSync(10);
         const hashpassword = bcrypt.hashSync(handelPassword, salt);
@@ -222,20 +223,19 @@ module.exports.OnboardEmployee_patch = async(req, res)=>{
         // Store hash in your password DB.
         employed.password = hashpassword,
         employed.opsCode = hashops
-        employed.status = 'active'
-        // console.log(employed)
-        console.log(req.body)
+        EmployeeOnboarded(employed,handelPassword,handelOps)//send mail to employee onboarded
+        employed.save()
       }else if(employed.firstTimeOnboard){
-        await Employe.updateMany({_id:req.params.EmployeeId},{$set:req.body})
+        await Employe.updateOne({_id:req.params.EmployeeId},{$set:req.body})
         .then((update)=>{
           if(update.acknowledged){
             res.status(200).json({message:'updated successfully'})
           }else{
-            
+            throw new Error('update failed')
           }
         })
       }else{
-        throw new Error('Could not update. Something seems wrong. Please try again')
+        throw new Error('Something seems wrong. Please try again')
       }
     });
   } catch (error) {

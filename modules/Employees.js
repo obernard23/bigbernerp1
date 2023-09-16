@@ -80,7 +80,7 @@ type:Array,
 },
 password:{
   type:String,
-minlength:6,
+  minlength:6,
 },
 workEmail:{type:String},
 Department:{type:String},
@@ -96,6 +96,7 @@ EndDate:{type:String},
 firstTimeOnboard:{type:Boolean, default:false},
 EmaergencyContactNumber:{type:String},
 NOK:String,
+BankName:String,
 lastSeen:{type:String}
 })
 
