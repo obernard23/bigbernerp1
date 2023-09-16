@@ -225,6 +225,7 @@ module.exports.OnboardEmployee_patch = async(req, res)=>{
         employed.opsCode = hashops
         EmployeeOnboarded(employed,handelPassword,handelOps)//send mail to employee onboarded
         employed.save()
+        res.status(200).json({message:'Onboardin mail sent sucessfully'});
       }else if(employed.firstTimeOnboard){
         await Employe.updateOne({_id:req.params.EmployeeId},{$set:req.body})
         .then((update)=>{
