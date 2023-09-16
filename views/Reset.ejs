@@ -5,38 +5,65 @@
     <div class="flex justify-center items-center">
         <div class="w-fit gap-2 items-center flex flex-col m-3 p-4  rounded shadow border" >
             <a href="/" class="flex items-center gap-1">
-              <img src='495670-removebg-preview.png' alt="" width="50px">
-              <h1 class="company-name font-bold font-bold text-4xl"><%= name %></h1>
+              <img src='BADES.jpg' alt="" width="50px">
               </a>
                 <h1 class="font-bold text-white text-xl">Password reset</h1>
                 <div id="emailerror"></div>
-                 <label class="flex flex-col  gap-2">
+                 <!-- <label class="flex flex-col  gap-2">
                     Registered Email<input type="text" placeholder="Example@xyz.com" id="Email" name="Email" required>
                     <h1 class="email found font-bold" style="color:rgb(117, 25, 140)"></h1>
-                </label>
+                </label> -->
+
+                <div class="col-md-3" id="options">
+                    <h1 class="email found font-bold" style="color:rgb(117, 25, 140)"></h1>
+                    <label for="StartDate" class="form-label"
+                      > Registered Email</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="Email" 
+                      name="Email"
+                    />
+                  </div>
+
+
                 <!-- for security reset -->
-                <div class=" flex flex-col font-bold items-center gap-2 hidden "id="options">
-                    <label for="resetOption"> Provide OTP sent to your email </label>
-                <input type="text" name="resetOption" id="resetOtp">
-                </div>
+
+                <div class="col-md-3" id="options">
+                    <label for="StartDate" class="form-label"
+                      > Provide OTP sent to your email</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="resetOtp"
+                      name="resetOption"
+                    />
+                  </div>
 
                 <!-- form for patch request for new password -->
                 <form action="patch" id="passwordForm">
-                    <label class="flex flex-col  gap-2">
-                        New Password: <input type="password" name="password" />
-                    </label>
-    
-                    <label class="flex flex-col  gap-2">
-                        Re-type password: <input type="password"
-                        name="re-password"  />
-                    </label>
-                    <button class="w-full ">Reset-password</button>
+
+                    <div class="col-md-3">
+                        <label for="StartDate" class="form-label"
+                          > New Password</label
+                        >
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="StartDate"
+                          name="password"
+                        />
+                      </div>
+
+                    <button class="btn btn-dark ">Reset-password</button>
                 </form>
-            <h1>Try <a href="/SignIn" style="color:rgb(133, 151, 213)">Login</a></h1>
+                <a href="/SignIn" style="color:rgb(133, 151, 213)"> Try Login</a>
+                <%- include('./partials/footer.ejs') %>
           </div>
         </div>
      <!-- footer -->
-     <%- include('./partials/footer.ejs') %>
 </body>
 <script>
     const passwordForm = document.getElementById('passwordForm')
@@ -78,7 +105,7 @@
         // check for stsus of pass word 
         const data = await res.json()
         if(data.Newcustomer){
-            alert(data.result)
+            alert('PASSWORD RESET COMPLETE')
             passwordForm.reset()
             passwordForm.style.display = 'none'
             resetOtp.value = ''
@@ -86,7 +113,7 @@
             location.assign(`/Dashboard/${data.Newcustomer}`);
         } else {alert(data.error)}
         }catch(err){
-            alert(err)
+            alert(err.message)
         }
 
          });

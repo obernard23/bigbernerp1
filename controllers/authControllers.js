@@ -314,9 +314,9 @@ module.exports.ResetId_patch = async (req, res) => {
     await Employe
       .updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
       .then(async (result) => {
-        if (result.acknowledged === true) {
+        if (result.acknowledged ) {
           await Employe.findById(req.params.id).then((user)=>{
-            user.status = 'active'
+            // user.status = 'active'
             user.firstTimeOnboard = true
             user.save()
           })
