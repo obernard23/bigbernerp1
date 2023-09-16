@@ -645,7 +645,6 @@
         BankName:EmployeeForm.BankName.value,
         StartDate:EmployeeForm.StartDate.value,
         EndDate:EmployeeForm.EndDate.value,
-        firstTimeOnboard:EmployeeForm.firstTimeOnboard.checked,
         status:EmployeeForm.status.value
       }),
       headers:{"content-type": "application/json"}
@@ -664,19 +663,13 @@
 
   const status = document.getElementById('status')
   status.addEventListener('change',async (e) =>{
-    if(e.target.value == 'active'){
+    if(e.target.value === 'active'){
       e.target.value = 'suspended'
-    }else if(e.target.value == 'suspended'){
+    }else if(e.target.value === 'suspended'){
       e.target.value = 'active'
     }
     alert(`you have set user Access to ${e.target.value}`)
   })
 
-
-  // <%if(Employee.status !== "active"){%>
-  //                     value="active"
-  //                     <%}else if(Employee.status === "suspended"){%>
-  //                      value = "suspended"
-  //                       <%}%>
 </script>
 </html>

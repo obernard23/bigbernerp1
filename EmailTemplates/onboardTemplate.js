@@ -34,8 +34,8 @@ module.exports = function Onboarded (data,handelPassword,handelOps){
     <div class="image "></div>
     </div> 
 	<h4>Congratulations ${data.firstName} ${data.lastName}, you have been sucessfully Onboarded <br>Cheers..!</h4>
-    <h6>Your Login Email is ${data.Email}, default password is ${handelPassword}. We advice that you <a href="https://bade.GK.onrender.com/login">Reset your Password</a></h6>
-	<h5>Defaul operational code ${handelOps}. Treat as Secret</h5>
+    <h5>Your Login Email is ${data.Email}. We advice that you <a href="https://bigbern.onrender.com/Reset">Reset your Password</a></h5>
+	<h5>Defaul operational code ${handelOps}. Treat this as Secret</h5>
 	<p> &copy; BADE</p>
 </div>
 

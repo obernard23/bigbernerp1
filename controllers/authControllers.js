@@ -211,7 +211,6 @@ module.exports.OnboardEmployee_patch = async(req, res)=>{
   try {
     await Employe.findById(req.params.EmployeeId).then(async(employed)=>{
       if(!employed.firstTimeOnboard){
-        employed.firstTimeOnboard = true;
         // send onboarding mail notification
         let handelPassword = `${ Math.floor(Math.random()*12275)}${req.body.firstName.substring(0,4)}`
         // const saltOps 
@@ -311,10 +310,16 @@ module.exports.ResetId_patch = async (req, res) => {
   update.password = handelPassword
 
   if (ObjectId.isValid(req.params.id)) {
+   
     await Employe
       .updateOne({ _id: ObjectId(req.params.id) }, { $set: update})
-      .then((result) => {
+      .then(async (result) => {
         if (result.acknowledged === true) {
+          await Employe.findById(req.params.id).then((user)=>{
+            user.status = 'active'
+            user.firstTimeOnboard = true
+            user.save()
+          })
           const token = createToken(req.params.id );
           res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
           res.status(200).json({ Newcustomer: req.params.id });
