@@ -313,7 +313,7 @@
                 <p class="form-control"><%=expense.category%></p>
             </div>
             <%if(user.jobTittle === "CFO"){%>
-            <%if(expense.paymentDate){%>
+            
               
             <div class="col-md-4">
                 <label for="BankAccount" class="form-label">DEBIT JOURNAL POSTING</label>
@@ -343,7 +343,7 @@
                 <input type="date" name="paymentDate" id="date" class="form-control border" >
             </div>
             <%}%>
-            <%}%>
+           
             <div class="col-md-4">
               <label for="PAYEE" class="form-label">PAYEE</label>
               <p class="form-control"><%=expense.payee%></p>
