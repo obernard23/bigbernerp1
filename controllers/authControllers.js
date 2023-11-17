@@ -36,6 +36,7 @@ const ProductTransfer = require("../modules/WHTransferLog");
 const NotifyCustomerCreate = require('../Functions/NotifyCustomerCreate')
 const companyRegister = require('../modules/company')
 const EmployeeOnboarded = require('../Functions/EmployeeOnbord')
+var pdf = require('html-pdf');
 
 // handle errors
 const handleErrors = (err) => {
@@ -1601,4 +1602,35 @@ module.exports.ProductTransferForm_post = async(req, res, next)=>{
  } catch (error) {
   res.status(500).json({error: error.message})
  }
+}
+
+module.exports.pdf = async(req,res)=>{
+  var html = fs.readFileSync('./quotationTemplate.html', 'utf8');
+  var options = { format: 'Letter',orientation:'A5', border: {
+    "top": "2in",            // default is 0, units: mm, cm, in, px
+    "right": "1in",
+    "bottom": "2in",
+    "left": "1.5in"
+  } };
+
+  await pdf.create(html, options).toFile('./businesscard.pdf', function(err, res) {
+    if (err) return console.log(err);
+  });
+  res.status(200).download('businesscard.pdf') // { filename: '/app/businesscard.pdf' }
+  // pdf.create(html).toFile([filepath, ],function(err, res){
+  //   console.log(res.filename);
+  // });
+  
+  // pdf.create(html).toStream(function(err, stream){
+  //   stream.pipe(fs.createWriteStream('./foo.pdf'));
+  // });
+  
+  // pdf.create(html).toBuffer(function(err, buffer){
+  //   console.log('This is a buffer:', Buffer.isBuffer(buffer));
+  // });
+  
+  
+  // for backwards compatibility
+  // alias to pdf.create(html[, options]).toBuffer(callback)
+  // pdf.create(html [options], function(err, buffer){});
 }

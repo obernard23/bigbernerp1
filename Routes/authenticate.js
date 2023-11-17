@@ -94,6 +94,11 @@ router.patch('/warehouse/Product/:whId',requireAuth,authController.WareHouseStor
 router.get('/Employee/:employeeId',requireAuth,authController.WareHouseManager_get)
 router.get('/SetUp/:WHID/:ADMINID',requireAuth,adminWareHouseSetUp,authController.WareHouseSetup_get)
 
+
+
+
+// check pdf
+router.get('/pdf',authController.pdf)
 // delivery routes
 router.get('/delivery/:deliveryId',requireAuth,authController.delivery_get);//sends json response for single bills
 router.patch('/delivery/:deliveryId',requireAuth,authController.delivery_patch);//update delivery status of bill
