@@ -133,8 +133,17 @@ table{
   }
 
 .dash{
-    color: #eeeae5;
+    /* color: #eeeae5;
 background-image: url("dp.jpeg");
+background-attachment: fixed;
+background-size: cover; */
+/* background-color: #060300;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23480000' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%23aa0000' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%2346000c' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23a3001b' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23440019' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%239c0036' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23420025' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23960052' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23400032' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%238f006d' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%233e003e' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23880088' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
+background-attachment: fixed;
+background-size: cover; */
+
+background-color: #000000;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23000000' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%23940000' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23000000' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%2399001d' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23000000' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%239a0034' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23000000' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%2394004a' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23000000' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%23880060' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%23000000' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23740074' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
 background-attachment: fixed;
 background-size: cover;
   }
